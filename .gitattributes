@@ -1,0 +1,2 @@
+$ cat .gitattributes
+*.src linguist-language=C#

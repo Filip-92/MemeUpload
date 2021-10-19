@@ -1,0 +1,29 @@
+.dropdown-toggle, .dropdown-item {
+    cursor: pointer;
+}
+
+img {
+    max-height: 50px;
+    border: 2px solid #fff;
+    display: inline;
+}
+
+.nav {
+    position:relative;
+}
+
+.dropdown-item {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#dropdownMenu {
+    min-width: 250px !important;
+}
+
+form {
+    text-align: center;
+    display: inline-block;
+}
+
+
