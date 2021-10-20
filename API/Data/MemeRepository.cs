@@ -27,13 +27,13 @@ namespace API.Data
         {
             return await _context.Memes
                 .IgnoreQueryFilters()
-                .Where(p => p.IsApproved == false)
+                //.Where(p => p.IsApproved == false)
                 .Select(u => new MemeForApprovalDto
                 {
                     Id = u.Id,
                     Username = u.AppUser.UserName,
                     Url = u.Url,
-                    IsApproved = u.IsApproved
+                    //IsApproved = u.IsApproved
                 }).ToListAsync();
         }
 

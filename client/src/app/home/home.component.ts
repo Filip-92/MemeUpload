@@ -9,6 +9,7 @@ import { take } from 'rxjs/operators';
 import { MembersService } from 'src/app/_services/members.service';
 import { Meme } from '../_models/meme';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -23,9 +24,10 @@ export class HomeComponent implements OnInit {
   baseUrl = environment.apiUrl;
   user: User;
   registerMode = false;
+  memeUploadMode = false;
 
   constructor(public accountService: AccountService, private memberService: MembersService,
-    private router: Router) { 
+    private router: Router, private toastr: ToastrService) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
@@ -37,11 +39,11 @@ export class HomeComponent implements OnInit {
     this.hasBaseDropzoneOver = e;
   } 
 
-  deletePhoto(photoId: number) {
-    this.memberService.deletePhoto(photoId).subscribe(() => {
-      this.member.photos = this.member.photos.filter(x => x.id !== photoId);
-    })
-  }
+  // deletePhoto(photoId: number) {
+  //   this.memberService.deletePhoto(photoId).subscribe(() => {
+  //     this.member.photos = this.member.photos.filter(x => x.id !== photoId);
+  //   })
+  // }
 
   initializeUploader() {
     this.uploader = new FileUploader({
@@ -51,7 +53,7 @@ export class HomeComponent implements OnInit {
       allowedFileType: ['image'],
       removeAfterUpload: true,
       autoUpload: false,
-      maxFileSize: 10 * 1024 * 1024
+      maxFileSize: 50 * 1024 * 1024
     });
 
     this.uploader.onAfterAddingFile = (file) => {
@@ -66,6 +68,14 @@ export class HomeComponent implements OnInit {
            this.member.memeUrl = meme.url;
            this.accountService.setCurrentUser(this.user);
       }
+    }
+  }
+
+  memeToggle() {
+    if (this.accountService.currentUser$ !== null) {
+      this.memeUploadMode = !this.memeUploadMode;
+    } else {
+      this.toastr.success('Zaloguj się aby dodać');
     }
   }
 }
