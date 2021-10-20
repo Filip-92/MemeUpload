@@ -53,6 +53,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
       }
     ]
     this.galleryImages = this.getImages();
+    this.member.likes = this.getLikes(this.member);
   }
   getImages(): NgxGalleryImage[] {
     const imageUrls = [];
@@ -89,6 +90,19 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   addLike(member: Member) {
     this.memberService.addLike(member.username).subscribe(() => {
       this.toastr.success('You have liked ' + member.username);
+      this.member.likes++;
     })
+  }
+
+  removeLike(member: Member) {
+    this.memberService.removeLike(member.username).subscribe(() => {
+      this.toastr.success('You have disliked ' + member.username);
+      this.member.likes--;
+    })
+  }
+
+  getLikes(member: Member) : number {
+    var likes = this.member.likes;
+    return likes;
   }
 }

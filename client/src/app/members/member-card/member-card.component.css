@@ -11,6 +11,10 @@
     transition-timing-function: ease-out;
 }
 
+.member-tabset > .tab-content {
+    background-color: gray !important;
+}
+
 .card-img-wrapper {
     overflow: hidden;
     position: relative;

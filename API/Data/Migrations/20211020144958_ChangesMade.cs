@@ -28,14 +28,13 @@ namespace API.Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     DateOfBirth = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    KnownAs = table.Column<string>(type: "TEXT", nullable: true),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     LastActive = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Gender = table.Column<string>(type: "TEXT", nullable: true),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
                     PasswordHash = table.Column<string>(type: "TEXT", nullable: true),
@@ -175,11 +174,18 @@ namespace API.Data.Migrations
                 columns: table => new
                 {
                     SourceUserId = table.Column<int>(type: "INTEGER", nullable: false),
-                    LikedUserId = table.Column<int>(type: "INTEGER", nullable: false)
+                    LikedUserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    DislikedUserId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Likes", x => new { x.SourceUserId, x.LikedUserId });
+                    table.ForeignKey(
+                        name: "FK_Likes_AspNetUsers_DislikedUserId",
+                        column: x => x.DislikedUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Likes_AspNetUsers_LikedUserId",
                         column: x => x.LikedUserId,
@@ -189,6 +195,28 @@ namespace API.Data.Migrations
                     table.ForeignKey(
                         name: "FK_Likes_AspNetUsers_SourceUserId",
                         column: x => x.SourceUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Memes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Url = table.Column<string>(type: "TEXT", nullable: true),
+                    IsApproved = table.Column<bool>(type: "INTEGER", nullable: false),
+                    PublicId = table.Column<string>(type: "TEXT", nullable: true),
+                    AppUserId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Memes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Memes_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -235,7 +263,6 @@ namespace API.Data.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Url = table.Column<string>(type: "TEXT", nullable: true),
                     IsMain = table.Column<bool>(type: "INTEGER", nullable: false),
-                    IsApproved = table.Column<bool>(type: "INTEGER", nullable: false),
                     PublicId = table.Column<string>(type: "TEXT", nullable: true),
                     AppUserId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
@@ -312,9 +339,19 @@ namespace API.Data.Migrations
                 column: "GroupName");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Likes_DislikedUserId",
+                table: "Likes",
+                column: "DislikedUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Likes_LikedUserId",
                 table: "Likes",
                 column: "LikedUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Memes_AppUserId",
+                table: "Memes",
+                column: "AppUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_RecipientId",
@@ -354,6 +391,9 @@ namespace API.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Likes");
+
+            migrationBuilder.DropTable(
+                name: "Memes");
 
             migrationBuilder.DropTable(
                 name: "Messages");

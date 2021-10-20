@@ -12,6 +12,8 @@
         </label>
     </div>
 
+    <app-text-input [formControl]='registerForm.controls["email"]' 
+    [label]='"Email użytkownika"' autocomplete="off"></app-text-input>
     <app-text-input [formControl]='registerForm.controls["username"]' 
     [label]='"Nazwa użytkownika"' autocomplete="off"></app-text-input>
     <app-date-input [formControl]='registerForm.controls["dateOfBirth"]' 

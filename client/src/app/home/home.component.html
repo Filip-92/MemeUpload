@@ -1,3 +1,4 @@
+<div class="container" *ngIf="(!accountService.currentUser$ | async) === null">
 <div class="row">
     <!-- <div class="col-2 img-wrapper" *ngFor="let meme of member.memes">
         <img src="{{meme.url}}" alt="{{meme.url}}" class="img-thumbnail p-1"
@@ -82,4 +83,5 @@
 
     </div>
 
+</div>
 </div>

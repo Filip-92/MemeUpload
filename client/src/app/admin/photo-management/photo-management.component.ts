@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Meme } from 'src/app/_models/meme';
 import { Photo } from 'src/app/_models/photo';
 import { AdminService } from 'src/app/_services/admin.service';
 
@@ -8,29 +9,29 @@ import { AdminService } from 'src/app/_services/admin.service';
   styleUrls: ['./photo-management.component.css']
 })
 export class PhotoManagementComponent implements OnInit {
-  photos: Photo[];
+  memes: Meme[];
 
   constructor(private adminService: AdminService) { }
 
   ngOnInit(): void {
-    this.getPhotosForApproval();
+    this.getMemesForApproval();
   }
 
-  getPhotosForApproval() {
-    this.adminService.getPhotosForApproval().subscribe(photos => {
-      this.photos = photos;
+  getMemesForApproval() {
+    this.adminService.getMemesForApproval().subscribe(memes => {
+      this.memes = memes;
     })
   }
 
-  approvePhoto(photoId) {
-    this.adminService.approvePhoto(photoId).subscribe(() => {
-      this.photos.splice(this.photos.findIndex(p => p.id === photoId), 1);
+  approveMeme(memeId) {
+    this.adminService.approvePhoto(memeId).subscribe(() => {
+      this.memes.splice(this.memes.findIndex(p => p.id === memeId), 1);
     })
   }
 
-  rejectPhoto(photoId) {
-    this.adminService.rejectPhoto(photoId).subscribe(() => {
-      this.photos.splice(this.photos.findIndex(p => p.id === photoId), 1);
+  rejectMeme(memeId) {
+    this.adminService.rejectPhoto(memeId).subscribe(() => {
+      this.memes.splice(this.memes.findIndex(p => p.id === memeId), 1);
     })
   }
 

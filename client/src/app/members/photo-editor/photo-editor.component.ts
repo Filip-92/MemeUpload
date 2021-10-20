@@ -26,6 +26,7 @@ export class PhotoEditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeUploader();
+    this.deletePhotos();
   }
 
   fileOverBase(e: any) {
@@ -50,6 +51,16 @@ export class PhotoEditorComponent implements OnInit {
     })
   }
 
+  deletePhotos() {
+    this.member.photos.forEach(p => {
+      if (!p.isMain) {
+        this.memberService.deletePhoto(p.id).subscribe(() => {
+          this.member.photos = this.member.photos.filter(x => x.id !== p.id);
+        })
+      }
+    })
+  }
+
   initializeUploader() {
     this.uploader = new FileUploader({
       url: this.baseUrl + 'users/add-photo',
@@ -69,11 +80,12 @@ export class PhotoEditorComponent implements OnInit {
       if (response) {
         const photo: Photo = JSON.parse(response);
         this.member.photos.push(photo);
+        this.setMainPhoto(photo);
          if (photo.isMain) {
            this.user.photoUrl = photo.url;
            this.member.photoUrl = photo.url;
            this.accountService.setCurrentUser(this.user);
-         }
+         } 
       }
     }
   }

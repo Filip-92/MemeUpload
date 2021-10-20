@@ -8,7 +8,11 @@ namespace API.Entities
 
         public AppUser LikedUser { get; set; }
 
+        public AppUser DislikedUser { get; set; }
+
         public int LikedUserId { get; set; }
+
+        public int DislikedUserId { get; set; }
         
     }
 }

@@ -1,5 +1,6 @@
 [
     {
+        "Email": "lisa@gmail.com",
         "UserName": "Lisa",
         "Gender": "female",
         "DateOfBirth": "1956-07-22",
@@ -13,6 +14,7 @@
         ]
     },
     {
+        "Email": "karen@gmail.com",
         "UserName": "Karen",
         "Gender": "female",
         "DateOfBirth": "1995-10-12",
@@ -26,6 +28,7 @@
         ]
     },
     {
+        "Email": "margo@gmail.com",
         "UserName": "Margo",
         "Gender": "female",
         "DateOfBirth": "1959-01-24",
@@ -39,6 +42,7 @@
         ]
     },
     {
+        "Email": "lois@gmail.com",
         "UserName": "Lois",
         "Gender": "female",
         "DateOfBirth": "1988-06-22",
@@ -52,6 +56,7 @@
         ]
     },
     {
+        "Email": "ruthie@gmail.com",
         "UserName": "Ruthie",
         "Gender": "female",
         "DateOfBirth": "1956-01-12",
@@ -65,6 +70,7 @@
         ]
     },
     {
+        "Email": "todd@gmail.com",
         "UserName": "Todd",
         "Gender": "male",
         "DateOfBirth": "1950-02-07",
@@ -78,6 +84,7 @@
         ]
     },
     {
+        "Email": "porter@gmail.com",
         "UserName": "Porter",
         "Gender": "male",
         "DateOfBirth": "1967-04-09",
@@ -91,6 +98,7 @@
         ]
     },
     {
+        "Email": "mayo@gmail.com",
         "UserName": "Mayo",
         "Gender": "male",
         "DateOfBirth": "1990-03-23",
@@ -104,6 +112,7 @@
         ]
     },
     {
+        "Email": "skinner@gmail.com",
         "UserName": "Skinner",
         "Gender": "male",
         "DateOfBirth": "1952-12-01",
@@ -117,6 +126,7 @@
         ]
     },
     {
+        "Email": "davis@gmail.com",
         "UserName": "Davis",
         "Gender": "male",
         "DateOfBirth": "1978-03-20",

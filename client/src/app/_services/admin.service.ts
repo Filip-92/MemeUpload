@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Photo } from '../_models/photo';
+import { Meme } from '../_models/meme';
 import { User } from '../_models/user';
 
 @Injectable({
@@ -20,15 +20,15 @@ export class AdminService {
     return this.http.post(this.baseUrl + 'admin/edit-roles/' + username + '?roles=' + roles, {});
   }
 
-  getPhotosForApproval() {
-    return this.http.get<Photo[]>(this.baseUrl + 'admin/photos-to-moderate');
+  getMemesForApproval() {
+    return this.http.get<Meme[]>(this.baseUrl + 'admin/memes-to-moderate');
   }
 
-  approvePhoto(photoId: number) {
-    return this.http.post(this.baseUrl + 'admin/approve-photo/' + photoId, {});
+  approvePhoto(memeId: number) {
+    return this.http.post(this.baseUrl + 'admin/approve-meme/' + memeId, {});
   }
 
-  rejectPhoto(photoId: number) {
-    return this.http.post(this.baseUrl + 'admin/reject-photo/' + photoId, {});
+  rejectPhoto(memeId: number) {
+    return this.http.post(this.baseUrl + 'admin/reject-meme/' + memeId, {});
   }
 }

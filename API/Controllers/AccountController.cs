@@ -32,6 +32,8 @@ namespace API.Controllers
         {
             if (await UserExists(registerDto.Username)) return BadRequest("Username is taken");
 
+            if (await EmailExists(registerDto.Email)) return BadRequest("Email is taken");
+
             var user = _mapper.Map<AppUser>(registerDto);
 
             user.UserName = registerDto.Username.ToLower();
@@ -49,7 +51,6 @@ namespace API.Controllers
                 Email = user.Email,
                 Username = user.UserName,
                 Token = await _tokenService.CreateToken(user),
-                KnownAs = user.KnownAs,
                 Gender = user.Gender
             };
         }
@@ -58,9 +59,9 @@ namespace API.Controllers
         {
             var user = await _userManager.Users
                 .Include(p => p.Photos)
-                .SingleOrDefaultAsync(x => x.UserName == loginDto.Username.ToLower());
+                .SingleOrDefaultAsync(x => x.Email == loginDto.Email.ToLower());
 
-            if (user == null) return Unauthorized("Invalid username");
+            if (user == null) return Unauthorized("Invalid email");
 
             var result = await _signInManager
                 .CheckPasswordSignInAsync(user, loginDto.Password, false);
@@ -73,14 +74,17 @@ namespace API.Controllers
                 Username = user.UserName,
                 Token = await _tokenService.CreateToken(user),
                 PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
-                KnownAs = user.KnownAs,
                 Gender = user.Gender
             };
         }
-
         private async Task<bool> UserExists(string username)
         {
             return await _userManager.Users.AnyAsync(x => x.UserName == username.ToLower());
+        }
+
+        private async Task<bool> EmailExists(string email)
+        {
+            return await _userManager.Users.AnyAsync(x => x.Email == email);
         }
     }
 } 

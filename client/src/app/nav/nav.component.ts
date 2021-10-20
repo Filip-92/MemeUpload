@@ -13,7 +13,7 @@ import { ElementRef } from '@angular/core';
 })
 export class NavComponent implements OnInit {
   model: any = {}
-  isShown:boolean = false;
+  collapsed = true;
   private isOpen: boolean =false;
   registerMode = false;
   loginMode = false;
