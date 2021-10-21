@@ -10,7 +10,6 @@ import { MembersService } from 'src/app/_services/members.service';
 import { Meme } from '../_models/meme';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { dashCaseToCamelCase } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-home',

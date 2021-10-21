@@ -28,6 +28,11 @@ namespace API.Data
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<Group>()
+                .HasMany(x => x.Connections)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.Entity<AppUser>()
                 .HasMany(ur => ur.UserRoles)
                 .WithOne(u => u.User)
@@ -39,6 +44,7 @@ namespace API.Data
                 .WithOne(u => u.Role)
                 .HasForeignKey(ur => ur.RoleId)
                 .IsRequired();
+
 
             builder.Entity<UserLike>()
                 .HasKey(k => new { k.SourceUserId, k.LikedUserId });
@@ -55,21 +61,6 @@ namespace API.Data
                 .HasForeignKey(s => s.LikedUserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // builder.Entity<UserLike>()
-            //     .HasKey(k => new { k.SourceUserId, k.DislikedUserId });
-
-            // builder.Entity<UserLike>()
-            //     .HasOne(s => s.SourceUser)
-            //     .WithMany(l => l.DislikedUsers)
-            //     .HasForeignKey(s => s.SourceUserId)
-            //     .OnDelete(DeleteBehavior.Cascade);
-
-            // builder.Entity<UserLike>()
-            //     .HasOne(s => s.DislikedUser)
-            //     .WithMany(l => l.DislikedByUsers)
-            //     .HasForeignKey(s => s.DislikedUserId)
-            //     .OnDelete(DeleteBehavior.Cascade);
-            
             builder.Entity<Message>()
                 .HasOne(u => u.Recipient)
                 .WithMany(m => m.MessagesReceived)

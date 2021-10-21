@@ -3,9 +3,16 @@ namespace API.Entities
     public class UserLike
     {
         public AppUser SourceUser { get; set; }
+        
         public int SourceUserId { get; set; }
 
         public AppUser LikedUser { get; set; }
+
+        // public AppUser DislikedUser { get; set; }
+
         public int LikedUserId { get; set; }
+
+        // public int DislikedUserId { get; set; }
+        
     }
 }

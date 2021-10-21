@@ -174,18 +174,11 @@ namespace API.Data.Migrations
                 columns: table => new
                 {
                     SourceUserId = table.Column<int>(type: "INTEGER", nullable: false),
-                    LikedUserId = table.Column<int>(type: "INTEGER", nullable: false),
-                    DislikedUserId = table.Column<int>(type: "INTEGER", nullable: false)
+                    LikedUserId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Likes", x => new { x.SourceUserId, x.LikedUserId });
-                    table.ForeignKey(
-                        name: "FK_Likes_AspNetUsers_DislikedUserId",
-                        column: x => x.DislikedUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Likes_AspNetUsers_LikedUserId",
                         column: x => x.LikedUserId,
@@ -207,7 +200,6 @@ namespace API.Data.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Url = table.Column<string>(type: "TEXT", nullable: true),
-                    IsApproved = table.Column<bool>(type: "INTEGER", nullable: false),
                     PublicId = table.Column<string>(type: "TEXT", nullable: true),
                     AppUserId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
@@ -293,7 +285,7 @@ namespace API.Data.Migrations
                         column: x => x.GroupName,
                         principalTable: "Groups",
                         principalColumn: "Name",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -337,11 +329,6 @@ namespace API.Data.Migrations
                 name: "IX_Connections_GroupName",
                 table: "Connections",
                 column: "GroupName");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Likes_DislikedUserId",
-                table: "Likes",
-                column: "DislikedUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Likes_LikedUserId",

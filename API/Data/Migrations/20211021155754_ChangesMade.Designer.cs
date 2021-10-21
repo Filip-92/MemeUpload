@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211020161756_ChangesMade")]
+    [Migration("20211021155754_ChangesMade")]
     partial class ChangesMade
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -176,9 +176,6 @@ namespace API.Data.Migrations
                     b.Property<int>("AppUserId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("IsApproved")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("PublicId")
                         .HasColumnType("TEXT");
 
@@ -267,12 +264,7 @@ namespace API.Data.Migrations
                     b.Property<int>("LikedUserId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("DislikedUserId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("SourceUserId", "LikedUserId");
-
-                    b.HasIndex("DislikedUserId");
 
                     b.HasIndex("LikedUserId");
 
@@ -386,7 +378,8 @@ namespace API.Data.Migrations
                 {
                     b.HasOne("API.Entities.Group", null)
                         .WithMany("Connections")
-                        .HasForeignKey("GroupName");
+                        .HasForeignKey("GroupName")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("API.Entities.Memes", b =>
@@ -432,12 +425,6 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.UserLike", b =>
                 {
-                    b.HasOne("API.Entities.AppUser", "DislikedUser")
-                        .WithMany()
-                        .HasForeignKey("DislikedUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("API.Entities.AppUser", "LikedUser")
                         .WithMany("LikedByUsers")
                         .HasForeignKey("LikedUserId")
@@ -449,8 +436,6 @@ namespace API.Data.Migrations
                         .HasForeignKey("SourceUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("DislikedUser");
 
                     b.Navigation("LikedUser");
 
