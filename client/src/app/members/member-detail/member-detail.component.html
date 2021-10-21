@@ -8,6 +8,7 @@
                     <i class="fa fa-user-circle text-success"></i> Online now
                 </div>
                 <div>
+                    <strong>Location:</strong>
                 </div>
                 <div>
                     <strong>Age:</strong>
@@ -23,22 +24,27 @@
                 </div>
             </div>
             <div class="card-footer">
+                <div class="btn-group d-flex">
+                    <button (click)="addLike(member)" class="btn btn-primary">Like</button>
+                    <button (click)="selectTab(3)" class="btn btn-success">Message</button>
+                </div>
             </div>
         </div>
     </div>
+
     <div class="col-8">
-        <tabset class="member-tabset" style="background-color: black;" #memberTabs>
+        <tabset class="member-tabset" #memberTabs>
             <tab heading='About {{member.username}}' (selectTab)="onTabActivated($event)">
-                <button (click)="addLike(member)" class="btn btn-primary">Like</button>
-                <!-- <button (click)="removeLike(member)" class="btn btn-primary">Dislike</button> -->
-                <button (click)="selectTab(3)" class="btn btn-success">Message</button>
-                <!-- {{member.likes}} -->
+                <h4>Description</h4>
+                <h4>Looking for</h4>
             </tab>
-            <tab heading='Memy' (selectTab)="onTabActivated($event)">
+            <tab (selectTab)="onTabActivated($event)">
+            </tab>
+            <tab heading='Photos' (selectTab)="onTabActivated($event)">
                 <ngx-gallery [options]="galleryOptions" [images]="galleryImages" 
                     style="display: inline-block; margin-bottom: 20px;"></ngx-gallery>
             </tab>
-            <tab heading='Wiadomości' (selectTab)="onTabActivated($event)">
+            <tab heading='Messages' (selectTab)="onTabActivated($event)">
                 <app-member-messages [username]="member.username"></app-member-messages>
             </tab>
         </tabset>

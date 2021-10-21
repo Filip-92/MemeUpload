@@ -18,6 +18,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class HomeComponent implements OnInit {
   @Input() member: Member;
+  @Input() meme: Meme;
+  memes: Meme[];
   model: any = {}
   uploader: FileUploader;
   hasBaseDropzoneOver = false;
@@ -25,6 +27,7 @@ export class HomeComponent implements OnInit {
   user: User;
   registerMode = false;
   memeUploadMode = false;
+  likes: number = 0;
 
   constructor(public accountService: AccountService, private memberService: MembersService,
     private router: Router, private toastr: ToastrService) { 
@@ -69,6 +72,14 @@ export class HomeComponent implements OnInit {
            this.accountService.setCurrentUser(this.user);
       }
     }
+  }
+
+  addLike() {
+    this.likes++;
+  }
+
+  removeLike() {
+    this.likes--;
   }
 
   memeToggle() {

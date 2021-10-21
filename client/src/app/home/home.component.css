@@ -3,3 +3,7 @@
     background-color: black;
     min-height: 1000px;
 }
+
+img {
+    max-width: 600px;
+}

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container text-center">
 
     <button 
         class="dropdown-item" 
@@ -10,12 +10,12 @@
     >
     Dodaj mema</button>
 
-    <div class="container" *ngIf="memeUploadMode">
+    <div class="container text-center" *ngIf="memeUploadMode">
         <div class="row mt-3">
  
             <div class="col-md-3">
         
-                <h3>Add Memes</h3>
+                <h3>Dodaj mema</h3>
         
                 <div ng2FileDrop
                      [ngClass]="{'nv-file-over': hasBaseDropzoneOver}"
@@ -23,23 +23,22 @@
                      [uploader]="uploader"
                      class="card bg-faded p-3 text-center mb-3 my-drop-zone">
                      <i class="fa fa-upload fa-3x"></i>
-                    Drop memes here
+                    Przeciągnij mema tutaj
                 </div>
         
-                Single
                 <input type="file" ng2FileSelect [uploader]="uploader" />
             </div>
         
             <div class="col-md-9" style="margin-bottom: 40px" *ngIf="uploader?.queue?.length">
         
-                <h3>Upload queue</h3>
-                <p>Queue length: {{ uploader?.queue?.length }}</p>
+                <h3>Kolejka</h3>
+                <p>Długość kolejki: {{ uploader?.queue?.length }}</p>
         
                 <table class="table">
                     <thead>
                     <tr>
-                        <th width="50%">Name</th>
-                        <th>Size</th>
+                        <th width="50%">Nazwa</th>
+                        <th>Rozmiar</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -75,22 +74,30 @@
     </div>
 
 </div>
+
 <div class="row">
-    <!-- <div class="col-2 img-wrapper" *ngFor="let meme of member.memes">
-        <img src="{{meme.url}}" alt="{{meme.url}}" class="img-thumbnail p-1"
-            [class.not-approved]="!meme.isApproved"
-        >
-
-        <div class="text-center img-text" *ngIf="!meme.isApproved">
-            <span class="text-danger">Awaiting approval</span>
-        </div>
-
-        <div class="text-center">
-            <button 
-                (click)="deleteMeme(meme.id)"
-                class="btn btn-sm btn-danger"
-            ><i class="fa fa-trash"></i></button>
-        </div>
-    </div> -->
+    <div *ngFor="let meme of memes" class="col-sm-6 col-md-4 col-lg-2">
+        <app-member-card [meme]="meme"></app-member-card>
+    </div>
 </div>
 </div>
+
+<div class="card mb-4 text-center mt-5">
+    <div class="card-img-wrapper">
+        <div class="card-body p-1">
+            <h4 class="card-title text-center mb-3">
+                Jakieś gówno
+            </h4>
+            <img src="https://cdn.vox-cdn.com/thumbor/cV8X8BZ-aGs8pv3D-sCMr5fQZyI=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/19933026/image.png"
+                class="card-img-top">
+        </div>
+        <div>
+        <p class="inline-block">autor: <a class="nav-link" routerLink='/members/{{user.username}}'>{{user.username}}</a></p>
+        <button (click)="addLike()" class="btn btn-success mr-2"><i class="fa fa-plus"></i></button>
+            <span class="btn btn-primary mr-2" style="min-width: 50px;">{{likes}}</span>
+        <button (click)="removeLike()" class="btn btn-danger"><i class="fa fa-minus"></i></button>
+        </div>
+    </div>
+</div>
+
+
