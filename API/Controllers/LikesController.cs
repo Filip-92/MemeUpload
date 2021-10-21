@@ -14,7 +14,6 @@ namespace API.Controllers
     public class LikesController : BaseApiController
     {
         private readonly IUnitOfWork _unitOfWork;
-
         public LikesController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -49,15 +48,15 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<LikeDto>>> GetUserLikes([FromQuery]LikesParams likesParams)
+        public async Task<ActionResult<IEnumerable<LikeDto>>> GetUserLikes([FromQuery] LikesParams likesParams)
         {
             likesParams.UserId = User.GetUserId();
             var users = await _unitOfWork.LikesRepository.GetUserLikes(likesParams);
 
-            Response.AddPaginationHeader(users.CurrentPage, 
+            Response.AddPaginationHeader(users.CurrentPage,
                 users.PageSize, users.TotalCount, users.TotalPages);
 
             return Ok(users);
         }
     }
-} 
+}

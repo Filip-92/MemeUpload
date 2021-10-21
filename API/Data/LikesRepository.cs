@@ -23,11 +23,6 @@ namespace API.Data
             return await _context.Likes.FindAsync(sourceUserId, likedUserId);
         }
 
-        // public async Task<UserLike> GetUserDislike(int sourceUserId, int dislikedUserId)
-        // {
-        //     return await _context.Likes.FindAsync(sourceUserId, dislikedUserId);
-        // }
-
         public async Task<PagedList<LikeDto>> GetUserLikes(LikesParams likesParams)
         {
             var users = _context.Users.OrderBy(u => u.UserName).AsQueryable();
@@ -57,48 +52,11 @@ namespace API.Data
                 likesParams.PageNumber, likesParams.PageSize);
         }
 
-        // public async Task<PagedList<LikeDto>> GetUserDislikes(LikesParams likesParams)
-        // {
-        //     var users = _context.Users.OrderBy(u => u.UserName).AsQueryable();
-        //     var dislikes = _context.Likes.AsQueryable();
-
-        //     if (likesParams.Predicate == "disliked")
-        //     {
-        //         dislikes = dislikes.Where(dislike => dislike.SourceUserId == likesParams.UserId);
-        //         users = dislikes.Select(dislike => dislike.DislikedUser);
-        //     }
-
-        //     if (likesParams.Predicate == "dislikedBy")
-        //     {
-        //         dislikes = dislikes.Where(dislike => dislike.LikedUserId == likesParams.UserId);
-        //         users = dislikes.Select(like => like.SourceUser);
-        //     }
-
-        //     var dislikedUsers = users.Select(user => new LikeDto
-        //     {
-        //         Username = user.UserName,
-        //         Age = user.DateOfBirth.CalculateAge(),
-        //         PhotoUrl = user.Photos.FirstOrDefault(p => p.IsMain).Url,
-        //         Id = user.Id
-        //     });
-
-        //     return await PagedList<LikeDto>.CreateAsync(dislikedUsers, 
-        //         likesParams.PageNumber, likesParams.PageSize);
-        // }
-
         public async Task<AppUser> GetUserWithLikes(int userId)
         {
             return await _context.Users
                 .Include(x => x.LikedUsers)
                 .FirstOrDefaultAsync(x => x.Id == userId);
         }
-
-        // public async Task<AppUser> GetUserWithDislikes(int userId)
-        // {
-        //     return await _context.Users
-        //         .Include(x => x.DislikedUsers)
-        //         .FirstOrDefaultAsync(x => x.Id == userId);
-        // }
-
     }
-} 
+}
