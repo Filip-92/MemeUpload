@@ -7,17 +7,17 @@ import { AccountService } from 'src/app/_services/account.service';
 import { User } from 'src/app/_models/user';
 import { take } from 'rxjs/operators';
 import { MembersService } from 'src/app/_services/members.service';
-import { Meme } from '../_models/meme';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { MemeUploadComponent } from '../memes/meme-upload/meme-upload.component';
+import { Meme } from 'src/app/_models/meme';
+
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-meme-upload',
+  templateUrl: './meme-upload.component.html',
+  styleUrls: ['./meme-upload.component.css']
 })
-export class HomeComponent implements OnInit {
+export class MemeUploadComponent implements OnInit {
   @Input() member: Member;
   members: Member[];
   memes: Meme[] = [];
@@ -72,20 +72,11 @@ export class HomeComponent implements OnInit {
            this.user.memeUrl = meme.url;
            this.member.memeUrl = meme.url;
            this.accountService.setCurrentUser(this.user);
-           this.memeToggle();
       }
     }
   }
 
-  addLike() {
-    this.likes++;
-  }
-
-  removeLike() {
-    this.likes--;
-  }
-
-  memeToggle() {
+    memeToggle() {
         this.memeUploadMode = !this.memeUploadMode;
     }
 }

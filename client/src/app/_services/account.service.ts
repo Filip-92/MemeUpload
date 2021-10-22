@@ -5,6 +5,7 @@ import { User } from '../_models/user';
 import { ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { PresenceService } from './presence.service';
+import { HomeComponent } from '../home/home.component';
 
 @Injectable({
   providedIn: 'root'

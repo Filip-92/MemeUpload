@@ -1,6 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-primary">
     <div class="container">
-        <a class="navbar-brand" routerLink='/' routerLinkActive='active'>Memesy</a>
+        <a class="navbar-brand" routerLink='/' routerLinkActive='active'>
+            <img src="https://memegenerator.net/img/images/14687350.jpg" class="mr-3">Memesy
+        </a>
         <button       
         class="navbar-toggler"
         type="button"
@@ -31,7 +33,7 @@
                     </li>
                 </ng-container>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink='/errors'routerLinkActive='active' >Errors</a>
+                    <a *appHasRole='["Admin", "Moderator"]' class="nav-link" routerLink='/errors'routerLinkActive='active' >Errors</a>
                 </li>
             </ul>
         </div>
