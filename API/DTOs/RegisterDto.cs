@@ -18,7 +18,7 @@ namespace API.DTOs
         public DateTime DateOfBirth { get; set; }
 
         [Required]
-        [StringLength(12, MinimumLength = 6)]
+        [StringLength(16, MinimumLength = 8)]
         public string Password { get; set; }
     }
 }

@@ -75,6 +75,7 @@ namespace API.Data
         {
             return await _context.Users
                 .Include(p => p.Photos)
+                .Include(p => p.Memes)
                 .SingleOrDefaultAsync(x => x.UserName == username);
         }
 
@@ -89,6 +90,7 @@ namespace API.Data
         {
             return await _context.Users
                 .Include(p => p.Photos)
+                .Include(p => p.Memes)
                 .ToListAsync();
         }
 

@@ -1,9 +1,9 @@
-<div class="container text-center">
+<div [hidden]="user.token == null" class="container text-center">
 
     <button 
         class="dropdown-item" 
         (click)="memeToggle()"
-        *ngIf="(!accountService.currentUser$ | async) === null" 
+        [hidden]="user.token == null" 
         id="register" 
         class="btn btn-primary btn-lg mr-2" 
         style="align-items: center;"
@@ -93,3 +93,33 @@
         </div>
     </div>
 </div>
+
+<!-- <div class="card mb-4 text-center mt-5" *ngFor="let member of members">
+    <div class="card-img-wrapper">
+        <div class="card-body p-1">
+            <h4 class="card-title text-center mb-3">
+                Jakieś gówno
+            </h4>
+            <img src="{{member.photoUrl}}"
+                class="card-img-top">
+        </div>
+        <div>
+        <button (click)="addLike()" class="btn btn-success mr-2"><i class="fa fa-plus"></i></button>
+            <span class="btn btn-primary mr-2" style="min-width: 50px;">{{likes}}</span>
+        <button (click)="removeLike()" class="btn btn-danger"><i class="fa fa-minus"></i></button>
+        </div>
+    </div>
+</div> -->
+
+<!-- <div class="row">
+    <div *ngFor="let member of members" class="col-sm-6 col-md-4 col-lg-2">
+        <app-member-card [member]="member"></app-member-card>
+    </div>
+</div>
+
+<div class="row">
+    <div *ngFor="let meme of member.memes" class="col-sm-6 col-md-4 col-lg-2">
+        <img src="{{meme.url}}">
+        <app-meme-card [member]="member"></app-meme-card>
+    </div>
+</div> -->

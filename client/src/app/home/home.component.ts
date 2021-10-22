@@ -18,6 +18,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class HomeComponent implements OnInit {
   @Input() member: Member;
+  members: Member[];
+  memes: Meme[] = [];
   model: any = {}
   uploader: FileUploader;
   hasBaseDropzoneOver = false;

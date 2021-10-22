@@ -21,12 +21,15 @@ namespace API.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IPhotoService _photoService;
+
+        private readonly IMemeService _memeService;
         private readonly IUnitOfWork _unitOfWork;
         public UsersController(IUnitOfWork unitOfWork, IMapper mapper,
-            IPhotoService photoService)
+            IPhotoService photoService, IMemeService memeService)
         {
             _unitOfWork = unitOfWork;
             _photoService = photoService;
+            _memeService = memeService;
             _mapper = mapper;
         }
 
@@ -96,30 +99,30 @@ namespace API.Controllers
             return BadRequest("Problem addding photo");
         }
 
-        // [HttpPost("add-meme")]
-        // public async Task<ActionResult<PhotoDto>> AddMeme(IFormFile file)
-        // {
-        //     var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+        [HttpPost("add-meme")]
+        public async Task<ActionResult<PhotoDto>> AddMeme(IFormFile file)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
 
-        //     var result = await _memeService.AddMemeAsync(file);
+            var result = await _memeService.AddMemeAsync(file);
 
-        //     if (result.Error != null) return BadRequest(result.Error.Message);
+            if (result.Error != null) return BadRequest(result.Error.Message);
 
-        //     var meme = new Memes
-        //     {
-        //         Url = result.SecureUrl.AbsoluteUri,
-        //         PublicId = result.PublicId
-        //     };
+            var meme = new Memes
+            {
+                Url = result.SecureUrl.AbsoluteUri,
+                PublicId = result.PublicId
+            };
 
-        //     user.Memes.Add(meme);
+            user.Memes.Add(meme);
 
-        //     if (await _unitOfWork.Complete())
-        //     {
-        //         return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<MemeDto>(meme));
-        //     }
+            if (await _unitOfWork.Complete())
+            {
+                return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<MemeDto>(meme));
+            }
 
-        //     return BadRequest("Problem addding meme");
-        // }
+            return BadRequest("Problem addding meme");
+        }
 
         [HttpPut("set-main-photo/{photoId}")]
         public async Task<ActionResult> SetMainPhoto(int photoId)
