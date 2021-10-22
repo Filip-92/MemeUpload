@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Meme } from '../_models/meme';
+import { Photo } from '../_models/photo';
 import { User } from '../_models/user';
 
 @Injectable({
@@ -24,11 +25,11 @@ export class AdminService {
     return this.http.get<Meme[]>(this.baseUrl + 'admin/memes-to-moderate');
   }
 
-  approvePhoto(memeId: number) {
+  approveMeme(memeId: number) {
     return this.http.post(this.baseUrl + 'admin/approve-meme/' + memeId, {});
   }
 
-  rejectPhoto(memeId: number) {
+  rejectMeme(memeId: number) {
     return this.http.post(this.baseUrl + 'admin/reject-meme/' + memeId, {});
   }
 }

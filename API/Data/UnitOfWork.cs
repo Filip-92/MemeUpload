@@ -22,8 +22,6 @@ namespace API.Data
 
         public IPhotoRepository PhotoRepository => new PhotoRepository(_context);
 
-        public IMemeRepository MemeRepository => new MemeRepository(_context);
-
         public async Task<bool> Complete()
         {
             return await _context.SaveChangesAsync() > 0;

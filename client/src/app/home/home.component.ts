@@ -18,8 +18,6 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class HomeComponent implements OnInit {
   @Input() member: Member;
-  @Input() meme: Meme;
-  memes: Meme[];
   model: any = {}
   uploader: FileUploader;
   hasBaseDropzoneOver = false;
@@ -42,11 +40,11 @@ export class HomeComponent implements OnInit {
     this.hasBaseDropzoneOver = e;
   } 
 
-  // deletePhoto(photoId: number) {
-  //   this.memberService.deletePhoto(photoId).subscribe(() => {
-  //     this.member.photos = this.member.photos.filter(x => x.id !== photoId);
-  //   })
-  // }
+  deletePhoto(photoId: number) {
+    this.memberService.deletePhoto(photoId).subscribe(() => {
+      this.member.photos = this.member.photos.filter(x => x.id !== photoId);
+    })
+  }
 
   initializeUploader() {
     this.uploader = new FileUploader({
@@ -56,7 +54,7 @@ export class HomeComponent implements OnInit {
       allowedFileType: ['image'],
       removeAfterUpload: true,
       autoUpload: false,
-      maxFileSize: 50 * 1024 * 1024
+      maxFileSize: 10 * 1024 * 1024
     });
 
     this.uploader.onAfterAddingFile = (file) => {

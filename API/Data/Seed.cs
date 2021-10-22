@@ -33,7 +33,6 @@ namespace API.Data
 
             foreach (var user in users)
             {
-                user.Email = user.Email.ToLower();
                 user.UserName = user.UserName.ToLower();
                 await userManager.CreateAsync(user, "Pa$$w0rd");
                 await userManager.AddToRoleAsync(user, "Member");
@@ -41,8 +40,7 @@ namespace API.Data
 
             var admin = new AppUser
             {
-                UserName = "admin",
-                Email = "admin@gmail.com"
+                UserName = "admin"
             };
 
             await userManager.CreateAsync(admin, "Pa$$w0rd");

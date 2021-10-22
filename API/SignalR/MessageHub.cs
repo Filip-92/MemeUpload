@@ -88,7 +88,7 @@ namespace API.SignalR
                 if (connections != null)
                 {
                     await _presenceHub.Clients.Clients(connections).SendAsync("NewMessageReceived", 
-                        new {username = sender.UserName});
+                        new {username = sender.UserName, knownAs = sender.UserName});
                 }
             }
 
@@ -134,4 +134,4 @@ namespace API.SignalR
             return stringCompare ? $"{caller}-{other}" : $"{other}-{caller}";
         }
     }
-} 
+}

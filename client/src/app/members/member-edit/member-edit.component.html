@@ -13,29 +13,36 @@
                 class="card-img-top img-thumbnail">
             <div class="card-body">
                 <div>
+                    <strong>Location:</strong>
+                    <p>{{member.city}}, {{member.country}}</p>
+                </div>
+                <div>
                     <strong>Age:</strong>
                     <p>{{member.age}}</p>
                 </div>
                 <div>
-                    <strong>Ostatnio aktywny:</strong>
+                    <strong>Last Active:</strong>
                     <p>{{member.lastActive | timeago}}</p>
                 </div>
                 <div>
-                    <strong>Członkowstwo od:</strong>
+                    <strong>Member since:</strong>
                     <p>{{member.created | date: 'dd MMM yyyy'}}</p>
                 </div>
+            </div>
+            <div class="card-footer">
+                <button [disabled]="!editForm.dirty" form="editForm" type="submit" class="btn btn-success btn-block">Save Changes</button>
             </div>
         </div>
     </div>
 
     <div class="col-8">
         <tabset class="member-tabset">
-            <tab heading='Profil {{member.username}}'>
+            <tab heading='About {{member.knownAs}}'>
                 <form #editForm="ngForm" id="editForm" (ngSubmit)="updateMember()">
                 </form>
                
             </tab>
-            <tab heading='Zmiana avatara'>
+            <tab heading='Edit Photos'>
                 <app-photo-editor [member]="member"></app-photo-editor>
             </tab>
         </tabset>
