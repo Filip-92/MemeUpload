@@ -18,7 +18,19 @@ import { Meme } from 'src/app/_models/meme';
   styleUrls: ['./meme-upload.component.css']
 })
 export class MemeUploadComponent implements OnInit {
-  @Input() member: Member;
+  @Input() member: Member = {
+    memes: [],
+    memeUrl: '',
+    id: 0,
+    username: '',
+    photoUrl: '',
+    age: 0,
+    created: undefined,
+    lastActive: undefined,
+    gender: '',
+    photos: [],
+    likes: 0
+  };
   members: Member[];
   memes: Meme[] = [];
   model: any = {}

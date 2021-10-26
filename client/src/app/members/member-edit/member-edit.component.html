@@ -38,7 +38,7 @@
                 </form>
                 <br>
                 <div class="text-center">
-                    <span class="ml-3 col-6"><i class="fa fa-photo mr-2"></i>Ilość wrzut: </span>
+                    <span class="ml-3 col-6"><i class="fa fa-photo mr-2"></i>Ilość wrzut: {{member.memes?.length}}</span>
                     <span class="ml-3 col-6"><i class="fa fa-plus mr-2">
                         </i>Ilość plusów: {{ members?.length || '0' }}</span>
                     <div class="row mt-3">
@@ -50,15 +50,11 @@
                 <hr style="color: white !important;">
                 <div class="text-center">
                     <h4 class="mb-2 strong">Moje memy</h4>
-                    <img src="{{member.memeUrl}}" class="card-img-top" style="max-width: 400px;">
-                    <div>
-                        <span class="btn btn-primary mt-3" style="min-width: 100px;">0</span>
-                    </div>
-                    <!-- <div *ngFor="let photo of member.photos">
-                        <img src="{{photo.url}}" class="card-img-top" style="max-width: 400px;">
-                    </div> -->
                     <div *ngFor="let meme of member.memes">
                         <img src="{{meme.url}}" class="card-img-top" style="max-width: 400px;">
+                        <div>
+                            <span class="btn btn-primary mt-3 mb-3" style="min-width: 100px;">0</span>
+                        </div>
                     </div>
                 </div>
             </tab>

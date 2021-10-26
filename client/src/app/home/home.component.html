@@ -36,6 +36,11 @@
     </div>
 </div> -->
 
+<div *ngFor="let meme of memes">
+    <app-meme-card [meme]="meme"></app-meme-card>
+</div>
+
+
 <!-- <div class="row">
     <div *ngFor="let member of members" class="col-sm-6 col-md-4 col-lg-2">
         <app-member-card [member]="member"></app-member-card>
