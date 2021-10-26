@@ -15,4 +15,4 @@ export class MemberDetailedResolver implements Resolve<Member> {
         return this.memberService.getMember(route.paramMap.get('username'));
     }
 
-} 
+}

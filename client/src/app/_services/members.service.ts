@@ -75,6 +75,9 @@ export class MembersService {
     return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
   }
   addLike(username: string) {
+    for (let member of this.members) {
+      member.likes++;
+    }
     return this.http.post(this.baseUrl + 'likes/' + username, {})
   }
 

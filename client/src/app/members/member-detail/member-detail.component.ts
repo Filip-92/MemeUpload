@@ -11,6 +11,7 @@ import { AccountService } from 'src/app/_services/account.service';
 import { User } from 'src/app/_models/user';
 import { take } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
+import { Pagination } from 'src/app/_models/pagination';
 
 @Component({
   selector: 'app-member-detail',
@@ -26,6 +27,11 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   activeTab: TabDirective;
   messages: Message[] = [];
   user: User;
+  members: Partial<Member[]>;
+  predicate = 'likedBy';
+  pageNumber = 1;
+  pageSize = 5;
+  pagination: Pagination;
 
   constructor(public presence: PresenceService, private route: ActivatedRoute, 
     private messageService: MessageService, private accountService: AccountService,
@@ -44,8 +50,8 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     })
     this.galleryOptions = [
       {
-        width: '500px',
-        height: '500px',
+        width: '300px',
+        height: '300px',
         imagePercent: 100,
         thumbnailsColumns: 4,
         imageAnimation: NgxGalleryAnimation.Slide,
@@ -53,6 +59,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
       }
     ]
     this.galleryImages = this.getImages();
+    this.loadLikes();
   }
   getImages(): NgxGalleryImage[] {
     const imageUrls = [];
@@ -89,6 +96,13 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   addLike(member: Member) {
     this.memberService.addLike(member.username).subscribe(() => {
       this.toastr.success('You have liked ' + member.username);
+    })
+  }
+
+  loadLikes() {
+    this.memberService.getLikes(this.predicate, this.pageNumber, this.pageSize).subscribe(response => {
+      this.members = response.result;
+      this.pagination = response.pagination;
     })
   }
 }

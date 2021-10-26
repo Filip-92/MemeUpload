@@ -5,6 +5,9 @@ import { User } from '../_models/user';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ElementRef } from '@angular/core'; 
+import { Message } from '../_models/message';
+import { Pagination } from '../_models/pagination';
+import { MessageService } from '../_services/message.service';
 
 @Component({
   selector: 'app-nav',
@@ -17,11 +20,18 @@ export class NavComponent implements OnInit {
   private isOpen: boolean =false;
   registerMode = false;
   loginMode = false;
+  messages: Message[] = [];
+  pagination: Pagination;
+  container = 'Unread';
+  pageNumber = 1;
+  pageSize = 5;
+  loading = false;
 
   constructor(public accountService: AccountService, private router: Router, 
-    private toastr: ToastrService, private _el: ElementRef) { }
+    private toastr: ToastrService, private _el: ElementRef, private messageService: MessageService) { }
 
   ngOnInit(): void {
+    this.loadMessages();
   }
 
   login() {
@@ -42,5 +52,14 @@ export class NavComponent implements OnInit {
   cancelRegisterMode(event: boolean) {
     this.registerMode = event;
     this.loginMode = true;
+  }
+
+  loadMessages() {
+    this.loading = true;
+    this.messageService.getMessages(this.pageNumber, this.pageSize, this.container).subscribe(response => {
+      this.messages = response.result;
+      this.pagination = response.pagination;
+      this.loading = false;
+    })
   }
 }

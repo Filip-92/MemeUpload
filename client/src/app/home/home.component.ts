@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, NgModule } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Member } from 'src/app/_models/member';
 import { FileUploader } from 'ng2-file-upload';
@@ -17,6 +17,7 @@ import { MemeUploadComponent } from '../memes/meme-upload/meme-upload.component'
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
+
 export class HomeComponent implements OnInit {
   @Input() member: Member;
   members: Member[];
@@ -69,6 +70,7 @@ export class HomeComponent implements OnInit {
       if (response) {
         const meme: Meme = JSON.parse(response);
         this.member.memes.push(meme);
+        if(typeof(this.member.memes) === 'undefined')
            this.user.memeUrl = meme.url;
            this.member.memeUrl = meme.url;
            this.accountService.setCurrentUser(this.user);

@@ -15,5 +15,7 @@ namespace API.DTOs
         public DateTime LastActive { get; set; }
         public string Gender { get; set; }
         public ICollection<PhotoDto> Photos { get; set; }
+        public ICollection<MemeDto> Memes { get; set; }
+        //public int NumberOfLikes { get; set; }
     }
 }

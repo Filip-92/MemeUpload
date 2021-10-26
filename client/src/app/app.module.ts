@@ -33,6 +33,7 @@ import { PhotoManagementComponent } from './admin/photo-management/photo-managem
 import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
 import { ConfirmDialogComponent } from './modals/confirm-dialog/confirm-dialog.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { MemeUploadComponent } from './memes/meme-upload/meme-upload.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     UserManagementComponent,
     PhotoManagementComponent,
     RolesModalComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    MemeUploadComponent
   ],
   imports: [
     BrowserModule,

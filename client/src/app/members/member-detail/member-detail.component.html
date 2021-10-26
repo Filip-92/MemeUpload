@@ -1,8 +1,9 @@
 <div class="row">
     <div class="col-4">
         <div class="card">
-            <img src="{{member.photoUrl || './assets/user.png'}}" alt="{{member.username}}" 
-                class="card-img-top img-thumbnail">
+        <div *ngFor="let photo of member.photos">
+            <img src="{{photo.url || './assets/user.png'}}" alt="{{member.username}}" class="card-img-top img-thumbnail">
+        </div>
             <div class="card-body">
                 <div class="mb-2" *ngIf="(presence.onlineUsers$ | async).includes(member.username)" >
                     <i class="fa fa-user-circle text-success"></i> Online now
@@ -10,21 +11,20 @@
                 <div>
                 </div>
                 <div>
-                    <strong>Age:</strong>
+                    <strong>Wiek:</strong>
                     <p>{{member.age}}</p>
                 </div>
                 <div>
-                    <strong>Last Active:</strong>
+                    <strong>Ostatnio aktywny:</strong>
                     <p>{{member.lastActive | timeago}}</p>
                 </div>
                 <div>
-                    <strong>Member since:</strong>
+                    <strong>Członkowstwo od:</strong>
                     <p>{{member.created | date: 'dd MMM yyyy'}}</p>
                 </div>
             </div>
             <div class="card-footer">
                 <div class="btn-group d-flex">
-                    <button (click)="addLike(member)" class="btn btn-primary">Like</button>
                     <button (click)="selectTab(3)" class="btn btn-success">Message</button>
                 </div>
             </div>
@@ -32,15 +32,26 @@
     </div>
     <div class="col-8">
         <tabset class="member-tabset" style="background-color: black;" #memberTabs>
-            <tab heading='Profil {{member.username}}' (selectTab)="onTabActivated($event)">
+            <tab heading='Profil {{member.username}}' (selectTab)="onTabActivated($event)" class="text-center">
+                <button (click)="addLike(member)" class="btn btn-primary mb-3">Like</button>
+                <div class="text-center">
+                    <span class="ml-3 col-6"><i class="fa fa-photo mr-2"></i>Ilość wrzut: </span>
+                    <span class="ml-3 col-6"><i class="fa fa-plus mr-2"></i>Ilość plusów: {{ members?.length || '0' }}</span>   
+                </div>
             </tab>
             <tab heading='Interests' (selectTab)="onTabActivated($event)">
             </tab>
-            <tab heading='Memes' (selectTab)="onTabActivated($event)">
-                <ngx-gallery [options]="galleryOptions" [images]="galleryImages" 
-                    style="display: inline-block; margin-bottom: 20px;"></ngx-gallery>
+            <tab heading='Memy użytkownika {{member.username}}' (selectTab)="onTabActivated($event)">
+                <!-- <ngx-gallery [options]="galleryOptions" [images]="galleryImages" 
+                    style="display: inline-block; margin-bottom: 20px;"></ngx-gallery> -->
+                    <div class="text-center">
+                        <img src="{{member.memeUrl}}" class="card-img-top" style="max-width: 400px;">
+                        <div>
+                            <span class="btn btn-primary mt-3" style="min-width: 100px;">0</span>
+                        </div>
+                    </div>
             </tab>
-            <tab heading='Messages' (selectTab)="onTabActivated($event)">
+            <tab heading='Wiadomości' (selectTab)="onTabActivated($event)">
                 <app-member-messages [username]="member.username"></app-member-messages>
             </tab>
         </tabset>

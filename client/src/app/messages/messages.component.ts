@@ -20,6 +20,7 @@ export class MessagesComponent implements OnInit {
   constructor(private messageService: MessageService, private confirmService: ConfirmService) { }
 
   ngOnInit(): void {
+    this.loadMessages();
   }
 
   loadMessages() {
@@ -35,15 +36,16 @@ export class MessagesComponent implements OnInit {
     this.confirmService.confirm('Confirm delete message', 'This cannot be undone').subscribe(result => {
       if (result) {
         this.messageService.deleteMessage(id).subscribe(() => {
-          this.messages.splice(this.messages.findIndex(m => m, id === id), 1);
+          this.messages.splice(this.messages.findIndex(m => m.id === id), 1);
         })
       }
     })
-  }
 
+  }
 
   pageChanged(event: any) {
     this.pageNumber = event.page;
     this.loadMessages();
   }
+
 }
