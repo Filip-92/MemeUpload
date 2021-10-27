@@ -31,7 +31,7 @@ export class NavComponent implements OnInit {
     private toastr: ToastrService, private _el: ElementRef, private messageService: MessageService) { }
 
   ngOnInit(): void {
-    this.loadMessages();
+    //this.loadMessages();
   }
 
   login() {

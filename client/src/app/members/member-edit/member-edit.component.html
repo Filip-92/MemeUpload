@@ -1,6 +1,6 @@
 <div class="row" *ngIf="member">
-    <div class="col-4">
-        <h1>Your profile</h1>
+    <div class="col-4 text-center">
+        <h1>Twój profil</h1>
     </div>
     <div class="col-8">
         <div class="alert alert-info" *ngIf="editForm.dirty">
@@ -31,11 +31,13 @@
         </div>
     </div>
 
-    <div class="col-8">
-        <tabset class="member-tabset" class="col-12">
+    <div class="col-8 text-center">
+        <tabset class="member-tabset text-center" class="col-12">
             <tab heading='Profil użytkownika {{member.username}}'>
                 <form #editForm="ngForm" id="editForm" (ngSubmit)="changePassword()">
                 </form>
+                <br>
+                <h1 style="color: red;">{{member.username}}</h1>
                 <br>
                 <div class="text-center">
                     <span class="ml-3 col-6"><i class="fa fa-photo mr-2"></i>Ilość wrzut: {{member.memes?.length}}</span>
@@ -44,7 +46,6 @@
                     <div class="row mt-3">
                     </div>
                 </div>
-                <br>
                 <br>
                 <br>
                 <hr style="color: white !important;">

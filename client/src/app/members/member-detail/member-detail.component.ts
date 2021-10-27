@@ -50,8 +50,8 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     })
     this.galleryOptions = [
       {
-        width: '300px',
-        height: '300px',
+        width: '500px',
+        height: '500px',
         imagePercent: 100,
         thumbnailsColumns: 4,
         imageAnimation: NgxGalleryAnimation.Slide,
@@ -60,6 +60,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     ]
     this.galleryImages = this.getImages();
     this.loadLikes();
+    // this.member.likes = this.getLikes(this.member);
   }
   getImages(): NgxGalleryImage[] {
     const imageUrls = [];
@@ -96,8 +97,16 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   addLike(member: Member) {
     this.memberService.addLike(member.username).subscribe(() => {
       this.toastr.success('You have liked ' + member.username);
+      // this.member.likes++;
     })
   }
+
+  // removeLike(member: Member) {
+  //   this.memberService.removeLike(member.username).subscribe(() => {
+  //     this.toastr.success('You have disliked ' + member.username);
+  //     this.member.likes--;
+  //   })
+  // }
 
   loadLikes() {
     this.memberService.getLikes(this.predicate, this.pageNumber, this.pageSize).subscribe(response => {
