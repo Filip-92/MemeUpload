@@ -14,10 +14,9 @@ namespace API.SignalR
     {
         private readonly IMapper _mapper;
         private readonly IHubContext<PresenceHub> _presenceHub;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly PresenceTracker _tracker;
-        public MessageHub(IUnitOfWork unitOfWork, IMapper mapper,
-            IHubContext<PresenceHub> presenceHub,
+        private readonly IUnitOfWork _unitOfWork;
+        public MessageHub(IMapper mapper, IUnitOfWork unitOfWork, IHubContext<PresenceHub> presenceHub,
             PresenceTracker tracker)
         {
             _unitOfWork = unitOfWork;
@@ -38,10 +37,7 @@ namespace API.SignalR
             var messages = await _unitOfWork.MessageRepository.
                 GetMessageThread(Context.User.GetUsername(), otherUser);
 
-            if (_unitOfWork.HasChanges())
-            {
-                await _unitOfWork.Complete();
-            }
+            if (_unitOfWork.HasChanges()) await _unitOfWork.Complete();
 
             await Clients.Caller.SendAsync("ReceiveMessageThread", messages);
         }
@@ -87,8 +83,8 @@ namespace API.SignalR
                 var connections = await _tracker.GetConnectionsForUser(recipient.UserName);
                 if (connections != null)
                 {
-                    await _presenceHub.Clients.Clients(connections).SendAsync("NewMessageReceived", 
-                        new {username = sender.UserName, knownAs = sender.UserName});
+                    await _presenceHub.Clients.Clients(connections).SendAsync("NewMessageReceived",
+                        new { username = sender.UserName, knownAs = sender.UserName });
                 }
             }
 

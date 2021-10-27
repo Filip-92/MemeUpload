@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using API.Entities;
- 
+
 namespace API.Extensions
 {
     public static class QueryableExtensions
@@ -10,7 +10,7 @@ namespace API.Extensions
         {
             var unreadMessages = query.Where(m => m.DateRead == null
                 && m.RecipientUsername == currentUsername);
- 
+
             if (unreadMessages.Any())
             {
                 foreach (var message in unreadMessages)
@@ -18,7 +18,7 @@ namespace API.Extensions
                     message.DateRead = DateTime.UtcNow;
                 }
             }
- 
+
             return query;
         }
     }

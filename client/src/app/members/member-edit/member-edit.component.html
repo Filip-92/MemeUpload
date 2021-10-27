@@ -48,9 +48,13 @@
                 <br>
                 <br>
                 <hr style="color: white !important;">
-                <div class="text-center">
+                <div class="text-center"
+                    #scrollMe
+                    style="overflow: scroll; height: 500px;"
+                    [scrollTop]="scrollMe.scrollHeight"
+                >
                     <h4 class="mb-2 strong">Moje memy</h4>
-                    <div *ngFor="let meme of member.memes">
+                    <div *ngFor="let meme of member.memes" >
                         <img src="{{meme.url}}" class="card-img-top" style="max-width: 400px;">
                         <div>
                             <span class="btn btn-primary mt-3 mb-3" style="min-width: 100px;">0</span>

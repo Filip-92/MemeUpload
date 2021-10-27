@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
 using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
+
 namespace API.Data
 {
     public class MessageRepository : IMessageRepository
@@ -30,6 +32,7 @@ namespace API.Data
         {
             _context.Messages.Add(message);
         }
+
         public void DeleteMessage(Message message)
         {
             _context.Messages.Remove(message);
@@ -79,32 +82,25 @@ namespace API.Data
                 _ => query.Where(u => u.RecipientUsername ==
                     messageParams.Username && u.RecipientDeleted == false && u.DateRead == null)
             };
+
             return await PagedList<MessageDto>.CreateAsync(query, messageParams.PageNumber, messageParams.PageSize);
+
         }
+
         public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername,
             string recipientUsername)
         {
-            var unreadMessages = await _context.Messages.Where(m => m.DateRead == null
-                && m.RecipientUsername == currentUsername).ToListAsync();
- 
-            if (unreadMessages.Any())
-            {
-                foreach (var message in unreadMessages)
-                {
-                    message.DateRead = DateTime.UtcNow;
-                }
-            }
- 
             var messages = await _context.Messages
                 .Where(m => m.Recipient.UserName == currentUsername && m.RecipientDeleted == false
                         && m.Sender.UserName == recipientUsername
                         || m.Recipient.UserName == recipientUsername
                         && m.Sender.UserName == currentUsername && m.SenderDeleted == false
                 )
+                .MarkUnreadAsRead(currentUsername)
                 .OrderBy(m => m.MessageSent)
                 .ProjectTo<MessageDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
- 
+
             return messages;
         }
 
@@ -113,4 +109,4 @@ namespace API.Data
             _context.Connections.Remove(connection);
         }
     }
-} 
+}

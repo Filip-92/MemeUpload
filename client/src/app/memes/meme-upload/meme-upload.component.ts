@@ -32,7 +32,12 @@ export class MemeUploadComponent implements OnInit {
     likes: 0
   };
   members: Member[];
-  memes: Meme[] = [];
+  memes: Meme = {
+    x: '',
+    id: 0,
+    url: '',
+    isApproved: false
+  };
   model: any = {}
   uploader: FileUploader;
   hasBaseDropzoneOver = false;
@@ -49,7 +54,9 @@ export class MemeUploadComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initializeUploader();
+    if (this.accountService.currentUser$ !== null) { // trzeba to ogarnac
+      this.initializeUploader();
+    }
   }
 
   fileOverBase(e: any) {
@@ -81,6 +88,7 @@ export class MemeUploadComponent implements OnInit {
       if (response) {
         const meme: Meme = JSON.parse(response);
         this.member.memes.push(meme);
+          this.memes.url = meme.url;
            this.user.memeUrl = meme.url;
            this.member.memeUrl = meme.url;
            this.accountService.setCurrentUser(this.user);

@@ -19,9 +19,26 @@ import { MemeUploadComponent } from '../memes/meme-upload/meme-upload.component'
 })
 
 export class HomeComponent implements OnInit {
-  @Input() member: Member;
+  @Input() member: Member = {
+    memes: [],
+    memeUrl: '',
+    id: 0,
+    username: '',
+    photoUrl: '',
+    age: 0,
+    created: undefined,
+    lastActive: undefined,
+    gender: '',
+    photos: [],
+    likes: 0
+  };
   members: Member[];
-  memes: Meme[] = [];
+  memes: Meme[];
+  meme: Meme = {
+    id: 0,
+    url: '',
+    isApproved: false
+  }
   model: any = {}
   uploader: FileUploader;
   hasBaseDropzoneOver = false;
@@ -38,7 +55,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initializeUploader();
   }
 
   fileOverBase(e: any) {
@@ -79,6 +95,14 @@ export class HomeComponent implements OnInit {
     }
   }
 
+
+  // loadMembers() {
+  //   this.memberService.setUserParams(this.userParams);
+  //   this.memberService.getMembers(this.userParams).subscribe(response => {
+  //     this.members = response.result;
+  //     this.pagination = response.pagination;
+  //   })
+  // }
   addLike() {
     this.likes++;
   }

@@ -28,19 +28,6 @@ export class MemeService {
     })
   }
 
-  getUserParams() {
-    return this.userParams;
-  }
-  
-  setUserParams(params: UserParams) {
-    this.userParams = params;
-  }
-
-  resetUserParams() {
-    this.userParams = new UserParams(this.user);
-    return this.userParams;
-  }
-
   getMembers(userParams: UserParams) {
     var response = this.memberCache.get(Object.values(userParams).join('-'));
     if (response) {

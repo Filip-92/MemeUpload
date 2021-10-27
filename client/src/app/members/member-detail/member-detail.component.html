@@ -35,21 +35,23 @@
             <tab heading='Profil {{member.username}}' (selectTab)="onTabActivated($event)" class="text-center">
                 <button (click)="addLike(member)" class="btn btn-primary mb-3">Like</button>
                 <div class="text-center">
-                    <span class="ml-3 col-6"><i class="fa fa-photo mr-2"></i>Ilość wrzut: </span>
+                    <span class="ml-3 col-6"><i class="fa fa-photo mr-2"></i>Ilość wrzut: {{ member.memes?.length || '0' }}</span>
                     <span class="ml-3 col-6"><i class="fa fa-plus mr-2"></i>Ilość plusów: {{ members?.length || '0' }}</span>   
                 </div>
             </tab>
             <tab heading='Interests' (selectTab)="onTabActivated($event)">
             </tab>
-            <tab heading='Memy użytkownika {{member.username}}' (selectTab)="onTabActivated($event)">
-                <!-- <ngx-gallery [options]="galleryOptions" [images]="galleryImages" 
-                    style="display: inline-block; margin-bottom: 20px;"></ngx-gallery> -->
-                    <div class="text-center">
-                        <img src="{{member.memeUrl}}" class="card-img-top" style="max-width: 400px;">
-                        <div>
-                            <span class="btn btn-primary mt-3" style="min-width: 100px;">0</span>
-                        </div>
+            <tab heading='Memy użytkownika {{member.username}}' (selectTab)="onTabActivated($event)"
+                #scrollMe
+                style="overflow: scroll; height: 500px;"
+                [scrollTop]="scrollMe.scrollHeight"
+            >
+                <div *ngFor="let meme of member.memes" class="text-center">
+                    <img src="{{meme.url}}" class="card-img-top" style="max-width: 400px;">
+                    <div>
+                        <span class="btn btn-primary mt-3 mb-3" style="min-width: 100px;">0</span>
                     </div>
+                </div>
             </tab>
             <tab heading='Wiadomości' (selectTab)="onTabActivated($event)">
                 <app-member-messages [username]="member.username"></app-member-messages>

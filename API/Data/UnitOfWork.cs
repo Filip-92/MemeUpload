@@ -24,7 +24,7 @@ namespace API.Data
 
         public IMemeRepository MemeRepository => new MemeRepository(_context);
 
-        public async Task<bool> Complete()
+         public async Task<bool> Complete()
         {
             return await _context.SaveChangesAsync() > 0;
         }
