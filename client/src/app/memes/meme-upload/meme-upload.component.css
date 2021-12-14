@@ -1,0 +1,41 @@
+input[type=text] {
+    height: 50px;
+    background-color: gray;
+    margin-top: 30px;
+    color: whitesmoke;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.custom-file-upload:hover {
+    border: 1px solid red;
+    color: red;
+}
+
+textarea {
+    height: 200px;
+    background-color: gray;
+    vertical-align: top !important;
+    display: flex;
+    float: left;
+    margin-left: 20%;
+    margin-right: 20px;
+    padding: 10px;
+}
+
+::placeholder {
+    color: whitesmoke;
+}
+
+.my-drop-zone {
+    float: left;
+}

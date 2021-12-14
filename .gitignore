@@ -454,3 +454,5 @@ $RECYCLE.BIN/
 !.vscode/extensions.json
 
 appsettings.json
+API/memesy.db
+API/memesy.db

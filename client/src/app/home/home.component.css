@@ -7,3 +7,9 @@
 img {
     max-width: 600px;
 }
+
+#warning {
+    color: red; 
+    border: red; 
+    margin-top: 50px !important;
+}

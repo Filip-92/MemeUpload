@@ -11,6 +11,7 @@ import { Meme } from '../_models/meme';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { MemeUploadComponent } from '../memes/meme-upload/meme-upload.component';
+import { Photo } from '../_models/photo';
 
 @Component({
   selector: 'app-home',
@@ -34,11 +35,7 @@ export class HomeComponent implements OnInit {
   };
   members: Member[];
   memes: Meme[];
-  meme: Meme = {
-    id: 0,
-    url: '',
-    isApproved: false
-  }
+  photos: Photo[];
   model: any = {}
   uploader: FileUploader;
   hasBaseDropzoneOver = false;

@@ -14,10 +14,12 @@ namespace API.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPhotoService _photoService;
+        private readonly IMemeService _memeService;
         public AdminController(UserManager<AppUser> userManager, IUnitOfWork unitOfWork, 
-            IPhotoService photoService)
+            IPhotoService photoService, IMemeService memeService)
         {
             _photoService = photoService;
+            _memeService = memeService;
             _unitOfWork = unitOfWork;
             _userManager = userManager;
         }
@@ -64,60 +66,58 @@ namespace API.Controllers
             return Ok(await _userManager.GetRolesAsync(user));
         }
 
-        // [Authorize(Policy = "ModeratePhotoRole")]
-        // [HttpGet("photos-to-moderate")]
-        // public async Task<ActionResult> GetPhotosForModeration()
-        // {
-        //     var photos = await _unitOfWork.PhotoRepository.GetUnapprovedPhotos();
+        [Authorize(Policy = "ModerateMemeRole")]
+        [HttpGet("memes-to-moderate")]
+        public async Task<ActionResult> GetPhotosForModeration()
+        {
+            var photos = await _unitOfWork.MemeRepository.GetUnapprovedMemes();
 
-        //     return Ok(photos);
-        // }
+            return Ok(photos);
+        }
 
-        // [Authorize(Policy = "ModeratePhotoRole")]
-        // [HttpPost("approve-photo/{photoId}")]
-        // public async Task<ActionResult> ApprovePhoto(int photoId)
-        // {
-        //     var photo = await _unitOfWork.PhotoRepository.GetPhotoById(photoId);
+        [Authorize(Policy = "ModerateMemeRole")]
+        [HttpPost("approve-meme/{memeId}")]
+        public async Task<ActionResult> ApproveMeme(int memeId)
+        {
+            var meme = await _unitOfWork.MemeRepository.GetMemeById(memeId);
 
-        //     if (photo == null) return NotFound("Could not find photo");
+            if (meme == null) return NotFound("Could not find photo");
 
-        //     photo.IsApproved = true;
+            meme.IsApproved = true;
 
-        //     var user = await _unitOfWork.UserRepository.GetUserByPhotoId(photoId);
+            var user = await _unitOfWork.UserRepository.GetUserByPhotoId(memeId);
 
-        //     if (!user.Photos.Any(x => x.IsMain)) photo.IsMain = true;
+            await _unitOfWork.Complete();
 
-        //     await _unitOfWork.Complete();
+            return Ok();
+        }
 
-        //     return Ok();
-        // }
+        [Authorize(Policy = "ModerateMemeRole")]
+        [HttpPost("reject-meme/{memeId}")]
+        public async Task<ActionResult> RejectMeme(int memeId)
+        {
+            var meme = await _unitOfWork.MemeRepository.GetMemeById(memeId);
 
-        // [Authorize(Policy = "ModeratePhotoRole")]
-        // [HttpPost("reject-photo/{photoId}")]
-        // public async Task<ActionResult> RejectPhoto(int photoId)
-        // {
-        //     var photo = await _unitOfWork.PhotoRepository.GetPhotoById(photoId);
+            if (meme == null) return NotFound("Could not find meme");
 
-        //     if (photo == null) return NotFound("Could not find photo");
+            if (meme.PublicId != null)
+            {
+                var result = await _memeService.DeleteMemeAsync(meme.PublicId);
 
-        //     if (photo.PublicId != null)
-        //     {
-        //         var result = await _photoService.DeletePhotoAsync(photo.PublicId);
+                if (result.Result == "ok")
+                {
+                    _unitOfWork.MemeRepository.RemoveMeme(meme);
+                }
+            }
+            else
+            {
+                _unitOfWork.MemeRepository.RemoveMeme(meme);
+            }
 
-        //         if (result.Result == "ok")
-        //         {
-        //             _unitOfWork.PhotoRepository.RemovePhoto(photo);
-        //         }
-        //     }
-        //     else
-        //     {
-        //         _unitOfWork.PhotoRepository.RemovePhoto(photo);
-        //     }
+            await _unitOfWork.Complete();
 
-        //     await _unitOfWork.Complete();
-
-        //     return Ok();
-        // }
+            return Ok();
+        }
 
     }
 }

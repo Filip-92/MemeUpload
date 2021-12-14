@@ -71,6 +71,15 @@ namespace API.Data
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<AppUser> GetUserByMemeId(int memeId)
+        {
+            return await _context.Users
+                .Include(m => m.Memes)
+                .IgnoreQueryFilters()
+                .Where(m => m.Memes.Any(m => m.Id == memeId))
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<AppUser> GetUserByUsernameAsync(string username)
         {
             return await _context.Users

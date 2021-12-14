@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211027174858_ChangesMade")]
+    [Migration("20211214201215_ChangesMade")]
     partial class ChangesMade
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -176,10 +176,19 @@ namespace API.Data.Migrations
                     b.Property<int>("AppUserId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("IsApproved")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("PublicId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Uploaded")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Url")

@@ -4,9 +4,9 @@ import { Photo } from 'src/app/_models/photo';
 import { AdminService } from 'src/app/_services/admin.service';
 
 @Component({
-  selector: 'app-photo-management',
-  templateUrl: './photo-management.component.html',
-  styleUrls: ['./photo-management.component.css']
+  selector: 'app-meme-management',
+  templateUrl: './meme-management.component.html',
+  styleUrls: ['./meme-management.component.css']
 })
 export class PhotoManagementComponent implements OnInit {
   memes: Meme[];
@@ -14,10 +14,10 @@ export class PhotoManagementComponent implements OnInit {
   constructor(private adminService: AdminService) { }
 
   ngOnInit(): void {
-    this.getPhotosForApproval();
+    this.getMemesForApproval();
   }
 
-  getPhotosForApproval() {
+  getMemesForApproval() {
     this.adminService.getMemesForApproval().subscribe(memes => {
       this.memes = memes;
     })
