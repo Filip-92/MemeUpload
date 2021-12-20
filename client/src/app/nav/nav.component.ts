@@ -8,6 +8,8 @@ import { ElementRef } from '@angular/core';
 import { Message } from '../_models/message';
 import { Pagination } from '../_models/pagination';
 import { MessageService } from '../_services/message.service';
+import { add } from 'ngx-bootstrap/chronos';
+import { style } from '@angular/animations';
 
 @Component({
   selector: 'app-nav',
@@ -26,21 +28,30 @@ export class NavComponent implements OnInit {
   pageNumber = 1;
   pageSize = 5;
   loading = false;
+  open: boolean;
+  display: boolean = true;
 
   constructor(public accountService: AccountService, private router: Router, 
-    private toastr: ToastrService, private _el: ElementRef, private messageService: MessageService) { }
+    private toastr: ToastrService, private messageService: MessageService) { }
 
   ngOnInit(): void {
     //this.loadMessages();
+    this.open = true;
+  }
+
+  displayNavbar() {
+    this.display = !this.display;
   }
 
   login() {
+    this.displayNavbar();
     this.accountService.login(this.model).subscribe(response => {
       this.router.navigateByUrl('/');
     })
   }
 
   logout() {
+    this.displayNavbar();
     this.accountService.logout();
     this.router.navigateByUrl('/');
   }

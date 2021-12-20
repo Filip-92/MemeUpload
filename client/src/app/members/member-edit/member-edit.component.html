@@ -13,20 +13,17 @@
                 class="card-img-top img-thumbnail">
             <div class="card-body">
                 <div>
-                    <strong>Age:</strong>
+                    <strong>Wiek:</strong>
                     <p>{{member.age}}</p>
                 </div>
                 <div>
-                    <strong>Last Active:</strong>
+                    <strong>Ostatnia aktywność:</strong>
                     <p>{{member.lastActive | timeago}}</p>
                 </div>
                 <div>
-                    <strong>Member since:</strong>
+                    <strong>Dołączył:</strong>
                     <p>{{member.created | date: 'dd MMM yyyy'}}</p>
                 </div>
-            </div>
-            <div class="card-footer">
-                <button [disabled]="!editForm.dirty" form="editForm" type="submit" class="btn btn-success btn-block">Save Changes</button>
             </div>
         </div>
     </div>
@@ -35,6 +32,7 @@
         <tabset class="member-tabset text-center" class="col-12">
             <tab heading='Profil użytkownika {{member.username}}'>
                 <form #editForm="ngForm" id="editForm" (ngSubmit)="changePassword()">
+
                 </form>
                 <br>
                 <h1 style="color: red;">{{member.username}}</h1>
@@ -48,13 +46,13 @@
                 </div>
                 <br>
                 <br>
-                <hr style="color: white !important;">
+                <hr>
+                <h4 class="mb-5 strong">Moje memy</h4>
                 <div class="text-center"
                     #scrollMe
-                    style="overflow: scroll; height: 500px;"
-                    [scrollTop]="scrollMe.scrollHeight"
+                    style="overflow-y: auto; height: 500px;"
+                    [scrollTop]="scrolltop"
                 >
-                    <h4 class="mb-2 strong">Moje memy</h4>
                     <div *ngFor="let meme of member.memes" >
                         <img src="{{meme.url}}" class="card-img-top" style="max-width: 400px;">
                         <div>
@@ -63,8 +61,11 @@
                     </div>
                 </div>
             </tab>
-            <tab heading='Zmień avatar' class="col-6">
+            <tab heading='Zmiana avatara' class="text-center">
                 <app-photo-editor [member]="member"></app-photo-editor>
+            </tab>
+            <tab heading='Zmiana hasła' class="text-center">
+                <app-change-password></app-change-password>
             </tab>
         </tabset>
     </div>

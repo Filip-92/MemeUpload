@@ -7,6 +7,7 @@ import { User } from 'src/app/_models/user';
 import { take } from 'rxjs/operators';
 import { MembersService } from 'src/app/_services/members.service';
 import { Photo } from 'src/app/_models/photo';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-photo-editor',
@@ -19,8 +20,9 @@ export class PhotoEditorComponent implements OnInit {
   hasBaseDropzoneOver = false;
   baseUrl = environment.apiUrl;
   user: User;
+  previewImg: SafeUrl;
 
-  constructor(private accountService: AccountService, private memberService: MembersService) { 
+  constructor(private accountService: AccountService, private memberService: MembersService, private sanitizer: DomSanitizer) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
@@ -88,6 +90,10 @@ export class PhotoEditorComponent implements OnInit {
          } 
       }
     }
-  }
 
+    this.uploader.onAfterAddingFile = (file) => {
+      console.log('***** onAfterAddingFile ******')
+      this.previewImg = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(file._file)));;
+    }
+  }
 }

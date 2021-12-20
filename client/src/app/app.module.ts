@@ -32,8 +32,14 @@ import { UserManagementComponent } from './admin/user-management/user-management
 import { PhotoManagementComponent } from './admin/meme-management/meme-management.component';
 import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
 import { ConfirmDialogComponent } from './modals/confirm-dialog/confirm-dialog.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MemeUploadComponent } from './memes/meme-upload/meme-upload.component';
+import { CookieService } from 'ngx-cookie-service';
+import { ForgotPasswordComponent } from './cos(forgot)/forgot-password.component';
+import { ConfirmPasswordSentComponent } from './cos(confirm)/confirm-password-sent.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ResetPasswordCompleteComponent } from './reset-password-complete/reset-password-complete.component';
+import { ChangePasswordComponent } from './members/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +66,12 @@ import { MemeUploadComponent } from './memes/meme-upload/meme-upload.component';
     PhotoManagementComponent,
     RolesModalComponent,
     ConfirmDialogComponent,
-    MemeUploadComponent
+    MemeUploadComponent,
+    ForgotPasswordComponent,
+    ConfirmPasswordSentComponent,
+    ResetPasswordComponent,
+    ResetPasswordCompleteComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -76,7 +87,8 @@ import { MemeUploadComponent } from './memes/meme-upload/meme-upload.component';
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
+    CookieService
   ],
   bootstrap: [AppComponent]
 })

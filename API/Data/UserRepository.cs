@@ -57,6 +57,15 @@ namespace API.Data
                     userParams.PageNumber, userParams.PageSize);
         }
 
+        public async Task<AppUser> GetUserByEmailAsync(string email)
+        {
+            return await _context.Users
+               .IgnoreQueryFilters()
+               .Where(e => e.Email == email)
+               .FirstOrDefaultAsync();
+        }
+
+
         public async Task<AppUser> GetUserByIdAsync(int id)
         {
             return await _context.Users.FindAsync(id);

@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Member } from 'src/app/_models/member';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
@@ -10,7 +9,9 @@ import { MembersService } from 'src/app/_services/members.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Meme } from 'src/app/_models/meme';
-
+import { FormGroup } from '@angular/forms';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { clear } from 'console';
 
 @Component({
   selector: 'app-meme-upload',
@@ -31,11 +32,14 @@ export class MemeUploadComponent implements OnInit {
     photos: [],
     likes: 0
   };
+  memeUploadForm: FormGroup;
   members: Member[];
-  memes: Meme = {
+  meme: Meme = {
     x: '',
     id: 0,
     url: '',
+    title: '',
+    description: '',
     isApproved: false
   };
   model: any = {}
@@ -47,9 +51,11 @@ export class MemeUploadComponent implements OnInit {
   memeUploadMode = false;
   likes: number = 0;
   isLoggedIn = false;
+  validationErrors: string[] = [];
+  previewImg: SafeUrl;
 
   constructor(public accountService: AccountService, private memberService: MembersService,
-    private router: Router, private toastr: ToastrService) { 
+    private router: Router, private toastr: ToastrService, private sanitizer: DomSanitizer) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
@@ -88,11 +94,20 @@ export class MemeUploadComponent implements OnInit {
       if (response) {
         const meme: Meme = JSON.parse(response);
         this.member.memes.push(meme);
-          this.memes.url = meme.url;
+          this.meme.url = meme.url;
+          this.meme.title = meme.title;
+          console.log(this.meme.title);
            this.user.memeUrl = meme.url;
            this.member.memeUrl = meme.url;
            this.accountService.setCurrentUser(this.user);
+           this.previewImg = null;
+           this.toastr.success('Pomyślnie dodano mema');
       }
+    }
+
+    this.uploader.onAfterAddingFile = (file) => {
+      console.log('***** onAfterAddingFile ******')
+      this.previewImg = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(file._file)));;
     }
   }
 

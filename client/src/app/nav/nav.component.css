@@ -2,19 +2,40 @@
     cursor: pointer;
 }
 
-img {
+.navbar {
+    max-height: 100px !important;
+}
+
+.navbar-brand img {
     max-height: 50px;
     border: 2px solid #fff;
     display: inline;
 }
 
-.nav {
-    position:relative;
+img {
+    max-height: 80px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
-.dropdown-item {
+.nav {
+    position: relative;
+}
+
+.sidemenu-item {
+    border: white 1px solid;
+    background-color: rgb(48, 47, 47);
+    margin-top: 10px;
     margin-left: auto;
     margin-right: auto;
+}
+
+.sidemenu-item a:hover {
+    color: red !important;
+}
+
+.navbar {
+    margin-top: -10px !important;
 }
 
 #dropdownMenu {
@@ -25,5 +46,137 @@ form {
     text-align: center;
     display: inline-block;
 }
+
+.card-footer {
+    background-color: rgb(10, 107, 10);
+}
+
+.sidebar {
+    position: fixed; /* Stay in place */
+    width: 20%;
+    min-width: 300px;
+    height: 100%;
+    z-index: 1; /* Stay on top */
+    top: 0;
+    right: 0;
+    opacity: 0.8;
+    background-color: #111; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 20px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+    box-shadow: 2px 2px 5px #999;
+    transition: 0.5s;
+    animation: slideMe .7s ease-in;
+  }
+
+  .sidebar header {
+    font-size: 22px;
+    /* margin-top: 420px; */
+    color: white;
+    line-height: 70px;
+    text-align: center;
+    background: #063146;
+    user-select: none;
+  }
+  .sidebar ul a{
+    display: block;
+    height: 100%;
+    width: 100%;
+    line-height: 65px;
+    font-size: 20px;
+    color:whitesmoke;
+    box-sizing: border-box;
+    transition: .4s;
+  }
+  .sidebar ul li:hover a{
+    padding-left: 50px;
+  }
+  .sidebar ul a i{
+    margin-right: 16px;
+  }
+
+  @keyframes slideMe {
+    0% {
+        transform: translateX(400px);
+    }
+  }
+
+/* The sidebar links */
+.sidebar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    }
+    
+    /* When you mouse over the navigation links, change their color */
+    .sidebar a:hover {
+    color: #f1f1f1;
+    }
+    
+    /* Position and style the close button (top right corner) */
+    .sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    }
+  
+  /* boton de cierre */
+  
+  #menu {
+    position: absolute;
+    background-color: tomato;
+    width: 40px;
+    height:40px;
+    right: 0;
+    top: 0;
+    border-radius: 200px 200px 200px 200px;
+    -moz-border-radius: 200px 200px 200px 200px;
+    -webkit-border-radius: 200px 200px 200px 200px;
+    border: 0px solid #000000;
+    cursor: pointer;
+  }
+
+  .navbar-toggler-icon:hover {
+      cursor: pointer;
+      color: black;
+  }
+
+  .navbar-toggler-icon:after {
+      color: hotpink !important;
+  }
+
+  ul {
+    list-style-type: none !important;
+  }
+  
+  /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+  #main {
+    transition: margin-left .5s; /* If you want a transition effect */
+    padding: 20px;
+  }
+  
+  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+  @media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
+  }
+
+@media screen and (max-width: 600px) {
+
+    .navbar {
+        min-height: 100px !important;
+        max-height: 100px !important;
+        font-size: 10px;
+    }
+
+    .nav-item {
+        text-align: left !important;
+    }
+  }
 
 
