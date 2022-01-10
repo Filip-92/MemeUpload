@@ -1,0 +1,19 @@
+.footer {
+    background-color: rgb(63, 61, 61);
+    text-align: center;
+    min-height: 70px;
+    /* width: 100%;
+    position: fixed;
+    bottom: 0;  */
+    border-top: black 1px solid;
+}
+
+.footer a {
+    cursor: pointer;
+    color: #00bc8c;
+    align-items: center;
+}
+
+.footer a:hover {
+    color: orange;
+}

@@ -28,6 +28,7 @@ img {
     margin-top: 10px;
     margin-left: auto;
     margin-right: auto;
+    min-height: 80px;
 }
 
 .sidemenu-item a:hover {
@@ -66,7 +67,6 @@ form {
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
     box-shadow: 2px 2px 5px #999;
     transition: 0.5s;
-    animation: slideMe .7s ease-in;
   }
 
   .sidebar header {
@@ -95,15 +95,29 @@ form {
     margin-right: 16px;
   }
 
+  .slideIn {
+    animation: slideMe .7s ease-in;
+  }
+
+  .slideOut {
+    animation: slideOut .7s ease-out;
+  }
+
   @keyframes slideMe {
     0% {
         transform: translateX(400px);
     }
   }
 
+  @keyframes slideOut {
+    100% {
+        transform: translateX(400px);
+    }
+  }
+
 /* The sidebar links */
 .sidebar a {
-    padding: 8px 8px 8px 32px;
+    padding: 8px 8px 8px 8px;
     text-decoration: none;
     font-size: 25px;
     color: #818181;

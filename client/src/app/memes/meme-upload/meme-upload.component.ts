@@ -9,7 +9,7 @@ import { MembersService } from 'src/app/_services/members.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Meme } from 'src/app/_models/meme';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { clear } from 'console';
 
@@ -55,7 +55,8 @@ export class MemeUploadComponent implements OnInit {
   previewImg: SafeUrl;
 
   constructor(public accountService: AccountService, private memberService: MembersService,
-    private router: Router, private toastr: ToastrService, private sanitizer: DomSanitizer) { 
+    private router: Router, private toastr: ToastrService, private sanitizer: DomSanitizer,
+    private fb: FormBuilder) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
@@ -63,6 +64,14 @@ export class MemeUploadComponent implements OnInit {
     if (this.accountService.currentUser$ !== null) { // trzeba to ogarnac
       this.initializeUploader();
     }
+    this.initializeForm();
+  }
+
+  initializeForm() {
+    this.memeUploadForm = this.fb.group({
+      title: ['', [Validators.required, 
+        Validators.minLength(8), Validators.maxLength(32)]],
+    })
   }
 
   fileOverBase(e: any) {

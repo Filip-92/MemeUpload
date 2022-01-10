@@ -9,7 +9,7 @@ import { Message } from '../_models/message';
 import { Pagination } from '../_models/pagination';
 import { MessageService } from '../_services/message.service';
 import { add } from 'ngx-bootstrap/chronos';
-import { style } from '@angular/animations';
+import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-nav',
@@ -19,7 +19,7 @@ import { style } from '@angular/animations';
 export class NavComponent implements OnInit {
   model: any = {}
   collapsed = true;
-  private isOpen: boolean =false;
+  private isOpen: boolean = false;
   registerMode = false;
   loginMode = false;
   messages: Message[] = [];
@@ -40,6 +40,10 @@ export class NavComponent implements OnInit {
   }
 
   displayNavbar() {
+    this.display = !this.display;
+  }
+
+  closeNavbar() {
     this.display = !this.display;
   }
 

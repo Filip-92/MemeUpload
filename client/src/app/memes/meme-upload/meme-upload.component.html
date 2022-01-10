@@ -4,20 +4,31 @@
         <div *ngIf="previewImg" style="font-size: 17px;">{{meme.title}}</div>
         <img id="preview" [src]="previewImg" *ngIf="previewImg"/>
 
-        <form #memeUploadForm="ngForm">
-        <input type="text" class="col-7 col-lg-5" placeholder="Wpisz tytuł" name="title" [(ngModel)]="meme.title">
-        <button 
-            class="dropdown-item"
-            [disabled]="!memeUploadForm.dirty"
-            (click)="memeToggle()"
-            *ngIf="(accountService.currentUser$ | async) !== null"
-            id="register" 
-            class="btn btn-primary btn-lg ml-3 col-4 col-lg-2" 
-            style="align-items: center; font-size: 17px;"
-        >
-        <i class="fas fa-file-import"></i>
-        Dodaj mema</button>
-    </form>
+        <form [formGroup]='memeUploadForm'>
+        <!-- <app-text-input [formControl]='memeUploadForm.controls["title"]' 
+        placeholder="Wpisz tytuł" name="title" [(ngModel)]="meme.title" autocomplete="off"></app-text-input> -->
+        <input type="text" class="col-7 col-lg-5" placeholder="Wpisz tytuł" name="title" [formControl]='memeUploadForm.controls["title"]'>
+            <button 
+                class="dropdown-item"
+                [disabled]="!memeUploadForm.valid"
+                (click)="memeToggle()"
+                *ngIf="(accountService.currentUser$ | async) !== null"
+                id="register" 
+                class="btn btn-primary btn-lg ml-3 col-4 col-lg-2" 
+                style="align-items: center; font-size: 17px;"
+            >
+                <i class="fas fa-file-import"></i>
+                Dodaj mema
+            </button>
+        </form>
+    </div>
+
+    <div class="row" *ngIf="validationErrors.length > 0">
+        <ul class="text-danger">
+            <li *ngFor="let error of validationErrors">
+                {{error}}
+            </li>
+        </ul>
     </div>
 
     <div class="container text-center" *ngIf="memeUploadMode">

@@ -36,10 +36,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MemeUploadComponent } from './memes/meme-upload/meme-upload.component';
 import { CookieService } from 'ngx-cookie-service';
 import { ForgotPasswordComponent } from './cos(forgot)/forgot-password.component';
-import { ConfirmPasswordSentComponent } from './cos(confirm)/confirm-password-sent.component';
+import { ConfirmPasswordSentComponent } from './confirm-password-sent/confirm-password-sent.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ResetPasswordCompleteComponent } from './reset-password-complete/reset-password-complete.component';
 import { ChangePasswordComponent } from './members/change-password/change-password.component';
+import { ConnectionService } from './_services/connection.service';
+import { FooterComponent } from './footer/footer.component';
+import { AboutComponent } from './about/about.component';
+import { AboutModalComponent } from './modals/about-modal/about-modal.component';
+import { ContactFormComponent } from './contact-form/contact-form.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +76,11 @@ import { ChangePasswordComponent } from './members/change-password/change-passwo
     ConfirmPasswordSentComponent,
     ResetPasswordComponent,
     ResetPasswordCompleteComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    FooterComponent,
+    AboutComponent,
+    AboutModalComponent,
+    ContactFormComponent
   ],
   imports: [
     BrowserModule,
