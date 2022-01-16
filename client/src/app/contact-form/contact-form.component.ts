@@ -11,7 +11,7 @@ export class ContactFormComponent {
 contactForm: FormGroup;
 disabledSubmitButton: boolean = true;
 optionsSelect: Array<any>;
-contactFormMode: boolean = false;
+contactFormMode: boolean = true;
 
   @HostListener('input') oninput() {
 

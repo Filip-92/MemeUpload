@@ -1,22 +1,32 @@
 <!-- Default form contact -->
-<form class="text-center border border-light p-5 mt-3 col-8" [formGroup]="contactForm" (ngSubmit)="onSubmit()" style="margin-left: auto; margin-right: auto;">
+<form class="text-center border border-light p-5 mt-3 col-sm-12 col-lg-8 form-group" 
+  [formGroup]="contactForm" 
+  (ngSubmit)="onSubmit()" 
+  *ngIf="contactFormMode"
+  style="margin-left: auto; margin-right: auto;"
+  >
 
-    <div class="col-4 form-group" style="display: inline-block;">
-      <p class="h4 mb-4">Contact us</p>
+  <div class="form-group">
+    <div class="col-md-12 col-lg-6" style="display: inline-block; margin-left: auto; margin-right: auto;">
+      <p class="h4 mb-4 contact">Kontakt</p>
   
       <!-- Name -->
       <input type="text" formControlName="contactFormName" id="defaultContactFormName" mdbInput
-        class="form-control mb-4" style="width: 300px;" placeholder="Name">
+        class="form-control mb-4 contact" style="width: 300px; margin-left: auto; margin-right: auto;" placeholder="Name">
     
       <!-- Email -->
       <input type="email" formControlName="contactFormEmail" id="defaultContactFormEmail" mdbInput
-        class="form-control mb-4" style="width: 300px;" placeholder="E-mail">
+        class="form-control mb-4 contact" style="width: 300px; margin-left: auto; margin-right: auto;" placeholder="E-mail">
+      <br>
     </div>
   
     <!-- Subject -->
-    <div class="col-4 form-group" style="display: inline-block; text-align: center;">
-      <label>Subject</label><br>
-      <select formControlName="contactFormSubjects" class="browser-default custom-select mb-4" style="width: 400px;">
+    <div class="col-md-12 col-lg-5 mt-6" style="display: inline-block; margin-left: auto; margin-right: auto;">
+      <label class="h4 mb-4 contact">Temat zgłoszenia</label><br>
+      <select formControlName="contactFormSubjects" 
+        class="browser-default custom-select mb-4" 
+        style="width: 300px; margin-left: auto; margin-right: auto;"
+        >
         <option value="" disabled>Choose option</option>
         <option value="1" selected>Feedback</option>
         <option value="2">Report a bug</option>
@@ -25,18 +35,21 @@
       </select>
     
       <!-- Message -->
-      <div class="form-group">
+      <div>
         <textarea formControlName="contactFormMessage" class="form-control rounded-0" mdbInput id="exampleFormControlTextarea2"
-          rows="3" placeholder="Message" style="width: 400px;"></textarea>
+          rows="3" placeholder="Message" style="width: 300px; margin-left: auto; margin-right: auto;"></textarea>
       </div>
     </div>
+  </div>
 
     <!-- Copy -->
     <!-- <mdb-checkbox [default]="true" class="mb-4">Send me a copy of this message</mdb-checkbox> -->
   
     <!-- Send button -->
-    <button mdbBtn color="info" outline="true" block="true" class="z-depth-0 my-4 waves-effect"
+    <button class="btn btn-warning mr-5" (click)="contactFormMode=false" >Anuluj</button>
+    <button mdbBtn color="info" outline="true" block="true" class="z-depth-0 my-4 waves-effect btn btn-success"
       mdbWavesEffect type="submit" [disabled]="disabledSubmitButton">Send</button>
   
   </form>
+  <br>
   <!-- Default form contact -->

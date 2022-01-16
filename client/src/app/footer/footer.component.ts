@@ -25,6 +25,11 @@ export class FooterComponent implements OnInit {
 
   contactFormToggle() {
     this.contactFormMode = !this.contactFormMode;
+    this.goToBottom();
+  }
+
+  goToBottom(){
+    window.scrollTo(0,document.body.scrollHeight);
   }
 
 }
