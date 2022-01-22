@@ -9,6 +9,7 @@ using API.Interfaces;
 using API.Middleware;
 using API.Services;
 using API.SignalR;
+using EmailService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,6 +38,12 @@ namespace API
             services.AddCors();
             services.AddIdentityServices(_config);
             services.AddSignalR();
+
+            var emailConfig = _config
+                .GetSection("EmailConfiguration")
+                .Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
