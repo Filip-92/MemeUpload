@@ -14,10 +14,7 @@ import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.gu
 import { MemberDetailedResolver } from './_resolvers/member-detailed.resolver';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { RegisterComponent } from './register/register.component';
-import { ResetPasswordCompleteComponent } from './reset-password-complete/reset-password-complete.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { AdminGuard } from './_guards/admin.guard';
-import { ForgotPasswordComponent } from './cos(forgot)/forgot-password.component';
 import { AboutComponent } from './about/about.component';
 
 const routes: Routes = [
@@ -41,9 +38,6 @@ const routes: Routes = [
   {path: 'server-error', component: ServerErrorComponent},
   {path: '**', component: NotFoundComponent, pathMatch: 'full'},
   {path: 'register', component: RegisterComponent },
-  {path: 'forgot-password', component: ForgotPasswordComponent },
-  {path: 'reset-password', component: ResetPasswordComponent },
-  {path: 'reset-password-complete', component: ResetPasswordCompleteComponent },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

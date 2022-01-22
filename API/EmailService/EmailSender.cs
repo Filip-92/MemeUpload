@@ -10,23 +10,11 @@ namespace EmailService
     public class EmailSender : IEmailSender
     {
         private readonly EmailConfiguration _emailConfig;
+        private string cos = "";
 
         public EmailSender(EmailConfiguration emailConfig)
         {
-            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            if (env.ToLower() == "development")
-            {
-                _emailConfig = emailConfig;
-            }
-            else
-            {
-                emailConfig.From = Environment.GetEnvironmentVariable("EmailConfiguration:From");
-                emailConfig.SmtpServer = Environment.GetEnvironmentVariable("EmailConfiguration:SmtpServer");
-                emailConfig.Port = Int32.Parse(Environment.GetEnvironmentVariable("EmailConfiguration:Port"));
-                emailConfig.UserName = Environment.GetEnvironmentVariable("EmailConfiguration:Username");
-                emailConfig.Password = Environment.GetEnvironmentVariable("EmailConfiguration:Password");
-                _emailConfig = emailConfig;
-            }
+            _emailConfig = emailConfig;
         }
 
         public void SendEmail(Message message)
@@ -46,7 +34,7 @@ namespace EmailService
         private MimeMessage CreateEmailMessage(Message message)
         {
             var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress(_emailConfig.From));
+            emailMessage.From.Add(new MailboxAddress(cos, _emailConfig.From));
             emailMessage.To.AddRange(message.To);
             emailMessage.Subject = message.Subject;
 

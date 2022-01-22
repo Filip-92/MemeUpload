@@ -35,16 +35,15 @@ import { ConfirmDialogComponent } from './modals/confirm-dialog/confirm-dialog.c
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MemeUploadComponent } from './memes/meme-upload/meme-upload.component';
 import { CookieService } from 'ngx-cookie-service';
-import { ForgotPasswordComponent } from './cos(forgot)/forgot-password.component';
 import { ConfirmPasswordSentComponent } from './confirm-password-sent/confirm-password-sent.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { ResetPasswordCompleteComponent } from './reset-password-complete/reset-password-complete.component';
-import { ChangePasswordComponent } from './members/change-password/change-password.component';
 import { ConnectionService } from './_services/connection.service';
 import { FooterComponent } from './footer/footer.component';
 import { AboutComponent } from './about/about.component';
 import { AboutModalComponent } from './modals/about-modal/about-modal.component';
 import { ContactFormComponent } from './contact-form/contact-form.component';
+import { AuthenticationService } from './_services/authentication.service';
+import { ResetPasswordComponent } from './authentication/reset-password/reset-password.component';
+import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [
@@ -72,15 +71,12 @@ import { ContactFormComponent } from './contact-form/contact-form.component';
     RolesModalComponent,
     ConfirmDialogComponent,
     MemeUploadComponent,
-    ForgotPasswordComponent,
     ConfirmPasswordSentComponent,
-    ResetPasswordComponent,
-    ResetPasswordCompleteComponent,
-    ChangePasswordComponent,
     FooterComponent,
     AboutComponent,
     AboutModalComponent,
-    ContactFormComponent
+    ContactFormComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -91,13 +87,21 @@ import { ContactFormComponent } from './contact-form/contact-form.component';
     ReactiveFormsModule,
     SharedModule,
     NgxSpinnerModule,
-    NgbModule
+    NgbModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: function  tokenGetter() { 
+        return localStorage.getItem('token');
+        } 
+     }
+   })
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
-    CookieService
+    CookieService,
+    AuthenticationService
   ],
   bootstrap: [AppComponent]
 })

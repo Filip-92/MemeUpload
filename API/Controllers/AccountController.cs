@@ -23,7 +23,7 @@ namespace API.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IUnitOfWork _unitOfWork;
-        //private readonly IEmailSender _emailSender;
+        private readonly IEmailSender _emailSender;
         private readonly IConfiguration _config;
         public AccountController(
             UserManager<AppUser> userManager, 
@@ -31,8 +31,8 @@ namespace API.Controllers
             ITokenService tokenService, 
             IMapper mapper,
             IConfiguration config,
-            IUnitOfWork unitOfWork
-            //IEmailSender emailSender
+            IUnitOfWork unitOfWork,
+            IEmailSender emailSender
             )
         {
             _signInManager = signInManager;
@@ -41,7 +41,7 @@ namespace API.Controllers
             _tokenService = tokenService;
             _config = config;
             _unitOfWork = unitOfWork;
-            //_emailSender = emailSender;
+            _emailSender = emailSender;
         }
 
         [HttpPost("register")]
@@ -136,21 +136,26 @@ namespace API.Controllers
             var changePasswordLink = uriBuilder.ToString();
 
             var message = new Message(new string[] { user.Email }, "Change Password link", changePasswordLink, null);
-            //await _emailSender.SendEmailAsync(message);
+            await _emailSender.SendEmailAsync(message);
 
             return Ok();
         }
 
-        [HttpPost("resetpassword")]
-        public async Task<ActionResult> ResetPassword(ResetPasswordDto resetPassword)
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordDto resetPasswordDto)
         {
-            var user = await _userManager.FindByIdAsync(resetPassword.UserId);
-            if (user == null) return Unauthorized("Username not Found");
-
-            var result = await _userManager.ResetPasswordAsync(user, resetPassword.Token, resetPassword.Password);
-            if (result.Succeeded) return Ok();
-
-            return BadRequest("Unable to reset password");
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var user = await _userManager.FindByEmailAsync(resetPasswordDto.Email);
+            if (user == null)
+                return BadRequest("Invalid Request");
+            var resetPassResult = await _userManager.ResetPasswordAsync(user, resetPasswordDto.Token, resetPasswordDto.Password);
+            if (!resetPassResult.Succeeded)
+            {
+                var errors = resetPassResult.Errors.Select(e => e.Description);
+                return BadRequest(new { Errors = errors });
+            }
+            return Ok();
         }
 
         private async Task<bool> UserExists(string username)
