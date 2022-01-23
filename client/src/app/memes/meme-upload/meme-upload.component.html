@@ -7,7 +7,8 @@
         <form [formGroup]='memeUploadForm'>
         <!-- <app-text-input [formControl]='memeUploadForm.controls["title"]' 
         placeholder="Wpisz tytuł" name="title" [(ngModel)]="meme.title" autocomplete="off"></app-text-input> -->
-        <input type="text" class="col-7 col-lg-5" placeholder="Wpisz tytuł" name="title" [formControl]='memeUploadForm.controls["title"]'>
+        <input type="text" class="col-7 col-lg-5" placeholder="Wpisz tytuł" name="title" [formControl]='memeUploadForm.controls["title"]' 
+            autofocus="autofocus" style="padding-right:3px; caret-color: blanchedalmond;">
             <button 
                 class="dropdown-item"
                 [disabled]="!memeUploadForm.valid"

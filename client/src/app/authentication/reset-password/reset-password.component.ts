@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { PasswordConfirmationValidatorService } from 'src/app/shared/custom-validators/password-confirmation-validator.service';
 import { ResetPasswordDto } from '../../_interfaces/ResetPasswordDto.model';
-import { AccountService } from '../../_services/account.service';
 import { AuthenticationService } from '../../_services/authentication.service';
 
 @Component({
@@ -14,6 +13,7 @@ import { AuthenticationService } from '../../_services/authentication.service';
 })
 export class ResetPasswordComponent implements OnInit {
   public resetPasswordForm: FormGroup;
+  public changePasswordForm: FormGroup;
   public showSuccess: boolean;
   public showError: boolean;
   public errorMessage: string;
@@ -55,7 +55,28 @@ export class ResetPasswordComponent implements OnInit {
       email: this._email
     }
 
-    this._authService.resetPassword('api/accounts/resetpassword', resetPassDto)
+    this._authService.resetPassword('/', resetPassDto)
+    .subscribe(_ => {
+      this.showSuccess = true;
+    },
+    error => {
+      this.showError = true;
+      this.errorMessage = error;
+    })
+  }
+
+  public changePassword = (resetPasswordFormValue) => {
+    this.showError = this.showSuccess = false;
+
+    const resetPass = { ... resetPasswordFormValue };
+    const resetPassDto: ResetPasswordDto = {
+      password: resetPass.password,
+      confirmPassword: resetPass.confirm,
+      token: this._token,
+      email: this._email
+    }
+
+    this._authService.resetPassword('account/reset-password', resetPassDto)
     .subscribe(_ => {
       this.showSuccess = true;
     },

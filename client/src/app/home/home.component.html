@@ -2,8 +2,8 @@
     <app-meme-upload></app-meme-upload>
 </div>
 
-<div class="text-center">
-    <p *ngIf="(accountService.currentUser$ | async) === null" class="mt-3" id="warning">
+<div class="text-center" [ngStyle]="(accountService.currentUser$ | async) === null ? { 'margin-top': '-40px' } : { 'margin-top': '0px' }">
+    <p *ngIf="(accountService.currentUser$ | async) === null" id="warning">
         <strong>Zaloguj się lub załóż konto, aby dodać mema</strong>
     </p>
 </div>

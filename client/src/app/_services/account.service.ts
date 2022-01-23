@@ -35,6 +35,14 @@ export class AccountService {
     )
   }
 
+  loggedIn() {
+    if(this.currentUser$ !== null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   getUserProfile(): Observable<any> {
     return;
   }
@@ -76,6 +84,7 @@ export class AccountService {
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
   }
+  
   logout() {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);

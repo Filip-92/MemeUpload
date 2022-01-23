@@ -42,8 +42,10 @@ import { AboutComponent } from './about/about.component';
 import { AboutModalComponent } from './modals/about-modal/about-modal.component';
 import { ContactFormComponent } from './contact-form/contact-form.component';
 import { AuthenticationService } from './_services/authentication.service';
-import { ResetPasswordComponent } from './authentication/reset-password/reset-password.component';
 import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+import { AuthGuard } from './_guards/auth.guard';
+import { RouterModule } from '@angular/router';
+import { ResetPasswordComponent } from './authentication/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +90,9 @@ import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
     SharedModule,
     NgxSpinnerModule,
     NgbModule,
+    RouterModule.forRoot([
+      { path: 'authentication', loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule) },
+    ]),
     JwtModule.forRoot({
       config: {
         tokenGetter: function  tokenGetter() { 
@@ -100,6 +105,7 @@ import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
+    AuthGuard,
     CookieService,
     AuthenticationService
   ],

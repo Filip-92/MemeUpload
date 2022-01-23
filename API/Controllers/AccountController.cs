@@ -99,25 +99,22 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<UserDto>> ChangePassword(ChangePasswordDto changePasswordDto)
+        [Route("api/user/changepassword/{ident}")]
+        public async Task<bool> ChangePassword(int ident, [FromBody]ChangePasswordDto model)
         {
-            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+            if (!ModelState.IsValid)
+                return false;
 
-            var result = await _signInManager
-                .CheckPasswordSignInAsync(user, changePasswordDto.OldPassword, false);
+            AppUser appUser;
 
-            if (!result.Succeeded) return Unauthorized("Wrong Password");
-            
-            _mapper.Map(changePasswordDto, user);
+            if ((appUser = await _userManager.FindByIdAsync(ident.ToString())) == null)
+                return false;
 
-            _unitOfWork.UserRepository.Update(user);
-
-            if (await _unitOfWork.Complete()) return NoContent();
-
-            return BadRequest("Failed to update user");
+            IdentityResult identityResult = await _userManager.ChangePasswordAsync(appUser, model.CurrentPassword, model.NewPassword);
+            return identityResult.Succeeded;
         }
 
-        [HttpPost("forgotpassword")]
+        [HttpPost("forgot-password")]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordDto forgotPassword)
         {
             var user = await _userManager.Users
@@ -141,7 +138,7 @@ namespace API.Controllers
             return Ok();
         }
 
-        [HttpPost("ResetPassword")]
+        [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordDto resetPasswordDto)
         {
             if (!ModelState.IsValid)

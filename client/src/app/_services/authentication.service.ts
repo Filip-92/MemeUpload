@@ -4,6 +4,7 @@ import { Subject } from "rxjs";
 import { ResetPasswordDto } from "../_interfaces/ResetPasswordDto.model";
 import { EnvironmentUrlService } from "./environment-url.service";
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { ForgotPasswordDto } from "../_interfaces/ForgotPasswordDto.model";
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,10 @@ export class AuthenticationService {
   constructor(private _http: HttpClient, private _envUrl: EnvironmentUrlService, private _jwtHelper: JwtHelperService) { }
 
   public resetPassword = (route: string, body: ResetPasswordDto) => {
+    return this._http.post(this.createCompleteRoute(route, this._envUrl.urlAddress), body);
+  }
+
+  public forgotPassword = (route: string, body: ForgotPasswordDto) => {
     return this._http.post(this.createCompleteRoute(route, this._envUrl.urlAddress), body);
   }
 
