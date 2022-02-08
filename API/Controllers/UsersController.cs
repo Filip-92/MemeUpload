@@ -21,7 +21,6 @@ namespace API.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IPhotoService _photoService;
-
         private readonly IMemeService _memeService;
         private readonly IUnitOfWork _unitOfWork;
         public UsersController(IUnitOfWork unitOfWork, IMapper mapper,
@@ -62,7 +61,6 @@ namespace API.Controllers
         [HttpPut]
         public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
         {
-
             var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
 
             _mapper.Map(memberUpdateDto, user);

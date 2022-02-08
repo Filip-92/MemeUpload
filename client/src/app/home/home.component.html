@@ -1,25 +1,23 @@
-<div class="text-center" *ngIf="(accountService.currentUser$ | async) !== null">
+<div class="text-center" id="container" *ngIf="(accountService.currentUser$ | async) !== null">
     <app-meme-upload></app-meme-upload>
 </div>
 
-<div class="text-center">
-    <p *ngIf="(accountService.currentUser$ | async) === null" class="mt-3" id="warning">
+<div class="text-center" [ngStyle]="(accountService.currentUser$ | async) === null ? { 'margin-top': '-40px' } : { 'margin-top': '0px' }">
+    <p *ngIf="(accountService.currentUser$ | async) === null" id="warning">
         <strong>Zaloguj się lub załóż konto, aby dodać mema</strong>
     </p>
 </div>
 
-
 <div class="card mb-4 text-center mt-5">
     <div class="card-img-wrapper">
-        <div class="card-body p-1">
-            <h4 class="card-title text-center mb-3 mt-2">
+        <div class="card-body p-1" style="text-align: center;">
+            <h4 class="card-title text-center mb-4 mt-3"> 
                 Jakieś gówno
             </h4>
             <img src="https://cdn.vox-cdn.com/thumbor/cV8X8BZ-aGs8pv3D-sCMr5fQZyI=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/19933026/image.png"
                 class="card-img-top">
         </div>
         <div class="mb-3">
-        <!-- <p class="inline-block">autor: <a class="nav-link" routerLink='/members/{{user.username}}'>{{user.username}}</a></p> -->
         <p class="inline-block">autor: lisa</p>
         <button (click)="addLike()" class="btn btn-success mr-2"><i class="fa fa-plus"></i></button>
             <span class="btn btn-primary mr-2" style="min-width: 100px;">{{likes}}</span>
@@ -28,24 +26,7 @@
     </div>
 </div>
 
-<!-- <div class="row">
-    <div *ngFor="let member of members" class="col-sm-6 col-md-4 col-lg-2">
-        <app-member-card [member]="member"></app-member-card>
-    </div>
-</div>
-
-<div class="row">
-    <div *ngFor="let meme of member.memes" class="col-sm-6 col-md-4 col-lg-2">
-        <img src="{{meme.url}}">
-        <app-meme-card [member]="member"></app-meme-card>
-    </div>
-</div> -->
-
-<div *ngFor="let meme of memes">
-    <img src="{{meme.url}}" alt="">
-</div>
-
-<div *ngFor="let photo of photos">
-    <img src="{{photo.url}}" alt="">
+<div *ngFor="let member of users">
+    <app-meme-card [member]="member"></app-meme-card>
 </div>
 

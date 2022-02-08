@@ -13,7 +13,11 @@ import { MemberEditComponent } from './members/member-edit/member-edit.component
 import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
 import { MemberDetailedResolver } from './_resolvers/member-detailed.resolver';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { RegisterComponent } from './register/register.component';
 import { AdminGuard } from './_guards/admin.guard';
+import { AboutComponent } from './about/about.component';
+import { ResetPasswordComponent } from './authentication/reset-password/reset-password.component';
+import { ForgotPasswordComponent } from './authentication/forgot-password/forgot-password.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -28,12 +32,17 @@ const routes: Routes = [
       {path: 'lists', component: ListsComponent},
       {path: 'messages', component: MessagesComponent},
       {path: 'admin', component: AdminPanelComponent, canActivate: [AdminGuard]},
+      {path: 'reset-password', component: ResetPasswordComponent },
+      {path: 'about', component: AboutComponent},
+      {path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [AuthGuard], data: { requiresLogin: false } },
     ]
   },
   {path: 'errors', component: TestErrorsComponent},
   {path: 'not-found', component: NotFoundComponent},
   {path: 'server-error', component: ServerErrorComponent},
   {path: '**', component: NotFoundComponent, pathMatch: 'full'},
+  {path: 'register', component: RegisterComponent },
+  {path: 'about', component: AboutComponent},
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -13,3 +13,28 @@
     background-color: #fff;
     border-top: none;
 }
+
+hr {
+    border-color: whitesmoke !important;
+    margin-bottom: 20px;
+}
+
+input[type="password"] {
+    background-color: gray;
+    color: whitesmoke;
+}
+
+  /* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }

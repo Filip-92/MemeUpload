@@ -1,0 +1,26 @@
+@media only screen and (max-width: 600px) {
+    .contact {
+        margin-top: 50px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+  }
+
+input, select {
+    background-color: gray;
+    color: whitesmoke;
+}
+
+textarea {
+    background-color: gray;
+    vertical-align: top !important;
+    display: flex;
+}
+
+::placeholder {
+    color: whitesmoke;
+}
+
+.border-light {
+    border-radius: 8px 8px 8px 8px;
+}

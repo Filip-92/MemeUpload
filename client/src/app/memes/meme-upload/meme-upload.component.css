@@ -3,6 +3,7 @@ input[type=text] {
     background-color: gray;
     margin-top: 30px;
     color: whitesmoke;
+    margin-bottom: 30px;
 }
 
 input[type="file"] {
@@ -17,6 +18,8 @@ input[type="file"] {
 }
 
 .custom-file-upload:hover {
+    margin-top: auto;
+    margin-bottom: auto;
     border: 1px solid red;
     color: red;
 }
@@ -38,4 +41,10 @@ textarea {
 
 .my-drop-zone {
     float: left;
+}
+
+#preview {
+    max-width: 300px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }

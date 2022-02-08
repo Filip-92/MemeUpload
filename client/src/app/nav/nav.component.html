@@ -1,91 +1,112 @@
+<script src="angular-pageslide.js"></script>
+<script src="script.js"></script>
+
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-primary">
     <div class="container">
         <a class="navbar-brand" routerLink='/' routerLinkActive='active'>
             <img src="https://memegenerator.net/img/images/14687350.jpg" class="mr-3">Memesy
         </a>
-        <button       
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-        (click)="collapsed = !this.collapsed"
-        >
-            <span class="navbar-toggler-icon" ngToggler></span>
-          </button>
-
-          <div class="collapse navbar-collapse text-center" id="navbarSupportedContent" [ngClass]="{ collapse: collapsed, 'navbar-collapse': true }">
             <ul class="navbar-nav mr-auto">
                 <ng-container *ngIf="accountService.currentUser$ | async">
                     <li class="nav-item">
-                        <a class="nav-link" routerLink='/members' routerLinkActive='active' ><i class="fa fa-user"></i></a>
+                        <a class="nav-link" routerLink='/members' routerLinkActive='active'><i class="fa fa-user"></i></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" routerLink='/lists' routerLinkActive='active'>Lists</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" routerLink='/messages'routerLinkActive='active'>                    
-                        <!-- <div class="row" *ngIf="messages?.length != 0">
-                            Masz
-                        </div> -->
                         <i class="fa fa-envelope"></i></a>
                     </li>
 
                     <li *appHasRole='["Admin", "Moderator"]' class="nav-item">
-                        <a class="nav-link" routerLink='/admin'routerLinkActive='active' >Admin</a>
+                        <a class="nav-link" routerLink='/admin'routerLinkActive='active'>Admin</a>
                     </li>
+                    <div style="clear: both;"></div>
                 </ng-container>
                 <li class="nav-item">
                     <a *appHasRole='["Admin", "Moderator"]' class="nav-link" routerLink='/errors'routerLinkActive='active' >Errors</a>
                 </li>
             </ul>
+        <!-- </div> -->
+        <div>
+            <i class="navbar-toggler-icon mr-5 text-center" (click)="displayNavbar()" *ngIf="display"></i>
         </div>
 
-        <div class="dropdown text-center" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
-            <img src="{{user.photoUrl || './assets/user.png'}}" alt="{{user.username}}">
-            <a class="dropdown-toggle text-light ml-2" dropdownToggle>Witaj {{user.knownAs || user.username | titlecase}}</a>
-            <div class="dropdown-menu mt-3" *dropdownMenu>
-                <a routerLink='/member/edit' class="dropdown-item">Mój Profil</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" (click)="logout()" >Wyloguj</a>
+        <div class="sidebar text-center" [ngStyle]="!display ? {'animation': 'slideMe 0.7s ease-in', 'opacity': '0.8', 'cursor': 'pointer'} : {'animation': 'slideOut 0.7s ease-out', 'opacity': '0', 'cursor': 'default'}">
+            <div>
+                <i class="navbar-toggler-icon text-center mb-3" (click)="closeNavbar()"></i>
             </div>
-        </div>
+            <section>
+              <header>
+                <div *ngIf="(accountService.currentUser$ | async) as user">
+                    <img src="{{user.photoUrl || './assets/user.png'}}" alt="{{user.username}}" class="mr-2">
+                    {{user.knownAs || user.username | titlecase}}
+                </div>
+              </header>
+          
+              <div class="text-center" id="user-brand" *ngIf="(accountService.currentUser$ | async) as user">
 
-        <div class="dropdown" *ngIf="(accountService.currentUser$ | async) === null" ngbDropdown>
-            <a class="dropdown-toggle text-light ml-5" ngbDropdownToggle>Witamy</a>
-            <div class="dropdown-menu mt-3 text-center" id="dropdownMenu" ngbDropdownMenu>
-                <p>Załóż konto</p>
-                <button class="dropdown-item" (click)="registerToggle()" id="register" class="btn btn-primary btn-lg mr-2" style="align-items: center;">Rejestracja</button>
-                <div class="dropdown-divider"></div>
-                    <p>Lub</p>
-                <div class="dropdown-divider"></div>
-                <p>Zaloguj się, jeśli posiadasz już konto</p>
-                <form *ngIf="(accountService.currentUser$ | async) === null" #loginForm="ngForm" class="form-inline mt-2 mt-md-0 align-center" (ngSubmit)="login() && 
-                cancelRegisterMode($event)" 
-                autocomplete="off">
-                <input 
-                    name="email"
-                    [(ngModel)]="model.email"
-                    class="form-control mr-sm-2" 
-                    type="text" 
-                    placeholder="Email">
-                <input 
-                    name="password"
-                    [(ngModel)]="model.password"
-                    class="form-control mr-sm-2 mt-2 mb-2" 
-                    type="password" 
-                    placeholder="Password">
-                <button class="btn btn-success my-2 my-sm-0 mt-2" type="submit">Zaloguj</button>
-            </form>
+                <div class="mt-3">
+                    <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">
+                        <a [routerLink]="display ? [''] : ['/member/edit']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;" >
+                            <i class="fa fa-user mr-2"></i>Mój Profil
+                        </a>
+                    </button>
+                    <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">
+                        <a [routerLink]="display ? [''] : ['']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;">
+                            <i class="fa fa-star mr-2"></i>Ulubione
+                        </a>
+                    </button>
+                    <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}" [disabled]="!display">
+                        <a [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="logout()" style="color: white;" [disabled]="!display">
+                            <i class="fa fa-sign-out mr-2"></i>Wyloguj
+                        </a>
+                    </button>
+                </div>
             </div>
-        </div>
+
+            <div id="profile-brand" *ngIf="(accountService.currentUser$ | async) === null">
+                    <p>Załóż konto</p>
+                    <button class="dropdown-item" (click)="registerToggle()" id="register" class="btn btn-primary btn-lg mr-2 mb-3" style="align-items: center;">Rejestracja</button>
+                    <div class="dropdown-divider"></div>
+                    <br>
+                        <p>Lub</p>
+                    <div class="dropdown-divider"></div>
+                    <p>Zaloguj się, jeśli posiadasz już konto</p>
+                    <form *ngIf="(accountService.currentUser$ | async) === null" #loginForm="ngForm" class="form-inline mt-2 mt-md-0 align-center" (ngSubmit)="login() && 
+                    cancelRegisterMode($event)"
+                    autocomplete="off">
+                    <input 
+                        name="email"
+                        [(ngModel)]="model.email"
+                        class="form-control mr-sm-2 col-9" 
+                        type="text" 
+                        placeholder="Email">
+                    <input 
+                        name="password"
+                        [(ngModel)]="model.password"
+                        class="form-control mr-sm-2 mt-2 mb-2 col-9" 
+                        type="password" 
+                        placeholder="Password">
+                    <button class="btn btn-success my-2 my-sm-0 mt-2 col-4" type="submit" style="display: block; margin-left: auto; margin-right: auto;">Zaloguj</button>
+                    </form>
+                    <br><br>
+                    <div class="card-footer mt-3">        
+                        <a routerLink='/forgot-password' routerLinkActive='active' style="color: yellow;">Zapomniałem hasła</a>
+                    </div>
+            </div>
+
+            </section>
+
+          </div>
+
     </div>
 </nav>
 
 <div *ngIf="registerMode" class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center" #scrollMe
+    [scrollTop]="scrolltop">
         <div class="col-4">
             <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>
         </div>

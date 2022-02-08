@@ -32,8 +32,21 @@ import { UserManagementComponent } from './admin/user-management/user-management
 import { PhotoManagementComponent } from './admin/meme-management/meme-management.component';
 import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
 import { ConfirmDialogComponent } from './modals/confirm-dialog/confirm-dialog.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MemeUploadComponent } from './memes/meme-upload/meme-upload.component';
+import { CookieService } from 'ngx-cookie-service';
+import { ConfirmPasswordSentComponent } from './confirm-password-sent/confirm-password-sent.component';
+import { ConnectionService } from './_services/connection.service';
+import { FooterComponent } from './footer/footer.component';
+import { AboutComponent } from './about/about.component';
+import { AboutModalComponent } from './modals/about-modal/about-modal.component';
+import { ContactFormComponent } from './contact-form/contact-form.component';
+import { AuthenticationService } from './_services/authentication.service';
+import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+import { AuthGuard } from './_guards/auth.guard';
+import { RouterModule } from '@angular/router';
+import { ResetPasswordComponent } from './authentication/reset-password/reset-password.component';
+import { MemeCardComponent } from './memes/meme-card/meme-card.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +73,14 @@ import { MemeUploadComponent } from './memes/meme-upload/meme-upload.component';
     PhotoManagementComponent,
     RolesModalComponent,
     ConfirmDialogComponent,
-    MemeUploadComponent
+    MemeUploadComponent,
+    ConfirmPasswordSentComponent,
+    FooterComponent,
+    AboutComponent,
+    AboutModalComponent,
+    ContactFormComponent,
+    ResetPasswordComponent,
+    MemeCardComponent
   ],
   imports: [
     BrowserModule,
@@ -71,12 +91,25 @@ import { MemeUploadComponent } from './memes/meme-upload/meme-upload.component';
     ReactiveFormsModule,
     SharedModule,
     NgxSpinnerModule,
-    NgbModule
+    NgbModule,
+    RouterModule.forRoot([
+      { path: 'authentication', loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule) },
+    ]),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: function  tokenGetter() { 
+        return localStorage.getItem('token');
+        } 
+     }
+   })
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
+    AuthGuard,
+    CookieService,
+    AuthenticationService
   ],
   bootstrap: [AppComponent]
 })

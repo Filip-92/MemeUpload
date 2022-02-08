@@ -46,7 +46,7 @@
             </tab>
             <tab heading='Memy użytkownika {{member.username}}' (selectTab)="onTabActivated($event)"
                 #scrollMe
-                style="overflow: scroll; height: 500px;"
+                style="overflow-y: scroll; height: 500px;"
                 [scrollTop]="scrollMe.scrollHeight"
             >
             <div *ngFor="let meme of member.memes" class="text-center">

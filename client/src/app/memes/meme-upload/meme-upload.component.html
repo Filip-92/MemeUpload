@@ -1,15 +1,35 @@
 <div class="container text-center">
     <div class="form-group mt-3">
-        <input type="text" class="col-7 col-lg-5" placeholder="Wpisz tytuł">
-        <button 
-            class="dropdown-item" 
-            (click)="memeToggle()"
-            *ngIf="(accountService.currentUser$ | async) !== null"
-            id="register" 
-            class="btn btn-primary btn-lg ml-3 col-4 col-lg-2" 
-            style="align-items: center; font-size: 17px;"
-        >
-        Dodaj mema</button>
+
+        <div *ngIf="previewImg" style="font-size: 17px;">{{meme.title}}</div>
+        <img id="preview" [src]="previewImg" *ngIf="previewImg"/>
+
+        <form [formGroup]='memeUploadForm'>
+        <!-- <app-text-input [formControl]='memeUploadForm.controls["title"]' 
+        placeholder="Wpisz tytuł" name="title" [(ngModel)]="meme.title" autocomplete="off"></app-text-input> -->
+        <input type="text" class="col-7 col-lg-5" placeholder="Wpisz tytuł" name="title" [formControl]='memeUploadForm.controls["title"]' 
+            autofocus="autofocus" style="padding-right:3px; caret-color: blanchedalmond;">
+            <button 
+                class="dropdown-item"
+                [disabled]="!memeUploadForm.valid"
+                (click)="memeToggle()"
+                *ngIf="(accountService.currentUser$ | async) !== null"
+                id="register" 
+                class="btn btn-primary btn-lg ml-3 col-4 col-lg-2" 
+                style="align-items: center; font-size: 17px;"
+            >
+                <i class="fas fa-file-import"></i>
+                Dodaj mema
+            </button>
+        </form>
+    </div>
+
+    <div class="row" *ngIf="validationErrors.length > 0">
+        <ul class="text-danger">
+            <li *ngFor="let error of validationErrors">
+                {{error}}
+            </li>
+        </ul>
     </div>
 
     <div class="container text-center" *ngIf="memeUploadMode">
@@ -19,24 +39,15 @@
             <!-- <app-text-input [formControl]='registerForm.controls["email"]' 
             [placeholder]='"Wpisz tytuł"' autocomplete="off"></app-text-input> -->
 
-            <textarea class="col-10 col-lg-5" placeholder="Wpisz opis (opcjonalnie)"></textarea>
+            <textarea class="col-10 col-lg-5" placeholder="Wpisz opis (opcjonalnie)" name="description" [(ngModel)]="meme.description"></textarea>
         
-                <!-- <div class="row" *ngIf="validationErrors.length > 0">
-                    <ul class="text-danger">
-                        <li *ngFor="let error of validationErrors">
-                            {{error}}
-                        </li>
-                    </ul>
-                </div> -->
-            <div ng2FileDrop
-                [ngClass]="{'nv-file-over': hasBaseDropzoneOver}"
-                (fileOver)="fileOverBase($event)"
-                [uploader]="uploader"
-                class="card bg-faded p-3 text-center mb-3 my-drop-zone"
-                style="margin-top: 40px; max-width: 200px; width: 200px;">
-            <i class="fa fa-upload fa-3x"></i>
-            Przeciągnij mema tutaj
-            </div>
+            <!-- <div class="row" *ngIf="validationErrors.length > 0">
+                <ul class="text-danger">
+                    <li *ngFor="let error of validationErrors">
+                        {{error}}
+                    </li>
+                </ul>
+            </div> -->
 
             <label class="custom-file-upload col-3" style="max-width: 200px; float: left;">
                 <input type="file" ng2FileSelect [uploader]="uploader" class="text-center col-4 mt-3 mb-3" title="Wybierz"/>
@@ -46,38 +57,10 @@
 
             <div class="col-9 text-center" style="margin-bottom: 40px; margin-left: auto; margin-right: auto;" *ngIf="uploader?.queue?.length">
     
-            <h3>Kolejka</h3>
-            <p>Długość kolejki: {{ uploader?.queue?.length }}</p>
-    
-            <table class="table">
-                <thead>
-                <tr>
-                    <th width="50%">Nazwa</th>
-                    <th>Rozmiar</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let item of uploader.queue">
-                    <td><strong>{{ item?.file?.name }}</strong></td>
-                    <td *ngIf="uploader.options.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
-                </tr>
-                </tbody>
-            </table>
-    
-            <div>
-                <div class="mb-3">
-                    Postęp kolejki:
-                    <div class="progress">
-                        <div class="progress-bar mb-3 mt-3" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
-                    </div>
-                </div>
+            <div class="mt-3">
                 <button type="button" class="btn btn-success btn-s mr-3"
                         (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
                     <span class="fa fa-upload"></span> Wrzuć
-                </button>
-                <button type="button" class="btn btn-warning btn-s mr-3"
-                        (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
-                    <span class="fa fa-ban"></span> Anuluj
                 </button>
                 <button type="button" class="btn btn-danger btn-s"
                         (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
@@ -88,11 +71,9 @@
         <!-- </form> -->
     </div>
 
-</div>
-<div class="container form-group text-center mt-3">
-    <button class="btn btn-success mr-2" type="submit">Dodaj</button>
-    <!-- <button [disabled]='!registerForm.valid' class="btn btn-success mr-2" type="submit">Dodaj</button> -->
-    <button class="btn btn-default mr-2" type="button">Anuluj</button>
-    <!-- <button class="btn btn-default mr-2" (click)="cancel()" type="button">Anuluj</button> -->
+    <div class="container form-group text-center mt-3">
+        <button class="btn btn-warning mr-2" type="button" (click)="memeToggle()" style="margin-bottom: 30px;">Anuluj</button>
+    </div>
+
 </div>
 

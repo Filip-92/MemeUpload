@@ -18,10 +18,21 @@ export class MemberCardComponent implements OnInit {
     public presence: PresenceService) { }
 
   ngOnInit(): void {
+    this.deletePhotos();
   }
   addLike(member: Member) {
     this.memberService.addLike(member.username).subscribe(() => {
       this.toastr.success('You have liked ' + member.username);
+    })
+  }
+
+  deletePhotos() {
+    this.member.photos.forEach(p => {
+      if (!p.isMain) {
+        this.memberService.deletePhoto(p.id).subscribe(() => {
+          this.member.photos = this.member.photos.filter(x => x.id !== p.id);
+        })
+      }
     })
   }
 }
