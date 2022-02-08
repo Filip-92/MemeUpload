@@ -81,6 +81,10 @@ export class PhotoEditorComponent implements OnInit {
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       if (response) {
         const photo: Photo = JSON.parse(response);
+        this.member.photos.forEach(p => {
+          if (p.isMain) p.isMain = false;
+          if (p.id === photo.id) p.isMain = true;
+        })
         this.member.photos.push(photo);
         this.setMainPhoto(photo);
          if (photo.isMain) {

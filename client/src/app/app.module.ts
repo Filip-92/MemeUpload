@@ -46,6 +46,7 @@ import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './_guards/auth.guard';
 import { RouterModule } from '@angular/router';
 import { ResetPasswordComponent } from './authentication/reset-password/reset-password.component';
+import { MemeCardComponent } from './memes/meme-card/meme-card.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { ResetPasswordComponent } from './authentication/reset-password/reset-pa
     AboutComponent,
     AboutModalComponent,
     ContactFormComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    MemeCardComponent
   ],
   imports: [
     BrowserModule,

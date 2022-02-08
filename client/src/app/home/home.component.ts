@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { MemeUploadComponent } from '../memes/meme-upload/meme-upload.component';
 import { Photo } from '../_models/photo';
+import { UserParams } from '../_models/userParams';
 
 @Component({
   selector: 'app-home',
@@ -41,17 +42,20 @@ export class HomeComponent implements OnInit {
   hasBaseDropzoneOver = false;
   baseUrl = environment.apiUrl;
   user: User;
+  users: any;
   registerMode = false;
   memeUploadMode = false;
   likes: number = 0;
   isLoggedIn = false;
+  userParams: UserParams;
 
   constructor(public accountService: AccountService, private memberService: MembersService,
-    private router: Router, private toastr: ToastrService) { 
+    private router: Router, private toastr: ToastrService, private http: HttpClient) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
   ngOnInit(): void {
+    this.getUsers();
   }
 
   fileOverBase(e: any) {
@@ -92,14 +96,14 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  getUsers() {
+    this.http.get('https://localhost:5001/api/users').subscribe(response => {
+      this.users = response;
+    }, error => {
+      console.log(error);
+    })
+  }
 
-  // loadMembers() {
-  //   this.memberService.setUserParams(this.userParams);
-  //   this.memberService.getMembers(this.userParams).subscribe(response => {
-  //     this.members = response.result;
-  //     this.pagination = response.pagination;
-  //   })
-  // }
   addLike() {
     this.likes++;
   }
