@@ -1,1 +1,27 @@
-<p>meme-detail works!</p>
+<p>{{meme?.id}}</p>
+<img src="{{meme?.url}}" />
+<div *ngFor="let member of users">
+    <div *ngFor="let meme of member.memes">
+        <div *ngIf="meme.id === id">
+            <div class="card mb-4 text-center mt-5">
+                <div class="card-img-wrapper">
+                    <div class="card-body p-1" style="text-align: center;">
+                        <h4 class="card-title text-center mb-4 mt-3"> 
+                            Jakieś gówno
+                        </h4>
+                        <p>{{meme.uploaded | timeago}}</p>
+                        <img src="{{meme.url || './assets/user.png'}}" class="card-img-top" style="max-width: 400px;">
+                    </div>
+                    <div class="mb-3">
+                            <span class="inline-block">autor: <a class="nav-link" routerLink='/members/{{member.username}}'>{{member.username}}</a></span>
+                        <button class="btn btn-success mr-2"><i class="fa fa-plus"></i></button>
+                        <!-- <button (click)="addLike()" class="btn btn-success mr-2"><i class="fa fa-plus"></i></button> -->
+                            <span class="btn btn-primary mr-2" style="min-width: 100px;">{{likes}}</span>
+                        <button class="btn btn-danger"><i class="fa fa-minus"></i></button>
+                        <!-- <button (click)="removeLike()" class="btn btn-danger"><i class="fa fa-minus"></i></button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

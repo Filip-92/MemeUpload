@@ -33,6 +33,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
         {
             var gender = await _unitOfWork.UserRepository.GetUserGender(User.GetUsername());
@@ -109,7 +110,7 @@ namespace API.Controllers
             var meme = new Memes
             {
                 Url = result.SecureUrl.AbsoluteUri,
-                PublicId = result.PublicId
+                PublicId = result.PublicId,
             };
 
             user.Memes.Add(meme);
@@ -162,6 +163,28 @@ namespace API.Controllers
             if (await _unitOfWork.Complete()) return Ok();
 
             return BadRequest("Failed to delete the photo");
+        }
+
+        [HttpDelete("delete-meme/{memeId}")]
+        public async Task<ActionResult> DeleteMeme(int memeId)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+
+            var meme = user.Memes.FirstOrDefault(x => x.Id == memeId);
+
+            if (meme == null) return NotFound();
+
+            if (meme.PublicId != null)
+            {
+                var result = await _memeService.DeleteMemeAsync(meme.PublicId);
+                if (result.Error != null) return BadRequest(result.Error.Message);
+            }
+
+            user.Memes.Remove(meme);
+
+            if (await _unitOfWork.Complete()) return Ok();
+
+            return BadRequest("Failed to delete the meme");
         }
     }
 }

@@ -2,9 +2,12 @@
     <div class="card mb-4 text-center mt-5">
         <div class="card-img-wrapper">
             <div class="card-body p-1" style="text-align: center;">
+                <a routerLink="memes/{{meme.id}}">
                 <h4 class="card-title text-center mb-4 mt-3"> 
                     Jakieś gówno
                 </h4>
+                </a>
+                <p>{{meme.uploaded | timeago:live}}</p>
                 <img src="{{meme.url || './assets/user.png'}}" class="card-img-top" style="max-width: 400px;">
             </div>
             <div class="mb-3">

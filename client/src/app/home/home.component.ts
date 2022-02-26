@@ -8,11 +8,13 @@ import { User } from 'src/app/_models/user';
 import { take } from 'rxjs/operators';
 import { MembersService } from 'src/app/_services/members.service';
 import { Meme } from '../_models/meme';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { MemeUploadComponent } from '../memes/meme-upload/meme-upload.component';
 import { Photo } from '../_models/photo';
 import { UserParams } from '../_models/userParams';
+import { Pagination } from '../_models/pagination';
+import { MemeService } from '../_services/meme.service';
 
 @Component({
   selector: 'app-home',
@@ -39,7 +41,6 @@ export class HomeComponent implements OnInit {
   photos: Photo[];
   model: any = {}
   uploader: FileUploader;
-  hasBaseDropzoneOver = false;
   baseUrl = environment.apiUrl;
   user: User;
   users: any;
@@ -48,52 +49,21 @@ export class HomeComponent implements OnInit {
   likes: number = 0;
   isLoggedIn = false;
   userParams: UserParams;
+  pagination: Pagination;
+  pageNumber = 1;
+  pageSize = 5;
+  loading = false;
+  meme: Meme;
 
-  constructor(public accountService: AccountService, private memberService: MembersService,
-    private router: Router, private toastr: ToastrService, private http: HttpClient) { 
+  constructor(public accountService: AccountService, private memberService: MembersService, private route: ActivatedRoute,
+    private router: Router, private toastr: ToastrService, private http: HttpClient, private memeService: MemeService) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
   ngOnInit(): void {
+    this.loadMeme();
     this.getUsers();
-  }
-
-  fileOverBase(e: any) {
-    this.hasBaseDropzoneOver = e;
-  } 
-
-  deletePhoto(photoId: number) {
-    this.memberService.deletePhoto(photoId).subscribe(() => {
-      this.member.photos = this.member.photos.filter(x => x.id !== photoId);
-    })
-  }
-
-  initializeUploader() {
-    this.uploader = new FileUploader({
-      url: this.baseUrl + 'users/add-meme',
-      authToken: 'Bearer ' + this.user.token,
-      isHTML5: true,
-      allowedFileType: ['image'],
-      removeAfterUpload: true,
-      autoUpload: false,
-      maxFileSize: 10 * 1024 * 1024
-    });
-
-    this.uploader.onAfterAddingFile = (file) => {
-      file.withCredentials = false;
-    }
-
-    this.uploader.onSuccessItem = (item, response, status, headers) => {
-      if (response) {
-        const meme: Meme = JSON.parse(response);
-        this.member.memes.push(meme);
-        if(typeof(this.member.memes) === 'undefined')
-           this.user.memeUrl = meme.url;
-           this.member.memeUrl = meme.url;
-           this.accountService.setCurrentUser(this.user);
-           this.memeToggle();
-      }
-    }
+    //this.getMemes();
   }
 
   getUsers() {
@@ -102,6 +72,15 @@ export class HomeComponent implements OnInit {
     }, error => {
       console.log(error);
     })
+  }
+
+  getMemes() {
+    for (let member of this.users) {
+      for (let meme of member.memes) {
+        this.memes += meme;
+        console.log(this.memes.length);
+      }
+    }
   }
 
   addLike() {
@@ -115,4 +94,25 @@ export class HomeComponent implements OnInit {
   memeToggle() {
         this.memeUploadMode = !this.memeUploadMode;
     }
+
+  // loadMemes() {
+  //   this.loading = true;
+  //   this.memeService.getMemes(this.pageNumber, this.pageSize).subscribe(response => {
+  //     this.memes = response.result;
+  //     this.pagination = response.pagination;
+  //     this.loading = false;
+  //   })
+  // }
+
+  loadMeme() {
+    for (let meme of this.member.memes)
+    this.memeService.getMeme(+this.route.snapshot.paramMap.get('id')).subscribe(member => {
+      this.meme = meme;
+    })
+  }
+
+  pageChanged(event: any) {
+    this.pageNumber = event.page;
+    //this.loadMessages();
+  }
 }

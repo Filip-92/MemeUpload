@@ -1,96 +1,57 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
 import { Member } from 'src/app/_models/member';
-import { MembersService } from 'src/app/_services/members.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from '@kolkov/ngx-gallery';
-import { TabDirective, TabsetComponent } from 'ngx-bootstrap/tabs';
-import { Message } from 'src/app/_models/message';
-import { MessageService } from 'src/app/_services/message.service';
-import { PresenceService } from 'src/app/_services/presence.service';
-import { AccountService } from 'src/app/_services/account.service';
+import { Meme } from 'src/app/_models/meme';
 import { User } from 'src/app/_models/user';
-import { take } from 'rxjs/operators';
-import { ToastrService } from 'ngx-toastr';
+import { MembersService } from 'src/app/_services/members.service';
+import { MemeService } from 'src/app/_services/meme.service';
 
 @Component({
   selector: 'app-meme-detail',
   templateUrl: './meme-detail.component.html',
   styleUrls: ['./meme-detail.component.css']
 })
-export class MemeDetailComponent implements OnInit, OnDestroy {
+export class MemeDetailComponent implements OnInit {
 
-  member: Member;
-  galleryOptions: NgxGalleryOptions[];
-  galleryImages: NgxGalleryImage[];
-  activeTab: TabDirective;
-  messages: Message[] = [];
-  user: User;
+  meme: Meme;
+  members: Member;
+  users: any;
+  id: number = +this.route.snapshot.paramMap.get('id');
+  likes: number = 0;
 
-  constructor(public presence: PresenceService, private route: ActivatedRoute, 
-    private messageService: MessageService, private memberService: MembersService,
-    private accountService: AccountService, private router: Router,
-    private toastr: ToastrService) { 
-      this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
-      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    }
+  constructor(private memeService: MemeService, private http: HttpClient,
+                private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    // this.route.paramMap.subscribe(() => {
+    //   this.handleMemeDetails();
+    // })
     this.route.data.subscribe(data => {
-      this.member = data.member;
-    })
+      this.meme = data.meme;
+    });
+    this.getUsers();
+  }
 
-    this.galleryOptions = [
-      {
-        width: '500px',
-        height: '500px',
-        imagePercent: 100,
-        thumbnailsColumns: 1,
-        imageAnimation: NgxGalleryAnimation.Slide,
-        preview: false
+  getUsers() {
+    this.http.get('https://localhost:5001/api/users').subscribe(response => {
+      this.users = response;
+    }, error => {
+      console.log(error);
+    })
+  }
+
+  handleMemeDetails() {
+    
+    // get the "id" param string. convert string to a number using the "+" symbol
+    const theMemeId: number = +this.route.snapshot.paramMap.get('id')!;
+    
+    this.memeService.getMeme(theMemeId).subscribe(
+      data => {
+        this.meme = data;
       }
-    ]
-
-    this.galleryImages = this.getImages();
-  }
-
-  getImages(): NgxGalleryImage[] {
-    const imageUrls = [];
-    for (const photo of this.member.photos) {
-      imageUrls.push({
-        small: photo?.url,
-        medium: photo?.url,
-        big: photo?.url
-      })
-    }
-    return imageUrls;
-  }
-
-  getComments() {
-    const imageUrls = [];
-    for (const photo of this.member.photos) {
-      imageUrls.push({
-        small: photo?.url,
-        medium: photo?.url,
-        big: photo?.url
-      })
-    }
-    return imageUrls;
-  }
-
-  loadMessages() {
-    this.messageService.getMessageThread(this.member.username).subscribe(messages => {
-      this.messages = messages;
-    })
-  }
-
-  ngOnDestroy(): void {
-    this.messageService.stopHubConnection();
-  }
-
-  addLike(member: Member) {
-    this.memberService.addLike(member.username).subscribe(() => {
-      this.toastr.success('You have liked ' + member.username);
-    })
+    )
   }
 
 }

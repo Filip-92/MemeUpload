@@ -39,6 +39,7 @@ export class MemeUploadComponent implements OnInit {
     id: 0,
     url: '',
     title: '',
+    uploaded: undefined,
     description: '',
     isApproved: false
   };

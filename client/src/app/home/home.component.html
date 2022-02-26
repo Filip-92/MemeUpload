@@ -30,3 +30,18 @@
     <app-meme-card [member]="member"></app-meme-card>
 </div>
 
+<div class="d-flex justify-content-center" *ngIf="pagination && !loading">
+    <pagination 
+        [boundaryLinks]="true" 
+        [totalItems]="pagination.totalItems"
+        [itemsPerPage]="pagination.itemsPerPage"
+        [(ngModel)]="pagination.currentPage"
+        (pageChanged)="pageChanged($event)"
+        style="position: absolute; bottom: 80px;"
+        previousText="&lsaquo;" 
+        nextText="&rsaquo;" 
+        firstText="&laquo;" 
+        lastText="&raquo;">
+</pagination>
+</div>
+

@@ -3,13 +3,15 @@
 }
 
 .navbar {
-    max-height: 100px !important;
+    max-height: 80px !important;
 }
 
 .navbar-brand img {
     max-height: 50px;
     border: 2px solid #fff;
     display: inline;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 img {

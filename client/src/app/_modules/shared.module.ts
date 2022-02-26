@@ -9,8 +9,9 @@ import { ToastrModule } from "ngx-toastr";
 import { TabsModule } from "ngx-bootstrap/tabs";
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
-import { TimeagoModule } from 'ngx-timeago'
-import { ModalModule } from 'ngx-bootstrap/modal'
+import { TimeagoModule } from 'ngx-timeago';
+import { strings as stringsPl } from 'ngx-timeago/language-strings/pl';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 @NgModule({

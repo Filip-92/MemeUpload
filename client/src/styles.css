@@ -16,7 +16,7 @@
   }
   
   .member-tabset > .nav-tabs > li.open > a > i, .member-tabset > .nav-tabs > li:hover > a > i {
-    color: #a6a6a6;
+    background-color: #555 !important;
   }
   
   .member-tabset > .nav-tabs > li.open .dropdown-menu, .member-tabset > .nav-tabs > li:hover .dropdown-menu {
@@ -26,6 +26,12 @@
   .member-tabset > .nav-tabs > li.active {
     border-bottom: 4px solid #E95420;
     position: relative;
+  }
+
+  .member-tabset > .nav-tabs > li.active:hover {
+    background-color: black !important;
+    border-radius: 8px 8px 0px 0px;
+    color: red !important;
   }
   
   .member-tabset > .nav-tabs > li.active > a {
@@ -39,7 +45,7 @@
   
   .member-tabset > .tab-content {
     margin-top: -3px;
-    background-color: gray;
+    background-color: #555 !important;
     border: 0;
     border-top: 1px solid #eee;
     padding: 15px 0;

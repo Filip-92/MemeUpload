@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
@@ -47,6 +47,8 @@ import { AuthGuard } from './_guards/auth.guard';
 import { RouterModule } from '@angular/router';
 import { ResetPasswordComponent } from './authentication/reset-password/reset-password.component';
 import { MemeCardComponent } from './memes/meme-card/meme-card.component';
+import { MemeDetailComponent } from './memes/meme-detail/meme-detail.component';
+import { TimeagoModule, TimeagoIntl, TimeagoFormatter, TimeagoCustomFormatter } from 'ngx-timeago';
 
 @NgModule({
   declarations: [
@@ -80,7 +82,8 @@ import { MemeCardComponent } from './memes/meme-card/meme-card.component';
     AboutModalComponent,
     ContactFormComponent,
     ResetPasswordComponent,
-    MemeCardComponent
+    MemeCardComponent,
+    MemeDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -92,6 +95,8 @@ import { MemeCardComponent } from './memes/meme-card/meme-card.component';
     SharedModule,
     NgxSpinnerModule,
     NgbModule,
+    TimeagoModule.forRoot({formatter: { provide: 
+      TimeagoFormatter, useClass: TimeagoCustomFormatter },}),
     RouterModule.forRoot([
       { path: 'authentication', loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule) },
     ]),
@@ -107,6 +112,8 @@ import { MemeCardComponent } from './memes/meme-card/meme-card.component';
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
+    {provide: LOCALE_ID, useValue: "pl-PL", useFactory: (sessionService) => sessionService.getLocale()},
+    [TimeagoIntl],
     AuthGuard,
     CookieService,
     AuthenticationService

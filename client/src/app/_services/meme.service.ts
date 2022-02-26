@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Input } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Member } from '../_models/member';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { UserParams } from '../_models/userParams';
 import { AccountService } from './account.service';
@@ -14,10 +14,13 @@ import { Meme } from '../_models/meme';
   providedIn: 'root'
 })
 export class MemeService {
+  @Input() member: Member;
+  @Input() meme: Meme;
   baseUrl = environment.apiUrl;
   members: Member[] = [];
   memes: Meme[] = [];
   memberCache = new Map();
+  memeCache = new Map();
   user: User;
   userParams: UserParams;
 
@@ -28,33 +31,54 @@ export class MemeService {
     })
   }
 
-  getMembers(userParams: UserParams) {
-    var response = this.memberCache.get(Object.values(userParams).join('-'));
-    if (response) {
-      return of(response);
-    }
-
-    let params = getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
-
-    params = params.append('gender', userParams.gender);
-    params = params.append('orderBy', userParams.orderBy);
-
-    return getPaginatedResult<Member[]>(this.baseUrl + 'users', params, this.http)
-      .pipe(map(response => {
-        this.memberCache.set(Object.values(userParams).join('-'), response);
-        return response;
-      }))
+  getMembers() {
+    if (this.memes.length > 0) return of(this.memes);
+    return this.http.get<Meme[]>(this.baseUrl + 'memes').pipe(
+      map(memes => {
+        this.memes = memes;
+        return memes;
+      })
+    )
   }
 
-  getMember(username: string) {
-    const member = [...this.memberCache.values()]
-      .reduce((arr, elem) => arr.concat(elem.result), [])
-      .find((member: Member) => member.username === username);
-    if (member) {
-      return of(member);
+  getMemes(pageNumber, pageSize) {
+    for (let meme in this.member.memes) {
+      if (this.memes.length > 0) return of(this.memes);
+      return this.http.get<Meme[]>(this.baseUrl + 'memes').pipe(
+        map(memes => {
+          this.memes = memes;
+          return memes;
+        })
+      )
     }
-    return this.http.get<Member>(this.baseUrl + 'users/' + username);
   }
+  
+  // getMemes(pageNumber, pageSize) {
+  //   for (let meme in this.member.memes) {
+  //     let params = getPaginationHeaders(pageNumber, pageSize);
+  //     if (this.memes.length > 0) return of(this.memes);
+  //     return this.http.get<Meme[]>(this.baseUrl + 'memes').pipe(
+  //       map(memes => {
+  //         this.memes = memes;
+  //         return getPaginatedResult<Meme[]>(this.baseUrl + 'memes', params, this.http);
+  //       })
+  //     )
+  //   }
+  // }
+
+  getMeme(id: number) {
+    const meme = this.memes.find(x => x.id === id);
+    if (meme !== undefined) return of(meme);
+    return this.http.get<Meme>(this.baseUrl + 'memes/' + id);
+  }
+
+  // getMeme(theMemeId: number): Observable<Meme> {
+    
+  //   // need to build URL based on product id
+  //   const memeUrl = `${this.baseUrl}/${theMemeId}`;
+
+  //   return this.http.get<Meme>(memeUrl);
+  // }
 
   updateMember(member: Member) {
     return this.http.put(this.baseUrl + 'users', member).pipe(
