@@ -8,26 +8,37 @@
     </p>
 </div>
 
-<div class="card mb-4 text-center mt-5">
-    <div class="card-img-wrapper">
-        <div class="card-body p-1" style="text-align: center;">
-            <h4 class="card-title text-center mb-4 mt-3"> 
-                Jakieś gówno
-            </h4>
-            <img src="https://cdn.vox-cdn.com/thumbor/cV8X8BZ-aGs8pv3D-sCMr5fQZyI=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/19933026/image.png"
-                class="card-img-top">
-        </div>
-        <div class="mb-3">
-        <p class="inline-block">autor: lisa</p>
-        <button (click)="addLike()" class="btn btn-success mr-2"><i class="fa fa-plus"></i></button>
-            <span class="btn btn-primary mr-2" style="min-width: 100px;">{{likes}}</span>
-        <button (click)="removeLike()" class="btn btn-danger"><i class="fa fa-minus"></i></button>
-        </div>
-    </div>
-</div>
-
 <div *ngFor="let member of users">
     <app-meme-card [member]="member"></app-meme-card>
+</div>
+
+<!-- <div class='row'>
+    <div class='col-sm-2' *ngFor='let meme of memes'>
+        <h4>{{meme.username}}</h4>
+        <img src='{{meme.url}}' class='img-thumbnail p-1' alt='{{meme.username}}'>
+    </div>
+</div> -->
+
+<div *ngFor='let meme of memes' class="text-center">
+    <div class="card mb-4 text-center mt-5">
+        <div class="card-img-wrapper">
+            <div class="card-body p-1" style="text-align: center;">
+                <a routerLink="memes/{{meme.id}}">
+                <h4 class="card-title text-center mb-4 mt-3"> 
+                    Jakieś gówno
+                </h4>
+                </a>
+                <p>{{meme.uploaded | timeago:live}}</p>
+                <img src="{{meme.url || './assets/user.png'}}" class="card-img-top" style="max-width: 400px;">
+            </div>
+            <div class="mb-3">
+                <span class="inline-block">autor: <a class="nav-link" routerLink='/members/{{member.username}}'>{{member.username}}</a></span>
+                <button (click)="addLike()" class="btn btn-success mr-2"><i class="fa fa-plus"></i></button>
+                <span class="btn btn-primary mr-2" style="min-width: 100px;">{{likes}}</span>
+                <button (click)="removeLike()" class="btn btn-danger"><i class="fa fa-minus"></i></button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="d-flex justify-content-center" *ngIf="pagination && !loading">

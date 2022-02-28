@@ -61,9 +61,8 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadMeme();
-    this.getUsers();
-    //this.getMemes();
+    //this.getUsers();
+    this.getMemes();
   }
 
   getUsers() {
@@ -72,15 +71,6 @@ export class HomeComponent implements OnInit {
     }, error => {
       console.log(error);
     })
-  }
-
-  getMemes() {
-    for (let member of this.users) {
-      for (let meme of member.memes) {
-        this.memes += meme;
-        console.log(this.memes.length);
-      }
-    }
   }
 
   addLike() {
@@ -95,21 +85,11 @@ export class HomeComponent implements OnInit {
         this.memeUploadMode = !this.memeUploadMode;
     }
 
-  // loadMemes() {
-  //   this.loading = true;
-  //   this.memeService.getMemes(this.pageNumber, this.pageSize).subscribe(response => {
-  //     this.memes = response.result;
-  //     this.pagination = response.pagination;
-  //     this.loading = false;
-  //   })
-  // }
-
-  loadMeme() {
-    for (let meme of this.member.memes)
-    this.memeService.getMeme(+this.route.snapshot.paramMap.get('id')).subscribe(member => {
-      this.meme = meme;
-    })
-  }
+  getMemes() {
+      this.memeService.getMemes().subscribe(memes => {
+        this.memes = memes;
+      })
+    }
 
   pageChanged(event: any) {
     this.pageNumber = event.page;

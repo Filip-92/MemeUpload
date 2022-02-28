@@ -1,11 +1,13 @@
 <div class="row">
     <table class="table">
         <tr>
+            <th style="width: 20%">Avatar</th>
             <th style="width: 30%;">Username</th>
-            <th style="width: 40%;">Active roles</th>
-            <th style="width: 30%;"></th>
+            <th style="width: 30%;">Active roles</th>
+            <th style="width: 20%;"></th>
         </tr>
         <tr *ngFor="let user of users">
+            <td><img src="{{user.photoUrl}}" alt=""></td>
             <td>{{user.username}}</td>
             <td>{{user.roles}}</td>
             <td><button (click)="openRolesModal(user)" class="btn btn-info">Edit Roles</button></td>

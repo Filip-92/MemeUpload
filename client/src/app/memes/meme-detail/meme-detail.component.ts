@@ -42,16 +42,16 @@ export class MemeDetailComponent implements OnInit {
     })
   }
 
-  handleMemeDetails() {
+  // handleMemeDetails() {
     
-    // get the "id" param string. convert string to a number using the "+" symbol
-    const theMemeId: number = +this.route.snapshot.paramMap.get('id')!;
+  //   // get the "id" param string. convert string to a number using the "+" symbol
+  //   const theMemeId: number = +this.route.snapshot.paramMap.get('id')!;
     
-    this.memeService.getMeme(theMemeId).subscribe(
-      data => {
-        this.meme = data;
-      }
-    )
-  }
+  //   this.memeService.getMeme(theMemeId).subscribe(
+  //     data => {
+  //       this.meme = data;
+  //     }
+  //   )
+  // }
 
 }

@@ -10,11 +10,13 @@ import { AdminService } from 'src/app/_services/admin.service';
 })
 export class PhotoManagementComponent implements OnInit {
   memes: Meme[];
+  photos: Photo[];
 
   constructor(private adminService: AdminService) { }
 
   ngOnInit(): void {
     this.getMemesForApproval();
+    //this.getPhotosForApproval();
   }
 
   getMemesForApproval() {
@@ -34,6 +36,5 @@ export class PhotoManagementComponent implements OnInit {
       this.memes.splice(this.memes.findIndex(p => p.id === memeId), 1);
     })
   }
-
 
 }

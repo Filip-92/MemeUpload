@@ -11,12 +11,10 @@
                 <img src="{{meme.url || './assets/user.png'}}" class="card-img-top" style="max-width: 400px;">
             </div>
             <div class="mb-3">
-                    <span class="inline-block">autor: <a class="nav-link" routerLink='/members/{{member.username}}'>{{member.username}}</a></span>
-                <button class="btn btn-success mr-2"><i class="fa fa-plus"></i></button>
-                <!-- <button (click)="addLike()" class="btn btn-success mr-2"><i class="fa fa-plus"></i></button> -->
-                    <span class="btn btn-primary mr-2" style="min-width: 100px;">{{likes}}</span>
-                <button class="btn btn-danger"><i class="fa fa-minus"></i></button>
-                <!-- <button (click)="removeLike()" class="btn btn-danger"><i class="fa fa-minus"></i></button> -->
+                <span class="inline-block">autor: <a class="nav-link" routerLink='/members/{{member.username}}'>{{member.username}}</a></span>
+                <button (click)="addLike()" class="btn btn-success mr-2"><i class="fa fa-plus"></i></button>
+                <span class="btn btn-primary mr-2" style="min-width: 100px;">{{likes}}</span>
+                <button (click)="removeLike()" class="btn btn-danger"><i class="fa fa-minus"></i></button>
             </div>
         </div>
     </div>

@@ -49,6 +49,7 @@ import { ResetPasswordComponent } from './authentication/reset-password/reset-pa
 import { MemeCardComponent } from './memes/meme-card/meme-card.component';
 import { MemeDetailComponent } from './memes/meme-detail/meme-detail.component';
 import { TimeagoModule, TimeagoIntl, TimeagoFormatter, TimeagoCustomFormatter } from 'ngx-timeago';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -114,6 +115,7 @@ import { TimeagoModule, TimeagoIntl, TimeagoFormatter, TimeagoCustomFormatter } 
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
     {provide: LOCALE_ID, useValue: "pl-PL", useFactory: (sessionService) => sessionService.getLocale()},
     [TimeagoIntl],
+    [DatePipe],
     AuthGuard,
     CookieService,
     AuthenticationService

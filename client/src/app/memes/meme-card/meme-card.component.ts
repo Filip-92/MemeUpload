@@ -25,8 +25,16 @@ export class MemeCardComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  addLike(meme: Meme) {
-    this.memberService.addLike(meme.url).subscribe();
+  // addLike(meme: Meme) {
+  //   this.memberService.addLike(meme.url).subscribe();
+  // }
+
+  addLike() {
+    this.likes++;
+  }
+
+  removeLike() {
+    this.likes--;
   }
 
   getUsers() {

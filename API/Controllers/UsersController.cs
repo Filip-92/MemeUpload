@@ -50,6 +50,15 @@ namespace API.Controllers
             return Ok(users);
         }
 
+        [AllowAnonymous]
+        [HttpGet("memes-to-moderate")]
+        public async Task<ActionResult> GetMemes()
+        {
+            var memes = await _unitOfWork.MemeRepository.GetMemes();
+
+            return Ok(memes);
+        }
+
         [HttpGet("{username}", Name = "GetUser")]
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
@@ -122,6 +131,18 @@ namespace API.Controllers
 
             return BadRequest("Problem addding meme");
         }
+
+        // [HttpGet]
+        // [AllowAnonymous]
+        // public async Task<ActionResult<IEnumerable<MemeDto>>> GetMemes([FromQuery])
+        // {
+        //     var memes = await _unitOfWork.MemeRepository.GetMemesAsync();
+
+        //     Response.AddPaginationHeader(users.CurrentPage, users.PageSize,
+        //         users.TotalCount, users.TotalPages);
+
+        //     return Ok(users);
+        // }
 
         [HttpPut("set-main-photo/{photoId}")]
         public async Task<ActionResult> SetMainPhoto(int photoId)

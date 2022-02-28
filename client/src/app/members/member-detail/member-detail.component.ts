@@ -12,6 +12,7 @@ import { User } from 'src/app/_models/user';
 import { take } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { Pagination } from 'src/app/_models/pagination';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-member-detail',
@@ -36,7 +37,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   constructor(public presence: PresenceService, private route: ActivatedRoute, 
     private messageService: MessageService, private accountService: AccountService,
     private router: Router, private memberService: MembersService, 
-    private toastr: ToastrService) { 
+    private toastr: ToastrService, public datepipe: DatePipe) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     }

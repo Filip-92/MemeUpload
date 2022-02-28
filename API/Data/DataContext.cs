@@ -70,6 +70,8 @@ namespace API.Data
                 .WithMany(m => m.MessagesSent)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.Entity<Memes>().HasQueryFilter(m => m.IsApproved);
+
             builder.ApplyUtcDateTimeConverter();
         }
     }
