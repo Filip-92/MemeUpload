@@ -24,6 +24,7 @@ export class MemeCardComponent implements OnInit {
     public presence: PresenceService, private memeService: MemeService, private http: HttpClient) { }
 
   ngOnInit(): void {
+    this.getUsers();
   }
   // addLike(meme: Meme) {
   //   this.memberService.addLike(meme.url).subscribe();

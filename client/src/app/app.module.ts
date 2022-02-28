@@ -50,6 +50,8 @@ import { MemeCardComponent } from './memes/meme-card/meme-card.component';
 import { MemeDetailComponent } from './memes/meme-detail/meme-detail.component';
 import { TimeagoModule, TimeagoIntl, TimeagoFormatter, TimeagoCustomFormatter } from 'ngx-timeago';
 import { DatePipe } from '@angular/common';
+import { MemeSearchComponent } from './memes/meme-search/meme-search.component';
+import { MemeRandomComponent } from './memes/meme-random/meme-random.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +86,9 @@ import { DatePipe } from '@angular/common';
     ContactFormComponent,
     ResetPasswordComponent,
     MemeCardComponent,
-    MemeDetailComponent
+    MemeDetailComponent,
+    MemeSearchComponent,
+    MemeRandomComponent
   ],
   imports: [
     BrowserModule,

@@ -9,6 +9,7 @@ import { AccountService } from './account.service';
 import { User } from '../_models/user';
 import { getPaginatedResult, getPaginationHeaders } from './paginationHelper';
 import { Meme } from '../_models/meme';
+import { PresenceService } from './presence.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,8 @@ export class MemeService {
   user: User;
   userParams: UserParams;
 
-  constructor(private http: HttpClient, private accountService: AccountService) {
+  constructor(private http: HttpClient, private accountService: AccountService,
+                private presence: PresenceService) {
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => {
       this.user = user;
       this.userParams = new UserParams(user);
@@ -70,6 +72,15 @@ export class MemeService {
     let params = getPaginationHeaders(pageNumber, pageSize);
     params = params.append('predicate', predicate);
     return getPaginatedResult<Partial<Member[]>>(this.baseUrl + 'likes', params, this.http);
+  }
+
+  addMemeTitle(meme: Meme) {
+    return this.http.put(this.baseUrl + 'users/add-meme', meme).pipe(
+      map(() => {
+        const index = this.memes.indexOf(meme);
+        this.meme[index] = meme;
+      })
+    )
   }
 
 }

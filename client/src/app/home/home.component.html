@@ -1,3 +1,5 @@
+<i class="fas fa-dice" style="min-height: 100px;"></i>
+
 <div class="text-center" id="container" *ngIf="(accountService.currentUser$ | async) !== null">
     <app-meme-upload></app-meme-upload>
 </div>
@@ -7,6 +9,10 @@
         <strong>Zaloguj się lub załóż konto, aby dodać mema</strong>
     </p>
 </div>
+
+<a routerLink="memes/losowe/{{getRandomMeme()}}">
+    dice-icon
+</a>
 
 <div *ngFor="let member of users">
     <app-meme-card [member]="member"></app-meme-card>
@@ -25,7 +31,7 @@
             <div class="card-body p-1" style="text-align: center;">
                 <a routerLink="memes/{{meme.id}}">
                 <h4 class="card-title text-center mb-4 mt-3"> 
-                    Jakieś gówno
+                    {{meme.title || 'Jakieś gówno'}}
                 </h4>
                 </a>
                 <p>{{meme.uploaded | timeago:live}}</p>

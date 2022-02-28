@@ -16,6 +16,7 @@ import { MemeService } from 'src/app/_services/meme.service';
 export class MemeDetailComponent implements OnInit {
 
   meme: Meme;
+  memes: Meme[];
   members: Member;
   users: any;
   id: number = +this.route.snapshot.paramMap.get('id');
@@ -25,33 +26,24 @@ export class MemeDetailComponent implements OnInit {
                 private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    // this.route.paramMap.subscribe(() => {
-    //   this.handleMemeDetails();
-    // })
     this.route.data.subscribe(data => {
       this.meme = data.meme;
     });
-    this.getUsers();
+    this.getMemes();
   }
 
-  getUsers() {
-    this.http.get('https://localhost:5001/api/users').subscribe(response => {
-      this.users = response;
-    }, error => {
-      console.log(error);
+  getMemes() {
+    this.memeService.getMemes().subscribe(memes => {
+      this.memes = memes;
     })
   }
 
-  // handleMemeDetails() {
-    
-  //   // get the "id" param string. convert string to a number using the "+" symbol
-  //   const theMemeId: number = +this.route.snapshot.paramMap.get('id')!;
-    
-  //   this.memeService.getMeme(theMemeId).subscribe(
-  //     data => {
-  //       this.meme = data;
-  //     }
-  //   )
-  // }
+  addLike() {
+    this.likes++;
+  }
+
+  removeLike() {
+    this.likes--;
+  }
 
 }

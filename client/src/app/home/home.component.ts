@@ -53,7 +53,8 @@ export class HomeComponent implements OnInit {
   pageNumber = 1;
   pageSize = 5;
   loading = false;
-  meme: Meme;
+  memeArray = [];
+  meme: Meme[];
 
   constructor(public accountService: AccountService, private memberService: MembersService, private route: ActivatedRoute,
     private router: Router, private toastr: ToastrService, private http: HttpClient, private memeService: MemeService) { 
@@ -61,7 +62,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.getUsers();
+    this.getUsers();
     this.getMemes();
   }
 
@@ -90,6 +91,18 @@ export class HomeComponent implements OnInit {
         this.memes = memes;
       })
     }
+
+  getRandomMeme() {
+    var min = Math.ceil(min);
+    var max = Math.floor(max);
+    for (let meme of this.memes) {
+      this.memeArray.push(meme.id);
+    }
+    console.log(this.memeArray);
+    var item = this.memeArray[Math.floor(Math.random()*this.memeArray.length)];
+    this.memeArray = [];
+    return item;
+  }
 
   pageChanged(event: any) {
     this.pageNumber = event.page;

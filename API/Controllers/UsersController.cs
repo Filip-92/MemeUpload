@@ -120,6 +120,7 @@ namespace API.Controllers
             {
                 Url = result.SecureUrl.AbsoluteUri,
                 PublicId = result.PublicId,
+                Title = file.FileName
             };
 
             user.Memes.Add(meme);

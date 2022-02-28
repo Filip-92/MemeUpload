@@ -5,8 +5,6 @@
         <img id="preview" [src]="previewImg" *ngIf="previewImg"/>
 
         <form [formGroup]='memeUploadForm'>
-        <!-- <app-text-input [formControl]='memeUploadForm.controls["title"]' 
-        placeholder="Wpisz tytuł" name="title" [(ngModel)]="meme.title" autocomplete="off"></app-text-input> -->
         <input type="text" class="col-7 col-lg-5" placeholder="Wpisz tytuł" name="title" [formControl]='memeUploadForm.controls["title"]' 
             autofocus="autofocus" style="padding-right:3px; caret-color: blanchedalmond;">
             <button 
@@ -24,51 +22,50 @@
         </form>
     </div>
 
-    <div class="row" *ngIf="validationErrors.length > 0">
-        <ul class="text-danger">
-            <li *ngFor="let error of validationErrors">
-                {{error}}
-            </li>
-        </ul>
+    <div *ngIf="this.memeUploadForm.value?.invalid && (this.memeUploadForm?.dirty || this.memeUploadForm?.touched)" class="alert alert-danger mt-2">
+        <div *ngIf="this.memeUploadForm?.errors?.['required']">
+            Pole tytu jest wymagane
+        </div>
+    
+        <div *ngIf="this.memeUploadForm?.errors?.['minLength(8)']">
+            Tytuł musi mieć co najmniej 8 znaków
+        </div>
+    
+        <div *ngIf="this.memeUploadForm?.errors?.['maxLength(32)']">
+            Tytuł nie może mieć więcej niż 32 znaki
+        </div>
     </div>
 
     <div class="container text-center" *ngIf="memeUploadMode">
 
-        <!-- <form [formGroup]='uploadMeme' (ngSubmit)="registerForm.valid && register()" autocomplete="off"> -->
-        
-            <!-- <app-text-input [formControl]='registerForm.controls["email"]' 
-            [placeholder]='"Wpisz tytuł"' autocomplete="off"></app-text-input> -->
-
-            <textarea class="col-10 col-lg-5" placeholder="Wpisz opis (opcjonalnie)" name="description" [(ngModel)]="meme.description"></textarea>
-        
-            <!-- <div class="row" *ngIf="validationErrors.length > 0">
-                <ul class="text-danger">
-                    <li *ngFor="let error of validationErrors">
-                        {{error}}
-                    </li>
-                </ul>
-            </div> -->
-
-            <label class="custom-file-upload col-3" style="max-width: 200px; float: left;">
-                <input type="file" ng2FileSelect [uploader]="uploader" class="text-center col-4 mt-3 mb-3" title="Wybierz"/>
-                Dodaj plik
-            </label>
-            <div style="clear: both;"></div>
-
-            <div class="col-9 text-center" style="margin-bottom: 40px; margin-left: auto; margin-right: auto;" *ngIf="uploader?.queue?.length">
+        <textarea class="col-10 col-lg-5" placeholder="Wpisz opis (opcjonalnie)" name="description" [(ngModel)]="meme.description"></textarea>
     
-            <div class="mt-3">
-                <button type="button" class="btn btn-success btn-s mr-3"
-                        (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
-                    <span class="fa fa-upload"></span> Wrzuć
-                </button>
-                <button type="button" class="btn btn-danger btn-s"
-                        (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
-                    <span class="fa fa-trash"></span> Usuń
-                </button>
-            </div>
+        <div class="row" *ngIf="validationErrors.length > 0">
+            <ul class="text-danger">
+                <li *ngFor="let error of validationErrors">
+                    {{error}}
+                </li>
+            </ul>
+        </div>
 
-        <!-- </form> -->
+        <label class="custom-file-upload col-3" style="max-width: 200px; float: left;">
+            <input type="file" ng2FileSelect [uploader]="uploader" class="text-center col-4 mt-3 mb-3" title="Wybierz"/>
+            Dodaj plik
+        </label>
+        <div style="clear: both;"></div>
+
+        <div class="col-9 text-center" style="margin-bottom: 40px; margin-left: auto; margin-right: auto;" *ngIf="uploader?.queue?.length">
+
+        <div class="mt-3">
+            <button type="button" class="btn btn-success btn-s mr-3" *ngIf="this.memeUploadForm.valid"
+                    (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                <span class="fa fa-upload"></span> Wrzuć
+            </button>
+            <button type="button" class="btn btn-danger btn-s"
+                    (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+                <span class="fa fa-trash"></span> Usuń
+            </button>
+        </div>
     </div>
 
     <div class="container form-group text-center mt-3">

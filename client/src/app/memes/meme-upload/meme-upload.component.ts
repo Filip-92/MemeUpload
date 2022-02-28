@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Member } from 'src/app/_models/member';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
@@ -12,6 +12,9 @@ import { Meme } from 'src/app/_models/meme';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { clear } from 'console';
+import { MemeService } from 'src/app/_services/meme.service';
+import { HttpClient, HttpEventType, HttpHeaders, HttpParams } from '@angular/common/http';
+import { isNgTemplate } from '@angular/compiler';
 
 @Component({
   selector: 'app-meme-upload',
@@ -19,6 +22,7 @@ import { clear } from 'console';
   styleUrls: ['./meme-upload.component.css']
 })
 export class MemeUploadComponent implements OnInit {
+  // @Output() public onUploadFinished = new EventEmitter();
   @Input() member: Member = {
     memes: [],
     memeUrl: '',
@@ -32,6 +36,8 @@ export class MemeUploadComponent implements OnInit {
     photos: [],
     likes: 0
   };
+  public progress: number;
+  public message: string;
   memeUploadForm: FormGroup;
   members: Member[];
   meme: Meme = {
@@ -48,7 +54,6 @@ export class MemeUploadComponent implements OnInit {
   hasBaseDropzoneOver = false;
   baseUrl = environment.apiUrl;
   user: User;
-  registerMode = false;
   memeUploadMode = false;
   likes: number = 0;
   isLoggedIn = false;
@@ -57,7 +62,7 @@ export class MemeUploadComponent implements OnInit {
 
   constructor(public accountService: AccountService, private memberService: MembersService,
     private router: Router, private toastr: ToastrService, private sanitizer: DomSanitizer,
-    private fb: FormBuilder) { 
+    private fb: FormBuilder, private memeService: MemeService, private http: HttpClient) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
@@ -70,8 +75,10 @@ export class MemeUploadComponent implements OnInit {
 
   initializeForm() {
     this.memeUploadForm = this.fb.group({
-      title: ['', [Validators.required, 
-        Validators.minLength(8), Validators.maxLength(32)]],
+      title: ['', 
+              [Validators.required, 
+              Validators.minLength(8), 
+              Validators.maxLength(32)]],
     })
   }
 
@@ -86,8 +93,12 @@ export class MemeUploadComponent implements OnInit {
   }
 
   initializeUploader() {
+    const formData = new FormData();
     this.uploader = new FileUploader({
       url: this.baseUrl + 'users/add-meme',
+      additionalParameter: {
+        title: this?.memeUploadForm?.value?.title
+      },
       authToken: 'Bearer ' + this.user.token,
       isHTML5: true,
       allowedFileType: ['image'],
@@ -98,30 +109,38 @@ export class MemeUploadComponent implements OnInit {
 
     this.uploader.onAfterAddingFile = (file) => {
       file.withCredentials = false;
+      this.previewImg = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(file._file)));
+      file.file.name = this.memeUploadForm.value.title;
+      file.formData = this.memeUploadForm.value.title;
+      formData.append('file', this.memeUploadForm.value.title);
     }
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       if (response) {
         const meme: Meme = JSON.parse(response);
-        this.member.memes.push(meme);
-          this.meme.url = meme.url;
-          this.meme.title = meme.title;
-          console.log(this.meme.title);
-           this.user.memeUrl = meme.url;
-           this.member.memeUrl = meme.url;
+        console.log(response);
            this.accountService.setCurrentUser(this.user);
            this.previewImg = null;
            this.toastr.success('Pomyślnie dodano mema');
+           this.memeToggle();
       }
-    }
-
-    this.uploader.onAfterAddingFile = (file) => {
-      console.log('***** onAfterAddingFile ******')
-      this.previewImg = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(file._file)));;
     }
   }
 
+    addMemeTitle() {
+      this.memeService.addMemeTitle(this.memeUploadForm.value.title).subscribe(() => {})
+    }
+
     memeToggle() {
         this.memeUploadMode = !this.memeUploadMode;
+    }
+
+    public get() {
+      let bar = this.memeUploadForm.value.title;
+      this.http.post(this.baseUrl + 'users/add-meme', '=' + bar, { 
+          headers: new HttpHeaders({ 
+              'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' 
+          }) 
+      })
     }
 }
