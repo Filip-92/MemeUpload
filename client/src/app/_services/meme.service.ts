@@ -10,6 +10,7 @@ import { User } from '../_models/user';
 import { getPaginatedResult, getPaginationHeaders } from './paginationHelper';
 import { Meme } from '../_models/meme';
 import { PresenceService } from './presence.service';
+import { PaginatedResult, Pagination } from '../_models/pagination';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,12 @@ export class MemeService {
   memeCache = new Map();
   user: User;
   userParams: UserParams;
+
+  paginatedResult: PaginatedResult<Meme[]> = new PaginatedResult<Meme[]>();
+  pagination: Pagination;
+  pageNumber = 1;
+  pageSize = 5;
+  loading = false;
 
   constructor(private http: HttpClient, private accountService: AccountService,
                 private presence: PresenceService) {
@@ -42,6 +49,24 @@ export class MemeService {
       })
     )
   }
+
+  // getMemes(page?: number, itemsPerPage?: number) {
+  //   let params = new HttpParams();
+
+  //   if (page !== null && itemsPerPage !== null) {
+  //     params = params.append('pageNumber', page.toString());
+  //     params = params.append('pageSize', itemsPerPage.toString());
+  //   }
+  //   return this.http.get<Meme[]>(this.baseUrl + 'admin/memes-to-moderate', {observe: 'response', params}).pipe(
+  //     map(response => {
+  //       this.paginatedResult.result = response.body;
+  //       if (response.headers.get('Pagination') !== null) {
+  //         this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+  //       }
+  //       return this.paginatedResult;
+  //     })
+  //   );
+  // }
 
   getMemes() {
     return this.http.get<Meme[]>(this.baseUrl + 'admin/memes-to-moderate');

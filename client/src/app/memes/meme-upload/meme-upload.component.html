@@ -1,24 +1,32 @@
 <div class="container text-center">
-    <div class="form-group mt-3">
+    <div class="form-group mt-3 text-center">
 
-        <div *ngIf="previewImg" style="font-size: 17px;">{{meme.title}}</div>
+        <div *ngIf="previewImg" style="font-size: 17px;">{{title}}</div>
         <img id="preview" [src]="previewImg" *ngIf="previewImg"/>
 
-        <form [formGroup]='memeUploadForm'>
-        <input type="text" class="col-7 col-lg-5" placeholder="Wpisz tytuł" name="title" [formControl]='memeUploadForm.controls["title"]' 
-            autofocus="autofocus" style="padding-right:3px; caret-color: blanchedalmond;">
-            <button 
-                class="dropdown-item"
-                [disabled]="!memeUploadForm.valid"
-                (click)="memeToggle()"
-                *ngIf="(accountService.currentUser$ | async) !== null"
-                id="register" 
-                class="btn btn-primary btn-lg ml-3 col-4 col-lg-2" 
-                style="align-items: center; font-size: 17px;"
-            >
-                <i class="fas fa-file-import"></i>
-                Dodaj mema
-            </button>
+        <form [formGroup]='memeUploadForm' class="text-center">
+        <!-- <input type="text" class="col-7 col-lg-5" placeholder="Wpisz tytuł" name="title" [formControl]='memeUploadForm.controls["title"]' 
+            autofocus="autofocus" style="padding-right:3px; caret-color: blanchedalmond;"> -->
+            <div class="row ml-3 text-center">
+                <div class="column col-2"></div>
+                <div class="column">
+                    <app-meme-title-input [formControl]='memeUploadForm.controls["title"]' id="memeTitle" style="min-width: 600px !important;"
+                        [label]='"Wpisz tytuł"' name="title" autocomplete="off"></app-meme-title-input>
+                </div>
+                <div class="column">
+                    <button 
+                    class="dropdown-item"
+                    [disabled]="!memeUploadForm.valid"
+                    (click)="memeToggle()"
+                    *ngIf="(accountService.currentUser$ | async) !== null"
+                    class="btn btn-primary btn-lg" 
+                    style="align-items: center; font-size: 17px;"
+                >
+                    <i class="fas fa-file-import"></i>
+                    Dodaj mema
+                </button>
+                </div>
+              </div>
         </form>
     </div>
 

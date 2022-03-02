@@ -29,7 +29,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {path: 'memes/losowe/:id', component: MemeRandomComponent},
-      {path: 'memes/:id', component: MemeDetailComponent},
+      {path: 'memes/:id/:title', component: MemeDetailComponent},
       {path: 'members', component: MemberListComponent},
       {path: 'members/:username', component: MemberDetailComponent, resolve: {member: MemberDetailedResolver}},
       {path: 'member/edit', component: MemberEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},

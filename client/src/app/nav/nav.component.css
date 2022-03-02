@@ -14,6 +14,15 @@
     margin-bottom: auto;
 }
 
+li {
+  display: inline-block !important;
+}
+
+.nav-item {
+  text-align: left !important;
+  display: inline-block !important;
+}
+
 img {
     max-height: 80px;
     margin-top: 10px;
@@ -193,6 +202,11 @@ form {
 
     .nav-item {
         text-align: left !important;
+        display: inline-block !important;
+    }
+
+    li {
+      display: inline !important;
     }
   }
 

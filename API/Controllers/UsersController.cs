@@ -50,6 +50,18 @@ namespace API.Controllers
             return Ok(users);
         }
 
+        // [AllowAnonymous]
+        // [HttpGet("memes-to-moderate")]
+        // public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemes([FromQuery] MemeParams memeParams)
+        // {
+        //     var memes = await _unitOfWork.MemeRepository.GetMemes(memeParams);
+
+        //     Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
+        //         memes.TotalCount, memes.TotalPages);
+
+        //     return Ok(memes);
+        // }
+
         [AllowAnonymous]
         [HttpGet("memes-to-moderate")]
         public async Task<ActionResult> GetMemes()

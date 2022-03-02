@@ -7,7 +7,7 @@
             <img src="https://memegenerator.net/img/images/14687350.jpg" class="mr-3">Memesy
         </a>
             <ul class="navbar-nav mr-auto">
-                <ng-container *ngIf="accountService.currentUser$ | async">
+                <ng-container *ngIf="accountService.currentUser$ | async" style="display: inline-block;">
                     <li class="nav-item">
                         <a class="nav-link" routerLink='/members' routerLinkActive='active'><i class="fa fa-user"></i></a>
                     </li>

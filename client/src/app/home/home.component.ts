@@ -1,20 +1,15 @@
-import { Component, OnInit, Input, NgModule } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, Input, NgModule, ChangeDetectorRef } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Member } from 'src/app/_models/member';
-import { FileUploader } from 'ng2-file-upload';
-import { environment } from 'src/environments/environment';
 import { AccountService } from 'src/app/_services/account.service';
 import { User } from 'src/app/_models/user';
 import { take } from 'rxjs/operators';
-import { MembersService } from 'src/app/_services/members.service';
 import { Meme } from '../_models/meme';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { MemeUploadComponent } from '../memes/meme-upload/meme-upload.component';
 import { Photo } from '../_models/photo';
 import { UserParams } from '../_models/userParams';
-import { Pagination } from '../_models/pagination';
+import { PaginatedResult, Pagination } from '../_models/pagination';
 import { MemeService } from '../_services/meme.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -40,30 +35,29 @@ export class HomeComponent implements OnInit {
   memes: Meme[];
   photos: Photo[];
   model: any = {}
-  uploader: FileUploader;
-  baseUrl = environment.apiUrl;
   user: User;
   users: any;
-  registerMode = false;
   memeUploadMode = false;
-  likes: number = 0;
   isLoggedIn = false;
-  userParams: UserParams;
+  memeArray = [];
+  meme: Meme[];
+  randomId = 1;
+  number = Math.floor(Math.random() * 10) + 1;
+
   pagination: Pagination;
   pageNumber = 1;
   pageSize = 5;
-  loading = false;
-  memeArray = [];
-  meme: Meme[];
 
-  constructor(public accountService: AccountService, private memberService: MembersService, private route: ActivatedRoute,
-    private router: Router, private toastr: ToastrService, private http: HttpClient, private memeService: MemeService) { 
+  constructor(public accountService: AccountService, private router: Router, private http: HttpClient, 
+    private memeService: MemeService, private cdRef:ChangeDetectorRef) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
   ngOnInit(): void {
     this.getUsers();
-    this.getMemes();
+    // this.getMemes();
+    //this.loadMemes();
+    //this.getRandomId();
   }
 
   getUsers() {
@@ -74,23 +68,11 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  addLike() {
-    this.likes++;
-  }
-
-  removeLike() {
-    this.likes--;
-  }
-
-  memeToggle() {
-        this.memeUploadMode = !this.memeUploadMode;
-    }
-
   getMemes() {
-      this.memeService.getMemes().subscribe(memes => {
-        this.memes = memes;
-      })
-    }
+    this.memeService.getMemes().subscribe(memes => {
+      this.memes = memes;
+    })
+  }
 
   getRandomMeme() {
     var min = Math.ceil(min);
@@ -98,14 +80,30 @@ export class HomeComponent implements OnInit {
     for (let meme of this.memes) {
       this.memeArray.push(meme.id);
     }
-    console.log(this.memeArray);
     var item = this.memeArray[Math.floor(Math.random()*this.memeArray.length)];
     this.memeArray = [];
     return item;
   }
 
-  pageChanged(event: any) {
-    this.pageNumber = event.page;
-    //this.loadMessages();
-  }
+
+  // loadMemes() {
+  //   this.memeService.getMemes(this.pageNumber, this.pageSize).subscribe(response => {
+  //     this.memes = response.result;
+  //     this.pagination = response.pagination;
+  //     return this.memes;
+  //   });
+  // }
+
+  // getRandomId() {
+  //   this.memeService.getMemes(this.pageNumber, this.pageSize).subscribe(response => {
+  //     this.memes = response.result;
+  //     for (let meme of this.memes) {
+  //       this.memeArray.push(meme.id);
+  //     }
+  //     var item = this.memeArray[Math.floor(Math.random()*this.memeArray.length)];
+  //     this.memeArray = [];
+  //     console.log(item);
+  //     return item;
+  //   });
+  // }
 }

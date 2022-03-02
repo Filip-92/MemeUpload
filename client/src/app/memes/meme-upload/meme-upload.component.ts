@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, Self } from '@angular/core';
 import { Member } from 'src/app/_models/member';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
@@ -142,5 +142,12 @@ export class MemeUploadComponent implements OnInit {
               'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' 
           }) 
       })
+    }
+
+    writeValue(obj: any): void {
+    }
+    registerOnChange(fn: any): void {
+    }
+    registerOnTouched(fn: any): void {
     }
 }

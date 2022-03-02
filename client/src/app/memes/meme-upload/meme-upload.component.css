@@ -3,7 +3,20 @@ input[type=text] {
     background-color: gray;
     margin-top: 30px;
     color: whitesmoke;
-    margin-bottom: 30px;
+}
+
+#memeTitle {
+    min-width: 600px !important;
+}
+
+button {
+    margin-top: 30px;
+    margin-left: 20px;
+    height: 50px;
+}
+
+label {
+    color: whitesmoke;
 }
 
 input[type="file"] {

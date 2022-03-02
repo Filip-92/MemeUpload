@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,11 +41,11 @@ namespace API.Data
                 }).ToListAsync();
         }
 
-        public async Task<IEnumerable<MemeForApprovalDto>> GetMemes()
+        public async Task<PagedList<MemeDto>> GetMemes(MemeParams memeParams)
         {
-            return await _context.Memes
+            var query = _context.Memes
                 .IgnoreQueryFilters()
-                .Select(u => new MemeForApprovalDto
+                .Select(u => new MemeDto
                 {
                     Id = u.Id,
                     Username = u.AppUser.UserName,
@@ -52,7 +53,24 @@ namespace API.Data
                     Title = u.Title,
                     Description = u.Description,
                     Uploaded = u.Uploaded, 
-                    IsApproved = u.IsApproved
+                }).AsNoTracking();
+
+            return await PagedList<MemeDto>.CreateAsync(query, 
+            memeParams.PageNumber, memeParams.PageSize);
+        }
+
+        public async Task<IEnumerable<MemeDto>> GetMemes()
+        {
+            return await _context.Memes
+                .IgnoreQueryFilters()
+                .Select(u => new MemeDto
+                {
+                    Id = u.Id,
+                    Username = u.AppUser.UserName,
+                    Url = u.Url,
+                    Title = u.Title,
+                    Description = u.Description,
+                    Uploaded = u.Uploaded
                 }).ToListAsync();
         }
 
