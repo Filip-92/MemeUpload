@@ -2,7 +2,7 @@
     <div class="card mb-4 text-center mt-5">
         <div class="card-img-wrapper">
             <div class="card-body p-1" style="text-align: center;">
-                <a routerLink="memes/{{meme.id}}/{{meme.title?.toLowerCase().split(' ').join('-') || 'jakieś-gówno'}}">
+                <a routerLink="memes/{{meme.id}}/{{ convertText(meme.title) || convertText('Jakieś gówno')}}">
                 <h4 class="card-title text-center mb-4 mt-3"> 
                     {{meme.title || 'Jakieś gówno'}}
                 </h4>

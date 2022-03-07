@@ -20,12 +20,12 @@
                     </li>
 
                     <li *appHasRole='["Admin", "Moderator"]' class="nav-item">
-                        <a class="nav-link" routerLink='/admin'routerLinkActive='active'>Admin</a>
+                        <a class="nav-link" routerLink='/admin' routerLinkActive='active'>Admin</a>
                     </li>
                     <div style="clear: both;"></div>
                 </ng-container>
                 <li class="nav-item">
-                    <a *appHasRole='["Admin", "Moderator"]' class="nav-link" routerLink='/errors'routerLinkActive='active' >Errors</a>
+                    <a *appHasRole='["Admin", "Moderator"]' class="nav-link" routerLink='/errors' routerLinkActive='active' >Errors</a>
                 </li>
             </ul>
         <!-- </div> -->

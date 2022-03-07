@@ -1,6 +1,9 @@
 using System.Linq;
 using System.Threading.Tasks;
+using API.DTOs;
 using API.Entities;
+using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -121,14 +124,47 @@ namespace API.Controllers
             return Ok();
         }
 
-        [Authorize(Policy = "ModerateMemeRole")]
+        // [Authorize(Policy = "ModerateMemeRole")]
+        // [HttpGet("memes-to-moderate")]
+        // public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemesForModeration([FromQuery] MemeParams memeParams)
+        // {
+        //     var memes = await _unitOfWork.MemeRepository.GetMemes(memeParams);
+
+        //     Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
+        //         memes.TotalCount, memes.TotalPages);
+
+        //     return Ok(memes);
+        // }
+
+        // [Authorize(Policy = "ModerateMemeRole")]
+        // [HttpGet("memes-to-moderate")]
+        // public async Task<ActionResult> GetMemesForModeration()
+        // {
+        //     var memes = await _unitOfWork.MemeRepository.GetUnapprovedMemes();
+
+        //     return Ok(memes);
+        // }
+
+        [AllowAnonymous]
         [HttpGet("memes-to-moderate")]
-        public async Task<ActionResult> GetMemesForModeration()
+        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemes([FromQuery] MemeParams memeParams)
         {
-            var memes = await _unitOfWork.MemeRepository.GetUnapprovedMemes();
+            var memes = await _unitOfWork.MemeRepository.GetMemes(memeParams);
+
+            Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
+                memes.TotalCount, memes.TotalPages);
 
             return Ok(memes);
         }
+
+        // [AllowAnonymous]
+        // [HttpGet("memes-to-moderate")]
+        // public async Task<ActionResult> GetMemes()
+        // {
+        //     var memes = await _unitOfWork.MemeRepository.GetMemes();
+
+        //     return Ok(memes);
+        // }
 
         [Authorize(Policy = "ModerateMemeRole")]
         [HttpPost("approve-meme/{memeId}")]

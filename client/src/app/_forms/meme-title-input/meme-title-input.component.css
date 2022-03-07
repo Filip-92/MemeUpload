@@ -2,9 +2,20 @@ input[type=text] {
     height: 50px;
     background-color: gray;
     margin-top: 30px;
-    color: whitesmoke;
     margin-bottom: 30px;
     margin-left: auto;
     margin-right: auto;
     min-width: 600px;
+}
+
+::placeholder {
+    color: whitesmoke;
+}
+
+input {
+    color: whitesmoke !important;
+}
+
+.form-control {
+    color: whitesmoke;
 }

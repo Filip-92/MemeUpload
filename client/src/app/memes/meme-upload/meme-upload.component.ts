@@ -47,7 +47,8 @@ export class MemeUploadComponent implements OnInit {
     title: '',
     uploaded: undefined,
     description: '',
-    isApproved: false
+    isApproved: false,
+    likes: 0
   };
   model: any = {}
   uploader: FileUploader;
@@ -94,6 +95,7 @@ export class MemeUploadComponent implements OnInit {
 
   initializeUploader() {
     const formData = new FormData();
+    let maxFileSize = 10 * 1024 * 1024;
     this.uploader = new FileUploader({
       url: this.baseUrl + 'users/add-meme',
       additionalParameter: {
@@ -104,8 +106,22 @@ export class MemeUploadComponent implements OnInit {
       allowedFileType: ['image'],
       removeAfterUpload: true,
       autoUpload: false,
-      maxFileSize: 10 * 1024 * 1024
+      maxFileSize: maxFileSize
     });
+
+    this.uploader.onWhenAddingFileFailed = (item, filter) => {
+      let message = '';
+      switch (filter.name) {
+        case 'fileSize':
+          message = 'Plik jest za duży. Rozmiar pliku to ' + this.formatBytes(item.size) + ', podczas gdy maksymalny dopuszczalny rozmiar to ' + this.formatBytes(maxFileSize);
+          break;
+        default:
+          message = 'Wystąpił błąd';
+          break;
+      }
+    
+      this.toastr.warning(message);
+    };
 
     this.uploader.onAfterAddingFile = (file) => {
       file.withCredentials = false;
@@ -122,14 +138,20 @@ export class MemeUploadComponent implements OnInit {
            this.accountService.setCurrentUser(this.user);
            this.previewImg = null;
            this.toastr.success('Pomyślnie dodano mema');
+           this.memeUploadForm.controls["title"] = null;
            this.memeToggle();
       }
     }
   }
 
-    addMemeTitle() {
-      this.memeService.addMemeTitle(this.memeUploadForm.value.title).subscribe(() => {})
-    }
+  private formatBytes(bytes, decimals?) {
+    if (bytes == 0) return '0 Bytes';
+    const k = 1024,
+      dm = decimals || 2,
+      sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+      i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+      }
 
     memeToggle() {
         this.memeUploadMode = !this.memeUploadMode;

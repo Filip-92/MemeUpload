@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
   isLoggedIn = false;
   memeArray = [];
   meme: Meme[];
-  randomId = 1;
+  randomId = 43;
   number = Math.floor(Math.random() * 10) + 1;
 
   pagination: Pagination;
@@ -58,6 +58,7 @@ export class HomeComponent implements OnInit {
     // this.getMemes();
     //this.loadMemes();
     //this.getRandomId();
+    this.randomId = this.getRandomMeme();
   }
 
   getUsers() {
@@ -68,11 +69,11 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  getMemes() {
-    this.memeService.getMemes().subscribe(memes => {
-      this.memes = memes;
-    })
-  }
+  // getMemes() {
+  //   this.memeService.getMemes().subscribe(memes => {
+  //     this.memes = memes;
+  //   })
+  // }
 
   getRandomMeme() {
     var min = Math.ceil(min);

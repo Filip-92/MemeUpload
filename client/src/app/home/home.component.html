@@ -8,9 +8,17 @@
     </p>
 </div>
 
-<!-- <a routerLink="memes/losowe/{{getRandomMeme()}}">
+<!-- <a routerLink="memes/losowe/{{randomId}}">
     dice-icon
 </a> -->
+
+<div *ngFor="let meme of memes; let i= index">
+    <div *ngIf="(i+ 1) % number == 0">
+        <a routerLink="memes/losowe/{{number}}">
+            dice-icon
+        </a>
+     </div>
+</div>
 
 <div class="text-center">
     <iframe width="600" height="400" src="https://www.youtube-nocookie.com/embed/CLjmm4-XJzk"></iframe>

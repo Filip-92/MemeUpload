@@ -19,27 +19,27 @@ export class MemeListComponent implements OnInit {
   constructor(private memeService: MemeService) { }
 
   ngOnInit(): void {
-    // this.loadMemes();
-    this.getMemes();
+    this.loadMemes();
+    // this.getMemes();
   }
 
-  getMemes() {
-    this.memeService.getMemes().subscribe(memes => {
-      this.memes = memes.reverse();
-    })
+  // getMemes() {
+  //   this.memeService.getMemes().subscribe(memes => {
+  //     this.memes = memes.reverse();
+  //   })
+  // }
+
+  loadMemes() {
+    this.memeService.getMemes(this.pageNumber, this.pageSize).subscribe(response => {
+      this.memes = response.result.reverse();
+      this.pagination = response.pagination;
+    });
   }
 
-  // loadMemes() {
-  //   this.memeService.getMemes(this.pageNumber, this.pageSize).subscribe(response => {
-  //     this.memes = response.result.reverse();
-  //     this.pagination = response.pagination;
-  //   });
-  // }
-
-  // pageChanged(event: any) {
-  //   this.pageNumber = event.page;
-  //   this.loadMemes();
-  // }
+  pageChanged(event: any) {
+    this.pageNumber = event.page;
+    this.loadMemes();
+  }
 
   addLike() {
     this.likes++;
@@ -51,6 +51,11 @@ export class MemeListComponent implements OnInit {
 
   replaceTitle(title: string) {
     title.replace(" ", "-");
+  }
+
+  convertText(title: string) {
+    var result = title?.toLowerCase().split(' ').join('-').normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+    return result;
   }
 
 }

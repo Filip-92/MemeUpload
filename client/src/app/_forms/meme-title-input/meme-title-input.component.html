@@ -5,12 +5,11 @@
         class="form-control" 
         [formControl]="ngControl.control"
         placeholder={{label}}>
-    <div *ngIf="ngControl.control.errors?.required" class="invalid-feedback">Wpisz {{label}}</div>
-    <div *ngIf="ngControl.control.errors?.pattern" class="invalid-feedback">Wpisz prawidłowy adres e-mail</div>
+    <div *ngIf="ngControl.control.errors?.required" class="invalid-feedback">Wpisz tytuł</div>
     <div *ngIf="ngControl.control.errors?.minlength" class="invalid-feedback">
-        {{label}}must be at least {{ngControl.control.errors.minlength['requiredLength']}} characters
+        Tytuł musi mieć co najmniej {{ngControl.control.errors.minlength['requiredLength']}} znaków
     </div>
     <div *ngIf="ngControl.control.errors?.maxlength" class="invalid-feedback">
-        {{label}}must be at most {{ngControl.control.errors.maxlength['requiredLength']}} characters
+        Tytuł nie może mieć więcej niż {{ngControl.control.errors.maxlength['requiredLength']}} znaki
     </div>
 </div>

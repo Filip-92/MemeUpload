@@ -22,16 +22,16 @@ export class MemeRandomComponent implements OnInit {
   constructor(private memeService: MemeService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getMemes();
+    // this.getMemes();
     this.number = this.getRandomMeme();
     console.log(this.number);
   }
 
-  getMemes() {
-    this.memeService.getMemes().subscribe(memes => {
-      this.memes = memes;
-    })
-  }
+  // getMemes() {
+  //   this.memeService.getMemes().subscribe(memes => {
+  //     this.memes = memes;
+  //   })
+  // }
 
   getRandomMeme() {
     var min = Math.ceil(min);

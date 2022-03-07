@@ -50,27 +50,33 @@ export class MemeService {
     )
   }
 
-  // getMemes(page?: number, itemsPerPage?: number) {
-  //   let params = new HttpParams();
+  getMemes(page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
 
-  //   if (page !== null && itemsPerPage !== null) {
-  //     params = params.append('pageNumber', page.toString());
-  //     params = params.append('pageSize', itemsPerPage.toString());
-  //   }
-  //   return this.http.get<Meme[]>(this.baseUrl + 'admin/memes-to-moderate', {observe: 'response', params}).pipe(
-  //     map(response => {
-  //       this.paginatedResult.result = response.body;
-  //       if (response.headers.get('Pagination') !== null) {
-  //         this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-  //       }
-  //       return this.paginatedResult;
-  //     })
-  //   );
+    if (page !== null && itemsPerPage !== null) {
+      params = params.append('pageNumber', page.toString());
+      params = params.append('pageSize', itemsPerPage.toString());
+    }
+    return this.http.get<Meme[]>(this.baseUrl + 'admin/memes-to-moderate', {observe: 'response', params}).pipe(
+      map(response => {
+        this.paginatedResult.result = response.body;
+        if (response.headers.get('Pagination') !== null) {
+          console.log(response.headers.get('Pagination'));
+          this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+        }
+        return this.paginatedResult;
+      })
+    );
+  }
+
+  // getMemes(page?: number, itemsPerPage?: number) {
+  //   let params = getPaginationHeaders(page, itemsPerPage);
+  //   return getPaginatedResult<Meme[]>(this.baseUrl + 'admin/memes-to-moderate', params, this.http);
   // }
 
-  getMemes() {
-    return this.http.get<Meme[]>(this.baseUrl + 'admin/memes-to-moderate');
-  }
+  // getMemes() {
+  //   return this.http.get<Meme[]>(this.baseUrl + 'admin/memes-to-moderate');
+  // }
 
   updateMember(member: Member) {
     return this.http.put(this.baseUrl + 'users', member).pipe(

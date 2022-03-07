@@ -30,20 +30,6 @@
         </form>
     </div>
 
-    <div *ngIf="this.memeUploadForm.value?.invalid && (this.memeUploadForm?.dirty || this.memeUploadForm?.touched)" class="alert alert-danger mt-2">
-        <div *ngIf="this.memeUploadForm?.errors?.['required']">
-            Pole tytu jest wymagane
-        </div>
-    
-        <div *ngIf="this.memeUploadForm?.errors?.['minLength(8)']">
-            Tytuł musi mieć co najmniej 8 znaków
-        </div>
-    
-        <div *ngIf="this.memeUploadForm?.errors?.['maxLength(32)']">
-            Tytuł nie może mieć więcej niż 32 znaki
-        </div>
-    </div>
-
     <div class="container text-center" *ngIf="memeUploadMode">
 
         <textarea class="col-10 col-lg-5" placeholder="Wpisz opis (opcjonalnie)" name="description" [(ngModel)]="meme.description"></textarea>
