@@ -55,8 +55,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsers();
-    // this.getMemes();
-    //this.loadMemes();
     //this.getRandomId();
     this.randomId = this.getRandomMeme();
   }
