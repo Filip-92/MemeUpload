@@ -34,14 +34,15 @@ export class MemeDetailComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.meme = data.meme;
     });
-    // this.getMemes();
+    this.getMemes();
   }
 
-  // getMemes() {
-  //   this.memeService.getMemes().subscribe(memes => {
-  //     this.memes = memes;
-  //   })
-  // }
+  getMemes() {
+    this.memeService.getAllMemes().subscribe(memes => {
+      this.memes = memes.reverse();
+    })
+  }
+
 
   // getMemes() {
   //   this.memeService.getMemes(this.pageNumber, this.pageSize).subscribe(response => {

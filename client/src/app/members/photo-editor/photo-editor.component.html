@@ -31,7 +31,6 @@
 
         <div class="text-center mt-5 mb-5" *ngFor="let item of uploader.queue">
             <strong style="color: red;">{{ item?.file?.name }}</strong>
-            <span class="ml-3" *ngIf="uploader.options.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</span>
         </div>
 
         <button type="button" class="btn btn-success btn-s"

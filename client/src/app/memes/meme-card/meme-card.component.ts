@@ -64,4 +64,13 @@ export class MemeCardComponent implements OnInit {
       console.log(error);
     })
   }
+
+  replaceTitle(title: string) {
+    title.replace(" ", "-");
+  }
+
+  convertText(title: string) {
+    var result = title?.toLowerCase().split(' ').join('-').normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+    return result;
+  }
 }

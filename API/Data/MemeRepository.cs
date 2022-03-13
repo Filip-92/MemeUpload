@@ -53,7 +53,8 @@ namespace API.Data
                     Title = u.Title,
                     Description = u.Description,
                     Uploaded = u.Uploaded, 
-                }).AsNoTracking();
+                }).AsNoTracking()
+                .OrderByDescending(u => u.Id);
 
             return await PagedList<MemeDto>.CreateAsync(query, 
             memeParams.PageNumber, memeParams.PageSize);

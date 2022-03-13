@@ -69,14 +69,24 @@ export class MemeService {
     );
   }
 
+  getMeme(id: string) {
+    const meme = [...this.memberCache.values()]
+      .reduce((arr, elem) => arr.concat(elem.result), [])
+      .find((meme: Meme) => meme.id === parseInt(id));
+    if (meme) {
+      return of(meme);
+    }
+    return this.http.get<Member>(this.baseUrl + 'admin/memes-to-moderate/' + id);
+  }
+
   // getMemes(page?: number, itemsPerPage?: number) {
   //   let params = getPaginationHeaders(page, itemsPerPage);
   //   return getPaginatedResult<Meme[]>(this.baseUrl + 'admin/memes-to-moderate', params, this.http);
   // }
 
-  // getMemes() {
-  //   return this.http.get<Meme[]>(this.baseUrl + 'admin/memes-to-moderate');
-  // }
+  getAllMemes() {
+    return this.http.get<Meme[]>(this.baseUrl + 'admin/memes-to-moderate');
+  }
 
   updateMember(member: Member) {
     return this.http.put(this.baseUrl + 'users', member).pipe(

@@ -12,7 +12,7 @@ export class MemeListComponent implements OnInit {
 
   pagination: Pagination;
   pageNumber = 1;
-  pageSize = 5;
+  pageSize = 8;
   memes: Meme[];
   likes: number = 0;
 
@@ -31,7 +31,7 @@ export class MemeListComponent implements OnInit {
 
   loadMemes() {
     this.memeService.getMemes(this.pageNumber, this.pageSize).subscribe(response => {
-      this.memes = response.result.reverse();
+      this.memes = response.result;
       this.pagination = response.pagination;
     });
   }

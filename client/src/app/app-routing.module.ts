@@ -20,6 +20,7 @@ import { ResetPasswordComponent } from './authentication/reset-password/reset-pa
 import { ForgotPasswordComponent } from './authentication/forgot-password/forgot-password.component';
 import { MemeDetailComponent } from './memes/meme-detail/meme-detail.component';
 import { MemeRandomComponent } from './memes/meme-random/meme-random.component';
+import { MemeListComponent } from './memes/meme-list/meme-list.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -31,6 +32,7 @@ const routes: Routes = [
       {path: 'memes/losowe/:id', component: MemeRandomComponent},
       {path: 'memes/:id/:title', component: MemeDetailComponent},
       {path: 'members', component: MemberListComponent},
+      {path: 'strona/:pageNumber', component: HomeComponent},
       {path: 'members/:username', component: MemberDetailComponent, resolve: {member: MemberDetailedResolver}},
       {path: 'member/edit', component: MemberEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},
       {path: 'lists', component: ListsComponent},

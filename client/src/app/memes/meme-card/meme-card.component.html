@@ -1,19 +1,21 @@
-<div class="card mb-4 text-center mt-5">
-    <div class="card-img-wrapper">
-        <div class="card-body p-1" style="text-align: center;">
-            <a routerLink="memes/{{meme.id}}">
-            <h4 class="card-title text-center mb-4 mt-3"> 
-                {{meme.title || 'Jakieś gówno'}}
-            </h4>
-            </a>
-            <p>{{meme.uploaded | timeago}}</p>
-            <img src="{{meme.url || './assets/user.png'}}" class="card-img-top" style="max-width: 400px;">
-        </div>
-        <div class="mb-3">
-            <span class="inline-block">autor: <a class="nav-link" routerLink='/members/{{meme.username}}'>{{meme.username}}</a></span>
-            <button (click)="addLike()" class="btn btn-success mr-2"><i class="fa fa-plus"></i></button>
-            <span class="btn btn-primary mr-2" style="min-width: 100px;">{{likes}}</span>
-            <button (click)="removeLike()" class="btn btn-danger"><i class="fa fa-minus"></i></button>
+<div class="text-center">
+    <div class="card mb-4 text-center mt-5">
+        <div class="card-img-wrapper">
+            <div class="card-body p-1" style="text-align: center;">
+                <a routerLink="memes/{{meme.id}}/{{ convertText(meme.title) || convertText('Jakieś gówno')}}">
+                <h4 class="card-title text-center mb-4 mt-3"> 
+                    {{meme.title || 'Jakieś gówno'}}
+                </h4>
+                </a>
+                <p>{{meme.uploaded | timeago}}</p>
+                <img src="{{meme.url || './assets/user.png'}}" class="card-img-top" style="max-width: 400px;">
+            </div>
+            <div class="mb-3">
+                <span class="inline-block">autor: <a class="nav-link" routerLink='/members/{{meme.username}}'>{{meme.username}}</a></span>
+                <button (click)="addLike()" class="btn btn-success mr-2"><i class="fa fa-plus"></i></button>
+                <span class="btn btn-primary mr-2" style="min-width: 100px;">{{likes}}</span>
+                <button (click)="removeLike()" class="btn btn-danger"><i class="fa fa-minus"></i></button>
+            </div>
         </div>
     </div>
 </div>
