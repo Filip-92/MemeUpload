@@ -18,6 +18,7 @@ namespace API.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPhotoService _photoService;
         private readonly IMemeService _memeService;
+    
         public AdminController(UserManager<AppUser> userManager, IUnitOfWork unitOfWork, 
             IPhotoService photoService, IMemeService memeService)
         {
@@ -157,6 +158,18 @@ namespace API.Controllers
             return Ok(memes);
         }
 
+        [AllowAnonymous]
+        [HttpGet("memes-to-moderate/last24H")]
+        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemesLast24H([FromQuery] MemeParams memeParams)
+        {
+            var memes = await _unitOfWork.MemeRepository.GetMemesLast24H(memeParams);
+
+            Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
+                memes.TotalCount, memes.TotalPages);
+
+            return Ok(memes);
+        }
+
         // [AllowAnonymous]
         // [HttpGet("memes-to-moderate")]
         // public async Task<ActionResult> GetMemes()
@@ -203,6 +216,24 @@ namespace API.Controllers
             else
             {
                 _unitOfWork.MemeRepository.RemoveMeme(meme);
+            }
+
+            await _unitOfWork.Complete();
+
+            return Ok();
+        }
+
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpDelete("/remove-user/{userId}"), ActionName("Delete")]
+        public async Task<ActionResult> RemoveUser(int userId)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByIdAsync(userId);
+
+            if (user == null) return NotFound("Could not find user");
+
+            if (userId != null)
+            {
+                var result = _userManager.DeleteAsync(user);
             }
 
             await _unitOfWork.Complete();

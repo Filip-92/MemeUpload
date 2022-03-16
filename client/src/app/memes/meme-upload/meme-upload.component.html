@@ -1,12 +1,24 @@
 <div class="container text-center">
     <div class="form-group mt-3 text-center">
 
-        <div *ngIf="previewImg" style="font-size: 17px;">{{title}}</div>
-        <img id="preview" [src]="previewImg" *ngIf="previewImg"/>
+        <ng-template #content let-c="close" let-d="dismiss">
+            <div class="modal-header">
+                <h4>{{memeUploadForm.value.title}}</h4>
+            </div>
+            <div class="modal-body text-center">
+                <div>
+                    {{memeUploadForm.value.description}}
+                </div>
+                <img id="preview" [src]="previewImg" *ngIf="previewImg && format==='image'"/>
+                <video id="preview" [src]="previewImg" *ngIf="previewImg && format==='video'" controls></video>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" (click)="c('Save click')">OK</button>
+                <button type="button" class="btn btn-warning" aria-label="Close" (click)="d('Cross click')">Wyjdź</button>
+            </div>
+        </ng-template>
 
         <form [formGroup]='memeUploadForm' class="text-center">
-        <!-- <input type="text" class="col-7 col-lg-5" placeholder="Wpisz tytuł" name="title" [formControl]='memeUploadForm.controls["title"]' 
-            autofocus="autofocus" style="padding-right:3px; caret-color: blanchedalmond;"> -->
             <div class="row ml-3 text-center">
                 <div class="column col-2"></div>
                 <div class="column">
@@ -15,13 +27,13 @@
                 </div>
                 <div class="column">
                     <button 
-                    class="dropdown-item"
-                    [disabled]="!memeUploadForm.valid"
-                    (click)="memeToggle()"
-                    *ngIf="(accountService.currentUser$ | async) !== null"
-                    class="btn btn-primary btn-lg" 
-                    style="align-items: center; font-size: 17px;"
-                >
+                        class="dropdown-item"
+                        [disabled]="!memeUploadForm?.valid"
+                        (click)="memeToggle()"
+                        *ngIf="(accountService?.currentUser$ | async) !== null"
+                        class="btn btn-primary btn-lg" 
+                        style="align-items: center; font-size: 17px;"
+                    >
                     <i class="fas fa-file-import"></i>
                     Dodaj mema
                 </button>
@@ -32,25 +44,18 @@
 
     <div class="container text-center" *ngIf="memeUploadMode">
 
-        <textarea class="col-10 col-lg-5" placeholder="Wpisz opis (opcjonalnie)" name="description" [(ngModel)]="meme.description"></textarea>
-    
-        <div class="row" *ngIf="validationErrors.length > 0">
-            <ul class="text-danger">
-                <li *ngFor="let error of validationErrors">
-                    {{error}}
-                </li>
-            </ul>
-        </div>
+        <textarea class="col-10 col-lg-5" placeholder="Wpisz opis (opcjonalnie)" name="description" [formControl]='memeUploadForm.controls["description"]'></textarea>
 
         <label class="custom-file-upload col-3" style="max-width: 200px; float: left;">
             <input type="file" ng2FileSelect [uploader]="uploader" class="text-center col-4 mt-3 mb-3" title="Wybierz"/>
             Dodaj plik
         </label>
+            <button type="button" class="btn btn-info col-4 mb-2 text-center" *ngIf="previewImg" (click)="open(content)" style="max-width: 200px; float: left;">Podgląd</button>
         <div style="clear: both;"></div>
 
-        <div class="col-9 text-center" style="margin-bottom: 40px; margin-left: auto; margin-right: auto;" *ngIf="uploader?.queue?.length">
+        <div class="col-9 text-center" style="margin-bottom: 20px; margin-left: auto; margin-right: auto;" *ngIf="uploader?.queue?.length">
 
-        <div class="mt-3">
+        <div class="mt-2">
             <button type="button" class="btn btn-success btn-s mr-3" *ngIf="this.memeUploadForm.valid"
                     (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
                 <span class="fa fa-upload"></span> Wrzuć
@@ -60,6 +65,10 @@
                 <span class="fa fa-trash"></span> Usuń
             </button>
         </div>
+    </div>
+
+    <div *ngIf="memeUploadForm.controls['description'].errors?.maxlength" class="text-danger">
+        Opis zbyt długi
     </div>
 
     <div class="container form-group text-center mt-3">

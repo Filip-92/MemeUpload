@@ -1,5 +1,8 @@
-<div *ngIf="pageNumber !== 0">
-    Strona {{pageNumber}}
+<div class="inline">
+    Ostatnie 24 godziny > 
+    <div *ngIf="pageNumber !== 0">
+        Strona {{pageNumber}}
+    </div>
 </div>
 
 <div *ngFor="let meme of memes">

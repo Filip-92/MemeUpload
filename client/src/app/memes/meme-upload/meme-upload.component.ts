@@ -9,12 +9,15 @@ import { MembersService } from 'src/app/_services/members.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Meme } from 'src/app/_models/meme';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { clear } from 'console';
 import { MemeService } from 'src/app/_services/meme.service';
 import { HttpClient, HttpEventType, HttpHeaders, HttpParams } from '@angular/common/http';
 import { isNgTemplate } from '@angular/compiler';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { AboutModalComponent } from 'src/app/modals/about-modal/about-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-meme-upload',
@@ -60,10 +63,12 @@ export class MemeUploadComponent implements OnInit {
   isLoggedIn = false;
   validationErrors: string[] = [];
   previewImg: SafeUrl;
+  format;
 
   constructor(public accountService: AccountService, private memberService: MembersService,
     private router: Router, private toastr: ToastrService, private sanitizer: DomSanitizer,
-    private fb: FormBuilder, private memeService: MemeService, private http: HttpClient) { 
+    private fb: FormBuilder, private memeService: MemeService, private http: HttpClient,
+    private modalService: NgbModal) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
@@ -80,6 +85,7 @@ export class MemeUploadComponent implements OnInit {
               [Validators.required, 
               Validators.minLength(8), 
               Validators.maxLength(32)]],
+      description: ['', [Validators.maxLength(400)]]
     })
   }
 
@@ -87,23 +93,13 @@ export class MemeUploadComponent implements OnInit {
     this.hasBaseDropzoneOver = e;
   } 
 
-  deletePhoto(photoId: number) {
-    this.memberService.deletePhoto(photoId).subscribe(() => {
-      this.member.photos = this.member.photos.filter(x => x.id !== photoId);
-    })
-  }
-
   initializeUploader() {
-    const formData = new FormData();
     let maxFileSize = 10 * 1024 * 1024;
     this.uploader = new FileUploader({
       url: this.baseUrl + 'users/add-meme',
-      additionalParameter: {
-        title: this?.memeUploadForm?.value?.title
-      },
       authToken: 'Bearer ' + this.user.token,
+      allowedFileType: ['image', 'video'],
       isHTML5: true,
-      allowedFileType: ['image'],
       removeAfterUpload: true,
       autoUpload: false,
       maxFileSize: maxFileSize
@@ -125,23 +121,31 @@ export class MemeUploadComponent implements OnInit {
 
     this.uploader.onAfterAddingFile = (file) => {
       file.withCredentials = false;
+      if(file._file.type.indexOf('image') > -1) {
+        this.format = 'image';
+      } else if (file._file.type.indexOf('video') > -1) {
+        this.format = 'video';
+      }
       this.previewImg = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(file._file)));
       file.file.name = this.memeUploadForm.value.title;
-      file.formData = this.memeUploadForm.value.title;
-      formData.append('file', this.memeUploadForm.value.title);
+      file.file.type = this.memeUploadForm.value.description;
     }
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       if (response) {
         const meme: Meme = JSON.parse(response);
-        console.log(response);
            this.accountService.setCurrentUser(this.user);
            this.previewImg = null;
            this.toastr.success('Pomyślnie dodano mema');
-           this.memeUploadForm.controls["title"] = null;
+           this.memeUploadForm.value.title = null;
+           this.memeUploadForm.value.description = null;
            this.memeToggle();
       }
     }
+  }
+
+  open(content) {
+    this.modalService.open(content);
   }
 
   private formatBytes(bytes, decimals?) {
@@ -153,23 +157,17 @@ export class MemeUploadComponent implements OnInit {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
       }
 
-    memeToggle() {
-        this.memeUploadMode = !this.memeUploadMode;
-    }
+  memeToggle() {
+      this.memeUploadMode = !this.memeUploadMode;
+  }
 
-    public get() {
-      let bar = this.memeUploadForm.value.title;
-      this.http.post(this.baseUrl + 'users/add-meme', '=' + bar, { 
-          headers: new HttpHeaders({ 
-              'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' 
-          }) 
-      })
-    }
+  public get() {
+    let bar = this.memeUploadForm.value.title;
+    this.http.post(this.baseUrl + 'users/add-meme', '=' + bar, { 
+        headers: new HttpHeaders({ 
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' 
+        }) 
+    })
+  }
 
-    writeValue(obj: any): void {
-    }
-    registerOnChange(fn: any): void {
-    }
-    registerOnTouched(fn: any): void {
-    }
 }

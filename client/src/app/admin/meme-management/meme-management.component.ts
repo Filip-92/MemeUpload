@@ -45,7 +45,6 @@ export class PhotoManagementComponent implements OnInit {
   rejectMeme(memeId) {
     this.adminService.rejectMeme(memeId).subscribe(() => {
       this.memes.splice(this.memes.findIndex(p => p.id === memeId), 1);
-      window.location.replace('/admin');
     })
   }
 

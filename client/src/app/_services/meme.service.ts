@@ -40,16 +40,6 @@ export class MemeService {
     })
   }
 
-  getMembers() {
-    if (this.memes.length > 0) return of(this.memes);
-    return this.http.get<Meme[]>(this.baseUrl + 'memes').pipe(
-      map(memes => {
-        this.memes = memes;
-        return memes;
-      })
-    )
-  }
-
   getMemes(page?: number, itemsPerPage?: number) {
     let params = new HttpParams();
 
@@ -61,7 +51,24 @@ export class MemeService {
       map(response => {
         this.paginatedResult.result = response.body;
         if (response.headers.get('Pagination') !== null) {
-          console.log(response.headers.get('Pagination'));
+          this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+        }
+        return this.paginatedResult;
+      })
+    );
+  }
+
+  getMemesLast24H(page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+
+    if (page !== null && itemsPerPage !== null) {
+      params = params.append('pageNumber', page.toString());
+      params = params.append('pageSize', itemsPerPage.toString());
+    }
+    return this.http.get<Meme[]>(this.baseUrl + 'admin/memes-to-moderate/last24H', {observe: 'response', params}).pipe(
+      map(response => {
+        this.paginatedResult.result = response.body;
+        if (response.headers.get('Pagination') !== null) {
           this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
         }
         return this.paginatedResult;
@@ -79,22 +86,8 @@ export class MemeService {
     return this.http.get<Member>(this.baseUrl + 'admin/memes-to-moderate/' + id);
   }
 
-  // getMemes(page?: number, itemsPerPage?: number) {
-  //   let params = getPaginationHeaders(page, itemsPerPage);
-  //   return getPaginatedResult<Meme[]>(this.baseUrl + 'admin/memes-to-moderate', params, this.http);
-  // }
-
   getAllMemes() {
     return this.http.get<Meme[]>(this.baseUrl + 'admin/memes-to-moderate');
-  }
-
-  updateMember(member: Member) {
-    return this.http.put(this.baseUrl + 'users', member).pipe(
-      map(() => {
-        const index = this.members.indexOf(member);
-        this.members[index] = member;
-      })
-    )
   }
 
   setMainPhoto(photoId: number) {
@@ -113,15 +106,6 @@ export class MemeService {
     let params = getPaginationHeaders(pageNumber, pageSize);
     params = params.append('predicate', predicate);
     return getPaginatedResult<Partial<Member[]>>(this.baseUrl + 'likes', params, this.http);
-  }
-
-  addMemeTitle(meme: Meme) {
-    return this.http.put(this.baseUrl + 'users/add-meme', meme).pipe(
-      map(() => {
-        const index = this.memes.indexOf(meme);
-        this.meme[index] = meme;
-      })
-    )
   }
 
 }

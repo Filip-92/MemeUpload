@@ -11,6 +11,7 @@
             <td>{{user.username}}</td>
             <td>{{user.roles}}</td>
             <td><button (click)="openRolesModal(user)" class="btn btn-info">Edit Roles</button></td>
+            <td><button (click)="removeUser(user.id)" class="btn btn-warning">Usun uzytkownika</button></td>
         </tr>
     </table>
 </div>

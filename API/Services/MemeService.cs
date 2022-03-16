@@ -41,6 +41,23 @@ namespace API.Services
             return uploadResult;
         }
 
+        public async Task<VideoUploadResult> AddMemeVidAsync(IFormFile file)
+        {
+            var uploadResult = new VideoUploadResult();
+
+            if (file.Length > 0)
+            {
+                using var stream = file.OpenReadStream();
+                var uploadParams = new VideoUploadParams
+                {
+                    File = new FileDescription(file.FileName, stream)
+                };
+                uploadResult = await _cloudinary.UploadAsync(uploadParams);
+            }
+
+            return uploadResult;
+        }
+
         public async Task<DeletionResult> DeleteMemeAsync(string publicId)
         {
             var deleteParams = new DeletionParams(publicId);

@@ -55,4 +55,8 @@ export class AdminService {
   rejectMeme(memeId: number) {
     return this.http.post(this.baseUrl + 'admin/reject-meme/' + memeId, {});
   }
+
+  removeUser(userId: number) {
+    return this.http.delete(this.baseUrl + 'admin/remove-user/' + userId, {});
+  }
 }

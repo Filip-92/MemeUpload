@@ -103,7 +103,16 @@ namespace API.Controllers
         {
             var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
 
-            var result = await _memeService.AddMemeAsync(file);
+            dynamic result = await _memeService.AddMemeAsync(file);
+
+            if (file.ContentType.Contains("image"))
+            {
+                result = await _memeService.AddMemeAsync(file);
+            }
+            else if (file.ContentType.Contains("video"))
+            {
+                result = await _memeService.AddMemeVidAsync(file);
+            }
 
             if (result.Error != null) return BadRequest(result.Error.Message);
 
@@ -111,7 +120,8 @@ namespace API.Controllers
             {
                 Url = result.SecureUrl.AbsoluteUri,
                 PublicId = result.PublicId,
-                Title = file.FileName
+                Title = file.FileName,
+                Description = ""
             };
 
             user.Memes.Add(meme);

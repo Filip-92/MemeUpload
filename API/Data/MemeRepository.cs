@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -60,10 +61,11 @@ namespace API.Data
             memeParams.PageNumber, memeParams.PageSize);
         }
 
-        public async Task<IEnumerable<MemeDto>> GetMemes()
+        public async Task<PagedList<MemeDto>> GetMemesLast24H(MemeParams memeParams)
         {
-            return await _context.Memes
+            var query = _context.Memes
                 .IgnoreQueryFilters()
+                .Where(m => m.Uploaded > (DateTime.Now.AddDays(-1)))
                 .Select(u => new MemeDto
                 {
                     Id = u.Id,
@@ -71,8 +73,12 @@ namespace API.Data
                     Url = u.Url,
                     Title = u.Title,
                     Description = u.Description,
-                    Uploaded = u.Uploaded
-                }).ToListAsync();
+                    Uploaded = u.Uploaded, 
+                }).AsNoTracking()
+                .OrderByDescending(u => u.Id);
+
+            return await PagedList<MemeDto>.CreateAsync(query, 
+            memeParams.PageNumber, memeParams.PageSize);
         }
 
         public void RemoveMeme(Memes meme)

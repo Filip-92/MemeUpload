@@ -4,6 +4,9 @@
             <div *ngFor="let photo of member.photos">
                 <img src="{{photo.url || './assets/user.png'}}" alt="{{member.username}}" class="card-img-top img-thumbnail">
             </div>
+            <div *ngIf="member.photos.length === 0">
+                <img src="{{'./assets/user.png'}}" alt="{{member.username}}" class="card-img-top img-thumbnail">
+            </div>
             <div class="card-body">
                 <div class="mb-2" *ngIf="(presence.onlineUsers$ | async).includes(member.username)" >
                     <i class="fa fa-user-circle text-success"></i> Online now

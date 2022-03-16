@@ -14,8 +14,9 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   maxDate: Date;
   validationErrors: string[] = [];
+  registrationComplete: boolean = false;
 
-  constructor(private accountService: AccountService, private toastr: ToastrService, 
+  constructor(public accountService: AccountService, private toastr: ToastrService, 
     private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
@@ -27,12 +28,14 @@ export class RegisterComponent implements OnInit {
   initializeForm() {
     this.registerForm = this.fb.group({
       gender: ['male'],
-      email: ['', Validators.required, 
-                  Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,5}$')],
+      email: ['', [Validators.required,
+                    Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
       username: ['', Validators.required],
       dateOfBirth: ['', Validators.required],
       password: ['', [Validators.required, 
-        Validators.minLength(8), Validators.maxLength(16)]],
+                      Validators.minLength(8), 
+                      Validators.maxLength(16),
+                      Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]],
       confirmPassword: ['', [Validators.required, this.matchValues('password')]]
     })
     this.registerForm.controls.password.valueChanges.subscribe(() => {
@@ -49,7 +52,8 @@ export class RegisterComponent implements OnInit {
 
   register() {
     this.accountService.register(this.registerForm.value).subscribe(response => {
-      this.router.navigateByUrl('/members');
+      this.router.navigateByUrl('/');
+      this.registrationComplete = true;
       }, error => {
       this.validationErrors = error;
     })

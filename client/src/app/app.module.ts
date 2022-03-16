@@ -54,6 +54,7 @@ import { MemeSearchComponent } from './memes/meme-search/meme-search.component';
 import { MemeRandomComponent } from './memes/meme-random/meme-random.component';
 import { MemeListComponent } from './memes/meme-list/meme-list.component';
 import { MemeTitleInputComponent } from './_forms/meme-title-input/meme-title-input.component';
+import { MemesLast24HComponent } from './memes/memes-last24-h/memes-last24-h.component';
 
 @NgModule({
   declarations: [
@@ -92,7 +93,8 @@ import { MemeTitleInputComponent } from './_forms/meme-title-input/meme-title-in
     MemeSearchComponent,
     MemeRandomComponent,
     MemeListComponent,
-    MemeTitleInputComponent
+    MemeTitleInputComponent,
+    MemesLast24HComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-<form [formGroup]='registerForm' (ngSubmit)="registerForm.valid && register()" autocomplete="off">
+<form [formGroup]='registerForm' (ngSubmit)="registerForm.valid && register()" *ngIf="!registrationComplete" autocomplete="off">
     <h2 class="text-center text-primary">Sign up</h2>
     <hr>
 

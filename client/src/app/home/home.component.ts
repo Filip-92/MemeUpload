@@ -56,7 +56,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.getUsers();
     //this.getRandomId();
-    this.randomId = this.getRandomMeme();
+    // this.randomId = this.getRandomMeme();
   }
 
   getUsers() {
@@ -66,12 +66,6 @@ export class HomeComponent implements OnInit {
       console.log(error);
     })
   }
-
-  // getMemes() {
-  //   this.memeService.getMemes().subscribe(memes => {
-  //     this.memes = memes;
-  //   })
-  // }
 
   getRandomMeme() {
     var min = Math.ceil(min);
