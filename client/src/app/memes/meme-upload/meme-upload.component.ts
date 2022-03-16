@@ -98,7 +98,7 @@ export class MemeUploadComponent implements OnInit {
     this.uploader = new FileUploader({
       url: this.baseUrl + 'users/add-meme',
       authToken: 'Bearer ' + this.user.token,
-      allowedFileType: ['image', 'video'],
+      allowedFileType: ['image'],
       isHTML5: true,
       removeAfterUpload: true,
       autoUpload: false,

@@ -103,7 +103,7 @@ namespace API.Controllers
         {
             var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
 
-            dynamic result = await _memeService.AddMemeAsync(file);
+            dynamic result = null;
 
             if (file.ContentType.Contains("image"))
             {
