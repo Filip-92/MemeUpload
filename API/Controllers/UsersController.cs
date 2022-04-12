@@ -98,8 +98,16 @@ namespace API.Controllers
             return BadRequest("Problem addding photo");
         }
 
+        [HttpPost("{description}")]
+        public string AddDescription(MemeDto memeDto)
+        {  
+            var description = memeDto.Description;
+
+            return description;
+        }
+
         [HttpPost("add-meme")]
-        public async Task<ActionResult<PhotoDto>> AddMeme(IFormFile file)
+        public async Task<ActionResult<MemeDto>> AddMeme(IFormFile file)
         {
             var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
 
@@ -134,16 +142,56 @@ namespace API.Controllers
             return BadRequest("Problem addding meme");
         }
 
-        // [HttpGet]
-        // [AllowAnonymous]
-        // public async Task<ActionResult<IEnumerable<MemeDto>>> GetMemes([FromQuery])
+        [HttpPost("add-youtube-video")]
+        public async Task<ActionResult<MemeDto>> AddYoutubeVideo(MemeDto memeDto)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+
+            var meme = new Memes
+            {
+                Url = memeDto.Url,
+                // PublicId = result.PublicId,
+                Title = memeDto.Title,
+                Description = memeDto.Description
+            };
+
+            user.Memes.Add(meme);
+
+            if (await _unitOfWork.Complete())
+            {
+                return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<MemeDto>(meme));
+            }
+
+            return BadRequest("Problem addding meme");
+        }
+
+
+        
+        [HttpGet("memes-to-display")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemes([FromQuery] MemeParams memeParams)
+        {
+            var memes = await _unitOfWork.MemeRepository.GetMemes(memeParams);
+
+            Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
+                memes.TotalCount, memes.TotalPages);
+
+            return Ok(memes);
+        }
+
+        [HttpGet("display-meme-detail/{memeId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMeme(int memeId)
+        {
+            var meme = await _unitOfWork.MemeRepository.GetMeme(memeId);
+
+            return Ok(meme);
+        }
+
+        // [HttpGet("{id}", Name = "GetMeme")]
+        // public async Task<ActionResult<MemeDto>> GetMeme(int id)
         // {
-        //     var memes = await _unitOfWork.MemeRepository.GetMemesAsync();
-
-        //     Response.AddPaginationHeader(users.CurrentPage, users.PageSize,
-        //         users.TotalCount, users.TotalPages);
-
-        //     return Ok(users);
+        //     return await _unitOfWork.MemeRepository.GetMemeAsync(id);
         // }
 
         [HttpPut("set-main-photo/{photoId}")]
@@ -208,6 +256,78 @@ namespace API.Controllers
             if (await _unitOfWork.Complete()) return Ok();
 
             return BadRequest("Failed to delete the meme");
+        }
+
+        [HttpPost("{memeId}")]
+        public async Task<ActionResult> AddLike(int id)
+        {
+            var sourceUserId = User.GetUserId();
+            var likedMeme = await _unitOfWork.MemeRepository.GetMemeById(id);
+            var sourceUser = await _unitOfWork.MemeLikesRepository.GetMemeWithLikes(sourceUserId);
+
+            // if (likedMeme == null) return NotFound();
+
+            // if (sourceUser.UserName == username) return BadRequest("You cannot like yourself");
+
+            // var userLike = await _unitOfWork.LikesRepository.GetUserLike(sourceUserId, likedUser.Id);
+
+            // if (userLike != null)
+            // {
+            //     sourceUser.LikedUsers.Remove(userLike);
+            // }
+            // else if (userLike == null)
+            // {
+            //     userLike = new UserLike
+            //     {
+            //         SourceUserId = sourceUserId,
+            //         LikedUserId = likedUser.Id
+            //     };
+
+            //     sourceUser.LikedUsers.Add(userLike);
+            // }
+
+            if (await _unitOfWork.Complete()) return Ok();
+
+            return BadRequest("Failed to like user");
+        }
+
+        [Authorize(Policy = "ModerateMemeRole")]
+        [HttpPost("remove-meme/{memeId}")]
+        public async Task<ActionResult> RejectMeme(int memeId)
+        {
+            var meme = await _unitOfWork.MemeRepository.GetMemeById(memeId);
+
+            if (meme == null) return NotFound("Could not find meme");
+
+            if (meme.PublicId != null)
+            {
+                var result = await _memeService.DeleteMemeAsync(meme.PublicId);
+
+                if (result.Result == "ok")
+                {
+                    _unitOfWork.MemeRepository.RemoveMeme(meme);
+                }
+            }
+            else
+            {
+                _unitOfWork.MemeRepository.RemoveMeme(meme);
+            }
+
+            await _unitOfWork.Complete();
+
+            return Ok();
+        }
+
+        [AllowAnonymous]
+        [HttpGet("memes-to-moderate/last24H")]
+        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemesLast24H([FromQuery] MemeParams memeParams)
+        {
+            var memes = await _unitOfWork.MemeRepository.GetMemesLast24H(memeParams);
+
+            Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
+                memes.TotalCount, memes.TotalPages);
+
+            return Ok(memes);
         }
     }
 }

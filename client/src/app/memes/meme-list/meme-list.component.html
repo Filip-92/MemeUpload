@@ -20,3 +20,13 @@
         lastText="&raquo;">
     </pagination>
 </div>
+
+<div class="col-md-3 mt-2 justify-content-right" style="text-align: right;">
+    <span class="mr-2">Page Size</span>
+
+    <select (change)="updatePageSize($any($event.target).value)">
+        <option selected="true">8</option>
+        <option>16</option>
+        <option>24</option>
+    </select>
+</div>

@@ -11,6 +11,11 @@
     transition-timing-function: ease-out;
 }
 
+.img-thumbnail {
+    border: none !important;
+    height: 158px;
+}
+
 .card-img-wrapper {
     overflow: hidden;
     position: relative;

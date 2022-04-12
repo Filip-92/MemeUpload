@@ -34,7 +34,7 @@ export class MemeDetailComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.meme = data.meme;
     });
-    this.getMemes();
+    this.getMeme(this.id);
   }
 
   getMemes() {
@@ -43,13 +43,11 @@ export class MemeDetailComponent implements OnInit {
     })
   }
 
-
-  // getMemes() {
-  //   this.memeService.getMemes(this.pageNumber, this.pageSize).subscribe(response => {
-  //     this.memes = response.result;
-  //     this.pagination = response.pagination;
-  //   });
-  // }
+  getMeme(memeId: number) {
+    this.memeService.getMeme(memeId).subscribe(memes => {
+      this.memes = memes.reverse();
+    })
+  }
 
   addLike() {
     this.likes++;

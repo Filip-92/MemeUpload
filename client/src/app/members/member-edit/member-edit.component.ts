@@ -8,6 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
 import { Pagination } from 'src/app/_models/pagination';
 import { Router } from '@angular/router';
+import { Meme } from 'src/app/_models/meme';
+import { MemeService } from 'src/app/_services/meme.service';
 
 @Component({
   selector: 'app-member-edit',
@@ -27,6 +29,7 @@ export class MemberEditComponent implements OnInit {
   pageNumber = 1;
   pageSize = 5;
   pagination: Pagination;
+  memes: Meme[];
   
   @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) {
     if (this.editForm.dirty) {
@@ -35,13 +38,33 @@ export class MemberEditComponent implements OnInit {
   }
 
   constructor(private accountService: AccountService, private memberService: MembersService, 
-    private toastr: ToastrService, private router: Router) { 
+    private toastr: ToastrService, private router: Router, private memeService: MemeService) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
   ngOnInit(): void {
     this.loadMember();
     this.loadLikes();
+    // this.getMemberMemes();
+  }
+
+  getMemes() {
+    this.memeService.getMemes(this.pageNumber, this.pageSize).subscribe(response => {
+      this.memes = response.result;
+      this.pagination = response.pagination;
+    });
+  }
+
+  getMemberMemes() {
+    this.memeService.getMemberMemes(1).subscribe(memes => {
+      this.memes = memes;
+    })
+  }
+
+  deletePhoto(photoId: number) {
+    this.memberService.deletePhoto(photoId).subscribe(() => {
+      this.member.photos = this.member.photos.filter(x => x.id !== photoId);
+    })
   }
 
   changePassword() {
@@ -77,6 +100,18 @@ export class MemberEditComponent implements OnInit {
     this.memberService.getLikes(this.predicate, this.pageNumber, this.pageSize).subscribe(response => {
       this.members = response.result;
       this.pagination = response.pagination;
+    })
+  }
+
+  removeMeme(memeId) {
+    this.memeService.removeMeme(memeId).subscribe(() => {
+      this.memes.splice(this.memes.findIndex(p => p.id === memeId), 1);
+    })
+  }
+
+  deleteMeme(memeId: number) {
+    this.memberService.deleteMeme(memeId).subscribe(() => {
+      this.member.memes = this.member.memes.filter(x => x.id !== memeId);
     })
   }
 }

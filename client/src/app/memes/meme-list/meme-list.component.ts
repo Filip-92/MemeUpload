@@ -34,4 +34,10 @@ export class MemeListComponent implements OnInit {
     this.loadMemes();
   }
 
+  updatePageSize(pageSize: number) {
+    this.pageSize = pageSize;
+    this.pageNumber = 1;
+    this.loadMemes();
+  }
+
 }

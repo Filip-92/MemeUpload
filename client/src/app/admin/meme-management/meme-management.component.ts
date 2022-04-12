@@ -14,7 +14,7 @@ export class PhotoManagementComponent implements OnInit {
   photos: Photo[];
   pagination: Pagination;
   pageNumber = 1;
-  pageSize = 5;
+  pageSize = 10;
 
   constructor(private adminService: AdminService) { }
 
@@ -23,15 +23,9 @@ export class PhotoManagementComponent implements OnInit {
     //this.getPhotosForApproval();
   }
 
-  // getMemesForApproval() {
-  //   this.adminService.getMemesForApproval().subscribe(memes => {
-  //     this.memes = memes;
-  //   })
-  // }
-
   getMemesForApproval() {
   this.adminService.getMemesForApproval(this.pageNumber, this.pageSize).subscribe(response => {
-        this.memes = response.result.reverse();
+        this.memes = response.result;
         this.pagination = response.pagination;
       });
     }

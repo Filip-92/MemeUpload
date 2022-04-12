@@ -1,3 +1,14 @@
 img {
     min-width: 600px;
 }
+
+a {
+    color: white !important;
+}
+
+@media screen and (max-width: 700px) {
+
+    img {
+        min-width: 400px !important;
+    }
+}

@@ -15,5 +15,8 @@ namespace API.Entities
         public AppUser AppUser { get; set; }
         public int AppUserId { get; set; }
         public DateTime Uploaded {get; set; } = DateTime.Now;
+        // public int NumberOfLikes { get; set; }
+        // public int NumberOfDislikes { get; set; }
+        // public int OverallRank { get; set; }
     }
 }

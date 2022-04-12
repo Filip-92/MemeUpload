@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Member } from 'src/app/_models/member';
 import { MembersService } from 'src/app/_services/members.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -33,6 +33,8 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   pageNumber = 1;
   pageSize = 5;
   pagination: Pagination;
+  @ViewChild('scrollMe') meme : ElementRef;
+  scrolltop:number=null;
 
   constructor(public presence: PresenceService, private route: ActivatedRoute, 
     private messageService: MessageService, private accountService: AccountService,

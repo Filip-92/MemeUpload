@@ -127,18 +127,6 @@ namespace API.Controllers
 
         // [Authorize(Policy = "ModerateMemeRole")]
         // [HttpGet("memes-to-moderate")]
-        // public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemesForModeration([FromQuery] MemeParams memeParams)
-        // {
-        //     var memes = await _unitOfWork.MemeRepository.GetMemes(memeParams);
-
-        //     Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
-        //         memes.TotalCount, memes.TotalPages);
-
-        //     return Ok(memes);
-        // }
-
-        // [Authorize(Policy = "ModerateMemeRole")]
-        // [HttpGet("memes-to-moderate")]
         // public async Task<ActionResult> GetMemesForModeration()
         // {
         //     var memes = await _unitOfWork.MemeRepository.GetUnapprovedMemes();
@@ -146,11 +134,11 @@ namespace API.Controllers
         //     return Ok(memes);
         // }
 
-        [AllowAnonymous]
+        [Authorize(Policy = "ModerateMemeRole")]
         [HttpGet("memes-to-moderate")]
-        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemes([FromQuery] MemeParams memeParams)
+        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemesForModeration([FromQuery] MemeParams memeParams)
         {
-            var memes = await _unitOfWork.MemeRepository.GetMemes(memeParams);
+            var memes = await _unitOfWork.MemeRepository.GetUnapprovedMemes(memeParams);
 
             Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
                 memes.TotalCount, memes.TotalPages);
@@ -159,25 +147,13 @@ namespace API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("memes-to-moderate/last24H")]
-        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemesLast24H([FromQuery] MemeParams memeParams)
+        [HttpGet("member-memes-to-moderate/{memberId}")]
+        public async Task<ActionResult> GetMemberMemes(int userId)
         {
-            var memes = await _unitOfWork.MemeRepository.GetMemesLast24H(memeParams);
-
-            Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
-                memes.TotalCount, memes.TotalPages);
+            var memes = await _unitOfWork.MemeRepository.GetMemberMemes(userId);
 
             return Ok(memes);
         }
-
-        // [AllowAnonymous]
-        // [HttpGet("memes-to-moderate")]
-        // public async Task<ActionResult> GetMemes()
-        // {
-        //     var memes = await _unitOfWork.MemeRepository.GetMemes();
-
-        //     return Ok(memes);
-        // }
 
         [Authorize(Policy = "ModerateMemeRole")]
         [HttpPost("approve-meme/{memeId}")]

@@ -6,7 +6,7 @@ input[type=text] {
 }
 
 #memeTitle {
-    min-width: 600px !important;
+    min-width: 40% !important;
 }
 
 button {

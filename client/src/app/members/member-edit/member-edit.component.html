@@ -55,8 +55,12 @@
                 >
                     <div *ngFor="let meme of member.memes" >
                         <img src="{{meme.url}}" class="card-img-top" style="max-width: 400px;">
-                        <div>
+                        <div class="text-center">
                             <span class="btn btn-primary mt-3 mb-3" style="min-width: 100px;">0</span>
+                            <button 
+                            (click)="deleteMeme(meme.id)"
+                            class="btn btn-sm btn-danger"
+                            ><i class="fa fa-trash"></i></button>
                         </div>
                     </div>
                 </div>

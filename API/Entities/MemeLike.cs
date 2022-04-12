@@ -1,15 +1,11 @@
 namespace API.Entities
 {
-    public class UserLike
+    public class MemeLike
     {
         public AppUser SourceUser { get; set; }
-        
         public int SourceUserId { get; set; }
-
-        public AppUser LikedUser { get; set; }
-
-        public int LikedUserId { get; set; }
-
+        public Memes LikedMeme { get; set; }
+        public int LikedMemeId { get; set; }
         public int NumberOfLikes { get; set; }
         
     }

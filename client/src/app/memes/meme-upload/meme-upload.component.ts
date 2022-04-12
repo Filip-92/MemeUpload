@@ -64,6 +64,8 @@ export class MemeUploadComponent implements OnInit {
   validationErrors: string[] = [];
   previewImg: SafeUrl;
   format;
+  normalMeme: boolean;
+  youtubeVideo: boolean;
 
   constructor(public accountService: AccountService, private memberService: MembersService,
     private router: Router, private toastr: ToastrService, private sanitizer: DomSanitizer,
@@ -98,7 +100,7 @@ export class MemeUploadComponent implements OnInit {
     this.uploader = new FileUploader({
       url: this.baseUrl + 'users/add-meme',
       authToken: 'Bearer ' + this.user.token,
-      allowedFileType: ['image'],
+      allowedFileType: ['image', 'video'],
       isHTML5: true,
       removeAfterUpload: true,
       autoUpload: false,
@@ -161,13 +163,18 @@ export class MemeUploadComponent implements OnInit {
       this.memeUploadMode = !this.memeUploadMode;
   }
 
-  public get() {
-    let bar = this.memeUploadForm.value.title;
-    this.http.post(this.baseUrl + 'users/add-meme', '=' + bar, { 
-        headers: new HttpHeaders({ 
-            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' 
-        }) 
-    })
+  normalMemeToggle() {
+    this.normalMeme = !this.normalMeme;
+  }
+
+  youtubeVideoToggle() {
+    this.youtubeVideo = !this.youtubeVideo;
+  }
+
+  async addDescription() {
+    (await this.memeService.addMemeDescription(this.memeUploadForm.value.description)).subscribe(() => {
+      this.memeUploadForm.value.description.reset();
+    });
   }
 
 }

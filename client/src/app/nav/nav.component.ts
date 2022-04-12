@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { AccountService } from '../_services/account.service';
 import { Observable } from 'rxjs';
 import { User } from '../_models/user';
@@ -10,6 +10,7 @@ import { Pagination } from '../_models/pagination';
 import { MessageService } from '../_services/message.service';
 import { add } from 'ngx-bootstrap/chronos';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-nav',
@@ -30,15 +31,25 @@ export class NavComponent implements OnInit {
   loading = false;
   open: boolean;
   display: boolean = true;
+  isMobile: boolean;
+  public innerWidth: any;
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.innerWidth = window.innerWidth;
+  }
 
   constructor(public accountService: AccountService, private router: Router, 
-    private toastr: ToastrService, private messageService: MessageService) { }
+    private toastr: ToastrService, private messageService: MessageService,
+    private deviceService: DeviceDetectorService) { }
 
   ngOnInit(): void {
     //this.loadMessages();
     this.open = true;
+    this.isMobile = this.deviceService.isMobile();
+    this.innerWidth = window.innerWidth;
   }
-
+  
   displayNavbar() {
     this.display = !this.display;
   }

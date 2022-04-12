@@ -24,6 +24,7 @@ export class MemeCardComponent implements OnInit {
   pagination: Pagination;
   pageNumber = 1;
   pageSize = 5;
+  format;
 
   constructor(private memberService: MembersService, private toastr: ToastrService, 
     public presence: PresenceService, private memeService: MemeService, private http: HttpClient) { }
@@ -49,8 +50,11 @@ export class MemeCardComponent implements OnInit {
   //   });
   // }
 
-  addLike() {
-    this.likes++;
+  addLike(meme: Meme) {
+    this.memeService.addLike(meme.id).subscribe(() => {
+      //this.toastr.success('You have liked ' + member.username);
+      this.likes++;
+    })
   }
 
   removeLike() {
@@ -72,5 +76,9 @@ export class MemeCardComponent implements OnInit {
   convertText(title: string) {
     var result = title?.toLowerCase().split(' ').join('-').normalize('NFD').replace(/[\u0300-\u036f]/g, "");
     return result;
+  }
+
+  checkURL(url) {
+    return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
   }
 }

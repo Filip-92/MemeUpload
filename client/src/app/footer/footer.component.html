@@ -2,7 +2,7 @@
     <br>
     <a (click)="contactFormToggle()">Formularz kontaktowy</a>
     <span style="margin-left: 10px; margin-right: 10px;"> | </span>
-    <a (click)="openModal()">Polityka prywatności</a>
+    <a href="/about">Polityka prywatności</a>
     <br>
     <app-contact-form *ngIf="contactFormMode"   #scrollMe 
     [scrollTop]="scrollMe.scrollHeight"></app-contact-form>

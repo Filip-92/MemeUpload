@@ -55,6 +55,7 @@ import { MemeRandomComponent } from './memes/meme-random/meme-random.component';
 import { MemeListComponent } from './memes/meme-list/meme-list.component';
 import { MemeTitleInputComponent } from './_forms/meme-title-input/meme-title-input.component';
 import { MemesLast24HComponent } from './memes/memes-last24-h/memes-last24-h.component';
+import { IsMobileDirective } from './_directives/is-mobile.directive';
 
 @NgModule({
   declarations: [
@@ -94,7 +95,8 @@ import { MemesLast24HComponent } from './memes/memes-last24-h/memes-last24-h.com
     MemeRandomComponent,
     MemeListComponent,
     MemeTitleInputComponent,
-    MemesLast24HComponent
+    MemesLast24HComponent,
+    IsMobileDirective
   ],
   imports: [
     BrowserModule,
@@ -123,7 +125,7 @@ import { MemesLast24HComponent } from './memes/memes-last24-h/memes-last24-h.com
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
-    {provide: LOCALE_ID, useValue: "pl-PL", useFactory: (sessionService) => sessionService.getLocale()},
+    {provide: LOCALE_ID, useValue: "p-PL", useFactory: (sessionService) => sessionService.getLocale()},
     [TimeagoIntl],
     [DatePipe],
     AuthGuard,

@@ -17,7 +17,7 @@ import { PaginatedResult, Pagination } from '../_models/pagination';
 })
 export class MemeService {
   @Input() member: Member;
-  @Input() meme: Meme;
+  // @Input() meme: Meme;
   baseUrl = environment.apiUrl;
   members: Member[] = [];
   memes: Meme[] = [];
@@ -25,6 +25,16 @@ export class MemeService {
   memeCache = new Map();
   user: User;
   userParams: UserParams;
+  meme: Meme = {
+    x: '',
+    id: 0,
+    url: '',
+    title: '',
+    uploaded: undefined,
+    description: '',
+    isApproved: false,
+    likes: 0
+  };
 
   paginatedResult: PaginatedResult<Meme[]> = new PaginatedResult<Meme[]>();
   pagination: Pagination;
@@ -41,21 +51,25 @@ export class MemeService {
   }
 
   getMemes(page?: number, itemsPerPage?: number) {
-    let params = new HttpParams();
+  let params = new HttpParams();
 
-    if (page !== null && itemsPerPage !== null) {
-      params = params.append('pageNumber', page.toString());
-      params = params.append('pageSize', itemsPerPage.toString());
-    }
-    return this.http.get<Meme[]>(this.baseUrl + 'admin/memes-to-moderate', {observe: 'response', params}).pipe(
-      map(response => {
-        this.paginatedResult.result = response.body;
-        if (response.headers.get('Pagination') !== null) {
-          this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-        }
-        return this.paginatedResult;
-      })
-    );
+  if (page !== null && itemsPerPage !== null) {
+    params = params.append('pageNumber', page.toString());
+    params = params.append('pageSize', itemsPerPage.toString());
+  }
+  return this.http.get<Meme[]>(this.baseUrl + 'users/memes-to-display', {observe: 'response', params}).pipe(
+    map(response => {
+      this.paginatedResult.result = response.body;
+      if (response.headers.get('Pagination') !== null) {
+        this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+      }
+      return this.paginatedResult;
+    })
+  );
+}
+
+  getMemberMemes(memberId: number) {
+    return this.http.get<Meme[]>(this.baseUrl + 'admin/member-memes-to-moderate/' + memberId);
   }
 
   getMemesLast24H(page?: number, itemsPerPage?: number) {
@@ -65,7 +79,7 @@ export class MemeService {
       params = params.append('pageNumber', page.toString());
       params = params.append('pageSize', itemsPerPage.toString());
     }
-    return this.http.get<Meme[]>(this.baseUrl + 'admin/memes-to-moderate/last24H', {observe: 'response', params}).pipe(
+    return this.http.get<Meme[]>(this.baseUrl + 'users/memes-to-moderate/last24H', {observe: 'response', params}).pipe(
       map(response => {
         this.paginatedResult.result = response.body;
         if (response.headers.get('Pagination') !== null) {
@@ -76,7 +90,7 @@ export class MemeService {
     );
   }
 
-  getMeme(id: string) {
+  getMemeOld(id: string) {
     const meme = [...this.memberCache.values()]
       .reduce((arr, elem) => arr.concat(elem.result), [])
       .find((meme: Meme) => meme.id === parseInt(id));
@@ -84,6 +98,10 @@ export class MemeService {
       return of(meme);
     }
     return this.http.get<Member>(this.baseUrl + 'admin/memes-to-moderate/' + id);
+  }
+
+  getMeme(id: number) {
+    return this.http.get<Meme>(this.baseUrl + 'users/display-meme-detail/' + id);
   }
 
   getAllMemes() {
@@ -97,15 +115,28 @@ export class MemeService {
   deletePhoto(photoId: number) {
     return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
   }
+
+  deleteMeme(memeId: number) {
+    console.log(memeId)
+    return this.http.delete(this.baseUrl + 'users/delete-meme/' + memeId);
+  }
   
-  addLike(username: string) {
-    return this.http.post(this.baseUrl + 'likes/' + username, {})
+  addLike(memeId: number) {
+    return this.http.post(this.baseUrl + 'meme-likes/' + memeId, {})
   }
 
   getLikes(predicate: string, pageNumber, pageSize) {
     let params = getPaginationHeaders(pageNumber, pageSize);
     params = params.append('predicate', predicate);
     return getPaginatedResult<Partial<Member[]>>(this.baseUrl + 'likes', params, this.http);
+  }
+
+  removeMeme(memeId: number) {
+    return this.http.post(this.baseUrl + 'admin/reject-meme/' + memeId, {});
+  }
+
+  async addMemeDescription(description: string) {
+    return this.http.post(this.baseUrl + 'users', description);
   }
 
 }
