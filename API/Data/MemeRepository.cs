@@ -81,6 +81,23 @@ namespace API.Data
             memeParams.PageNumber, memeParams.PageSize);
         }
 
+        public async Task<IEnumerable<MemeDto>> GetMemesList()
+        {
+            Random random = new Random();
+
+                return await _context.Memes
+                .IgnoreQueryFilters()
+                .Select(u => new MemeDto
+                {
+                    Id = u.Id,
+                    Username = u.AppUser.UserName,
+                    Url = u.Url,
+                    Title = u.Title,
+                    Description = u.Description,
+                    Uploaded = u.Uploaded
+                }).ToListAsync();
+        }
+
         public async Task<IEnumerable<MemeDto>> GetMeme(int id)
         {
             return await _context.Memes

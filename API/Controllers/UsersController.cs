@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 
 namespace API.Controllers
 {
@@ -165,8 +167,6 @@ namespace API.Controllers
             return BadRequest("Problem addding meme");
         }
 
-
-        
         [HttpGet("memes-to-display")]
         [AllowAnonymous]
         public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemes([FromQuery] MemeParams memeParams)
@@ -186,6 +186,21 @@ namespace API.Controllers
             var meme = await _unitOfWork.MemeRepository.GetMeme(memeId);
 
             return Ok(meme);
+        }
+
+        [HttpGet("get-random-meme")]
+        [AllowAnonymous]
+        public async Task<ActionResult> GetRandomMeme()
+        {
+            Random random = new Random();
+
+            var meme = await _unitOfWork.MemeRepository.GetMemesList();
+
+            var array = meme.ToArray();
+
+            var index = random.Next(array.Count());
+  
+            return Ok(array[index]);
         }
 
         // [HttpGet("{id}", Name = "GetMeme")]

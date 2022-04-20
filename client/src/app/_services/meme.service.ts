@@ -90,18 +90,12 @@ export class MemeService {
     );
   }
 
-  getMemeOld(id: string) {
-    const meme = [...this.memberCache.values()]
-      .reduce((arr, elem) => arr.concat(elem.result), [])
-      .find((meme: Meme) => meme.id === parseInt(id));
-    if (meme) {
-      return of(meme);
-    }
-    return this.http.get<Member>(this.baseUrl + 'admin/memes-to-moderate/' + id);
-  }
-
   getMeme(id: number) {
     return this.http.get<Meme>(this.baseUrl + 'users/display-meme-detail/' + id);
+  }
+
+  getRandomMeme() {
+    return this.http.get<Meme>(this.baseUrl + 'users/get-random-meme/');
   }
 
   getAllMemes() {
