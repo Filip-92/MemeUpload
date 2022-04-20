@@ -12,3 +12,7 @@ a {
         min-width: 400px !important;
     }
 }
+
+.card {
+    min-height: 600px !important;
+  }

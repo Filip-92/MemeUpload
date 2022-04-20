@@ -31,3 +31,7 @@ pagination {
     max-width: 400px !important;
   }
 }
+
+.card {
+  min-height: 600px !important;
+}

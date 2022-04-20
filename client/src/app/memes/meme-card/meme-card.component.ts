@@ -31,23 +31,11 @@ export class MemeCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsers();
-    // this.getMemes();
+
   }
+  
   // addLike(meme: Meme) {
   //   this.memberService.addLike(meme.url).subscribe();
-  // }
-
-  // getMemes() {
-  //   this.memeService.getMemes().subscribe(memes => {
-  //     this.memes = memes;
-  //   })
-  // }
-
-  // getMemes() {
-  //   this.memeService.getMemes(this.pageNumber, this.pageSize).subscribe(response => {
-  //     this.memes = response.result;
-  //     this.pagination = response.pagination;
-  //   });
   // }
 
   addLike(meme: Meme) {

@@ -57,4 +57,8 @@ export class MemeDetailComponent implements OnInit {
     this.likes--;
   }
 
+  checkURL(url) {
+    return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
+  }
+
 }
