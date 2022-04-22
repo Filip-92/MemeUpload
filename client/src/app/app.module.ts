@@ -56,6 +56,7 @@ import { MemeListComponent } from './memes/meme-list/meme-list.component';
 import { MemeTitleInputComponent } from './_forms/meme-title-input/meme-title-input.component';
 import { MemesLast24HComponent } from './memes/memes-last24-h/memes-last24-h.component';
 import { IsMobileDirective } from './_directives/is-mobile.directive';
+import { TopButtonsComponent } from './memes/top-buttons/top-buttons.component';
 
 @NgModule({
   declarations: [
@@ -96,7 +97,8 @@ import { IsMobileDirective } from './_directives/is-mobile.directive';
     MemeListComponent,
     MemeTitleInputComponent,
     MemesLast24HComponent,
-    IsMobileDirective
+    IsMobileDirective,
+    TopButtonsComponent
   ],
   imports: [
     BrowserModule,

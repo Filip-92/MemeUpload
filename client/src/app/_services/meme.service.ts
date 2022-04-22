@@ -98,6 +98,24 @@ export class MemeService {
     return this.http.get<Meme>(this.baseUrl + 'users/get-random-meme/');
   }
 
+  searchForMeme(searchString: string, page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+
+  if (page !== null && itemsPerPage !== null) {
+    params = params.append('pageNumber', page.toString());
+    params = params.append('pageSize', itemsPerPage.toString());
+  }
+  return this.http.get<Meme[]>(this.baseUrl + 'users/search-memes/' + searchString, {observe: 'response', params}).pipe(
+    map(response => {
+      this.paginatedResult.result = response.body;
+      if (response.headers.get('Pagination') !== null) {
+        this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+      }
+      return this.paginatedResult;
+    })
+  );
+  }
+
   getAllMemes() {
     return this.http.get<Meme[]>(this.baseUrl + 'admin/memes-to-moderate');
   }

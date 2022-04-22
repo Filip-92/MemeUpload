@@ -75,6 +75,8 @@ namespace API.Controllers
             return BadRequest("Failed to update user");
         }
 
+        // Photos
+
         [HttpPost("add-photo")]
         public async Task<ActionResult<PhotoDto>> AddPhoto(IFormFile file)
         {
@@ -99,6 +101,50 @@ namespace API.Controllers
 
             return BadRequest("Problem addding photo");
         }
+
+        [HttpPut("set-main-photo/{photoId}")]
+        public async Task<ActionResult> SetMainPhoto(int photoId)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+
+            var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
+
+            if (photo.IsMain) return BadRequest("This is already your main photo");
+
+            var currentMain = user.Photos.FirstOrDefault(x => x.IsMain);
+            if (currentMain != null) currentMain.IsMain = false;
+            photo.IsMain = true;
+
+            if (await _unitOfWork.Complete()) return NoContent();
+
+            return BadRequest("Failed to set main photo");
+        }
+
+        [HttpDelete("delete-photo/{photoId}")]
+        public async Task<ActionResult> DeletePhoto(int photoId)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+
+            var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
+
+            if (photo == null) return NotFound();
+
+            if (photo.IsMain) return BadRequest("You cannot delete your main photo");
+
+            if (photo.PublicId != null)
+            {
+                var result = await _photoService.DeletePhotoAsync(photo.PublicId);
+                if (result.Error != null) return BadRequest(result.Error.Message);
+            }
+
+            user.Photos.Remove(photo);
+
+            if (await _unitOfWork.Complete()) return Ok();
+
+            return BadRequest("Failed to delete the photo");
+        }
+
+        // Memes
 
         [HttpPost("{description}")]
         public string AddDescription(MemeDto memeDto)
@@ -188,6 +234,18 @@ namespace API.Controllers
             return Ok(meme);
         }
 
+        [HttpGet("search-memes/{searchString}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> SearchForMemes([FromQuery] MemeParams memeParams, string searchString)
+        {
+            var memes = await _unitOfWork.MemeRepository.SearchForMemes(memeParams, searchString);
+
+            Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
+                memes.TotalCount, memes.TotalPages);
+
+            return Ok(memes);
+        }
+
         [HttpGet("get-random-meme")]
         [AllowAnonymous]
         public async Task<ActionResult> GetRandomMeme()
@@ -201,54 +259,6 @@ namespace API.Controllers
             var index = random.Next(array.Count());
   
             return Ok(array[index]);
-        }
-
-        // [HttpGet("{id}", Name = "GetMeme")]
-        // public async Task<ActionResult<MemeDto>> GetMeme(int id)
-        // {
-        //     return await _unitOfWork.MemeRepository.GetMemeAsync(id);
-        // }
-
-        [HttpPut("set-main-photo/{photoId}")]
-        public async Task<ActionResult> SetMainPhoto(int photoId)
-        {
-            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
-
-            var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
-
-            if (photo.IsMain) return BadRequest("This is already your main photo");
-
-            var currentMain = user.Photos.FirstOrDefault(x => x.IsMain);
-            if (currentMain != null) currentMain.IsMain = false;
-            photo.IsMain = true;
-
-            if (await _unitOfWork.Complete()) return NoContent();
-
-            return BadRequest("Failed to set main photo");
-        }
-
-        [HttpDelete("delete-photo/{photoId}")]
-        public async Task<ActionResult> DeletePhoto(int photoId)
-        {
-            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
-
-            var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
-
-            if (photo == null) return NotFound();
-
-            if (photo.IsMain) return BadRequest("You cannot delete your main photo");
-
-            if (photo.PublicId != null)
-            {
-                var result = await _photoService.DeletePhotoAsync(photo.PublicId);
-                if (result.Error != null) return BadRequest(result.Error.Message);
-            }
-
-            user.Photos.Remove(photo);
-
-            if (await _unitOfWork.Complete()) return Ok();
-
-            return BadRequest("Failed to delete the photo");
         }
 
         [HttpDelete("delete-meme/{memeId}")]

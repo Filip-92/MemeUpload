@@ -10,6 +10,7 @@ namespace API.Interfaces
     {
          Task<PagedList<MemeForApprovalDto>> GetUnapprovedMemes(MemeParams memeParams);
          Task<PagedList<MemeDto>> GetMemes(MemeParams memeParams);
+         Task<PagedList<MemeDto>> SearchForMemes(MemeParams memeParams, string searchString);
          Task<IEnumerable<MemeDto>> GetMemesList();
          Task<MemeDto> GetMemeAsync(int id);
          Task<IEnumerable<MemeDto>> GetMeme(int id);

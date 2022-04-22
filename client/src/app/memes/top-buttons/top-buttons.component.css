@@ -1,0 +1,8 @@
+button {
+    border: 1px solid whitesmoke;
+    background-color: rgb(121, 56, 56);
+  }
+  
+  button:hover {
+    background-color: red;
+  }

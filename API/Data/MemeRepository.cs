@@ -114,6 +114,26 @@ namespace API.Data
                 }).ToListAsync();
         }
 
+        public async Task<PagedList<MemeDto>> SearchForMemes(MemeParams memeParams, string searchString)
+        {
+            var query = _context.Memes
+                .IgnoreQueryFilters()
+                .Where(m => m.Title.Contains(searchString))
+                .Select(u => new MemeDto
+                {
+                    Id = u.Id,
+                    Username = u.AppUser.UserName,
+                    Url = u.Url,
+                    Title = u.Title,
+                    Description = u.Description,
+                    Uploaded = u.Uploaded, 
+                }).AsNoTracking()
+                .OrderByDescending(u => u.Id);
+
+            return await PagedList<MemeDto>.CreateAsync(query, 
+            memeParams.PageNumber, memeParams.PageSize);
+        }
+
         public async Task<PagedList<MemeDto>> GetMemesLast24H(MemeParams memeParams)
         {
             var query = _context.Memes

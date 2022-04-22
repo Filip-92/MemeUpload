@@ -207,7 +207,7 @@ namespace API.Controllers
 
             if (user == null) return NotFound("Could not find user");
 
-            if (userId != null)
+            // if (userId != null)
             {
                 var result = _userManager.DeleteAsync(user);
             }

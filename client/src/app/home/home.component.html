@@ -1,6 +1,4 @@
-<div class="text-center">
-    <button class="btn btn-info" routerLink="ostatnie24H">Ostatnie 24 godziny</button>
-</div>
+<app-top-buttons></app-top-buttons>
 
 <div class="text-center" id="container" *ngIf="(accountService.currentUser$ | async) !== null">
     <app-meme-upload></app-meme-upload>
@@ -12,9 +10,7 @@
     </p>
 </div>
 
-<a routerLink="memes/losowe/{{id}}">
-    dice-icon
-</a>
+
 
 <div class="text-center">
     <iframe width="600" height="400" src="https://www.youtube-nocookie.com/embed/CLjmm4-XJzk"></iframe>

@@ -49,7 +49,6 @@ export class HomeComponent implements OnInit {
     isApproved: false,
     likes: 0
   };
-  id: number;
 
   pagination: Pagination;
   pageNumber = 1;
@@ -62,7 +61,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsers();
-    this.getRandomMeme();
   }
 
   getUsers() {
@@ -70,13 +68,6 @@ export class HomeComponent implements OnInit {
       this.users = response;
     }, error => {
       console.log(error);
-    })
-  }
-
-  getRandomMeme() {
-    this.memeService.getRandomMeme().subscribe(meme => {
-      this.meme = meme;
-      this.id = this.meme.id;
     })
   }
 }
