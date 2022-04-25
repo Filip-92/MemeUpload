@@ -4,13 +4,11 @@
     <app-meme-upload></app-meme-upload>
 </div>
 
-<div class="text-center" [ngStyle]="(accountService.currentUser$ | async) === null ? { 'margin-top': '-40px' } : { 'margin-top': '0px' }">
+<div class="text-center" [ngStyle]="(accountService.currentUser$ | async) === null ? { 'margin-top': '-20px' } : { 'margin-top': '0px' }">
     <p *ngIf="(accountService.currentUser$ | async) === null" id="warning">
         <strong>Zaloguj się lub załóż konto, aby dodać mema</strong>
     </p>
 </div>
-
-
 
 <div class="text-center">
     <iframe width="600" height="400" src="https://www.youtube-nocookie.com/embed/CLjmm4-XJzk"></iframe>

@@ -27,7 +27,7 @@ export class MemberEditComponent implements OnInit {
   members: Partial<Member[]>;
   predicate = 'likedBy';
   pageNumber = 1;
-  pageSize = 5;
+  pageSize = 8;
   pagination: Pagination;
   memes: Meme[];
   
@@ -45,7 +45,7 @@ export class MemberEditComponent implements OnInit {
   ngOnInit(): void {
     this.loadMember();
     this.loadLikes();
-    // this.getMemberMemes();
+    this.getMemberMemes(this.user.username);
   }
 
   getMemes() {
@@ -55,10 +55,11 @@ export class MemberEditComponent implements OnInit {
     });
   }
 
-  getMemberMemes() {
-    this.memeService.getMemberMemes(1).subscribe(memes => {
-      this.memes = memes;
-    })
+  getMemberMemes(username: string) {
+    this.memeService.getMemberMemes(username, this.pageNumber, this.pageSize).subscribe(response => {
+      this.memes = response.result;
+      this.pagination = response.pagination;
+    });
   }
 
   deletePhoto(photoId: number) {
@@ -113,5 +114,10 @@ export class MemberEditComponent implements OnInit {
     this.memberService.deleteMeme(memeId).subscribe(() => {
       this.member.memes = this.member.memes.filter(x => x.id !== memeId);
     })
+  }
+
+  pageChanged(event: any) {
+    this.pageNumber = event.page;
+    this.getMemberMemes(this.user.username);
   }
 }

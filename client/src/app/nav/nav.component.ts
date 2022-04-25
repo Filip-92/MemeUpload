@@ -9,7 +9,6 @@ import { Message } from '../_models/message';
 import { Pagination } from '../_models/pagination';
 import { MessageService } from '../_services/message.service';
 import { add } from 'ngx-bootstrap/chronos';
-import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({

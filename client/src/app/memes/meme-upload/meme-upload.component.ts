@@ -15,9 +15,8 @@ import { clear } from 'console';
 import { MemeService } from 'src/app/_services/meme.service';
 import { HttpClient, HttpEventType, HttpHeaders, HttpParams } from '@angular/common/http';
 import { isNgTemplate } from '@angular/compiler';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { AboutModalComponent } from 'src/app/modals/about-modal/about-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { url } from 'inspector';
 
 @Component({
   selector: 'app-meme-upload',
@@ -117,25 +116,26 @@ export class MemeUploadComponent implements OnInit {
           message = 'Wystąpił błąd';
           break;
       }
-    
       this.toastr.warning(message);
     };
 
     this.uploader.onAfterAddingFile = (file) => {
       file.withCredentials = false;
+      // this.uploader.setOptions({ url: this.baseUrl + 'users/add-meme/' + this.memeUploadForm.value.title });
       if(file._file.type.indexOf('image') > -1) {
         this.format = 'image';
       } else if (file._file.type.indexOf('video') > -1) {
         this.format = 'video';
       }
       this.previewImg = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(file._file)));
-      file.file.name = this.memeUploadForm.value.title;
-      file.file.type = this.memeUploadForm.value.description;
+      file.file.name = this.memeUploadForm.value.title + '^' + this.memeUploadForm.value.description;
+      //file.file.type = this.memeUploadForm.value.description;
     }
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       if (response) {
         const meme: Meme = JSON.parse(response);
+            // console.log(response);
            this.accountService.setCurrentUser(this.user);
            this.previewImg = null;
            this.toastr.success('Pomyślnie dodano mema');

@@ -57,6 +57,7 @@ import { MemeTitleInputComponent } from './_forms/meme-title-input/meme-title-in
 import { MemesLast24HComponent } from './memes/memes-last24-h/memes-last24-h.component';
 import { IsMobileDirective } from './_directives/is-mobile.directive';
 import { TopButtonsComponent } from './memes/top-buttons/top-buttons.component';
+// import { MatLinkPreviewModule } from '@angular-material-extensions/link-preview';
 
 @NgModule({
   declarations: [
@@ -110,6 +111,7 @@ import { TopButtonsComponent } from './memes/top-buttons/top-buttons.component';
     SharedModule,
     NgxSpinnerModule,
     NgbModule,
+    // MatLinkPreviewModule.forRoot(),
     TimeagoModule.forRoot({formatter: { provide: 
       TimeagoFormatter, useClass: TimeagoCustomFormatter },}),
     RouterModule.forRoot([

@@ -2,6 +2,8 @@
 
 <app-meme-detail></app-meme-detail>
 
-<a routerLink="../../../memes/losowe/{{randomId}}" (click)="refresh()">
-    Jeszcze raz?
-</a>
+<button routerLink="../../../memes/losowe/{{randomId}}" (click)="refresh()" class="btn col-4">
+    <img src="./assets/2048px-2-Dice-Icon.svg.png" alt="dice-icon" class="mr-1">
+    Jeszcze raz
+</button>
+

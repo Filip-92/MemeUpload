@@ -8,7 +8,19 @@
                 </h4>
                 </a>
                 <p>{{meme.uploaded | timeago}}</p>
-                <img src="{{meme.url}}" class="card-img-top col-sm-6" *ngIf="checkURL(meme.url)" style="max-width: 400px;"/>
+                <span *ngIf="meme.description?.length !== 0">
+                    <br>         
+                    <div id="description" class="text-center">
+                        <p>{{meme.description}}</p>
+                    </div>
+                    <br>
+                </span>
+                <div *ngIf="meme.url.includes('https://www.youtube')">
+                    <iframe width="600" height="400" src="https://www.youtube-nocookie.com/embed/CLjmm4-XJzk"></iframe>
+                </div>
+                <a routerLink="../../memes/{{meme.id}}/{{ convertText(meme.title) || convertText('Jakieś gówno')}}">
+                    <img src="{{meme.url}}" class="card-img-top col-sm-6" *ngIf="checkURL(meme.url)" style="max-width: 400px;"/>
+                </a>
                 <video src="{{meme.url}}" class="card-img-top" *ngIf="!checkURL(meme.url)" style="max-width: 400px;" controls></video>
             </div>
             <div class="mb-3">

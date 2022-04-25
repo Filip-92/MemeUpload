@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ifError } from 'assert';
+import { error } from 'console';
+import { ToastrService } from 'ngx-toastr';
 
 import { Member } from 'src/app/_models/member';
 import { Meme } from 'src/app/_models/meme';
@@ -28,7 +31,7 @@ export class MemeDetailComponent implements OnInit {
   pageSize = 5;
 
   constructor(private memeService: MemeService, private http: HttpClient,
-                private route: ActivatedRoute) { }
+                private route: ActivatedRoute, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.route.data.subscribe(data => {
@@ -61,4 +64,7 @@ export class MemeDetailComponent implements OnInit {
     return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
   }
 
+  onErrorFunction() {
+    this.toastr.error("Adres url jest zjebany!")
+  }
 }

@@ -7,7 +7,7 @@
                         {{meme.title || 'Jakieś gówno'}}
                     </h4>
                     <p>{{meme.uploaded | timeago}}</p>
-                    <img src="{{meme.url}}" class="card-img-top col-sm-6" *ngIf="checkURL(meme.url)" style="max-width: 400px;"/>
+                    <img src="{{meme.url ? meme.url : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme.url)" style="max-width: 400px;"/>
                     <video src="{{meme.url}}" class="card-img-top" *ngIf="!checkURL(meme.url)" style="max-width: 400px;" controls></video>
                 </div>
                 <div class="mb-3">

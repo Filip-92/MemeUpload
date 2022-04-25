@@ -42,10 +42,15 @@ export class MemeSearchComponent implements OnInit {
     });
   }
 
+  pageChanged(event: any) {
+    this.pageNumber = event.page;
+    this.searchForMeme(this.memeSearchForm.value?.searchString);
+  }
+
   updatePageSize(pageSize: number) {
     this.pageSize = pageSize;
     this.pageNumber = 1;
-    this.searchForMeme(this.memeSearchForm.value?.searchString)
+    this.searchForMeme(this.memeSearchForm.value?.searchString);
   }
 
 }

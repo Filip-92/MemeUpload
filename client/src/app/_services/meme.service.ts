@@ -64,12 +64,8 @@ export class MemeService {
         this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
       }
       return this.paginatedResult;
-    })
-  );
-}
-
-  getMemberMemes(memberId: number) {
-    return this.http.get<Meme[]>(this.baseUrl + 'admin/member-memes-to-moderate/' + memberId);
+      })
+    );
   }
 
   getMemesLast24H(page?: number, itemsPerPage?: number) {
@@ -114,6 +110,24 @@ export class MemeService {
       return this.paginatedResult;
     })
   );
+  }
+
+  getMemberMemes(username: string, page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+
+  if (page !== null && itemsPerPage !== null) {
+    params = params.append('pageNumber', page.toString());
+    params = params.append('pageSize', itemsPerPage.toString());
+  }
+  return this.http.get<Meme[]>(this.baseUrl + 'users/get-member-memes/' + username, {observe: 'response', params}).pipe(
+    map(response => {
+      this.paginatedResult.result = response.body;
+      if (response.headers.get('Pagination') !== null) {
+        this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+      }
+      return this.paginatedResult;
+    })
+    );
   }
 
   getAllMemes() {

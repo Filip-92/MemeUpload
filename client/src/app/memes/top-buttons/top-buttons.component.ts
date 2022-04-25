@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Meme } from 'src/app/_models/meme';
 import { MemeService } from 'src/app/_services/meme.service';
 
@@ -9,7 +10,7 @@ import { MemeService } from 'src/app/_services/meme.service';
 })
 export class TopButtonsComponent implements OnInit {
 
-  constructor(private memeService: MemeService) { }
+  constructor(private memeService: MemeService, public router: Router) { }
 
   id: number;
   meme: Meme = {

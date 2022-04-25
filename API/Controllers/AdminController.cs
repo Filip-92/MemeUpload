@@ -147,10 +147,10 @@ namespace API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("member-memes-to-moderate/{memberId}")]
-        public async Task<ActionResult> GetMemberMemes(int userId)
+        [HttpGet("member-memes-to-moderate/{memberUsername}")]
+        public async Task<ActionResult> GetMemberMemes([FromQuery] MemeParams memeParams, string username)
         {
-            var memes = await _unitOfWork.MemeRepository.GetMemberMemes(userId);
+            var memes = await _unitOfWork.MemeRepository.GetMemberMemes(memeParams, username);
 
             return Ok(memes);
         }

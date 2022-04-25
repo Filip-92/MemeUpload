@@ -170,14 +170,18 @@ namespace API.Controllers
                 result = await _memeService.AddMemeVidAsync(file);
             }
 
+            var title = file.FileName;
+
+            string[] splitTitleAndDesc = title.Split('^');
+
             if (result.Error != null) return BadRequest(result.Error.Message);
 
             var meme = new Memes
             {
                 Url = result.SecureUrl.AbsoluteUri,
                 PublicId = result.PublicId,
-                Title = file.FileName,
-                Description = ""
+                Title = splitTitleAndDesc[0],
+                Description = splitTitleAndDesc[1],
             };
 
             user.Memes.Add(meme);
@@ -259,6 +263,18 @@ namespace API.Controllers
             var index = random.Next(array.Count());
   
             return Ok(array[index]);
+        }
+
+        [HttpGet("get-member-memes/{username}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemberMemes([FromQuery] MemeParams memeParams, string username)
+        {
+            var memes = await _unitOfWork.MemeRepository.GetMemberMemes(memeParams, username);
+
+            Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
+                memes.TotalCount, memes.TotalPages);
+
+            return Ok(memes);
         }
 
         [HttpDelete("delete-meme/{memeId}")]
