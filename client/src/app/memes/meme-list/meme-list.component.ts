@@ -47,7 +47,6 @@ export class MemeListComponent implements OnInit {
     this.loadMemes();
   }
 
-<<<<<<< HEAD
   formatYoutubeLink(url) {
     var id = url.split('v=')[1].split('&')[0]; //sGbxmsDFVnE
     url = "https://www.youtube-nocookie.com/embed/" + id;
@@ -59,6 +58,4 @@ export class MemeListComponent implements OnInit {
     return result;
   }
 
-=======
->>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
 }

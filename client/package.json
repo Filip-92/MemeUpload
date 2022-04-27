@@ -12,15 +12,12 @@
   "private": true,
   "dependencies": {
     "@angular-builders/custom-webpack": "^13.0.0",
-    "@angular-material-extensions/link-preview": "^1.1.1",
     "@angular/animations": "~13.1.0",
-    "@angular/cdk": "^12.2.13",
+    "@angular/cdk": "^12.2.9",
     "@angular/common": "~13.1.0",
     "@angular/compiler": "~13.1.0",
     "@angular/core": "~13.1.0",
     "@angular/forms": "~13.1.0",
-    "@angular/http": "^7.2.16",
-    "@angular/material": "^13.3.4",
     "@angular/platform-browser": "~13.1.0",
     "@angular/platform-browser-dynamic": "~13.1.0",
     "@angular/router": "~13.1.0",
@@ -41,10 +38,7 @@
     "ngx-bootstrap": "^6.1.0",
     "ngx-cookie-service": "^10.1.1",
     "ngx-device-detector": "^3.0.0",
-<<<<<<< HEAD
     "ngx-link-preview": "^1.1.6",
-=======
->>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
     "ngx-spinner": "^10.0.1",
     "ngx-timeago": "^2.0.0",
     "ngx-toastr": "^13.0.0",
