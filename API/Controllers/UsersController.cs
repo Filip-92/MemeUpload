@@ -146,6 +146,17 @@ namespace API.Controllers
 
         // Memes
 
+<<<<<<< HEAD
+=======
+        [HttpPost("{description}")]
+        public string AddDescription(MemeDto memeDto)
+        {  
+            var description = memeDto.Description;
+
+            return description;
+        }
+
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
         [HttpPost("add-meme")]
         public async Task<ActionResult<MemeDto>> AddMeme(IFormFile file)
         {
@@ -173,7 +184,11 @@ namespace API.Controllers
                 Url = result.SecureUrl.AbsoluteUri,
                 PublicId = result.PublicId,
                 Title = splitTitleAndDesc[0],
+<<<<<<< HEAD
                 Description = splitTitleAndDesc[1]
+=======
+                Description = splitTitleAndDesc[1],
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
             };
 
             user.Memes.Add(meme);
@@ -186,7 +201,11 @@ namespace API.Controllers
             return BadRequest("Problem addding meme");
         }
 
+<<<<<<< HEAD
         [HttpPost("add-youtube-link")]
+=======
+        [HttpPost("add-youtube-video")]
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
         public async Task<ActionResult<MemeDto>> AddYoutubeVideo(MemeDto memeDto)
         {
             var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());

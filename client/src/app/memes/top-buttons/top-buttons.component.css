@@ -7,6 +7,7 @@ button {
     transition: 0.2s all;
   }
   
+<<<<<<< HEAD
   button:hover {
     background-color: red;
   }
@@ -24,3 +25,22 @@ button {
   img {
     max-height: 20px;
   } 
+=======
+button:hover {
+  background-color: red;
+}
+
+button:focus,
+button:active {
+  color: black;
+  background-color: red;
+  transform: scale(0.98);
+  /* Scaling button to 0.98 to its original size */
+  box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  /* Lowering the shadow */
+}
+
+img {
+  max-height: 20px;
+}
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89

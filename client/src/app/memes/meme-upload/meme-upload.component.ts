@@ -125,12 +125,12 @@ export class MemeUploadComponent implements OnInit {
           message = 'Wystąpił błąd';
           break;
       }
-    
       this.toastr.warning(message);
     };
 
     this.uploader.onAfterAddingFile = (file) => {
       file.withCredentials = false;
+      // this.uploader.setOptions({ url: this.baseUrl + 'users/add-meme/' + this.memeUploadForm.value.title });
       if(file._file.type.indexOf('image') > -1) {
         this.format = 'image';
       } else if (file._file.type.indexOf('video') > -1) {
@@ -138,11 +138,16 @@ export class MemeUploadComponent implements OnInit {
       }
       this.previewImg = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(file._file)));
       file.file.name = this.memeUploadForm.value.title + '^' + this.memeUploadForm.value.description;
+<<<<<<< HEAD
+=======
+      //file.file.type = this.memeUploadForm.value.description;
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
     }
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       if (response) {
         const meme: Meme = JSON.parse(response);
+            // console.log(response);
            this.accountService.setCurrentUser(this.user);
            this.previewImg = null;
            this.toastr.success('Pomyślnie dodano mema');
@@ -179,6 +184,7 @@ export class MemeUploadComponent implements OnInit {
     this.initializeYoutubeForm();
   }
 
+<<<<<<< HEAD
   addYoutubeLink() {
     this.memeService.addYoutubeLink(this.youtubeForm.value).subscribe(response => {
       this.memeToggle();
@@ -186,6 +192,20 @@ export class MemeUploadComponent implements OnInit {
       }, error => {
       this.validationErrors = error;
     })
+=======
+  normalMemeToggle() {
+    this.normalMeme = !this.normalMeme;
+  }
+
+  youtubeVideoToggle() {
+    this.youtubeVideo = !this.youtubeVideo;
+  }
+
+  async addDescription() {
+    (await this.memeService.addMemeDescription(this.memeUploadForm.value.description)).subscribe(() => {
+      this.memeUploadForm.value.description.reset();
+    });
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
   }
 
 }

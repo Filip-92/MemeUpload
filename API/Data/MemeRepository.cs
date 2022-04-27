@@ -149,6 +149,10 @@ namespace API.Data
                     Uploaded = u.Uploaded, 
                 }).AsNoTracking()
                 .OrderByDescending(u => u.Id);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
             return await PagedList<MemeDto>.CreateAsync(query, 
             memeParams.PageNumber, memeParams.PageSize);
         }

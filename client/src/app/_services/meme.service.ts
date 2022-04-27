@@ -56,6 +56,19 @@ export class MemeService {
   if (page !== null && itemsPerPage !== null) {
     params = params.append('pageNumber', page.toString());
     params = params.append('pageSize', itemsPerPage.toString());
+<<<<<<< HEAD
+=======
+  }
+  return this.http.get<Meme[]>(this.baseUrl + 'users/memes-to-display', {observe: 'response', params}).pipe(
+    map(response => {
+      this.paginatedResult.result = response.body;
+      if (response.headers.get('Pagination') !== null) {
+        this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+      }
+      return this.paginatedResult;
+      })
+    );
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
   }
   return this.http.get<Meme[]>(this.baseUrl + 'users/memes-to-display', {observe: 'response', params}).pipe(
     map(response => {
@@ -113,7 +126,11 @@ export class MemeService {
   }
 
   getMemberMemes(username: string, page?: number, itemsPerPage?: number) {
+<<<<<<< HEAD
   let params = new HttpParams();
+=======
+    let params = new HttpParams();
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
 
   if (page !== null && itemsPerPage !== null) {
     params = params.append('pageNumber', page.toString());
@@ -161,8 +178,13 @@ export class MemeService {
     return this.http.post(this.baseUrl + 'admin/reject-meme/' + memeId, {});
   }
 
+<<<<<<< HEAD
   addYoutubeLink(model: any) {
     return this.http.post(this.baseUrl + 'users/add-youtube-link', model);
+=======
+  async addMemeDescription(description: string) {
+    return this.http.post(this.baseUrl + 'users', description);
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
   }
 
 }

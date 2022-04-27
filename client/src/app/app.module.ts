@@ -57,8 +57,12 @@ import { MemeTitleInputComponent } from './_forms/meme-title-input/meme-title-in
 import { MemesLast24HComponent } from './memes/memes-last24-h/memes-last24-h.component';
 import { IsMobileDirective } from './_directives/is-mobile.directive';
 import { TopButtonsComponent } from './memes/top-buttons/top-buttons.component';
+<<<<<<< HEAD
 import { NgxLinkPreviewModule } from 'ngx-link-preview';
 import { LinkPreviewComponent } from './memes/link-preview/link-preview.component';
+=======
+// import { MatLinkPreviewModule } from '@angular-material-extensions/link-preview';
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
 
 @NgModule({
   declarations: [
@@ -100,9 +104,13 @@ import { LinkPreviewComponent } from './memes/link-preview/link-preview.componen
     MemeTitleInputComponent,
     MemesLast24HComponent,
     IsMobileDirective,
+<<<<<<< HEAD
     TopButtonsComponent,
     LinkPreviewComponent,
     SafePipe
+=======
+    TopButtonsComponent
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
   ],
   imports: [
     BrowserModule,
@@ -114,7 +122,11 @@ import { LinkPreviewComponent } from './memes/link-preview/link-preview.componen
     SharedModule,
     NgxSpinnerModule,
     NgbModule,
+<<<<<<< HEAD
     NgxLinkPreviewModule,
+=======
+    // MatLinkPreviewModule.forRoot(),
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
     TimeagoModule.forRoot({formatter: { provide: 
       TimeagoFormatter, useClass: TimeagoCustomFormatter },}),
     RouterModule.forRoot([

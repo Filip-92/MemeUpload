@@ -1,8 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
+<<<<<<< HEAD
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+=======
+import { ActivatedRoute } from '@angular/router';
+import { ifError } from 'assert';
+import { error } from 'console';
+import { ToastrService } from 'ngx-toastr';
+
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
 import { Member } from 'src/app/_models/member';
 import { Meme } from 'src/app/_models/meme';
 import { Pagination } from 'src/app/_models/pagination';
@@ -28,7 +36,11 @@ export class MemeDetailComponent implements OnInit {
   trustedUrl: any;
 
   constructor(private memeService: MemeService, private http: HttpClient,
+<<<<<<< HEAD
     private route: ActivatedRoute, private toastr: ToastrService) { }
+=======
+                private route: ActivatedRoute, private toastr: ToastrService) { }
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
 
   ngOnInit(): void {
     this.route.data.subscribe(data => {
@@ -46,6 +58,15 @@ export class MemeDetailComponent implements OnInit {
     })
   }
 
+<<<<<<< HEAD
+=======
+  getMeme(memeId: number) {
+    this.memeService.getMeme(memeId).subscribe(memes => {
+      this.memes = memes.reverse();
+    })
+  }
+
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
   addLike() {
     this.likes++;
   }
@@ -61,6 +82,7 @@ export class MemeDetailComponent implements OnInit {
   onErrorFunction() {
     this.toastr.error("Adres url jest zjebany!")
   }
+<<<<<<< HEAD
 
   formatYoutubeLink(url) {
     var id = url.split('v=')[1].split('&')[0]; //sGbxmsDFVnE
@@ -68,4 +90,6 @@ export class MemeDetailComponent implements OnInit {
     return url;
   }
 
+=======
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
 }
