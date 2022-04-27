@@ -8,6 +8,18 @@
     padding: 0 25px;
 }
 
+.text-center {
+  background-color: #555 !important;
+}
+
+.member-tabset > .tab-content {
+  background-color: #555 !important;
+}
+
+#background {
+  background-color: #555 !important;
+}
+
 .card-footer {
     padding: 10px 15px;
     background-color: gray;

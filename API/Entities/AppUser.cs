@@ -23,6 +23,7 @@ namespace API.Entities
         public ICollection<Memes> Memes { get; set; }
         public ICollection<UserLike> LikedByUsers { get; set; }
         public ICollection<UserLike> LikedUsers { get; set; }
+        public ICollection<UserLike> LikedMemes { get; set; }
         //public ICollection<UserLike> NumberOfLikes { get; set; }
         public ICollection<Message> MessagesSent { get; set; }
         public ICollection<Message> MessagesReceived { get; set; }

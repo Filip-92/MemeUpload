@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
@@ -46,7 +46,23 @@ import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './_guards/auth.guard';
 import { RouterModule } from '@angular/router';
 import { ResetPasswordComponent } from './authentication/reset-password/reset-password.component';
-import { MemeCardComponent } from './memes/meme-card/meme-card.component';
+import { MemeCardComponent, SafePipe } from './memes/meme-card/meme-card.component';
+import { MemeDetailComponent } from './memes/meme-detail/meme-detail.component';
+import { TimeagoModule, TimeagoIntl, TimeagoFormatter, TimeagoCustomFormatter } from 'ngx-timeago';
+import { DatePipe } from '@angular/common';
+import { MemeSearchComponent } from './memes/meme-search/meme-search.component';
+import { MemeRandomComponent } from './memes/meme-random/meme-random.component';
+import { MemeListComponent } from './memes/meme-list/meme-list.component';
+import { MemeTitleInputComponent } from './_forms/meme-title-input/meme-title-input.component';
+import { MemesLast24HComponent } from './memes/memes-last24-h/memes-last24-h.component';
+import { IsMobileDirective } from './_directives/is-mobile.directive';
+import { TopButtonsComponent } from './memes/top-buttons/top-buttons.component';
+<<<<<<< HEAD
+import { NgxLinkPreviewModule } from 'ngx-link-preview';
+import { LinkPreviewComponent } from './memes/link-preview/link-preview.component';
+=======
+// import { MatLinkPreviewModule } from '@angular-material-extensions/link-preview';
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
 
 @NgModule({
   declarations: [
@@ -80,7 +96,21 @@ import { MemeCardComponent } from './memes/meme-card/meme-card.component';
     AboutModalComponent,
     ContactFormComponent,
     ResetPasswordComponent,
-    MemeCardComponent
+    MemeCardComponent,
+    MemeDetailComponent,
+    MemeSearchComponent,
+    MemeRandomComponent,
+    MemeListComponent,
+    MemeTitleInputComponent,
+    MemesLast24HComponent,
+    IsMobileDirective,
+<<<<<<< HEAD
+    TopButtonsComponent,
+    LinkPreviewComponent,
+    SafePipe
+=======
+    TopButtonsComponent
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
   ],
   imports: [
     BrowserModule,
@@ -92,6 +122,13 @@ import { MemeCardComponent } from './memes/meme-card/meme-card.component';
     SharedModule,
     NgxSpinnerModule,
     NgbModule,
+<<<<<<< HEAD
+    NgxLinkPreviewModule,
+=======
+    // MatLinkPreviewModule.forRoot(),
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
+    TimeagoModule.forRoot({formatter: { provide: 
+      TimeagoFormatter, useClass: TimeagoCustomFormatter },}),
     RouterModule.forRoot([
       { path: 'authentication', loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule) },
     ]),
@@ -107,6 +144,9 @@ import { MemeCardComponent } from './memes/meme-card/meme-card.component';
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
+    {provide: LOCALE_ID, useValue: "p-PL", useFactory: (sessionService) => sessionService.getLocale()},
+    [TimeagoIntl],
+    [DatePipe],
     AuthGuard,
     CookieService,
     AuthenticationService

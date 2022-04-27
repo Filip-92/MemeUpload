@@ -1,96 +1,95 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Member } from 'src/app/_models/member';
-import { MembersService } from 'src/app/_services/members.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from '@kolkov/ngx-gallery';
-import { TabDirective, TabsetComponent } from 'ngx-bootstrap/tabs';
-import { Message } from 'src/app/_models/message';
-import { MessageService } from 'src/app/_services/message.service';
-import { PresenceService } from 'src/app/_services/presence.service';
-import { AccountService } from 'src/app/_services/account.service';
-import { User } from 'src/app/_models/user';
-import { take } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Component, Input, OnInit } from '@angular/core';
+<<<<<<< HEAD
+import { DomSanitizer } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+=======
+import { ActivatedRoute } from '@angular/router';
+import { ifError } from 'assert';
+import { error } from 'console';
+import { ToastrService } from 'ngx-toastr';
+
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
+import { Member } from 'src/app/_models/member';
+import { Meme } from 'src/app/_models/meme';
+import { Pagination } from 'src/app/_models/pagination';
+import { MemeService } from 'src/app/_services/meme.service';
 
 @Component({
   selector: 'app-meme-detail',
   templateUrl: './meme-detail.component.html',
   styleUrls: ['./meme-detail.component.css']
 })
-export class MemeDetailComponent implements OnInit, OnDestroy {
+export class MemeDetailComponent implements OnInit {
 
-  member: Member;
-  galleryOptions: NgxGalleryOptions[];
-  galleryImages: NgxGalleryImage[];
-  activeTab: TabDirective;
-  messages: Message[] = [];
-  user: User;
+  meme: Meme;
+  memes: Meme[];
+  members: Member;
+  users: any;
+  id: number = +this.route.snapshot.paramMap.get('id');
+  likes: number = 0;
 
-  constructor(public presence: PresenceService, private route: ActivatedRoute, 
-    private messageService: MessageService, private memberService: MembersService,
-    private accountService: AccountService, private router: Router,
-    private toastr: ToastrService) { 
-      this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
-      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    }
+  pagination: Pagination;
+  pageNumber = 1;
+  pageSize = 5;
+  trustedUrl: any;
+
+  constructor(private memeService: MemeService, private http: HttpClient,
+<<<<<<< HEAD
+    private route: ActivatedRoute, private toastr: ToastrService) { }
+=======
+                private route: ActivatedRoute, private toastr: ToastrService) { }
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
 
   ngOnInit(): void {
     this.route.data.subscribe(data => {
-      this.member = data.member;
-    })
+      this.meme = data.meme;
+    });
+    this.getMeme(this.id);
+  }
 
-    this.galleryOptions = [
-      {
-        width: '500px',
-        height: '500px',
-        imagePercent: 100,
-        thumbnailsColumns: 1,
-        imageAnimation: NgxGalleryAnimation.Slide,
-        preview: false
+  getMeme(memeId: number) {
+    this.memeService.getMeme(memeId).subscribe(memes => {
+      this.memes = memes.reverse();
+      if (this.memes[0].url.includes("youtube")) {
+        this.trustedUrl = this.formatYoutubeLink(this.memes[0].url)
       }
-    ]
-
-    this.galleryImages = this.getImages();
-  }
-
-  getImages(): NgxGalleryImage[] {
-    const imageUrls = [];
-    for (const photo of this.member.photos) {
-      imageUrls.push({
-        small: photo?.url,
-        medium: photo?.url,
-        big: photo?.url
-      })
-    }
-    return imageUrls;
-  }
-
-  getComments() {
-    const imageUrls = [];
-    for (const photo of this.member.photos) {
-      imageUrls.push({
-        small: photo?.url,
-        medium: photo?.url,
-        big: photo?.url
-      })
-    }
-    return imageUrls;
-  }
-
-  loadMessages() {
-    this.messageService.getMessageThread(this.member.username).subscribe(messages => {
-      this.messages = messages;
     })
   }
 
-  ngOnDestroy(): void {
-    this.messageService.stopHubConnection();
-  }
-
-  addLike(member: Member) {
-    this.memberService.addLike(member.username).subscribe(() => {
-      this.toastr.success('You have liked ' + member.username);
+<<<<<<< HEAD
+=======
+  getMeme(memeId: number) {
+    this.memeService.getMeme(memeId).subscribe(memes => {
+      this.memes = memes.reverse();
     })
   }
 
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
+  addLike() {
+    this.likes++;
+  }
+
+  removeLike() {
+    this.likes--;
+  }
+
+  checkURL(url) {
+    return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
+  }
+
+  onErrorFunction() {
+    this.toastr.error("Adres url jest zjebany!")
+  }
+<<<<<<< HEAD
+
+  formatYoutubeLink(url) {
+    var id = url.split('v=')[1].split('&')[0]; //sGbxmsDFVnE
+    url = "https://www.youtube-nocookie.com/embed/" + id;
+    return url;
+  }
+
+=======
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
 }

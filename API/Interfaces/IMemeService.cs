@@ -7,6 +7,7 @@ namespace API.Interfaces
     public interface IMemeService
     {
         Task<ImageUploadResult> AddMemeAsync(IFormFile file);
+        Task<VideoUploadResult> AddMemeVidAsync(IFormFile file);
         Task<DeletionResult> DeleteMemeAsync(string publicId);
     }
 } 

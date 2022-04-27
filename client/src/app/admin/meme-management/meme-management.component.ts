@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Meme } from 'src/app/_models/meme';
+import { Pagination } from 'src/app/_models/pagination';
 import { Photo } from 'src/app/_models/photo';
 import { AdminService } from 'src/app/_services/admin.service';
 
@@ -10,18 +11,24 @@ import { AdminService } from 'src/app/_services/admin.service';
 })
 export class PhotoManagementComponent implements OnInit {
   memes: Meme[];
+  photos: Photo[];
+  pagination: Pagination;
+  pageNumber = 1;
+  pageSize = 10;
 
   constructor(private adminService: AdminService) { }
 
   ngOnInit(): void {
     this.getMemesForApproval();
+    //this.getPhotosForApproval();
   }
 
   getMemesForApproval() {
-    this.adminService.getMemesForApproval().subscribe(memes => {
-      this.memes = memes;
-    })
-  }
+  this.adminService.getMemesForApproval(this.pageNumber, this.pageSize).subscribe(response => {
+        this.memes = response.result;
+        this.pagination = response.pagination;
+      });
+    }
 
   approveMeme(memeId) {
     this.adminService.approveMeme(memeId).subscribe(() => {
@@ -35,5 +42,9 @@ export class PhotoManagementComponent implements OnInit {
     })
   }
 
+  pageChanged(event: any) {
+    this.pageNumber = event.page;
+    this.getMemesForApproval();
+  }
 
 }

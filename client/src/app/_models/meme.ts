@@ -4,6 +4,8 @@ export interface Meme {
     url: string;
     title: string;
     description: string;
+    uploaded: string;
     isApproved: boolean;
     username?: string;
+    likes: number;
 }

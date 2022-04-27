@@ -96,7 +96,6 @@ export class PhotoEditorComponent implements OnInit {
     }
 
     this.uploader.onAfterAddingFile = (file) => {
-      console.log('***** onAfterAddingFile ******')
       this.previewImg = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(file._file)));;
     }
   }

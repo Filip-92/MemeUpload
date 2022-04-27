@@ -16,6 +16,6 @@ namespace API.DTOs
         public string Gender { get; set; }
         public ICollection<PhotoDto> Photos { get; set; }
         public ICollection<MemeDto> Memes { get; set; }
-        //public int NumberOfLikes { get; set; }
+        public int NumberOfLikes { get; set; }
     }
 }

@@ -1,0 +1,24 @@
+<app-top-buttons></app-top-buttons>
+
+<div class="inline mt-5">
+    Ostatnie 24 godziny   >   <span *ngIf="pageNumber !== 0"> Strona {{pageNumber}} </span><span *ngIf="pageNumber === 0"> Strona 1 </span>
+</div>
+
+<div *ngFor="let meme of memes">
+    <app-meme-card [meme]="meme"></app-meme-card>
+</div>
+
+<div class="d-flex justify-content-center" *ngIf="pagination">
+    <pagination
+        [boundaryLinks]="true" 
+        [totalItems]="pagination.totalItems"
+        [itemsPerPage]="pagination.itemsPerPage"
+        [(ngModel)]="pagination.currentPage"
+        (pageChanged)="pageChanged($event)"
+        routerLink="/strona/{{pageNumber}}"
+        previousText="&lsaquo;" 
+        nextText="&rsaquo;" 
+        firstText="&laquo;" 
+        lastText="&raquo;">
+    </pagination>
+</div>

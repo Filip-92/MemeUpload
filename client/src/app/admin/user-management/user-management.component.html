@@ -1,14 +1,17 @@
 <div class="row">
     <table class="table">
         <tr>
+            <th style="width: 20%">Avatar</th>
             <th style="width: 30%;">Username</th>
-            <th style="width: 40%;">Active roles</th>
-            <th style="width: 30%;"></th>
+            <th style="width: 30%;">Active roles</th>
+            <th style="width: 20%;"></th>
         </tr>
         <tr *ngFor="let user of users">
+            <td><img src="{{user.photoUrl || 'https://memegenerator.net/img/images/14687350.jpg'}}" alt=""></td>
             <td>{{user.username}}</td>
             <td>{{user.roles}}</td>
             <td><button (click)="openRolesModal(user)" class="btn btn-info">Edit Roles</button></td>
+            <td><button (click)="removeUser(user.id)" class="btn btn-warning">Usun uzytkownika</button></td>
         </tr>
     </table>
 </div>

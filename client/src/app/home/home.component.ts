@@ -1,18 +1,15 @@
-import { Component, OnInit, Input, NgModule } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, Input, NgModule, ChangeDetectorRef } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Member } from 'src/app/_models/member';
-import { FileUploader } from 'ng2-file-upload';
-import { environment } from 'src/environments/environment';
 import { AccountService } from 'src/app/_services/account.service';
 import { User } from 'src/app/_models/user';
 import { take } from 'rxjs/operators';
-import { MembersService } from 'src/app/_services/members.service';
 import { Meme } from '../_models/meme';
-import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { MemeUploadComponent } from '../memes/meme-upload/meme-upload.component';
 import { Photo } from '../_models/photo';
 import { UserParams } from '../_models/userParams';
+import { PaginatedResult, Pagination } from '../_models/pagination';
+import { MemeService } from '../_services/meme.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -38,62 +35,32 @@ export class HomeComponent implements OnInit {
   memes: Meme[];
   photos: Photo[];
   model: any = {}
-  uploader: FileUploader;
-  hasBaseDropzoneOver = false;
-  baseUrl = environment.apiUrl;
   user: User;
   users: any;
-  registerMode = false;
   memeUploadMode = false;
-  likes: number = 0;
   isLoggedIn = false;
-  userParams: UserParams;
+  meme: Meme = {
+    x: '',
+    id: 0,
+    url: '',
+    title: '',
+    uploaded: undefined,
+    description: '',
+    isApproved: false,
+    likes: 0
+  };
 
-  constructor(public accountService: AccountService, private memberService: MembersService,
-    private router: Router, private toastr: ToastrService, private http: HttpClient) { 
+  pagination: Pagination;
+  pageNumber = 1;
+  pageSize = 5;
+
+  constructor(public accountService: AccountService, private router: Router, private http: HttpClient, 
+    private memeService: MemeService, private cdRef:ChangeDetectorRef) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
   ngOnInit(): void {
     this.getUsers();
-  }
-
-  fileOverBase(e: any) {
-    this.hasBaseDropzoneOver = e;
-  } 
-
-  deletePhoto(photoId: number) {
-    this.memberService.deletePhoto(photoId).subscribe(() => {
-      this.member.photos = this.member.photos.filter(x => x.id !== photoId);
-    })
-  }
-
-  initializeUploader() {
-    this.uploader = new FileUploader({
-      url: this.baseUrl + 'users/add-meme',
-      authToken: 'Bearer ' + this.user.token,
-      isHTML5: true,
-      allowedFileType: ['image'],
-      removeAfterUpload: true,
-      autoUpload: false,
-      maxFileSize: 10 * 1024 * 1024
-    });
-
-    this.uploader.onAfterAddingFile = (file) => {
-      file.withCredentials = false;
-    }
-
-    this.uploader.onSuccessItem = (item, response, status, headers) => {
-      if (response) {
-        const meme: Meme = JSON.parse(response);
-        this.member.memes.push(meme);
-        if(typeof(this.member.memes) === 'undefined')
-           this.user.memeUrl = meme.url;
-           this.member.memeUrl = meme.url;
-           this.accountService.setCurrentUser(this.user);
-           this.memeToggle();
-      }
-    }
   }
 
   getUsers() {
@@ -103,16 +70,13 @@ export class HomeComponent implements OnInit {
       console.log(error);
     })
   }
+<<<<<<< HEAD
 
-  addLike() {
-    this.likes++;
+  formatYoutubeLink(url) {
+    var id = url.split('v=')[1].split('&')[0]; //sGbxmsDFVnE
+    url = "https://www.youtube.com/embed/" + id;
+    console.log(url)
   }
-
-  removeLike() {
-    this.likes--;
-  }
-
-  memeToggle() {
-        this.memeUploadMode = !this.memeUploadMode;
-    }
+=======
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
 }

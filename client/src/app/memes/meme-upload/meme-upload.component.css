@@ -3,11 +3,28 @@ input[type=text] {
     background-color: gray;
     margin-top: 30px;
     color: whitesmoke;
-    margin-bottom: 30px;
+}
+
+#memeTitle {
+    min-width: 40% !important;
+}
+
+button {
+    margin-top: 30px;
+    margin-left: 20px;
+    height: 50px;
+}
+
+label {
+    color: whitesmoke;
 }
 
 input[type="file"] {
     display: none;
+}
+
+input[type="textarea"] {
+    color: whitesmoke;
 }
 
 .custom-file-upload {
@@ -47,4 +64,26 @@ textarea {
     max-width: 300px;
     margin-top: 20px;
     margin-bottom: 20px;
+}
+
+input[type=text] {
+    height: 50px;
+    background-color: gray;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 600px;
+}
+
+::placeholder {
+    color: whitesmoke;
+}
+
+input {
+    color: whitesmoke !important;
+}
+
+.form-control {
+    color: whitesmoke;
 }

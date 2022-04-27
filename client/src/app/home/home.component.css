@@ -4,16 +4,28 @@
     min-height: 1000px;
 }
 
-img {
-    max-width: 600px;
-}
-
 #warning {
     color: red; 
     border: red; 
     margin-top: 50px !important;
+    border: 1px solid red;
 }
 
 #container {
     background-color: rgb(49, 49, 49) !important;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

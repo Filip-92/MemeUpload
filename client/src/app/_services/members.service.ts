@@ -86,5 +86,8 @@ export class MembersService {
     params = params.append('predicate', predicate);
     return getPaginatedResult<Partial<Member[]>>(this.baseUrl + 'likes', params, this.http);
   }
+  deleteMeme(memeId: number) {
+    return this.http.delete(this.baseUrl + 'users/delete-meme/' + memeId);
+  }
 
 }

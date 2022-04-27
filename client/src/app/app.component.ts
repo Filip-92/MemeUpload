@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { User } from './_models/user';
 import { AccountService } from './_services/account.service';
 import { PresenceService } from './_services/presence.service';
+import { strings as stringsPL } from 'ngx-timeago/language-strings/pl';
+import { TimeagoIntl } from 'ngx-timeago';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +16,10 @@ export class AppComponent implements OnInit {
   users: any;
 
   constructor(private accountService: AccountService, private presence: PresenceService,
-    private http: HttpClient) {}
+    private http: HttpClient, private intl: TimeagoIntl) {
+      intl.strings = stringsPL;
+      intl.changes.next();
+    }
 
   ngOnInit() {
     this.setCurrentUser();

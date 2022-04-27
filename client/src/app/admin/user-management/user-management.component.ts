@@ -73,4 +73,10 @@ export class UserManagementComponent implements OnInit {
     return roles;
   }
 
+  removeUser(userId) {
+    this.adminService.removeUser(userId).subscribe(() => {
+      this.users.splice(this.users.findIndex(p => p.id === userId), 1);
+    })
+  }
+
 }

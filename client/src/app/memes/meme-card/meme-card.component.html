@@ -1,19 +1,42 @@
-<div *ngFor="let meme of member.memes" class="text-center">
+<div class="text-center">
     <div class="card mb-4 text-center mt-5">
         <div class="card-img-wrapper">
             <div class="card-body p-1" style="text-align: center;">
+                <a routerLink="../../memes/{{meme.id}}/{{ convertText(meme.title) || convertText('Jakieś gówno')}}">
                 <h4 class="card-title text-center mb-4 mt-3"> 
-                    Jakieś gówno
+                    {{meme.title || 'Jakieś gówno'}}
                 </h4>
-                <img src="{{meme.url || './assets/user.png'}}" class="card-img-top" style="max-width: 400px;">
+                </a>
+                <p>{{meme.uploaded | timeago}}</p>
+                <span *ngIf="meme.description?.length !== 0">
+                    <br>         
+                    <div id="description" class="text-center">
+                        <p>{{meme.description}}</p>
+                    </div>
+                    <br>
+                </span>
+<<<<<<< HEAD
+                <div *ngIf="meme.url.includes('youtube')">
+                    <iframe width="600" height="400" src="{{meme.url}}"></iframe>
+=======
+                <div *ngIf="meme.url.includes('https://www.youtube')">
+                    <iframe width="600" height="400" src="https://www.youtube-nocookie.com/embed/CLjmm4-XJzk"></iframe>
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
+                </div>
+                <a routerLink="../../memes/{{meme.id}}/{{ convertText(meme.title) || convertText('Jakieś gówno')}}">
+                    <img src="{{meme.url}}" class="card-img-top col-sm-6" *ngIf="checkURL(meme.url)" style="max-width: 400px;"/>
+                </a>
+<<<<<<< HEAD
+                <video src="{{meme.url}}" class="card-img-top" *ngIf="!checkURL(meme.url) && !meme.url.includes('https://www.youtube')" style="max-width: 400px;" controls></video>
+=======
+                <video src="{{meme.url}}" class="card-img-top" *ngIf="!checkURL(meme.url)" style="max-width: 400px;" controls></video>
+>>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
             </div>
             <div class="mb-3">
-                    <span class="inline-block">autor: <a class="nav-link" routerLink='/members/{{member.username}}'>{{member.username}}</a></span>
-                <button class="btn btn-success mr-2"><i class="fa fa-plus"></i></button>
-                <!-- <button (click)="addLike()" class="btn btn-success mr-2"><i class="fa fa-plus"></i></button> -->
-                    <span class="btn btn-primary mr-2" style="min-width: 100px;">{{likes}}</span>
-                <button class="btn btn-danger"><i class="fa fa-minus"></i></button>
-                <!-- <button (click)="removeLike()" class="btn btn-danger"><i class="fa fa-minus"></i></button> -->
+                <span class="inline-block">autor: <a class="nav-link" routerLink='/members/{{meme.username}}'>{{meme.username}}</a></span>
+                <button (click)="addLike(meme)" class="btn btn-success mr-2"><i class="fa fa-plus"></i></button>
+                <span class="btn btn-primary mr-2" style="min-width: 100px;">{{likes}}</span>
+                <button (click)="removeLike()" class="btn btn-danger"><i class="fa fa-minus"></i></button>
             </div>
         </div>
     </div>

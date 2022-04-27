@@ -1,6 +1,9 @@
 using System.Linq;
 using System.Threading.Tasks;
+using API.DTOs;
 using API.Entities;
+using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -15,6 +18,7 @@ namespace API.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPhotoService _photoService;
         private readonly IMemeService _memeService;
+    
         public AdminController(UserManager<AppUser> userManager, IUnitOfWork unitOfWork, 
             IPhotoService photoService, IMemeService memeService)
         {
@@ -66,13 +70,89 @@ namespace API.Controllers
             return Ok(await _userManager.GetRolesAsync(user));
         }
 
-        [Authorize(Policy = "ModerateMemeRole")]
-        [HttpGet("memes-to-moderate")]
+        [Authorize(Policy = "ModeratePhotoRole")]
+        [HttpGet("photos-to-moderate")]
         public async Task<ActionResult> GetPhotosForModeration()
         {
-            var photos = await _unitOfWork.MemeRepository.GetUnapprovedMemes();
+            var photos = await _unitOfWork.PhotoRepository.GetUnapprovedPhotos();
 
             return Ok(photos);
+        }
+
+        [Authorize(Policy = "ModeratePhotoRole")]
+        [HttpPost("approve-photo/{photoId}")]
+        public async Task<ActionResult> ApprovePhoto(int photoId)
+        {
+            var photo = await _unitOfWork.PhotoRepository.GetPhotoById(photoId);
+
+            if (photo == null) return NotFound("Could not find photo");
+
+         //   photo.IsApproved = true;
+
+            var user = await _unitOfWork.UserRepository.GetUserByPhotoId(photoId);
+
+            if (!user.Photos.Any(x => x.IsMain)) photo.IsMain = true;
+
+            await _unitOfWork.Complete();
+
+            return Ok();
+        }
+
+        [Authorize(Policy = "ModeratePhotoRole")]
+        [HttpPost("reject-photo/{photoId}")]
+        public async Task<ActionResult> RejectPhoto(int photoId)
+        {
+            var photo = await _unitOfWork.PhotoRepository.GetPhotoById(photoId);
+
+            if (photo == null) return NotFound("Could not find photo");
+
+            if (photo.PublicId != null)
+            {
+                var result = await _photoService.DeletePhotoAsync(photo.PublicId);
+
+                if (result.Result == "ok")
+                {
+                    _unitOfWork.PhotoRepository.RemovePhoto(photo);
+                }
+            }
+            else
+            {
+                _unitOfWork.PhotoRepository.RemovePhoto(photo);
+            }
+
+            await _unitOfWork.Complete();
+
+            return Ok();
+        }
+
+        // [Authorize(Policy = "ModerateMemeRole")]
+        // [HttpGet("memes-to-moderate")]
+        // public async Task<ActionResult> GetMemesForModeration()
+        // {
+        //     var memes = await _unitOfWork.MemeRepository.GetUnapprovedMemes();
+
+        //     return Ok(memes);
+        // }
+
+        [Authorize(Policy = "ModerateMemeRole")]
+        [HttpGet("memes-to-moderate")]
+        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemesForModeration([FromQuery] MemeParams memeParams)
+        {
+            var memes = await _unitOfWork.MemeRepository.GetUnapprovedMemes(memeParams);
+
+            Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
+                memes.TotalCount, memes.TotalPages);
+
+            return Ok(memes);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("member-memes-to-moderate/{memberUsername}")]
+        public async Task<ActionResult> GetMemberMemes([FromQuery] MemeParams memeParams, string username)
+        {
+            var memes = await _unitOfWork.MemeRepository.GetMemberMemes(memeParams, username);
+
+            return Ok(memes);
         }
 
         [Authorize(Policy = "ModerateMemeRole")]
@@ -81,11 +161,11 @@ namespace API.Controllers
         {
             var meme = await _unitOfWork.MemeRepository.GetMemeById(memeId);
 
-            if (meme == null) return NotFound("Could not find photo");
+            if (meme == null) return NotFound("Could not find meme");
 
             meme.IsApproved = true;
 
-            var user = await _unitOfWork.UserRepository.GetUserByPhotoId(memeId);
+            var user = await _unitOfWork.UserRepository.GetUserByMemeId(memeId);
 
             await _unitOfWork.Complete();
 
@@ -112,6 +192,24 @@ namespace API.Controllers
             else
             {
                 _unitOfWork.MemeRepository.RemoveMeme(meme);
+            }
+
+            await _unitOfWork.Complete();
+
+            return Ok();
+        }
+
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpDelete("/remove-user/{userId}"), ActionName("Delete")]
+        public async Task<ActionResult> RemoveUser(int userId)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByIdAsync(userId);
+
+            if (user == null) return NotFound("Could not find user");
+
+            // if (userId != null)
+            {
+                var result = _userManager.DeleteAsync(user);
             }
 
             await _unitOfWork.Complete();

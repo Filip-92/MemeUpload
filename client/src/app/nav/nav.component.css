@@ -3,13 +3,36 @@
 }
 
 .navbar {
-    max-height: 100px !important;
+    max-height: 90px !important;
+    border-bottom: 1px solid black;
+}
+
+a {
+  color: white !important;
+}
+
+.min-width { 
+  overflow-x:auto 
+}
+
+ul.nav {
+  display:inline-flex;
 }
 
 .navbar-brand img {
-    max-height: 50px;
-    border: 2px solid #fff;
+    max-height: 80px;
     display: inline;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+li {
+  display: inline-block !important;
+}
+
+.nav-item {
+  text-align: left !important;
+  display: inline-block !important;
 }
 
 img {
@@ -33,10 +56,6 @@ img {
 
 .sidemenu-item a:hover {
     color: red !important;
-}
-
-.navbar {
-    margin-top: -10px !important;
 }
 
 #dropdownMenu {
@@ -181,7 +200,17 @@ form {
     .sidebar a {font-size: 18px;}
   }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1000px) {
+
+  .navbar-brand img {
+    max-height: 60px;
+    display: inline;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+}
+
+@media screen and (max-width: 700px) {
 
     .navbar {
         min-height: 100px !important;
@@ -189,8 +218,30 @@ form {
         font-size: 10px;
     }
 
+    .sidebar {
+      position: fixed; /* Stay in place */
+      width: 100%;
+      min-width: 300px;
+      height: 100%;
+      z-index: 1; /* Stay on top */
+      top: 0;
+      right: 0;
+      opacity: 1;
+      background-color: #111; /* Black*/
+      overflow-x: hidden; /* Disable horizontal scroll */
+      padding-top: 20px; /* Place content 60px from the top */
+      transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+      box-shadow: 2px 2px 5px #999;
+      transition: 0.5s;
+    }
+
     .nav-item {
         text-align: left !important;
+        display: inline-block !important;
+    }
+
+    li {
+      display: inline !important;
     }
   }
 

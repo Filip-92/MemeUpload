@@ -1,0 +1,47 @@
+.container {
+    padding: 10px;
+  }
+  
+.preview {
+width: 350px;
+background-color:#bdbdbd;
+border-style: solid;
+border-color: grey;
+border-width: 1px;
+}
+
+.title {
+font-weight: bold;
+}
+
+.image {
+max-width: 350px;
+}
+
+.preview-text {
+padding: 10px;
+color: black;
+}
+
+.hyperlink {
+text-decoration: none;
+cursor: pointer;
+}
+
+.preview-button {
+margin-right: 10px;
+}
+
+input {
+height: 50px;
+background-color: gray;
+margin-top: 30px;
+margin-bottom: 30px;
+margin-left: auto;
+margin-right: auto;
+min-width: 600px;
+}
+
+::placeholder {
+color: white;
+}
