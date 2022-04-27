@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220227094028_Changes")]
+    [Migration("20220412141923_Changes")]
     partial class Changes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -182,6 +182,15 @@ namespace API.Migrations
                     b.Property<bool>("IsApproved")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("NumberOfDislikes")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("NumberOfLikes")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("OverallRank")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("PublicId")
                         .HasColumnType("TEXT");
 
@@ -252,9 +261,6 @@ namespace API.Migrations
                     b.Property<int>("AppUserId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("IsApproved")
-                        .HasColumnType("INTEGER");
-
                     b.Property<bool>("IsMain")
                         .HasColumnType("INTEGER");
 
@@ -279,7 +285,15 @@ namespace API.Migrations
                     b.Property<int>("LikedUserId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("AppUserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("NumberOfLikes")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("SourceUserId", "LikedUserId");
+
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("LikedUserId");
 
@@ -440,6 +454,10 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.UserLike", b =>
                 {
+                    b.HasOne("API.Entities.AppUser", null)
+                        .WithMany("LikedMemes")
+                        .HasForeignKey("AppUserId");
+
                     b.HasOne("API.Entities.AppUser", "LikedUser")
                         .WithMany("LikedByUsers")
                         .HasForeignKey("LikedUserId")
@@ -501,6 +519,8 @@ namespace API.Migrations
             modelBuilder.Entity("API.Entities.AppUser", b =>
                 {
                     b.Navigation("LikedByUsers");
+
+                    b.Navigation("LikedMemes");
 
                     b.Navigation("LikedUsers");
 

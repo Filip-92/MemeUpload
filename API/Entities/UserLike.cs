@@ -10,7 +10,7 @@ namespace API.Entities
 
         public int LikedUserId { get; set; }
 
-        //public int NumberOfLikes { get; set; }
+        public int NumberOfLikes { get; set; }
         
     }
 }

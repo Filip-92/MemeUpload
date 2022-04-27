@@ -15,9 +15,8 @@ import { clear } from 'console';
 import { MemeService } from 'src/app/_services/meme.service';
 import { HttpClient, HttpEventType, HttpHeaders, HttpParams } from '@angular/common/http';
 import { isNgTemplate } from '@angular/compiler';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { AboutModalComponent } from 'src/app/modals/about-modal/about-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { url } from 'inspector';
 
 @Component({
   selector: 'app-meme-upload',
@@ -42,6 +41,7 @@ export class MemeUploadComponent implements OnInit {
   public progress: number;
   public message: string;
   memeUploadForm: FormGroup;
+  youtubeForm: FormGroup;
   members: Member[];
   meme: Meme = {
     x: '',
@@ -64,6 +64,8 @@ export class MemeUploadComponent implements OnInit {
   validationErrors: string[] = [];
   previewImg: SafeUrl;
   format;
+  normalMeme: boolean;
+  youtubeVideo: boolean;
 
   constructor(public accountService: AccountService, private memberService: MembersService,
     private router: Router, private toastr: ToastrService, private sanitizer: DomSanitizer,
@@ -89,6 +91,14 @@ export class MemeUploadComponent implements OnInit {
     })
   }
 
+  initializeYoutubeForm() {
+    this.youtubeForm = this.fb.group({
+      title: [this.memeUploadForm.value.title],
+      url: ['', [Validators.required]],
+      description: ['', [Validators.maxLength(400)]]
+    })
+  }
+
   fileOverBase(e: any) {
     this.hasBaseDropzoneOver = e;
   } 
@@ -98,7 +108,7 @@ export class MemeUploadComponent implements OnInit {
     this.uploader = new FileUploader({
       url: this.baseUrl + 'users/add-meme',
       authToken: 'Bearer ' + this.user.token,
-      allowedFileType: ['image'],
+      allowedFileType: ['image', 'video'],
       isHTML5: true,
       removeAfterUpload: true,
       autoUpload: false,
@@ -127,8 +137,7 @@ export class MemeUploadComponent implements OnInit {
         this.format = 'video';
       }
       this.previewImg = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(file._file)));
-      file.file.name = this.memeUploadForm.value.title;
-      file.file.type = this.memeUploadForm.value.description;
+      file.file.name = this.memeUploadForm.value.title + '^' + this.memeUploadForm.value.description;
     }
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
@@ -158,15 +167,24 @@ export class MemeUploadComponent implements OnInit {
       }
 
   memeToggle() {
-      this.memeUploadMode = !this.memeUploadMode;
+    this.memeUploadMode = !this.memeUploadMode;
   }
 
-  public get() {
-    let bar = this.memeUploadForm.value.title;
-    this.http.post(this.baseUrl + 'users/add-meme', '=' + bar, { 
-        headers: new HttpHeaders({ 
-            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' 
-        }) 
+  normalMemeToggle() {
+    this.normalMeme = !this.normalMeme;
+  }
+
+  youtubeVideoToggle() {
+    this.youtubeVideo = !this.youtubeVideo;
+    this.initializeYoutubeForm();
+  }
+
+  addYoutubeLink() {
+    this.memeService.addYoutubeLink(this.youtubeForm.value).subscribe(response => {
+      this.memeToggle();
+      this.toastr.success('Pomyślnie dodano link');
+      }, error => {
+      this.validationErrors = error;
     })
   }
 

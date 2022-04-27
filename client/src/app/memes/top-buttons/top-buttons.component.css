@@ -1,0 +1,26 @@
+button {
+    border: 1px solid whitesmoke;
+    background-color: rgb(121, 56, 56);
+    box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+    cursor: pointer;
+    outline: none;
+    transition: 0.2s all;
+  }
+  
+  button:hover {
+    background-color: red;
+  }
+  
+  button:focus,
+  button:active {
+    color: black;
+    background-color: red;
+    transform: scale(0.98);
+    /* Scaling button to 0.98 to its original size */
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+    /* Lowering the shadow */
+  }
+  
+  img {
+    max-height: 20px;
+  } 

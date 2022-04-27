@@ -1,1 +1,66 @@
-<p>meme-search works!</p>
+<app-top-buttons></app-top-buttons>
+
+<div id="container" class="container text-center mt-5">
+    <div id="search">
+        <div class="form-group">
+            <form class="text-center" [formGroup]='memeSearchForm'>
+                <div class="row ml-3 text-center">
+                    <div class="column col-2"></div>
+                    <div class="column mr-3">
+                        <input type="text" placeholder="Wpisz tytuł wyszukiwanego mema" [formControl]='memeSearchForm.controls["searchString"]'>
+                    </div>
+                    <div class="column">
+                        <button 
+                        class="dropdown-item"
+                        class="btn btn-primary btn-lg" 
+                        style="align-items: center; font-size: 17px;"
+                        [disabled]="!this.memeSearchForm.value.searchString"
+                        (click)="searchForMeme(this.memeSearchForm.value.searchString)"
+                        >
+                        <i class="fas fa-file-import"></i>
+                        Szukaj
+                        </button>
+                    </div>
+                  </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!searchActive" class="text-center mt-5" style="font-size: 25px">
+    Wyszukaj memy po tytule
+</div>
+
+<div *ngIf="memes?.length === 0" class="text-center mt-5" style="font-size: 25px">
+    Nie znaleziono żadnych memów zawierających w tytule wpisaną frazę
+</div>
+
+<div *ngFor="let meme of memes">
+    <app-meme-card [meme]="meme"></app-meme-card>
+</div>
+
+<div class="d-flex justify-content-center" *ngIf="memes?.length !== 0">
+    <pagination
+        [boundaryLinks]="true" 
+        [totalItems]="pagination.totalItems"
+        [itemsPerPage]="pagination.itemsPerPage"
+        [(ngModel)]="pagination.currentPage"
+        (pageChanged)="pageChanged($event)"
+        routerLink="/strona/{{pageNumber}}"
+        previousText="&lsaquo;" 
+        nextText="&rsaquo;" 
+        firstText="&laquo;" 
+        lastText="&raquo;">
+    </pagination>
+</div>
+
+<div class="col-md-3 mt-2 justify-content-right" style="text-align: right;" *ngIf="memes?.length !== 0 && pagination">
+    <span class="mr-2">Page Size</span>
+
+    <select (change)="updatePageSize($any($event.target).value)">
+        <option selected="true">8</option>
+        <option>16</option>
+        <option>24</option>
+    </select>
+</div>
+

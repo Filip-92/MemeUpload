@@ -1,0 +1,23 @@
+input[type=text] {
+    height: 50px;
+    background-color: gray;
+    margin-top: 25px !important;
+    min-width: 600px;
+    color: whitesmoke;
+}
+
+button {
+    margin-top: 25px !important;
+    height: 50px;
+    transition: background-color 1s !important;
+}
+
+::placeholder {
+    color: whitesmoke;
+}
+
+#container {
+    background-color: rgb(49, 49, 49) !important;
+    height: 100px;
+    margin: auto;
+}

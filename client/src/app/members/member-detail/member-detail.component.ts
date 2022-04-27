@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Member } from 'src/app/_models/member';
 import { MembersService } from 'src/app/_services/members.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,6 +13,8 @@ import { take } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { Pagination } from 'src/app/_models/pagination';
 import { DatePipe } from '@angular/common';
+import { Meme } from 'src/app/_models/meme';
+import { MemeService } from 'src/app/_services/meme.service';
 
 @Component({
   selector: 'app-member-detail',
@@ -33,11 +35,14 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   pageNumber = 1;
   pageSize = 5;
   pagination: Pagination;
+  @ViewChild('scrollMe') meme : ElementRef;
+  scrolltop:number=null;
+  memes: Meme[];
 
   constructor(public presence: PresenceService, private route: ActivatedRoute, 
     private messageService: MessageService, private accountService: AccountService,
     private router: Router, private memberService: MembersService, 
-    private toastr: ToastrService, public datepipe: DatePipe) { 
+    private toastr: ToastrService, public datepipe: DatePipe, private memeService: MemeService) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     }
@@ -61,6 +66,8 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     ]
     this.galleryImages = this.getImages();
     this.loadLikes();
+    this.getMemberMemes(this.member.username);
+    console.log(this.member.username)
     // this.member.likes = this.getLikes(this.member);
   }
   getImages(): NgxGalleryImage[] {
@@ -114,5 +121,12 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
       this.members = response.result;
       this.pagination = response.pagination;
     })
+  }
+
+  getMemberMemes(username: string) {
+    this.memeService.getMemberMemes(username, this.pageNumber, this.pageSize).subscribe(response => {
+      this.memes = response.result;
+      this.pagination = response.pagination;
+    });
   }
 }

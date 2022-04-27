@@ -13,6 +13,7 @@ import { PresenceService } from 'src/app/_services/presence.service';
 export class MemberCardComponent implements OnInit {
   @Input() member: Member;
   photos: Photo[];
+  liked: boolean;
 
   constructor(private memberService: MembersService, private toastr: ToastrService, 
     public presence: PresenceService) { }
@@ -22,12 +23,13 @@ export class MemberCardComponent implements OnInit {
   }
   addLike(member: Member) {
     this.memberService.addLike(member.username).subscribe(() => {
-      this.toastr.success('You have liked ' + member.username);
+      //this.toastr.success('You have liked ' + member.username);
+      this.liked = !this.liked;
     })
   }
 
   deletePhotos() {
-    this.member.photos.forEach(p => {
+    this.member.photos?.forEach(p => {
       if (!p.isMain) {
         this.memberService.deletePhoto(p.id).subscribe(() => {
           this.member.photos = this.member.photos.filter(x => x.id !== p.id);

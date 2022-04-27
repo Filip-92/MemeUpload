@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-
+import { ToastrService } from 'ngx-toastr';
 import { Member } from 'src/app/_models/member';
 import { Meme } from 'src/app/_models/meme';
 import { Pagination } from 'src/app/_models/pagination';
-import { User } from 'src/app/_models/user';
-import { MembersService } from 'src/app/_services/members.service';
 import { MemeService } from 'src/app/_services/meme.service';
 
 @Component({
@@ -26,30 +25,26 @@ export class MemeDetailComponent implements OnInit {
   pagination: Pagination;
   pageNumber = 1;
   pageSize = 5;
+  trustedUrl: any;
 
   constructor(private memeService: MemeService, private http: HttpClient,
-                private route: ActivatedRoute) { }
+    private route: ActivatedRoute, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.route.data.subscribe(data => {
       this.meme = data.meme;
     });
-    this.getMemes();
+    this.getMeme(this.id);
   }
 
-  getMemes() {
-    this.memeService.getAllMemes().subscribe(memes => {
+  getMeme(memeId: number) {
+    this.memeService.getMeme(memeId).subscribe(memes => {
       this.memes = memes.reverse();
+      if (this.memes[0].url.includes("youtube")) {
+        this.trustedUrl = this.formatYoutubeLink(this.memes[0].url)
+      }
     })
   }
-
-
-  // getMemes() {
-  //   this.memeService.getMemes(this.pageNumber, this.pageSize).subscribe(response => {
-  //     this.memes = response.result;
-  //     this.pagination = response.pagination;
-  //   });
-  // }
 
   addLike() {
     this.likes++;
@@ -57,6 +52,20 @@ export class MemeDetailComponent implements OnInit {
 
   removeLike() {
     this.likes--;
+  }
+
+  checkURL(url) {
+    return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
+  }
+
+  onErrorFunction() {
+    this.toastr.error("Adres url jest zjebany!")
+  }
+
+  formatYoutubeLink(url) {
+    var id = url.split('v=')[1].split('&')[0]; //sGbxmsDFVnE
+    url = "https://www.youtube-nocookie.com/embed/" + id;
+    return url;
   }
 
 }

@@ -46,7 +46,7 @@ import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './_guards/auth.guard';
 import { RouterModule } from '@angular/router';
 import { ResetPasswordComponent } from './authentication/reset-password/reset-password.component';
-import { MemeCardComponent } from './memes/meme-card/meme-card.component';
+import { MemeCardComponent, SafePipe } from './memes/meme-card/meme-card.component';
 import { MemeDetailComponent } from './memes/meme-detail/meme-detail.component';
 import { TimeagoModule, TimeagoIntl, TimeagoFormatter, TimeagoCustomFormatter } from 'ngx-timeago';
 import { DatePipe } from '@angular/common';
@@ -55,6 +55,10 @@ import { MemeRandomComponent } from './memes/meme-random/meme-random.component';
 import { MemeListComponent } from './memes/meme-list/meme-list.component';
 import { MemeTitleInputComponent } from './_forms/meme-title-input/meme-title-input.component';
 import { MemesLast24HComponent } from './memes/memes-last24-h/memes-last24-h.component';
+import { IsMobileDirective } from './_directives/is-mobile.directive';
+import { TopButtonsComponent } from './memes/top-buttons/top-buttons.component';
+import { NgxLinkPreviewModule } from 'ngx-link-preview';
+import { LinkPreviewComponent } from './memes/link-preview/link-preview.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +98,11 @@ import { MemesLast24HComponent } from './memes/memes-last24-h/memes-last24-h.com
     MemeRandomComponent,
     MemeListComponent,
     MemeTitleInputComponent,
-    MemesLast24HComponent
+    MemesLast24HComponent,
+    IsMobileDirective,
+    TopButtonsComponent,
+    LinkPreviewComponent,
+    SafePipe
   ],
   imports: [
     BrowserModule,
@@ -106,6 +114,7 @@ import { MemesLast24HComponent } from './memes/memes-last24-h/memes-last24-h.com
     SharedModule,
     NgxSpinnerModule,
     NgbModule,
+    NgxLinkPreviewModule,
     TimeagoModule.forRoot({formatter: { provide: 
       TimeagoFormatter, useClass: TimeagoCustomFormatter },}),
     RouterModule.forRoot([
@@ -123,7 +132,7 @@ import { MemesLast24HComponent } from './memes/memes-last24-h/memes-last24-h.com
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
-    {provide: LOCALE_ID, useValue: "pl-PL", useFactory: (sessionService) => sessionService.getLocale()},
+    {provide: LOCALE_ID, useValue: "p-PL", useFactory: (sessionService) => sessionService.getLocale()},
     [TimeagoIntl],
     [DatePipe],
     AuthGuard,

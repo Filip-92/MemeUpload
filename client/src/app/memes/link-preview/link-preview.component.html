@@ -1,0 +1,71 @@
+<div class="container">
+    <h1>Add a link</h1>
+  
+    <form>
+      <div>
+        <input type="url" class="preview-text" placeholder="http://www.example.com" [formControl]="link">
+      </div>
+  
+      <br>
+  
+      <!-- You have complete control over how to display the JSON returned from linkpreview.net -->
+      <div *ngIf="preview.url" class="preview" style="float: left;">
+        <div [hidden]="!preview.image">
+          <img class="image" [hidden]="!preview.image" [src]="preview.image">
+        </div>
+        <div class="preview-text" style="float: left;">
+          <div [hidden]="!preview.url" class="url">
+            <span>{{preview.url}}</span>
+          </div>
+          <div [hidden]="!preview.title" class="title">
+            <span>{{preview.title}}</span>
+          </div>
+          <div [hidden]="!preview.description" class="description">
+            <span>{{preview.description}}</span>
+          </div>
+        </div>
+      </div>
+      <div style="clear: left;"></div>
+  
+      <br>
+  
+      <div>
+        <button type="submit"
+                [disabled]="!link.valid || preview.url"
+                class="preview-button"
+                (click)="onPreview()">
+                Show Link Preview
+        </button>
+        <button type="submit"
+                [disabled]="!preview.url"
+                class="preview-button"
+                (click)="onCancel()">
+                Cancel
+        </button>
+      </div>
+      <br>
+      <div>
+        <button type="submit"
+                [disabled]="!preview.url"
+                (click)="onSubmit()">
+                Save Link
+        </button>
+  
+      </div>
+  
+    </form>
+  
+    <br>
+  
+    <!-- Important Note: If your app is secured with https, you cannot launch a non-https link -->
+    <div>
+      <div *ngFor="let link of links">
+        <div class="link-row">
+          <a href="{{ link.url }}" class="hyperlink" target="_blank">
+            <span>{{ link.title }}</span>
+          </a>
+        </div>
+        <br>
+      </div>
+    </div>
+  </div>

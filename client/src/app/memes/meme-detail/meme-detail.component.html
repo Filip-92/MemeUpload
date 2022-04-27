@@ -7,7 +7,10 @@
                         {{meme.title || 'Jakieś gówno'}}
                     </h4>
                     <p>{{meme.uploaded | timeago}}</p>
-                    <img src="{{meme.url || './assets/user.png'}}" class="card-img-top" style="max-width: 400px;">
+                    <div *ngIf="meme.url.includes('youtube')">
+                        <iframe width="600" height="400" [src]="trustedUrl | safe"></iframe>
+                    </div>
+                    <img src="{{meme.url ? meme.url : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme.url)" style="max-width: 400px;"/>                    <video src="{{meme.url}}" class="card-img-top" *ngIf="!checkURL(meme.url) && !meme.url.includes('https://www.youtube')" style="max-width: 400px;" controls></video>
                 </div>
                 <div class="mb-3">
                     <span class="inline-block">autor: <a class="nav-link" routerLink='/members/{{meme.username}}'>{{meme.username}}</a></span>

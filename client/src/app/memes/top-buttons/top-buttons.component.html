@@ -1,0 +1,13 @@
+<div class="container">
+    <button routerLink="../memes/losowe/{{id}}" class="btn col-4">
+        <img src="./assets/2048px-2-Dice-Icon.svg.png" alt="" class="mr-1">
+        Losowe    
+    </button>
+    <button class="btn col-4" routerLink="../../ostatnie24H" [ngStyle]="router.url === '/ostatnie24H' ? { 'color': 'black', 'background-color': 'red', 'box-shadow': '3px 2px 22px 1px rgba(0, 0, 0, 0.24)' } : 
+        { 'color': 'white', 'background-color': 'rgb(121, 56, 56)' }">        
+        Ostatnie 24 godziny
+    </button>
+    <button class="btn col-4">
+        Ostatnie 48 godzin
+    </button>
+</div>

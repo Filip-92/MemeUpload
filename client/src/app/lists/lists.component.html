@@ -12,6 +12,10 @@
         </div>
     </div>
 
+    <span class="text-center">
+       <p> Number of liked users: {{ members?.length }} </p>
+    </span>
+
     <div class="row mt-3">
         <div class="col-sm-6 col-md-4 col-lg-2" *ngFor="let member of members">
             <app-member-card [member]="member"></app-member-card>

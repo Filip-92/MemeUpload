@@ -19,3 +19,11 @@ input {
 .form-control {
     color: whitesmoke;
 }
+
+@media screen and (max-width: 700px) {
+    input[type=text] {
+        min-width: 300px;
+        left: 0;
+        margin-left: -100px;
+    }
+}

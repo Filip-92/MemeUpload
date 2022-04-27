@@ -39,10 +39,16 @@ export class HomeComponent implements OnInit {
   users: any;
   memeUploadMode = false;
   isLoggedIn = false;
-  memeArray = [];
-  meme: Meme[];
-  randomId = 43;
-  number = Math.floor(Math.random() * 10) + 1;
+  meme: Meme = {
+    x: '',
+    id: 0,
+    url: '',
+    title: '',
+    uploaded: undefined,
+    description: '',
+    isApproved: false,
+    likes: 0
+  };
 
   pagination: Pagination;
   pageNumber = 1;
@@ -55,8 +61,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsers();
-    //this.getRandomId();
-    // this.randomId = this.getRandomMeme();
   }
 
   getUsers() {
@@ -67,36 +71,9 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  getRandomMeme() {
-    var min = Math.ceil(min);
-    var max = Math.floor(max);
-    for (let meme of this.memes) {
-      this.memeArray.push(meme.id);
-    }
-    var item = this.memeArray[Math.floor(Math.random()*this.memeArray.length)];
-    this.memeArray = [];
-    return item;
+  formatYoutubeLink(url) {
+    var id = url.split('v=')[1].split('&')[0]; //sGbxmsDFVnE
+    url = "https://www.youtube.com/embed/" + id;
+    console.log(url)
   }
-
-
-  // loadMemes() {
-  //   this.memeService.getMemes(this.pageNumber, this.pageSize).subscribe(response => {
-  //     this.memes = response.result;
-  //     this.pagination = response.pagination;
-  //     return this.memes;
-  //   });
-  // }
-
-  // getRandomId() {
-  //   this.memeService.getMemes(this.pageNumber, this.pageSize).subscribe(response => {
-  //     this.memes = response.result;
-  //     for (let meme of this.memes) {
-  //       this.memeArray.push(meme.id);
-  //     }
-  //     var item = this.memeArray[Math.floor(Math.random()*this.memeArray.length)];
-  //     this.memeArray = [];
-  //     console.log(item);
-  //     return item;
-  //   });
-  // }
 }
