@@ -53,8 +53,8 @@
                     style="overflow-y: auto; height: 500px;"
                     [scrollTop]="scrolltop"
                 >
-                    <div *ngFor="let meme of member.memes" >
-                        <img src="{{meme.url}}" class="card-img-top" style="max-width: 400px;">
+                    <div *ngFor="let meme of memes" >
+                        <img src="{{meme.url}}" class="card-img-top" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" style="max-width: 400px;">
                         <div class="text-center">
                             <span class="btn btn-primary mt-3 mb-3" style="min-width: 100px;">0</span>
                             <button 
@@ -64,7 +64,7 @@
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-center" *ngIf="memes?.length !== 0">
+                    <div class="d-flex justify-content-center" *ngIf="memes?.length !== 0 && pagination">
                         <pagination
                             [boundaryLinks]="true" 
                             [totalItems]="pagination.totalItems"

@@ -16,7 +16,7 @@
                     <br>
                 </span>
                 <div *ngIf="meme.url.includes('youtube')">
-                    <iframe width="600" height="400" src="{{meme.url}}"></iframe>
+                    <iframe width="600" height="400" [src]="trustedUrl | safe"></iframe>
                 </div>
                 <a routerLink="../../memes/{{meme.id}}/{{ convertText(meme.title) || convertText('Jakieś gówno')}}">
                     <img src="{{meme.url}}" class="card-img-top col-sm-6" *ngIf="checkURL(meme.url)" style="max-width: 400px;"/>

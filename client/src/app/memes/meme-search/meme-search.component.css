@@ -21,3 +21,7 @@ button {
     height: 100px;
     margin: auto;
 }
+
+.card {
+    min-height: 600px !important;
+}

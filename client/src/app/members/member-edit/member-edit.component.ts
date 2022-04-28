@@ -48,13 +48,6 @@ export class MemberEditComponent implements OnInit {
     this.getMemberMemes(this.user.username);
   }
 
-  getMemes() {
-    this.memeService.getMemes(this.pageNumber, this.pageSize).subscribe(response => {
-      this.memes = response.result;
-      this.pagination = response.pagination;
-    });
-  }
-
   getMemberMemes(username: string) {
     this.memeService.getMemberMemes(username, this.pageNumber, this.pageSize).subscribe(response => {
       this.memes = response.result;

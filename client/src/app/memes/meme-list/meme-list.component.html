@@ -3,34 +3,7 @@
 </div>
 
 <div *ngFor="let meme of memes">
-    <span *ngIf="!meme.url.includes('youtube')">
-        <app-meme-card [meme]="meme"></app-meme-card>
-    </span>
-    <!-- Temporary solution, won't work after adding a second youtube video -->
-    <span *ngIf="meme.url.includes('youtube')">
-        <div class="text-center">
-            <div class="card mb-4 text-center mt-5">
-                <div class="card-img-wrapper">
-                    <div class="card-body p-1" style="text-align: center;">
-                        <a routerLink="../../memes/{{meme.id}}/{{ convertText(meme.title) || convertText('Jakieś gówno')}}">
-                        <h4 class="card-title text-center mb-4 mt-3"> 
-                            {{meme.title || 'Jakieś gówno'}}
-                        </h4>
-                        </a>
-                        <p>{{meme.uploaded | timeago}}</p>
-                        <span *ngIf="meme.description?.length !== 0">
-                            <br>         
-                            <div id="description" class="text-center">
-                                <p>{{meme.description}}</p>
-                            </div>
-                            <br>
-                        </span>
-                        <iframe width="600" height="400" [src]="trustedUrl | safe"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </span>
+    <app-meme-card [meme]="meme"></app-meme-card>
 </div>
 
 <div class="d-flex justify-content-center" *ngIf="pagination">

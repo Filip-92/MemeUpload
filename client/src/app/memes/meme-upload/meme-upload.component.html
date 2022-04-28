@@ -79,10 +79,11 @@
 
         <div *ngIf="youtubeVideo">
             <form [formGroup]='youtubeForm' (ngSubmit)="youtubeForm.valid && addYoutubeLink()" class="text-center">
-                <input type="text" [formControl]='youtubeForm.controls["url"]' placeholder="Wstaw link z youtube" class="">
-                <textarea class="col-10 col-lg-5" [formControl]='youtubeForm.controls["description"]' placeholder="Wpisz opis (opcjonalnie)" name="description" [formControl]='memeUploadForm.controls["description"]'></textarea>
-                <button class="btn" type="submit">Dodaj link</button>
+                <input type="text" [formControl]='youtubeForm.controls["url"]' placeholder="Wstaw link z youtube">
+                <textarea class="col-10 col-lg-5" [formControl]='youtubeForm.controls["description"]' placeholder="Wpisz opis (opcjonalnie)" name="description" style="height: 100px !important;"></textarea>
+                <button class="btn btn-success" type="submit">Dodaj link</button>
             </form>
+            <app-link-preview></app-link-preview>
         </div>
 
         <div *ngIf="memeUploadForm.controls['description'].errors?.maxlength" class="text-danger">

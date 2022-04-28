@@ -16,7 +16,6 @@ export class MemeListComponent implements OnInit {
   pageSize = 8;
   memes: Meme[];
   trustedUrl: any;
-  array: any[];
 
   constructor(private memeService: MemeService, private route: ActivatedRoute) { }
 
@@ -28,11 +27,6 @@ export class MemeListComponent implements OnInit {
     this.memeService.getMemes(this.pageNumber, this.pageSize).subscribe(response => {
       this.memes = response.result;
       this.pagination = response.pagination;
-      for (let meme of this.memes) {
-        if (meme.url.includes("youtube")) {
-          this.trustedUrl = this.formatYoutubeLink(meme.url)
-        }
-      }
     });
   }
 
@@ -45,17 +39,6 @@ export class MemeListComponent implements OnInit {
     this.pageSize = pageSize;
     this.pageNumber = 1;
     this.loadMemes();
-  }
-
-  formatYoutubeLink(url) {
-    var id = url.split('v=')[1].split('&')[0]; //sGbxmsDFVnE
-    url = "https://www.youtube-nocookie.com/embed/" + id;
-    return url;
-  }
-
-  convertText(title: string) {
-    var result = title?.toLowerCase().split(' ').join('-').normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-    return result;
   }
 
 }

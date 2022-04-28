@@ -35,6 +35,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   pageNumber = 1;
   pageSize = 5;
   format;
+  trustedUrl: any;
 
   constructor(private memberService: MembersService, private toastr: ToastrService, 
     public presence: PresenceService, private memeService: MemeService, private http: HttpClient,
@@ -46,7 +47,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   ngOnInit(): void {
     this.getUsers();
     if(this.meme.url.includes("youtube")) {
-      this.meme.url = this.formatYoutubeLink(this.meme.url);
+      this.trustedUrl = this.formatYoutubeLink(this.meme.url);
     }
   }
   

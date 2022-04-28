@@ -22,9 +22,11 @@ export class MemeSearchComponent implements OnInit {
   memeSearchForm: FormGroup;
   searchString: string;
   searchActive: boolean;
+  trustedUrl: any;
 
   ngOnInit(): void {
     this.initializeForm();
+    console.log(this.pageNumber);
   }
 
   initializeForm() {
@@ -37,7 +39,9 @@ export class MemeSearchComponent implements OnInit {
     this.memeService.searchForMeme(searchString, this.pageNumber, this.pageSize).subscribe(response => {
       this.memes = response.result;
       this.pagination = response.pagination;
-      this.location.replaceState("memes/szukaj/" + searchString);
+      if (this.pageNumber === 0) {
+        this.location.replaceState("memes/szukaj/" + searchString);
+      }
       this.searchActive = true;
     });
   }
