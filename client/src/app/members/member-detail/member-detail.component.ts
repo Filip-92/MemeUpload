@@ -122,10 +122,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
       this.pagination = response.pagination;
     })
   }
-<<<<<<< HEAD
 
-=======
->>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
   getMemberMemes(username: string) {
     this.memeService.getMemberMemes(username, this.pageNumber, this.pageSize).subscribe(response => {
       this.memes = response.result;

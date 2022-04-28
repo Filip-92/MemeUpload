@@ -35,6 +35,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   pageNumber = 1;
   pageSize = 5;
   format;
+  trustedUrl: any;
 
   constructor(private memberService: MembersService, private toastr: ToastrService, 
     public presence: PresenceService, private memeService: MemeService, private http: HttpClient,
@@ -45,13 +46,9 @@ export class MemeCardComponent implements OnInit, PipeTransform {
 
   ngOnInit(): void {
     this.getUsers();
-<<<<<<< HEAD
     if(this.meme.url.includes("youtube")) {
-      this.meme.url = this.formatYoutubeLink(this.meme.url);
+      this.trustedUrl = this.formatYoutubeLink(this.meme.url);
     }
-=======
-
->>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
   }
   
   // addLike(meme: Meme) {
@@ -89,13 +86,10 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   checkURL(url) {
     return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
   }
-<<<<<<< HEAD
 
   formatYoutubeLink(url) {
     var id = url.split('v=')[1].split('&')[0]; //sGbxmsDFVnE
     url = "https://www.youtube-nocookie.com/embed/" + id;
     return url;
   }
-=======
->>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
 }

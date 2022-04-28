@@ -15,19 +15,11 @@ a {
 
 .card {
     min-height: 600px !important;
-<<<<<<< HEAD
 }
-=======
-  }
->>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
 
 #description {
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
     background-color: rgb(32, 31, 31);
-<<<<<<< HEAD
 } 
-=======
-}
->>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89

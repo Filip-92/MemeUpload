@@ -70,13 +70,10 @@ export class HomeComponent implements OnInit {
       console.log(error);
     })
   }
-<<<<<<< HEAD
 
   formatYoutubeLink(url) {
     var id = url.split('v=')[1].split('&')[0]; //sGbxmsDFVnE
     url = "https://www.youtube.com/embed/" + id;
     console.log(url)
   }
-=======
->>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
 }

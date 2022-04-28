@@ -42,11 +42,7 @@
         </form>
     </div>
 
-<<<<<<< HEAD
     <div class="container text-center" *ngIf="memeUploadMode" style="max-height: 1200px !important;">
-=======
-    <div class="container text-center" *ngIf="memeUploadMode" style="max-height: 500px !important;">
->>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
 
         <button (click)="normalMemeToggle()" [disabled]="youtubeVideo" class="btn btn-danger mb-2" style="width: 80%; margin-top: 10px !important;">
             Dodaj klasycznego mema
@@ -82,16 +78,12 @@
         </button>
 
         <div *ngIf="youtubeVideo">
-<<<<<<< HEAD
             <form [formGroup]='youtubeForm' (ngSubmit)="youtubeForm.valid && addYoutubeLink()" class="text-center">
-                <input type="text" [formControl]='youtubeForm.controls["url"]' placeholder="Wstaw link z youtube" class="">
-                <textarea class="col-10 col-lg-5" [formControl]='youtubeForm.controls["description"]' placeholder="Wpisz opis (opcjonalnie)" name="description" [formControl]='memeUploadForm.controls["description"]'></textarea>
-                <button class="btn" type="submit">Dodaj link</button>
+                <input type="text" [formControl]='youtubeForm.controls["url"]' placeholder="Wstaw link z youtube">
+                <textarea class="col-10 col-lg-5" [formControl]='youtubeForm.controls["description"]' placeholder="Wpisz opis (opcjonalnie)" name="description" style="height: 100px !important;"></textarea>
+                <button class="btn btn-success" type="submit">Dodaj link</button>
             </form>
-=======
-            <input type="text" placeholder="Wstaw link z youtube" class="">
-            <!-- <textarea class="col-10 col-lg-5" placeholder="Wpisz opis (opcjonalnie)" name="description" [formControl]='memeUploadForm.controls["description"]'></textarea> -->
->>>>>>> 7e6cc682ac912c56942b534094a6411b8b1ddd89
+            <app-link-preview></app-link-preview>
         </div>
 
         <div *ngIf="memeUploadForm.controls['description'].errors?.maxlength" class="text-danger">

@@ -3,6 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { HttpClient} from '@angular/common/http';
 
 import { Observable } from 'rxjs';
+import { ThisReceiver } from '@angular/compiler';
 
 export interface IlinkPreview {
   description: string;
@@ -45,7 +46,6 @@ export class LinkPreviewComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
   }
 
 
