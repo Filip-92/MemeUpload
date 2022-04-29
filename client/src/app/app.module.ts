@@ -49,7 +49,7 @@ import { ResetPasswordComponent } from './authentication/reset-password/reset-pa
 import { MemeCardComponent, SafePipe } from './memes/meme-card/meme-card.component';
 import { MemeDetailComponent } from './memes/meme-detail/meme-detail.component';
 import { TimeagoModule, TimeagoIntl, TimeagoFormatter, TimeagoCustomFormatter } from 'ngx-timeago';
-import { DatePipe } from '@angular/common';
+import { DatePipe, registerLocaleData } from '@angular/common';
 import { MemeSearchComponent } from './memes/meme-search/meme-search.component';
 import { MemeRandomComponent } from './memes/meme-random/meme-random.component';
 import { MemeListComponent } from './memes/meme-list/meme-list.component';
@@ -59,6 +59,8 @@ import { IsMobileDirective } from './_directives/is-mobile.directive';
 import { TopButtonsComponent } from './memes/top-buttons/top-buttons.component';
 import { NgxLinkPreviewModule } from 'ngx-link-preview';
 import { LinkPreviewComponent } from './memes/link-preview/link-preview.component';
+import localePl from '@angular/common/locales/global/pl';
+registerLocaleData(localePl, 'pl')
 
 @NgModule({
   declarations: [
@@ -132,7 +134,7 @@ import { LinkPreviewComponent } from './memes/link-preview/link-preview.componen
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
-    {provide: LOCALE_ID, useValue: "p-PL", useFactory: (sessionService) => sessionService.getLocale()},
+    {provide: LOCALE_ID, useValue: "pl", useFactory: (sessionService) => sessionService.getLocale()},
     [TimeagoIntl],
     [DatePipe],
     AuthGuard,

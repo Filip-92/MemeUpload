@@ -32,6 +32,7 @@ export class MemeListComponent implements OnInit {
 
   pageChanged(event: any) {
     this.pageNumber = event.page;
+    window.scrollTo(0,0);
     this.loadMemes();
   }
 
@@ -40,5 +41,4 @@ export class MemeListComponent implements OnInit {
     this.pageNumber = 1;
     this.loadMemes();
   }
-
 }

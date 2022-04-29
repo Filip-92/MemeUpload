@@ -22,7 +22,7 @@
                 </div>
                 <div>
                     <strong>Dołączył:</strong>
-                    <p>{{member.created}}</p>
+                    <p>{{member.created | date}}</p>
                 </div>
             </div>
         </div>
@@ -54,14 +54,7 @@
                     [scrollTop]="scrolltop"
                 >
                     <div *ngFor="let meme of memes" >
-                        <img src="{{meme.url}}" class="card-img-top" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" style="max-width: 400px;">
-                        <div class="text-center">
-                            <span class="btn btn-primary mt-3 mb-3" style="min-width: 100px;">0</span>
-                            <button 
-                            (click)="deleteMeme(meme.id)"
-                            class="btn btn-sm btn-danger"
-                            ><i class="fa fa-trash"></i></button>
-                        </div>
+                        <app-meme-card [meme]="meme"></app-meme-card>
                     </div>
 
                     <div class="d-flex justify-content-center" *ngIf="memes?.length !== 0 && pagination">

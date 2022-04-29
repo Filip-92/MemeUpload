@@ -67,7 +67,6 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     this.galleryImages = this.getImages();
     this.loadLikes();
     this.getMemberMemes(this.member.username);
-    console.log(this.member.username)
     // this.member.likes = this.getLikes(this.member);
   }
   getImages(): NgxGalleryImage[] {
@@ -128,5 +127,10 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
       this.memes = response.result;
       this.pagination = response.pagination;
     });
+  }
+
+  pageChanged(event: any) {
+    this.pageNumber = event.page;
+    this.getMemberMemes(this.user.username);
   }
 }

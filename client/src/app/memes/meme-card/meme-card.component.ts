@@ -44,8 +44,13 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     throw new Error('Method not implemented.');
   }
 
+  timeago
+
   ngOnInit(): void {
     this.getUsers();
+    // temporary solution for incorrect timezone
+    var newTime = Number(this.meme.uploaded.substring(11,13)) - 2;
+    this.meme.uploaded = this.meme.uploaded.replace((this.meme.uploaded.substring(11,13)), newTime.toString());
     if(this.meme.url.includes("youtube")) {
       this.trustedUrl = this.formatYoutubeLink(this.meme.url);
     }

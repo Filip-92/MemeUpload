@@ -40,10 +40,20 @@ export class MemeDetailComponent implements OnInit {
   getMeme(memeId: number) {
     this.memeService.getMeme(memeId).subscribe(memes => {
       this.memes = memes.reverse();
+      // temporary solution for incorrect timezone
+      var newTime = Number(this.memes[0].uploaded.substring(11,13)) - 2;
+      if(this.memes[0].uploaded.substring(0,1) || this.memes[0].uploaded.substring(5,6))
+      this.memes[0].uploaded = this.memes[0].uploaded.replace((this.memes[0].uploaded.substring(11,13)), newTime.toString());
+
       if (this.memes[0].url.includes("youtube")) {
         this.trustedUrl = this.formatYoutubeLink(this.memes[0].url)
       }
     })
+  }
+
+  changeTimeZone(date: string) {
+    var newTime = Number(date.substring(11,13)) + 2;
+    date.replace((date.substring(11,13)), newTime.toString())
   }
 
   addLike() {
