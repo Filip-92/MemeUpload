@@ -7,7 +7,7 @@
                     {{meme.title || 'Jakieś gówno'}}
                 </h4>
                 </a>
-                <p>{{meme.uploaded | timeago}}</p>
+                <p>{{changeTimeZone(meme.uploaded) | timeago}}</p>
                 <span *ngIf="meme.description?.length !== 0">
                     <br>         
                     <div id="description" class="text-center">
