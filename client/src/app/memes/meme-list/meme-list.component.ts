@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Meme } from 'src/app/_models/meme';
 import { Pagination } from 'src/app/_models/pagination';
 import { MemeService } from 'src/app/_services/meme.service';
@@ -17,10 +17,14 @@ export class MemeListComponent implements OnInit {
   memes: Meme[];
   trustedUrl: any;
 
-  constructor(private memeService: MemeService, private route: ActivatedRoute) { }
+  constructor(private memeService: MemeService, private route: ActivatedRoute, private router: Router) { }
 
-  ngOnInit(): void {
-    this.loadMemes();
+  ngOnInit(): void { 
+    if (!this.router.url.includes('ostatnie24H')) { 
+      this.loadMemes(); 
+    } else {
+      this.loadMemesLast24H();
+    }
   }
 
   loadMemes() {
@@ -30,10 +34,20 @@ export class MemeListComponent implements OnInit {
     });
   }
 
+  loadMemesLast24H() {
+    this.memeService.getMemesLast24H(this.pageNumber, this.pageSize).subscribe(response => {
+      this.memes = response.result;
+      this.pagination = response.pagination;
+    });
+  }
+
   pageChanged(event: any) {
     this.pageNumber = event.page;
     window.scrollTo(0,0);
     this.loadMemes();
+    if (this.router.url.includes('ostatnie24H')) {  
+      this.loadMemesLast24H();
+     }
   }
 
   updatePageSize(pageSize: number) {

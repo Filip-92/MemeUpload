@@ -21,7 +21,6 @@ import { ForgotPasswordComponent } from './authentication/forgot-password/forgot
 import { MemeDetailComponent } from './memes/meme-detail/meme-detail.component';
 import { MemeRandomComponent } from './memes/meme-random/meme-random.component';
 import { MemeListComponent } from './memes/meme-list/meme-list.component';
-import { MemesLast24HComponent } from './memes/memes-last24-h/memes-last24-h.component';
 import { MemeSearchComponent } from './memes/meme-search/meme-search.component';
 
 const routes: Routes = [
@@ -37,7 +36,7 @@ const routes: Routes = [
       {path: 'memes/:id/:title', component: MemeDetailComponent},
       {path: 'members', component: MemberListComponent},
       {path: 'strona/:pageNumber', component: HomeComponent},
-      {path: 'ostatnie24H', component: MemesLast24HComponent},
+      {path: 'ostatnie24H', component: HomeComponent},
       {path: 'members/:username', component: MemberDetailComponent, resolve: {member: MemberDetailedResolver}},
       {path: 'member/edit', component: MemberEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},
       {path: 'lists', component: ListsComponent},

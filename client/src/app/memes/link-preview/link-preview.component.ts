@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpClient} from '@angular/common/http';
 
 import { Observable } from 'rxjs';
@@ -18,6 +18,8 @@ export interface IlinkPreview {
   styleUrls: ['./link-preview.component.css']
 })
 export class LinkPreviewComponent implements OnInit {
+  @Input() link1: string;
+  linkUploadForm: FormGroup;
 
   // Link array to display links.  You probably will want to put your link data in a database.
   links: Array<IlinkPreview> = [
@@ -40,14 +42,20 @@ export class LinkPreviewComponent implements OnInit {
   // Regular Expression for validating the link the user enters
   private regExHyperlink = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
 
-  link = new FormControl('', [Validators.required, Validators.pattern(this.regExHyperlink)]);
-
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private fb: FormBuilder) {
 
   }
   ngOnInit(): void {
+    this.link1;
+    this.initializeForm();
+    this.onPreview();
   }
 
+  initializeForm() {
+    this.linkUploadForm = this.fb.group({
+      link: (this.link1, [Validators.required, Validators.pattern(this.regExHyperlink)]),
+    })
+  }
 
   // Gets preview JSON from linkpreview.net
   // It's free unless you do more than 60 requests per hour
@@ -60,20 +68,20 @@ export class LinkPreviewComponent implements OnInit {
   }
 
 
-  onCancel() {
-    this.preview = {
-      title: '',
-      description: '',
-      url: '',
-      image: ''
-    };
-    this.link.reset();
-  }
+  // onCancel() {
+  //   this.preview = {
+  //     title: '',
+  //     description: '',
+  //     url: '',
+  //     image: ''
+  //   };
+  //   this.link.reset();
+  // }
 
 
   // Subscribe to link preview.  If errors because site not found, still to show the URL, even if we can't show a preview
   onPreview() {
-    this.getLinkPreview(this.link.value)
+    this.getLinkPreview(this.link1)
     .subscribe(preview => {
       this.preview = preview;
 
@@ -82,21 +90,21 @@ export class LinkPreviewComponent implements OnInit {
       }
 
     }, error => {
-      this.preview.url = this.link.value;
+      this.preview.url = this.link1;
       this.preview.title = this.preview.url;
     });
   }
 
 
-  onSubmit() {
-    this.links.push(this.preview);
-    this.preview = {
-      title: '',
-      description: '',
-      url: '',
-      image: ''
-    };
-    this.link.reset();
-  }
+  // onSubmit() {
+  //   this.links.push(this.preview);
+  //   this.preview = {
+  //     title: '',
+  //     description: '',
+  //     url: '',
+  //     image: ''
+  //   };
+  //   this.link.reset();
+  // }
 
 }

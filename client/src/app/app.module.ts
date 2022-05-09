@@ -54,7 +54,6 @@ import { MemeSearchComponent } from './memes/meme-search/meme-search.component';
 import { MemeRandomComponent } from './memes/meme-random/meme-random.component';
 import { MemeListComponent } from './memes/meme-list/meme-list.component';
 import { MemeTitleInputComponent } from './_forms/meme-title-input/meme-title-input.component';
-import { MemesLast24HComponent } from './memes/memes-last24-h/memes-last24-h.component';
 import { IsMobileDirective } from './_directives/is-mobile.directive';
 import { TopButtonsComponent } from './memes/top-buttons/top-buttons.component';
 import { NgxLinkPreviewModule } from 'ngx-link-preview';
@@ -100,7 +99,6 @@ registerLocaleData(localePl, 'pl')
     MemeRandomComponent,
     MemeListComponent,
     MemeTitleInputComponent,
-    MemesLast24HComponent,
     IsMobileDirective,
     TopButtonsComponent,
     LinkPreviewComponent,

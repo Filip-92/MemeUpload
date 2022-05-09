@@ -6,7 +6,6 @@
                     <h4 class="card-title text-center mb-4 mt-3"> 
                         {{meme.title || 'Jakieś gówno'}}
                     </h4>
-                    <!-- <p>{{changeTimeZone(meme.uploaded) | timeago}}</p> -->
                     <p>{{changeTimeZone(meme.uploaded) | timeago}}</p>
                     <div *ngIf="meme.url.includes('youtube')">
                         <iframe width="600" height="400" [src]="trustedUrl | safe"></iframe>

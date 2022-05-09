@@ -6,4 +6,5 @@ export interface User {
     memeUrl: string;
     gender: string;
     roles: string[];
+    likes: number;
 }

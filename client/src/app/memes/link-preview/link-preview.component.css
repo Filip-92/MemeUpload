@@ -1,9 +1,6 @@
-.container {
-    padding: 10px;
-  }
-  
 .preview {
-width: 350px;
+width: 400px;
+max-height: 150px;
 background-color:#bdbdbd;
 border-style: solid;
 border-color: grey;
@@ -15,12 +12,22 @@ font-weight: bold;
 }
 
 .image {
-max-width: 350px;
+max-height: 150px;
+border: 1px solid white;
+}
+
+.preview-field {
+  float: left; 
+  max-height: 150px; 
+  background-color: rgb(124, 124, 124); 
+  min-width: 550px !important; 
+  overflow-y: auto;
 }
 
 .preview-text {
-padding: 10px;
 color: black;
+text-align: left;
+overflow-y: auto;
 }
 
 .hyperlink {
@@ -28,19 +35,6 @@ text-decoration: none;
 cursor: pointer;
 }
 
-.preview-button {
-margin-right: 10px;
-}
-
-input {
-height: 50px;
-background-color: gray;
-margin-top: 30px;
-margin-bottom: 30px;
-margin-left: auto;
-margin-right: auto;
-min-width: 600px;
-}
 
 ::placeholder {
 color: white;

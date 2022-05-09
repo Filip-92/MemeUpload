@@ -91,10 +91,12 @@ export class MemeUploadComponent implements OnInit {
     })
   }
 
+  private regExHyperlink = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
+
   initializeYoutubeForm() {
     this.youtubeForm = this.fb.group({
       title: [this.memeUploadForm.value.title],
-      url: ['', [Validators.required]],
+      url: ['', [Validators.required, Validators.pattern(this.regExHyperlink)]],
       description: ['', [Validators.maxLength(400)]]
     })
   }
@@ -146,7 +148,7 @@ export class MemeUploadComponent implements OnInit {
            this.accountService.setCurrentUser(this.user);
            this.previewImg = null;
            this.toastr.success('Pomyślnie dodano mema');
-           this.memeUploadForm.value.title = null;
+           this.memeUploadForm.reset();
            this.memeUploadForm.value.description = null;
            this.memeToggle();
       }
@@ -188,4 +190,10 @@ export class MemeUploadComponent implements OnInit {
     })
   }
 
+  writeValue(obj: any): void {
+  }
+  registerOnChange(fn: any): void {
+  }
+  registerOnTouched(fn: any): void {
+  }
 }

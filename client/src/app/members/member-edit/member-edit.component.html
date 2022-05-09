@@ -22,7 +22,7 @@
                 </div>
                 <div>
                     <strong>Dołączył:</strong>
-                    <p>{{member.created | date}}</p>
+                    <p>{{changeDateFormat(member.created)}}   ({{member.created | timeago}})</p>
                 </div>
             </div>
         </div>

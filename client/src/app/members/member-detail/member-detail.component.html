@@ -2,10 +2,10 @@
     <div class="col-4">
         <div class="card">
             <div *ngFor="let photo of member.photos">
-                <img src="{{photo.url || './assets/user.png'}}" alt="{{member.username}}" class="card-img-top img-thumbnail">
+                <img src="{{photo.url || '././assets/LogoImage.png'}}" alt="{{member.username}}" class="card-img-top img-thumbnail">
             </div>
             <div *ngIf="member.photos.length === 0">
-                <img src="{{'./assets/user.png'}}" alt="{{member.username}}" class="card-img-top img-thumbnail">
+                <img src="{{'././assets/LogoImage.png'}}" alt="{{member.username}}" class="card-img-top img-thumbnail">
             </div>
             <div class="card-body">
                 <div class="mb-2" *ngIf="(presence.onlineUsers$ | async).includes(member.username)" >
@@ -23,8 +23,8 @@
                 </div>
                 <div>
                     <strong>Dołączył:</strong>
-                    <p>{{member.created | date}}</p>
-                </div>
+                    <p>{{member.created}}</p>
+                </div> 
             </div>
             <div class="card-footer">
                 <div class="btn-group d-flex">
@@ -42,7 +42,7 @@
                 <button (click)="addLike(member)" class="btn btn-primary mb-3">Like</button>
                 <div class="text-center">
                     <span class="ml-3 col-6"><i class="fa fa-photo mr-2"></i>Ilość wrzut: {{ member.memes?.length || '0' }}</span>
-                    <span class="ml-3 col-6"><i class="fa fa-plus mr-2"></i>Ilość plusów: {{ member?.likes?.length || '0' }}</span>   
+                    <span class="ml-3 col-6"><i class="fa fa-plus mr-2"></i>Ilość plusów: {{ members?.length || '0' }}</span>   
                 </div>
             </tab>
             <tab heading='Komentarze' (selectTab)="onTabActivated($event)">
@@ -51,6 +51,7 @@
                 #scrollMe
                 style="overflow-y: auto; height: 1000px;"
                 [scrollTop]="scrolltop"
+                *ngIf="memes?.length > 0"
             >
             <div *ngFor="let meme of memes" >
                 <app-meme-card [meme]="meme"></app-meme-card>
@@ -70,10 +71,18 @@
                     lastText="&raquo;">
                 </pagination>
             </div>
-            <div *ngIf="memes?.length === 0" class="text-center mt-3" style="top: 0; bottom: 0;">
+            </tab>
+            <tab heading='Memy użytkownika {{member.username}}' (selectTab)="onTabActivated($event)"
+            #scrollMe
+            style="overflow-y: auto; height: 500px;"
+            [scrollTop]="scrolltop"
+            *ngIf="memes?.length === 0"
+            >
+            <div *ngIf="memes?.length === 0" class="text-center mt-3" valign="center">
                 <img src="https://c.tenor.com/j5YcO9slE7YAAAAC/leslie-nielsen-nothing-to-see-here.gif" class="card-img-top" style="max-width: 400px;">
             </div>
             </tab>
+            
             <tab heading='Messages' (selectTab)="onTabActivated($event)">
                 <app-member-messages [username]="member.username"></app-member-messages>
             </tab>

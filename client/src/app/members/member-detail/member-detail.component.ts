@@ -15,6 +15,7 @@ import { Pagination } from 'src/app/_models/pagination';
 import { DatePipe } from '@angular/common';
 import { Meme } from 'src/app/_models/meme';
 import { MemeService } from 'src/app/_services/meme.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-member-detail',
@@ -30,6 +31,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   activeTab: TabDirective;
   messages: Message[] = [];
   user: User;
+  users: any;
   members: Partial<Member[]>;
   predicate = 'likedBy';
   pageNumber = 1;
@@ -38,10 +40,11 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   @ViewChild('scrollMe') meme : ElementRef;
   scrolltop:number=null;
   memes: Meme[];
+  userId: number;
 
   constructor(public presence: PresenceService, private route: ActivatedRoute, 
     private messageService: MessageService, private accountService: AccountService,
-    private router: Router, private memberService: MembersService, 
+    private router: Router, private memberService: MembersService, private http: HttpClient, 
     private toastr: ToastrService, public datepipe: DatePipe, private memeService: MemeService) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -51,6 +54,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     this.route.data.subscribe(data => {
       this.member = data.member;
     })
+    this.getUsers();
     this.route.queryParams.subscribe(params => {
       params.tab ? this.selectTab(params.tab) : this.selectTab(0);
     })
@@ -97,6 +101,11 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     }
   }
 
+  changeDateFormat(date: string) {
+    var newDate = date.substring(0,10);
+    return newDate;
+  }
+
   ngOnDestroy(): void {
     this.messageService.stopHubConnection();
   }
@@ -108,15 +117,8 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     })
   }
 
-  // removeLike(member: Member) {
-  //   this.memberService.removeLike(member.username).subscribe(() => {
-  //     this.toastr.success('You have disliked ' + member.username);
-  //     this.member.likes--;
-  //   })
-  // }
-
   loadLikes() {
-    this.memberService.getLikes(this.predicate, this.pageNumber, this.pageSize).subscribe(response => {
+    this.memberService.getOtherUserLikes(this.userId, this.predicate, this.pageNumber, this.pageSize).subscribe(response => {
       this.members = response.result;
       this.pagination = response.pagination;
     })
@@ -132,5 +134,19 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   pageChanged(event: any) {
     this.pageNumber = event.page;
     this.getMemberMemes(this.user.username);
+  }
+
+  getUsers() {
+    this.http.get('https://localhost:5001/api/users').subscribe(response => {
+      this.users = response;
+      for(let user of this.users){
+      if (user.username == this.member.username) {
+        this.userId = user.id;
+        console.log(this.userId);
+      }
+    }
+    }, error => {
+      console.log(error);
+    })
   }
 }

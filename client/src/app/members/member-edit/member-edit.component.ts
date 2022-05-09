@@ -97,6 +97,11 @@ export class MemberEditComponent implements OnInit {
     })
   }
 
+  changeDateFormat(date: string) {
+    var newDate = date.substring(0,10);
+    return newDate;
+  }
+
   removeMeme(memeId) {
     this.memeService.removeMeme(memeId).subscribe(() => {
       this.memes.splice(this.memes.findIndex(p => p.id === memeId), 1);

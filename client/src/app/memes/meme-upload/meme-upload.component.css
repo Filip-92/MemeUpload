@@ -23,10 +23,6 @@ input[type="file"] {
     display: none;
 }
 
-input[type="textarea"] {
-    color: whitesmoke;
-}
-
 .custom-file-upload {
     border: 1px solid #ccc;
     display: inline-block;
@@ -45,11 +41,10 @@ textarea {
     height: 200px;
     background-color: gray;
     vertical-align: top !important;
-    display: flex;
-    float: left;
-    margin-left: 20%;
+    display: inline-block;
     margin-right: 20px;
     padding: 10px;
+    color: whitesmoke !important;
 }
 
 ::placeholder {

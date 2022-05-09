@@ -64,5 +64,15 @@ namespace API.Controllers
 
             return Ok(users);
         }
+
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<IEnumerable<LikeDto>>> GetOtherUserLikes([FromQuery]LikesParams likesParams, int userId)
+        {
+            userId = 7;
+            likesParams.UserId = userId;
+            var users = await _unitOfWork.LikesRepository.GetUserLikes(likesParams);
+
+            return Ok(users);
+        }
     }
 } 

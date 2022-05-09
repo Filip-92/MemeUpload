@@ -86,6 +86,13 @@ export class MembersService {
     params = params.append('predicate', predicate);
     return getPaginatedResult<Partial<Member[]>>(this.baseUrl + 'likes', params, this.http);
   }
+
+  getOtherUserLikes(userId: number, predicate: string, pageNumber, pageSize) {
+    let params = getPaginationHeaders(pageNumber, pageSize);
+    params = params.append('predicate', predicate);
+    return getPaginatedResult<Partial<Member[]>>(this.baseUrl + 'likes/' + userId, params, this.http);
+  }
+
   deleteMeme(memeId: number) {
     return this.http.delete(this.baseUrl + 'users/delete-meme/' + memeId);
   }
