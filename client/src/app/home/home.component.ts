@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
     lastActive: undefined,
     gender: '',
     photos: [],
-    likes: 0
+    numberOflikes: 0
   };
   members: Member[];
   memes: Meme[];

@@ -36,6 +36,7 @@ namespace API.Controllers
             if (userLike != null)
             {
                 sourceUser.LikedUsers.Remove(userLike);
+                likedUser.NumberOfLikes++;
             }
             else if (userLike == null)
             {
@@ -46,6 +47,7 @@ namespace API.Controllers
                 };
 
                 sourceUser.LikedUsers.Add(userLike);
+                likedUser.NumberOfLikes--;
             }
 
             if (await _unitOfWork.Complete()) return Ok();

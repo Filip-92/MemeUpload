@@ -25,7 +25,19 @@ import { HttpClient } from '@angular/common/http';
 
 export class MemberDetailComponent implements OnInit, OnDestroy {
   @ViewChild('memberTabs', {static: true}) memberTabs: TabsetComponent;
-  member: Member;
+  member: Member = {
+    memes: [],
+    memeUrl: '',
+    id: 0,
+    username: '',
+    photoUrl: '',
+    age: 0,
+    created: undefined,
+    lastActive: undefined,
+    gender: '',
+    photos: [],
+    numberOflikes: 0
+  };
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
   activeTab: TabDirective;
@@ -38,7 +50,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   pageSize = 5;
   pagination: Pagination;
   @ViewChild('scrollMe') meme : ElementRef;
-  scrolltop:number=null;
+  scrolltop: number=null;
   memes: Meme[];
   userId: number;
 
@@ -53,6 +65,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.data.subscribe(data => {
       this.member = data.member;
+      console.log(this.member);
     })
     this.getUsers();
     this.route.queryParams.subscribe(params => {
@@ -118,7 +131,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   }
 
   loadLikes() {
-    this.memberService.getOtherUserLikes(this.userId, this.predicate, this.pageNumber, this.pageSize).subscribe(response => {
+    this.memberService.getLikes(this.predicate, this.pageNumber, this.pageSize).subscribe(response => {
       this.members = response.result;
       this.pagination = response.pagination;
     })
@@ -142,7 +155,6 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
       for(let user of this.users){
       if (user.username == this.member.username) {
         this.userId = user.id;
-        console.log(this.userId);
       }
     }
     }, error => {

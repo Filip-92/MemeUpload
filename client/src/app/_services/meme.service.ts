@@ -158,7 +158,7 @@ export class MemeService {
   }
 
   removeMeme(memeId: number) {
-    return this.http.post(this.baseUrl + 'admin/reject-meme/' + memeId, {});
+    return this.http.post(this.baseUrl + 'users/remove-meme/' + memeId, {});
   }
 
   addYoutubeLink(model: any) {

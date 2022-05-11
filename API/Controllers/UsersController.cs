@@ -324,9 +324,8 @@ namespace API.Controllers
             return BadRequest("Failed to like user");
         }
 
-        [Authorize(Policy = "ModerateMemeRole")]
         [HttpPost("remove-meme/{memeId}")]
-        public async Task<ActionResult> RejectMeme(int memeId)
+        public async Task<ActionResult> RemoveMeme(int memeId)
         {
             var meme = await _unitOfWork.MemeRepository.GetMemeById(memeId);
 

@@ -36,7 +36,7 @@ export class MemeUploadComponent implements OnInit {
     lastActive: undefined,
     gender: '',
     photos: [],
-    likes: 0
+    numberOflikes: 0
   };
   public progress: number;
   public message: string;
