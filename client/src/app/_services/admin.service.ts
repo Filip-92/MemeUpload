@@ -59,4 +59,12 @@ export class AdminService {
   removeUser(userId: number) {
     return this.http.delete(this.baseUrl + 'admin/remove-user/' + userId, {});
   }
+
+  banUser(username: string, model: any, days: number) {
+    return this.http.post(this.baseUrl + 'admin/ban-user/' + username + "/" + days, model);
+  }
+
+  unbanUser(username: string) {
+    return this.http.post(this.baseUrl + 'admin/unban-user/' + username, {});
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, NgModule, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, NgModule, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Member } from 'src/app/_models/member';
 import { AccountService } from 'src/app/_services/account.service';
@@ -10,6 +10,7 @@ import { UserParams } from '../_models/userParams';
 import { PaginatedResult, Pagination } from '../_models/pagination';
 import { MemeService } from '../_services/meme.service';
 import { Router } from '@angular/router';
+import * as watermark from 'watermarkjs';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +19,7 @@ import { Router } from '@angular/router';
 })
 
 export class HomeComponent implements OnInit {
+  @ViewChild('previewimage') waterMarkImage: ElementRef;
   @Input() member: Member = {
     memes: [],
     memeUrl: '',
@@ -54,13 +56,15 @@ export class HomeComponent implements OnInit {
   pageNumber = 1;
   pageSize = 5;
 
-  constructor(public accountService: AccountService, private router: Router, private http: HttpClient, 
-    private memeService: MemeService, private cdRef:ChangeDetectorRef) { 
+  blobImage = null;
+
+  constructor(public accountService: AccountService, private http: HttpClient) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
   ngOnInit(): void {
     this.getUsers();
+    // this.addWatermark();
   }
 
   getUsers() {
@@ -75,5 +79,18 @@ export class HomeComponent implements OnInit {
     var id = url.split('v=')[1].split('&')[0]; //sGbxmsDFVnE
     url = "https://www.youtube.com/embed/" + id;
     console.log(url)
+  }
+
+  addWatermark() {
+    fetch('https://memegenerator.net/img/images/14687350.jpg')
+    .then(res => res.blob())
+    .then(blob => {
+      this.blobImage = blob;
+    });
+    watermark([this.blobImage, '././assets/logo (gimp - new).png'])
+      .image(watermark.image.lowerRight(0.6))
+      .then(img => {
+        this.waterMarkImage.nativeElement.src = img.src;
+      });
   }
 }

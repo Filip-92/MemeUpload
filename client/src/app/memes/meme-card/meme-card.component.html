@@ -24,14 +24,14 @@
                 <video src="{{meme.url}}" class="card-img-top" *ngIf="!checkURL(meme.url) && !meme.url.includes('https://www.youtube')" style="max-width: 400px;" controls></video>
             </div>
             <div class="mb-3">
-                <span class="text-center" id="container" *ngIf="(accountService.currentUser$ | async) !== null">
+                <!-- <span class="text-center" id="container" *ngIf="(accountService.currentUser$ | async) !== null">
                     <span class="inline-block" *ngIf="meme.username === user.username">
                         autor: <a class="nav-link" routerLink='/member/edit' style="color: greenyellow !important">{{meme.username}}</a>
                     </span>
                     <span class="inline-block" *ngIf="meme.username !== user.username">
                         autor: <a class="nav-link" routerLink='/members/{{meme.username}}' style="color: greenyellow !important">{{meme.username}}</a>
                     </span>
-                </span>
+                </span> -->
                 <button (click)="addLike(meme)" class="btn btn-success mr-2"><i class="fa fa-plus"></i></button>
                 <span class="btn btn-primary mr-2" style="min-width: 100px;">{{likes}}</span>
                 <button (click)="removeLike()" class="btn btn-danger"><i class="fa fa-minus"></i></button>

@@ -118,7 +118,7 @@ namespace API.Data
         {
             var query = _context.Memes
                 .IgnoreQueryFilters()
-                .Where(m => m.Title.Contains(searchString))
+                .Where(m => m.Title.ToLower().Contains(searchString))
                 .Select(u => new MemeDto
                 {
                     Id = u.Id,

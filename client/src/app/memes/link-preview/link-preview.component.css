@@ -13,12 +13,15 @@ font-weight: bold;
 
 .image {
 max-height: 150px;
+min-width: 260px;
+object-fit: cover;
 border: 1px solid white;
 }
 
 .preview-field {
   float: left; 
   max-height: 150px; 
+  min-height: 150px;
   background-color: rgb(124, 124, 124); 
   min-width: 550px !important; 
   overflow-y: auto;

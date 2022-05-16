@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
@@ -125,15 +126,6 @@ namespace API.Controllers
             return Ok();
         }
 
-        // [Authorize(Policy = "ModerateMemeRole")]
-        // [HttpGet("memes-to-moderate")]
-        // public async Task<ActionResult> GetMemesForModeration()
-        // {
-        //     var memes = await _unitOfWork.MemeRepository.GetUnapprovedMemes();
-
-        //     return Ok(memes);
-        // }
-
         [Authorize(Policy = "ModerateMemeRole")]
         [HttpGet("memes-to-moderate")]
         public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemesForModeration([FromQuery] MemeParams memeParams)
@@ -211,6 +203,41 @@ namespace API.Controllers
             {
                 var result = _userManager.DeleteAsync(user);
             }
+
+            await _unitOfWork.Complete();
+
+            return Ok();
+        }
+
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpPost("ban-user/{username}/{days}")]
+        public async Task<ActionResult> BanUser(string username, int days, MemberDto memberDto)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user == null) return NotFound("Could not find user");
+
+            user.IsBanned = true;
+            user.BanExpiration = DateTime.Now;
+            user.BanExpiration = user.BanExpiration.AddDays(days);
+            user.BanReason = memberDto.BanReason;
+
+            await _unitOfWork.Complete();
+
+            return Ok();
+        }
+
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpPost("unban-user/{username}")]
+        public async Task<ActionResult> UnbanUser(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user == null) return NotFound("Could not find meme");
+
+            user.IsBanned = false;
+            user.BanExpiration = DateTime.Now;
+            user.BanReason = null;
 
             await _unitOfWork.Complete();
 

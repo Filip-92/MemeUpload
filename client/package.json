@@ -23,6 +23,7 @@
     "@angular/router": "~13.1.0",
     "@auth0/angular-jwt": "^5.0.2",
     "@fortawesome/fontawesome-free": "^6.0.0",
+    "@ionic-native/camera": "^5.36.0",
     "@kolkov/ngx-gallery": "^1.2.3",
     "@microsoft/signalr": "^3.1.22",
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
@@ -38,6 +39,7 @@
     "ngx-bootstrap": "^6.1.0",
     "ngx-cookie-service": "^10.1.1",
     "ngx-device-detector": "^3.0.0",
+    "ngx-image-cropper": "^6.1.0",
     "ngx-link-preview": "^1.1.6",
     "ngx-spinner": "^10.0.1",
     "ngx-timeago": "^2.0.0",
@@ -45,6 +47,8 @@
     "rxjs": "~6.6.0",
     "time-ago-pipe": "^1.3.2",
     "tslib": "^2.0.0",
+    "watermarkjs": "^2.1.1",
+    "watermarks": "^1.0.2",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {

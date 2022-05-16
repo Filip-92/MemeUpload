@@ -59,6 +59,8 @@ import { TopButtonsComponent } from './memes/top-buttons/top-buttons.component';
 import { NgxLinkPreviewModule } from 'ngx-link-preview';
 import { LinkPreviewComponent } from './memes/link-preview/link-preview.component';
 import localePl from '@angular/common/locales/global/pl';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { BanModalComponent } from './modals/ban-modal/ban-modal.component';
 registerLocaleData(localePl, 'pl')
 
 @NgModule({
@@ -102,7 +104,8 @@ registerLocaleData(localePl, 'pl')
     IsMobileDirective,
     TopButtonsComponent,
     LinkPreviewComponent,
-    SafePipe
+    SafePipe,
+    BanModalComponent
   ],
   imports: [
     BrowserModule,
@@ -115,6 +118,7 @@ registerLocaleData(localePl, 'pl')
     NgxSpinnerModule,
     NgbModule,
     NgxLinkPreviewModule,
+    ImageCropperModule,
     TimeagoModule.forRoot({formatter: { provide: 
       TimeagoFormatter, useClass: TimeagoCustomFormatter },}),
     RouterModule.forRoot([

@@ -1,22 +1,18 @@
 import { Component, OnInit, Input, Output, EventEmitter, Self } from '@angular/core';
 import { Member } from 'src/app/_models/member';
-import { FileUploader } from 'ng2-file-upload';
+import { FileItem, FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
 import { AccountService } from 'src/app/_services/account.service';
 import { User } from 'src/app/_models/user';
 import { take } from 'rxjs/operators';
-import { MembersService } from 'src/app/_services/members.service';
-import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Meme } from 'src/app/_models/meme';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { clear } from 'console';
 import { MemeService } from 'src/app/_services/meme.service';
 import { HttpClient, HttpEventType, HttpHeaders, HttpParams } from '@angular/common/http';
-import { isNgTemplate } from '@angular/compiler';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { url } from 'inspector';
+import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-meme-upload',
@@ -63,14 +59,15 @@ export class MemeUploadComponent implements OnInit {
   isLoggedIn = false;
   validationErrors: string[] = [];
   previewImg: SafeUrl;
-  format;
+  format: string;
   normalMeme: boolean;
   youtubeVideo: boolean;
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
 
-  constructor(public accountService: AccountService, private memberService: MembersService,
-    private router: Router, private toastr: ToastrService, private sanitizer: DomSanitizer,
-    private fb: FormBuilder, private memeService: MemeService, private http: HttpClient,
-    private modalService: NgbModal) { 
+  constructor(public accountService: AccountService, private toastr: ToastrService, 
+    private sanitizer: DomSanitizer, private fb: FormBuilder, private memeService: MemeService, 
+    private http: HttpClient, private modalService: NgbModal) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
@@ -86,7 +83,8 @@ export class MemeUploadComponent implements OnInit {
       title: ['', 
               [Validators.required, 
               Validators.minLength(8), 
-              Validators.maxLength(32)]],
+              Validators.maxLength(32)],
+              Validators.pattern("^(?!\s*$)[-a-zA-Z0-9_:,.' ']{1,100}$")],
       description: ['', [Validators.maxLength(400)]]
     })
   }
@@ -137,12 +135,13 @@ export class MemeUploadComponent implements OnInit {
         this.format = 'image';
       } else if (file._file.type.indexOf('video') > -1) {
         this.format = 'video';
-      }
+      } 
       this.previewImg = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(file._file)));
       file.file.name = this.memeUploadForm.value.title + '^' + this.memeUploadForm.value.description;
+      file.file.rawFile = this.croppedImage;
     }
 
-    this.uploader.onSuccessItem = (item, response, status, headers) => {
+    this.uploader.onSuccessItem = (item, response) => {
       if (response) {
         const meme: Meme = JSON.parse(response);
            this.accountService.setCurrentUser(this.user);
@@ -155,11 +154,11 @@ export class MemeUploadComponent implements OnInit {
     }
   }
 
-  open(content) {
+  open(content: any) {
     this.modalService.open(content);
   }
 
-  private formatBytes(bytes, decimals?) {
+  private formatBytes(bytes: number, decimals?: number) {
     if (bytes == 0) return '0 Bytes';
     const k = 1024,
       dm = decimals || 2,
@@ -185,6 +184,7 @@ export class MemeUploadComponent implements OnInit {
     this.memeService.addYoutubeLink(this.youtubeForm.value).subscribe(response => {
       this.memeToggle();
       this.toastr.success('Pomyślnie dodano link');
+      this.memeUploadForm.reset();
       }, error => {
       this.validationErrors = error;
     })
@@ -195,5 +195,29 @@ export class MemeUploadComponent implements OnInit {
   registerOnChange(fn: any): void {
   }
   registerOnTouched(fn: any): void {
+  }
+
+  fileChangeEvent(event: any): void {
+    this.imageChangedEvent = event;
+  }
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64;
+  }
+  public save() {
+    const date: number = new Date().getTime();
+    // Put the blob into the fileBits array of the File constructor
+    const file = new File(this.croppedImage.blob, 'photo', {type: 'image/png', lastModified: date});
+    const fileItem = new FileItem(this.uploader, file, {});
+    this.uploader.queue.push(fileItem);
+    fileItem.upload();
+  }
+  imageLoaded(image: LoadedImage) {
+      // show cropper
+  }
+  cropperReady() {
+      // cropper ready
+  }
+  loadImageFailed() {
+      // show message
   }
 }

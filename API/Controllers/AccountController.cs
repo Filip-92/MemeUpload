@@ -87,6 +87,10 @@ namespace API.Controllers
 
             if (!result.Succeeded) return Unauthorized("Wrong Password");
 
+            if (user.BanExpiration < DateTime.Now) user.IsBanned = false;
+
+            if (result.Succeeded && user.IsBanned && DateTime.Now < user.BanExpiration) return BadRequest("Zostałeś zbanowany. Termin upływu bana to " + user.BanExpiration);
+
             return new UserDto
             {
                 Email = user.Email,

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, Input, SecurityContext } from '@angular/core';
+import { Component, OnInit, Input, SecurityContext, ElementRef } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Member } from 'src/app/_models/member';
 import { Meme } from 'src/app/_models/meme';
@@ -13,6 +13,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { HelperService } from 'src/app/_services/helper.service';
 import { AccountService } from 'src/app/_services/account.service';
 import { take } from 'rxjs/operators';
+import * as watermark from 'watermarkjs';
+import { ThrowStmt } from '@angular/compiler';
 
 @Pipe({ name: 'safe' })
 export class SafePipe implements PipeTransform {
@@ -39,6 +41,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   pageSize = 5;
   format;
   trustedUrl: any;
+  waterMarkImage: ElementRef;
 
   constructor(private memberService: MembersService, private toastr: ToastrService, 
     public presence: PresenceService, private memeService: MemeService, private http: HttpClient,
@@ -104,5 +107,13 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   changeTimeZone(uploadedDate: string) {
     uploadedDate = this.helper.changeTimeZone(uploadedDate);
     return uploadedDate;
+  }
+
+  addImageWatermark(imageUrl: string) {
+    watermark([imageUrl, '././assets/logo (gimp - new).png'])
+      .image(watermark.image.lowerRight(0.6))
+      .then(img => {
+        this.waterMarkImage.nativeElement.src = img.src;
+      });
   }
 }

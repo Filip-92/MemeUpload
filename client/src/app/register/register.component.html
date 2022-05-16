@@ -4,12 +4,12 @@
 
     <div class="form-group text-center">
         <label class="control-label" style="margin-right: 10px;">Jestem: </label>
-        <select name="cars" id="cars">
+        <!-- <select name="gender" id="gender">
             <option formControlName='gender' value='male'>Mężczyzną</option>
             <option formControlName='gender' value='female'>Kobietą</option>
             <option formControlName='gender' value='other'>Helikopterem bojowym</option>
-        </select>
-        <!-- <label class="radio-inline">
+        </select> -->
+        <label class="radio-inline">
             <input type="radio" value='male' formControlName='gender'> Mężczyzną
         </label>
         <label class="radio-inline">
@@ -17,7 +17,7 @@
         </label>
         <label class="radio-inline">
             <input type="radio" value='other' formControlName='gender' class="ml-3"> Helikopterem bojowym
-        </label> -->
+        </label>
     </div>
 
     <app-text-input [formControl]='registerForm.controls["email"]' 

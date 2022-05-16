@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
+import { BanModalComponent } from 'src/app/modals/ban-modal/ban-modal.component';
 import { RolesModalComponent } from 'src/app/modals/roles-modal/roles-modal.component';
 import { User } from 'src/app/_models/user';
 import { AdminService } from 'src/app/_services/admin.service';
@@ -12,8 +16,11 @@ import { AdminService } from 'src/app/_services/admin.service';
 export class UserManagementComponent implements OnInit {
   users: Partial<User[]>;
   bsModalRef: BsModalRef;
+  banUserForm: FormGroup;
+  validationErrors: string[] = [];
 
-  constructor(private adminService: AdminService, private modalService: BsModalService) { }
+  constructor(private adminService: AdminService, private modalService: BsModalService, 
+    private modalServ: NgbModal, private fb: FormBuilder, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.getUsersWithRoles();
@@ -76,6 +83,17 @@ export class UserManagementComponent implements OnInit {
   removeUser(userId) {
     this.adminService.removeUser(userId).subscribe(() => {
       this.users.splice(this.users.findIndex(p => p.id === userId), 1);
+    })
+  }
+
+  openBanModal(username: string) {
+    const modalRef = this.modalServ.open(BanModalComponent);
+    modalRef.componentInstance.username = username;
+  }
+
+  unbanUser(username: string) {
+    this.adminService.unbanUser(username).subscribe(() => {
+      this.users.splice(this.users.findIndex(p => p.username === username), 1);
     })
   }
 

@@ -36,7 +36,7 @@ export class MemeSearchComponent implements OnInit {
   }
 
   searchForMeme(searchString: string) {
-    this.memeService.searchForMeme(searchString, this.pageNumber, this.pageSize).subscribe(response => {
+    this.memeService.searchForMeme(searchString.toLowerCase(), this.pageNumber, this.pageSize).subscribe(response => {
       this.memes = response.result;
       this.pagination = response.pagination;
       if (this.pageNumber === 0) {

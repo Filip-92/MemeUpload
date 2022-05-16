@@ -7,4 +7,7 @@ export interface User {
     gender: string;
     roles: string[];
     numberOflikes: number;
+    isBanned: boolean;
+    banExpiration: Date;
+    banReason: string;
 }

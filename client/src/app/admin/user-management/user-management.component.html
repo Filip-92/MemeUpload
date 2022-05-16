@@ -2,15 +2,17 @@
     <table class="table">
         <tr>
             <th style="width: 20%">Avatar</th>
-            <th style="width: 30%;">Username</th>
-            <th style="width: 30%;">Active roles</th>
+            <th style="width: 30%;">Użytkownik</th>
+            <th style="width: 30%;">Aktywne role</th>
             <th style="width: 20%;"></th>
         </tr>
         <tr *ngFor="let user of users">
             <td><img src="{{user.photoUrl || 'https://memegenerator.net/img/images/14687350.jpg'}}" alt=""></td>
             <td>{{user.username}}</td>
             <td>{{user.roles}}</td>
-            <td><button (click)="openRolesModal(user)" class="btn btn-info">Edit Roles</button></td>
+            <td><button (click)="openRolesModal(user)" class="btn btn-info">Edytuj Role</button></td>
+            <td><button (click)="openBanModal(user.username)" [attr.data-target]="'#'+user.username" [disabled]="user.isBanned" class="btn btn-warning">Ban</button></td>
+            <td><button (click)="unbanUser(user.username)" class="btn btn-success">Odbanuj</button></td>
             <td><button (click)="removeUser(user.id)" class="btn btn-warning">Usun uzytkownika</button></td>
         </tr>
     </table>
