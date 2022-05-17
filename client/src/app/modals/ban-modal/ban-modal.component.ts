@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/_models/user';
 import { AdminService } from 'src/app/_services/admin.service';
@@ -11,14 +13,15 @@ import { AdminService } from 'src/app/_services/admin.service';
 })
 export class BanModalComponent implements OnInit {
   @Input() username: string;
+  @Input() modalRef: any;
   users: Partial<User[]>;
   banUserForm: FormGroup;
   validationErrors: string[] = [];
 
-  constructor(private adminService: AdminService, private toastr: ToastrService, private fb: FormBuilder) { }
+  constructor(private adminService: AdminService, private toastr: ToastrService, 
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    console.log(this.username);
     this.initializeForm();
     this.getUsersWithRoles();
   }
@@ -41,10 +44,15 @@ export class BanModalComponent implements OnInit {
     var days = this.banUserForm.value.expirationDate;
     this.adminService.banUser(this.username, this.banUserForm.value, days).subscribe(() => {
       this.users.splice(this.users.findIndex(p => p.username === this.username), 1);
-      this.toastr.success('Pomyślnie dodano link');
+      this.modalRef.close();
+      this.toastr.success('Pomyślnie zbanowano użytkownika ' + this.username + 'na okres ' + days + ' dni');
     }, error => {
       this.validationErrors = error;
     })
+  }
+
+  close() {
+    this.modalRef.close();
   }
 
 }

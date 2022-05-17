@@ -8,10 +8,10 @@
         </tr>
         <tr *ngFor="let user of users">
             <td><img src="{{user.photoUrl || 'https://memegenerator.net/img/images/14687350.jpg'}}" alt=""></td>
-            <td>{{user.username}}</td>
+            <td><a routerLink='/members/{{user.username}}'>{{user.username}}</a></td>
             <td>{{user.roles}}</td>
             <td><button (click)="openRolesModal(user)" class="btn btn-info">Edytuj Role</button></td>
-            <td><button (click)="openBanModal(user.username)" [attr.data-target]="'#'+user.username" [disabled]="user.isBanned" class="btn btn-warning">Ban</button></td>
+            <td><button (click)="openBanModal(user.username)" [attr.data-target]="'#'+user.username" [disabled]="user.isBanned" class="btn btn-danger">Ban</button></td>
             <td><button (click)="unbanUser(user.username)" class="btn btn-success">Odbanuj</button></td>
             <td><button (click)="removeUser(user.id)" class="btn btn-warning">Usun uzytkownika</button></td>
         </tr>

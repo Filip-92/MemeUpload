@@ -20,7 +20,7 @@ export class UserManagementComponent implements OnInit {
   validationErrors: string[] = [];
 
   constructor(private adminService: AdminService, private modalService: BsModalService, 
-    private modalServ: NgbModal, private fb: FormBuilder, private toastr: ToastrService) { }
+    private modalServ: NgbModal, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.getUsersWithRoles();
@@ -89,11 +89,13 @@ export class UserManagementComponent implements OnInit {
   openBanModal(username: string) {
     const modalRef = this.modalServ.open(BanModalComponent);
     modalRef.componentInstance.username = username;
+    modalRef.componentInstance.modalRef = modalRef;
   }
 
   unbanUser(username: string) {
     this.adminService.unbanUser(username).subscribe(() => {
       this.users.splice(this.users.findIndex(p => p.username === username), 1);
+      this.toastr.success('Pomyślnie zdjęto bana z użytkownika ' + username);
     })
   }
 

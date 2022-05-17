@@ -7,7 +7,7 @@
             <div class="row text-center">
                 <label class="control-label mr-2" for="expirationDate">Długość trwania bana: </label>
                 <select formControlName='expirationDate' id="expirationDate">
-                    <option value='3'>3</option>
+                    <option value='3' [defaultSelected]="3">3</option>
                     <option value='7'>7</option>
                     <option value='14'>14</option>
                     <option value='30'>30</option>
@@ -19,8 +19,9 @@
             </div>
             <div class="modal-footer">
                 <button [disabled]='!banUserForm?.valid' class="btn btn-success mr-2" type="submit">OK</button>
-                <button type="button" class="btn btn-warning" aria-label="Close" (click)="('Cross click')">Wyjdź</button>
+                <button type="button" class="btn btn-warning" aria-label="Close" (click)="close()">Wyjdź</button>
             </div>
         </form>
     </div>
 </div>
+
