@@ -67,10 +67,10 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   // }
 
   addLike(meme: Meme) {
-    // this.memeService.addLike(meme.id).subscribe(() => {
-    //   //this.toastr.success('You have liked ' + member.username);
-    // })
-    this.likes++;
+    this.memeService.addLike(meme.id).subscribe(() => {
+      //this.toastr.success('You have liked ' + member.username);
+    })
+    meme.numberOfLikes++;
   }
 
   removeLike() {

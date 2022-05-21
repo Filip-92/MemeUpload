@@ -8,8 +8,8 @@ export class HelperService {
   constructor() { }
 
   changeTimeZone(uploadedDate: string) {
-    var time = Number(uploadedDate.substring(11,13));
-    var day = Number(uploadedDate.substring(9,10));
+    var time = Number(uploadedDate?.substring(11,13));
+    var day = Number(uploadedDate?.substring(9,10));
     var newTime = time - 2;
     if (time >= 2) {
       if (time > 10) {

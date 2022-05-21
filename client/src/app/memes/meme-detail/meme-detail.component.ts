@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -18,6 +19,7 @@ export class MemeDetailComponent implements OnInit {
 
   meme: Meme;
   memes: Meme[];
+  comments: Comment[];
   members: Member;
   users: any;
   id: number = +this.route.snapshot.paramMap.get('id');
@@ -27,29 +29,33 @@ export class MemeDetailComponent implements OnInit {
   pageNumber = 1;
   pageSize = 5;
   trustedUrl: any;
+  commentForm: FormGroup;
+  validationErrors: string[] = [];
 
   constructor(private memeService: MemeService, private http: HttpClient,
     private route: ActivatedRoute, private toastr: ToastrService,
-    private helper: HelperService) { }
+    private helper: HelperService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.route.data.subscribe(data => {
       this.meme = data.meme;
     });
+    this.initializeForm();
     this.getMeme(this.id);
+    this.getComments(this.id);
   }
 
   getMeme(memeId: number) {
-    this.memeService.getMeme(memeId).subscribe(memes => {
-      this.memes = memes.reverse();
-      if (this.memes[0].url.includes("youtube")) {
-        this.trustedUrl = this.formatYoutubeLink(this.memes[0].url)
+    this.memeService.getMeme(memeId).subscribe(meme => {
+      this.meme = meme;
+      if (this.meme.url.includes("youtube")) {
+        this.trustedUrl = this.formatYoutubeLink(this.meme.url)
       }
     })
   }
   
   changeTimeZone(uploadedDate: string) {
-    uploadedDate = this.helper.changeTimeZone(uploadedDate);
+    uploadedDate = this.helper?.changeTimeZone(uploadedDate)!;
     return uploadedDate;
   }
 
@@ -61,8 +67,8 @@ export class MemeDetailComponent implements OnInit {
     this.likes--;
   }
 
-  checkURL(url) {
-    return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
+  checkURL(url: string) {
+    return(url?.match(/\.(jpeg|jpg|gif|png)$/) != null);
   }
 
   onErrorFunction() {
@@ -73,6 +79,28 @@ export class MemeDetailComponent implements OnInit {
     var id = url.split('v=')[1].split('&')[0]; //sGbxmsDFVnE
     url = "https://www.youtube-nocookie.com/embed/" + id;
     return url;
+  }
+
+  initializeForm() {
+    this.commentForm = this.fb.group({
+      content: ['', [Validators.required, Validators.maxLength(2000)]],
+      memeId: [this.id]
+    })
+  }
+
+  addComment() {
+    this.memeService.addComment(this.commentForm.value).subscribe(response => {
+      this.toastr.success('Pomyślnie dodano komentarz');
+      this.commentForm.reset();
+      }, error => {
+      this.validationErrors = error;
+    })
+  }
+
+  getComments(memeId: number) {
+    this.memeService.getComments(memeId).subscribe(comments => {
+      this.comments = comments;
+    });
   }
 
 }

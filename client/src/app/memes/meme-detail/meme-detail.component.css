@@ -5,3 +5,16 @@ img {
 .card {
     min-height: 600px !important;
   }
+
+textarea {
+    background-color: gray;
+    color: whitesmoke;
+}
+
+::placeholder {
+    color: whitesmoke;
+}
+
+table {
+    background-color: rgb(95, 94, 94);
+}

@@ -25,10 +25,6 @@ export class AdminService {
     return this.http.post(this.baseUrl + 'admin/edit-roles/' + username + '?roles=' + roles, {});
   }
 
-  // getMemesForApproval() {
-  //   return this.http.get<Meme[]>(this.baseUrl + 'admin/memes-to-moderate');
-  // }
-
   getMemesForApproval(page?: number, itemsPerPage?: number) {
   let params = new HttpParams();
 
@@ -40,7 +36,6 @@ export class AdminService {
       map(response => {
         this.paginatedResult.result = response.body;
         if (response.headers.get('Pagination') !== null) {
-          console.log(response.headers.get('Pagination'));
           this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
         }
         return this.paginatedResult;

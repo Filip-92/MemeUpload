@@ -33,7 +33,7 @@ export class MemeService {
     uploaded: undefined,
     description: '',
     isApproved: false,
-    likes: 0
+    numberOfLikes: 0
   };
 
   paginatedResult: PaginatedResult<Meme[]> = new PaginatedResult<Meme[]>();
@@ -148,7 +148,8 @@ export class MemeService {
   }
   
   addLike(memeId: number) {
-    return this.http.post(this.baseUrl + 'meme-likes/' + memeId, {})
+    // return this.http.post(this.baseUrl + 'meme-likes/' + memeId, {});
+    return this.http.post(this.baseUrl + 'users/add-meme-like/' + memeId, {});
   }
 
   getLikes(predicate: string, pageNumber, pageSize) {
@@ -163,5 +164,13 @@ export class MemeService {
 
   addYoutubeLink(model: any) {
     return this.http.post(this.baseUrl + 'users/add-youtube-link', model);
+  }
+
+  addComment(model: any) {
+    return this.http.post(this.baseUrl + 'users/add-comment', model);
+  }
+
+  getComments(memeId: number) {   
+      return this.http.get<Comment[]>(this.baseUrl + 'users/get-comments/' + memeId);
   }
 }

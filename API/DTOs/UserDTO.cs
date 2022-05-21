@@ -8,5 +8,6 @@ namespace API.DTOs
         public string PhotoUrl { get; set; }
         public string MemeUrl { get; set; }
         public string Gender { get; set; }
+        public int NumberOfLikes { get; set; }
     }
 }

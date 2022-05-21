@@ -42,7 +42,7 @@
                 <button (click)="addLike(member)" class="btn btn-primary mb-3">Like</button>
                 <div class="text-center">
                     <span class="ml-3 col-6"><i class="fa fa-photo mr-2"></i>Ilość wrzut: {{ member.memes?.length || '0' }}</span>
-                    <span class="ml-3 col-6"><i class="fa fa-plus mr-2"></i>Ilość plusów: {{ member?.numberOflikes || '0' }}</span>   
+                    <span class="ml-3 col-6"><i class="fa fa-plus mr-2"></i>Ilość plusów: {{member.numberOflikes}}</span>   
                 </div>
             </tab>
             <tab heading='Komentarze' (selectTab)="onTabActivated($event)">

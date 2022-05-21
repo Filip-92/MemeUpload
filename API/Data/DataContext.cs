@@ -21,6 +21,7 @@ namespace API.Data
         public DbSet<Message> Messages { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Memes> Memes {get; set; }
+        public DbSet<Comments> Comments { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Connection> Connections { get; set; }
 
@@ -71,6 +72,8 @@ namespace API.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Memes>().HasQueryFilter(m => m.IsApproved);
+
+            builder.Entity<Comments>();
 
             builder.ApplyUtcDateTimeConverter();
         }

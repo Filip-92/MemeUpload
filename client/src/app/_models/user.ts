@@ -1,3 +1,5 @@
+import { Photo } from "./photo";
+
 export interface User {
     id: number;
     username: string;
@@ -10,4 +12,5 @@ export interface User {
     isBanned: boolean;
     banExpiration: Date;
     banReason: string;
+    photos: Photo[];
 }

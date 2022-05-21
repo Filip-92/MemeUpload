@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit {
     uploaded: undefined,
     description: '',
     isApproved: false,
-    likes: 0
+    numberOfLikes: 0
   };
 
   pagination: Pagination;

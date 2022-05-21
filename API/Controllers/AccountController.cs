@@ -98,7 +98,8 @@ namespace API.Controllers
                 Token = await _tokenService.CreateToken(user),
                 PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
                 // MemeUrl = user.Memes.FirstOrDefault(x => x.IsApproved)?.Url, // moze zepsuc
-                Gender = user.Gender
+                Gender = user.Gender,
+                NumberOfLikes = user.NumberOfLikes
             };
         }
 

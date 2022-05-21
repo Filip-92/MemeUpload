@@ -1,11 +1,9 @@
-export interface Meme {
+export interface Comment {
     [x: string]: any;
     id: number;
     url: string;
-    title: string;
-    description: string;
+    content: string;
     uploaded: string;
-    isApproved: boolean;
     username?: string;
     numberOfLikes: number;
 }

@@ -47,7 +47,7 @@ export class MemeUploadComponent implements OnInit {
     uploaded: undefined,
     description: '',
     isApproved: false,
-    likes: 0
+    numberOfLikes: 0
   };
   model: any = {}
   uploader: FileUploader;
@@ -83,11 +83,12 @@ export class MemeUploadComponent implements OnInit {
       title: ['', 
               [Validators.required, 
               Validators.minLength(8), 
-              Validators.maxLength(32)],
-              Validators.pattern("^(?!\s*$)[-a-zA-Z0-9_:,.' ']{1,100}$")],
+              Validators.maxLength(32)]],
       description: ['', [Validators.maxLength(400)]]
     })
   }
+
+  // Validators.pattern("^(?!\s*$)[-a-zA-Z0-9_:,.' ']{1,100}$")
 
   private regExHyperlink = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
 

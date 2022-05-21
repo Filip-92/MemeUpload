@@ -1,26 +1,46 @@
-<div *ngFor="let meme of memes">
-    <div *ngIf="meme.id === id">
-        <div class="card mb-4 text-center mt-5">
-            <div class="card-img-wrapper">
-                <div class="card-body p-1" style="text-align: center;">
-                    <h4 class="card-title text-center mb-4 mt-3"> 
-                        {{meme.title || 'Jakieś gówno'}}
-                    </h4>
-                    <p>{{changeTimeZone(meme.uploaded) | timeago}}</p>
-                    <div *ngIf="meme.url.includes('youtube')">
-                        <iframe width="600" height="400" [src]="trustedUrl | safe"></iframe>
-                    </div>
-                    <img src="{{meme.url ? meme.url : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme.url)" style="max-width: 400px;"/>
-                    <video src="{{meme.url}}" class="card-img-top" *ngIf="!checkURL(meme.url) && !meme.url.includes('https://www.youtube')" style="max-width: 400px;" controls></video>
-                </div>
-                <div class="mb-3">
-                    <span class="inline-block">autor: <a class="nav-link" routerLink='/members/{{meme.username}}'>{{meme.username}}</a></span>
-                    <button (click)="addLike()" class="btn btn-success mr-2"><i class="fa fa-plus"></i></button>
-                    <span class="btn btn-primary mr-2" style="min-width: 100px;">{{likes}}</span>
-                    <button (click)="removeLike()" class="btn btn-danger"><i class="fa fa-minus"></i></button>
-                </div>
+<div class="card mb-4 text-center mt-5">
+    <div class="card-img-wrapper">
+        <div class="card-body p-1" style="text-align: center;">
+            <h4 class="card-title text-center mb-4 mt-3"> 
+                {{meme?.title || 'Jakieś gówno'}}
+            </h4>
+            <p>{{changeTimeZone(meme?.uploaded) | timeago}}</p>
+            <div *ngIf="meme?.url?.includes('youtube')">
+                <iframe width="600" height="400" [src]="trustedUrl | safe"></iframe>
             </div>
+            <img src="{{meme?.url ? meme?.url : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme?.url)" style="max-width: 400px;"/>
+            <video src="{{meme?.url}}" class="card-img-top" *ngIf="!checkURL(meme?.url) && !meme?.url?.includes('https://www.youtube')" style="max-width: 400px;" controls></video>
+        </div>
+        <div class="mb-3">
+            <span class="inline-block">autor: <a class="nav-link" routerLink='/members/{{meme?.username}}'>{{meme?.username}}</a></span>
+            <button (click)="addLike()" class="btn btn-success mr-2"><i class="fa fa-plus"></i></button>
+            <span class="btn btn-primary mr-2" style="min-width: 100px;">{{meme?.numberOfLikes}}</span>
+            <button (click)="removeLike()" class="btn btn-danger"><i class="fa fa-minus"></i></button>
         </div>
     </div>
+</div>
+
+<div>
+    <form [formGroup]='commentForm' (ngSubmit)="commentForm.valid && addComment()" class="text-center column">
+        <div>
+            <textarea type="text" [formControl]='commentForm.controls["content"]' placeholder="Wpisz treść komentarza" class="col-7"></textarea>
+            <button class="btn btn-success ml-2 col-2" type="submit" [disabled]="!commentForm.valid" style="margin-bottom: 40px;">Dodaj komentarz</button>
+        </div>
+        <div *ngIf="commentForm.controls['content'].errors?.maxlength" class="text-danger">
+            Komentarz zbyt długi
+        </div>
+    </form>
+</div>
+
+<div *ngIf="comments.length === 0" class="text-center">
+    <h3>Brak komentarzy</h3>
+</div>
+
+<div *ngFor="let comment of comments">
+    <table class="table">
+        <td style="width: 10%;"><a routerLink='/members/{{comment.username}}'>{{comment.username}}</a></td>
+        <td style="width: 10%;">{{comment.uploaded | timeago}}</td>
+        <td style="width: 80%;" class="text-center">{{comment.content}}</td>
+    </table>
 </div>
 

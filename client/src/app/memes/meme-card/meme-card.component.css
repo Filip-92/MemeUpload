@@ -6,6 +6,10 @@ a {
     color: white !important;
 }
 
+a:hover {
+    text-decoration: none !important;
+}
+
 @media screen and (max-width: 700px) {
 
     img {
@@ -23,3 +27,8 @@ a {
     margin-right: auto;
     background-color: rgb(32, 31, 31);
 } 
+
+.card-title:hover {
+    color: red;
+    text-decoration: none !important;
+}

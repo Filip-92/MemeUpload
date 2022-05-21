@@ -83,8 +83,6 @@ namespace API.Data
 
         public async Task<IEnumerable<MemeDto>> GetMemesList()
         {
-            Random random = new Random();
-
                 return await _context.Memes
                 .IgnoreQueryFilters()
                 .Select(u => new MemeDto
@@ -94,11 +92,12 @@ namespace API.Data
                     Url = u.Url,
                     Title = u.Title,
                     Description = u.Description,
-                    Uploaded = u.Uploaded
+                    Uploaded = u.Uploaded,
+                    NumberOfLikes = u.NumberOfLikes
                 }).ToListAsync();
         }
 
-        public async Task<IEnumerable<MemeDto>> GetMeme(int id)
+        public async Task<MemeDto> GetMeme(int id)
         {
             return await _context.Memes
                 .IgnoreQueryFilters()
@@ -110,8 +109,9 @@ namespace API.Data
                     Url = u.Url,
                     Title = u.Title,
                     Description = u.Description,
-                    Uploaded = u.Uploaded
-                }).ToListAsync();
+                    Uploaded = u.Uploaded,
+                    NumberOfLikes = u.NumberOfLikes
+                }).SingleOrDefaultAsync();
         }
 
         public async Task<PagedList<MemeDto>> SearchForMemes(MemeParams memeParams, string searchString)
@@ -157,7 +157,6 @@ namespace API.Data
         {
             var query = _context.Memes
                 .IgnoreQueryFilters()
-                .Where(m => m.AppUserId == 1)
                 .Where(m => m.Uploaded > (DateTime.Now.AddDays(-1)))
                 .Select(u => new MemeDto
                 {
@@ -177,6 +176,22 @@ namespace API.Data
         public void RemoveMeme(Memes meme)
         {
             _context.Memes.Remove(meme);
+        }
+
+        public async Task<IEnumerable<CommentDto>> GetComments(int id)
+        {
+                return await _context.Comments
+                .IgnoreQueryFilters()
+                .Where(m => m.MemeId == id)
+                .Select(u => new CommentDto
+                {
+                    Id = u.Id,
+                    Username = u.AppUser.UserName,
+                    Url = u.Url,
+                    Content = u.Content,
+                    Uploaded = u.Uploaded,
+                    NumberOfLikes = u.NumberOfLikes
+                }).ToListAsync();
         }
     }
 }

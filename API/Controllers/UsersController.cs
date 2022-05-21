@@ -291,18 +291,20 @@ namespace API.Controllers
             return BadRequest("Failed to delete the meme");
         }
 
-        [HttpPost("{memeId}")]
-        public async Task<ActionResult> AddLike(int id)
+        [HttpPost("add-meme-like/{memeId}")]
+        public async Task<ActionResult> AddLike(int memeId)
         {
-            var sourceUserId = User.GetUserId();
-            var likedMeme = await _unitOfWork.MemeRepository.GetMemeById(id);
-            var sourceUser = await _unitOfWork.MemeLikesRepository.GetMemeWithLikes(sourceUserId);
+            var sourceUserUsername = User.GetUsername();
+            var likedMeme = await _unitOfWork.MemeRepository.GetMeme(memeId);
+            // var sourceUser = await _unitOfWork.MemeLikesRepository.GetMemeWithLikes(sourceUserId);
 
             // if (likedMeme == null) return NotFound();
 
-            // if (sourceUser.UserName == username) return BadRequest("You cannot like yourself");
+            if (likedMeme.Username == sourceUserUsername) return BadRequest("You cannot like yourself");
 
             // var userLike = await _unitOfWork.LikesRepository.GetUserLike(sourceUserId, likedUser.Id);
+
+            likedMeme.NumberOfLikes++;
 
             // if (userLike != null)
             // {
@@ -321,7 +323,7 @@ namespace API.Controllers
 
             if (await _unitOfWork.Complete()) return Ok();
 
-            return BadRequest("Failed to like user");
+            return BadRequest("Failed to like meme");
         }
 
         [HttpPost("remove-meme/{memeId}")]
@@ -360,6 +362,35 @@ namespace API.Controllers
                 memes.TotalCount, memes.TotalPages);
 
             return Ok(memes);
+        }
+
+        [HttpPost("add-comment")]
+        public async Task<ActionResult<CommentDto>> AddComment(CommentDto commentDto)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+
+            var comment = new Comments
+            {
+                Content = commentDto.Content,
+                //Url = commentDto.Url
+                MemeId = commentDto.MemeId
+            };
+
+            if (await _unitOfWork.Complete())
+            {
+                return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<CommentDto>(comment));
+            }
+
+            return BadRequest("Problem adding comment: " + commentDto.Content + " " + user + commentDto.MemeId);
+        }
+
+        [HttpGet("get-comments/{memeId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetComments(int memeId)
+        {
+            var comments = await _unitOfWork.MemeRepository.GetComments(memeId);
+
+            return Ok(comments);
         }
     }
 }

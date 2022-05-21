@@ -27,6 +27,8 @@ namespace API.Controllers
             var likedMeme = await _unitOfWork.MemeRepository.GetMemeById(id);
             var sourceUser = await _unitOfWork.MemeLikesRepository.GetMemeWithLikes(sourceUserId);
 
+            likedMeme.NumberOfLikes++;
+
             // if (likedMeme == null) return NotFound();
 
             // if (sourceUser.UserName == username) return BadRequest("You cannot like yourself");
