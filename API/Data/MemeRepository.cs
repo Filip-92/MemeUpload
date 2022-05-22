@@ -193,5 +193,21 @@ namespace API.Data
                     NumberOfLikes = u.NumberOfLikes
                 }).ToListAsync();
         }
+
+        public async Task<IEnumerable<CommentDto>> GetMemberComments(int id)
+        {
+                return await _context.Comments
+                .IgnoreQueryFilters()
+                .Where(m => m.AppUserId == id)
+                .Select(u => new CommentDto
+                {
+                    Id = u.Id,
+                    Username = u.AppUser.UserName,
+                    Url = u.Url,
+                    Content = u.Content,
+                    Uploaded = u.Uploaded,
+                    NumberOfLikes = u.NumberOfLikes
+                }).ToListAsync();
+        }
     }
 }

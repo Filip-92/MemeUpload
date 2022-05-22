@@ -108,12 +108,6 @@ export class MemberEditComponent implements OnInit {
     })
   }
 
-  deleteMeme(memeId: number) {
-    this.memberService.deleteMeme(memeId).subscribe(() => {
-      this.member.memes = this.member.memes.filter(x => x.id !== memeId);
-    })
-  }
-
   pageChanged(event: any) {
     this.pageNumber = event.page;
     this.getMemberMemes(this.user.username);

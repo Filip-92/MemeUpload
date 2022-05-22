@@ -62,4 +62,8 @@ export class AdminService {
   unbanUser(username: string) {
     return this.http.post(this.baseUrl + 'admin/unban-user/' + username, {});
   }
+
+  getUserPhoto(id: number) {
+    return this.http.get<Photo>(this.baseUrl + 'users/get-user-photo/' + id);
+  }
 }

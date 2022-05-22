@@ -269,28 +269,6 @@ namespace API.Controllers
             return Ok(memes);
         }
 
-        [HttpDelete("delete-meme/{memeId}")]
-        public async Task<ActionResult> DeleteMeme(int memeId)
-        {
-            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
-
-            var meme = user.Memes.FirstOrDefault(x => x.Id == memeId);
-
-            if (meme == null) return NotFound();
-
-            if (meme.PublicId != null)
-            {
-                var result = await _memeService.DeleteMemeAsync(meme.PublicId);
-                if (result.Error != null) return BadRequest(result.Error.Message);
-            }
-
-            user.Memes.Remove(meme);
-
-            if (await _unitOfWork.Complete()) return Ok();
-
-            return BadRequest("Failed to delete the meme");
-        }
-
         [HttpPost("add-meme-like/{memeId}")]
         public async Task<ActionResult> AddLike(int memeId)
         {
@@ -386,11 +364,46 @@ namespace API.Controllers
 
         [HttpGet("get-comments/{memeId}")]
         [AllowAnonymous]
-        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetComments(int memeId)
+        public async Task<ActionResult<IEntityTypeConfiguration<CommentDto>>> GetComments(int memeId)
         {
             var comments = await _unitOfWork.MemeRepository.GetComments(memeId);
 
             return Ok(comments);
+        }
+
+        [HttpGet("get-member-comments/{username}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEntityTypeConfiguration<CommentDto>>> GetMemberComments(string username)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
+
+            var comments = await _unitOfWork.MemeRepository.GetMemberComments(user.Id);
+
+            return Ok(comments);
+        }
+
+        [HttpGet("get-user-photo/{userId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<PhotoDto>> GetPhoto(int userId)
+        {
+            var photo = await _unitOfWork.PhotoRepository.GetUserPhoto(userId);
+
+            return Ok(photo);
+        }
+
+        [HttpGet("get-user-photo-by-username/{username}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<PhotoDto>> GetPhotoByUsername(string username)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
+
+            if (user.UserName == "lisa") {
+                BadRequest(user.Id);
+            }
+
+            var photo = await _unitOfWork.PhotoRepository.GetUserPhoto(user.Id);
+
+            return Ok(photo);
         }
     }
 }

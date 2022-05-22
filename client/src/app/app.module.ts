@@ -61,6 +61,8 @@ import { LinkPreviewComponent } from './memes/link-preview/link-preview.componen
 import localePl from '@angular/common/locales/global/pl';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { BanModalComponent } from './modals/ban-modal/ban-modal.component';
+import { UserCardComponent } from './admin/user-card/user-card.component';
+import { CommentComponent } from './memes/comment/comment.component';
 registerLocaleData(localePl, 'pl')
 
 @NgModule({
@@ -105,7 +107,9 @@ registerLocaleData(localePl, 'pl')
     TopButtonsComponent,
     LinkPreviewComponent,
     SafePipe,
-    BanModalComponent
+    BanModalComponent,
+    UserCardComponent,
+    CommentComponent
   ],
   imports: [
     BrowserModule,

@@ -5,6 +5,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { BanModalComponent } from 'src/app/modals/ban-modal/ban-modal.component';
 import { RolesModalComponent } from 'src/app/modals/roles-modal/roles-modal.component';
+import { Photo } from 'src/app/_models/photo';
 import { User } from 'src/app/_models/user';
 import { AdminService } from 'src/app/_services/admin.service';
 
@@ -18,6 +19,8 @@ export class UserManagementComponent implements OnInit {
   bsModalRef: BsModalRef;
   banUserForm: FormGroup;
   validationErrors: string[] = [];
+  photo: Photo;
+  url: string;
 
   constructor(private adminService: AdminService, private modalService: BsModalService, 
     private modalServ: NgbModal, private toastr: ToastrService) { }
@@ -96,6 +99,12 @@ export class UserManagementComponent implements OnInit {
     this.adminService.unbanUser(username).subscribe(() => {
       this.users.splice(this.users.findIndex(p => p.username === username), 1);
       this.toastr.success('Pomyślnie zdjęto bana z użytkownika ' + username);
+    })
+  }
+
+  getUserPhoto(id: number) {
+    this.adminService.getUserPhoto(id).subscribe(photo => {
+      this.url = photo.url;
     })
   }
 

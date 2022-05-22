@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Member } from 'src/app/_models/member';
@@ -16,7 +15,6 @@ import { MemeService } from 'src/app/_services/meme.service';
   styleUrls: ['./meme-detail.component.css']
 })
 export class MemeDetailComponent implements OnInit {
-
   meme: Meme;
   memes: Meme[];
   comments: Comment[];

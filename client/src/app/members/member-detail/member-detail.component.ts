@@ -53,6 +53,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   scrolltop: number=null;
   memes: Meme[];
   userId: number;
+  comments: Comment[];
 
   constructor(public presence: PresenceService, private route: ActivatedRoute, 
     private messageService: MessageService, private accountService: AccountService,
@@ -84,6 +85,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     this.galleryImages = this.getImages();
     this.loadLikes();
     this.getMemberMemes(this.member.username);
+    this.getMemberComments(this.member.username);
     // this.member.likes = this.getLikes(this.member);
   }
   getImages(): NgxGalleryImage[] {
@@ -160,5 +162,11 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     }, error => {
       console.log(error);
     })
+  }
+
+  getMemberComments(username: string) {
+    this.memeService.getMemberComments(username).subscribe(comments => {
+      this.comments = comments;
+    });
   }
 }

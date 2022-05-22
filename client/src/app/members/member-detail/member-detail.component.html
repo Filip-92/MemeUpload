@@ -46,7 +46,9 @@
                 </div>
             </tab>
             <tab heading='Komentarze' (selectTab)="onTabActivated($event)">
-                {{member?.numberOflikes}}
+                <div *ngFor="let comment of comments">
+                    <app-comment [comment]="comment"></app-comment>
+                </div>
             </tab>
             <tab heading='Memy użytkownika {{member.username}}' (selectTab)="onTabActivated($event)"
                 #scrollMe

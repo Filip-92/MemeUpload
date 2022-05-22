@@ -1,0 +1,6 @@
+<table class="table">
+    <td style="width: 10%"><img src="{{url}}" alt=""></td>
+    <td style="width: 5%;"><a routerLink='/members/{{comment.username}}'>{{comment.username}}</a></td>
+    <td style="width: 5%;">{{comment.uploaded | timeago}}</td>
+    <td style="width: 80%;" class="text-center">{{comment.content}}</td>
+</table>

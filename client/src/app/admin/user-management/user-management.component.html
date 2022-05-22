@@ -7,9 +7,7 @@
             <th style="width: 20%;"></th>
         </tr>
         <tr *ngFor="let user of users">
-            <td>        
-                <img src="{{user.photos || '././assets/LogoImage.png'}}" alt="{{user.username}}" class="card-img-top">
-            </td>
+            <app-user-card [user]="user"></app-user-card>
             <td><a routerLink='/members/{{user.username}}'>{{user.username}}</a></td>
             <td>{{user.roles}}</td>
             <td><button (click)="openRolesModal(user)" class="btn btn-info">Edytuj Role</button></td>

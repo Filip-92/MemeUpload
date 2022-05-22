@@ -11,6 +11,7 @@ import { getPaginatedResult, getPaginationHeaders } from './paginationHelper';
 import { Meme } from '../_models/meme';
 import { PresenceService } from './presence.service';
 import { PaginatedResult, Pagination } from '../_models/pagination';
+import { Photo } from '../_models/photo';
 
 @Injectable({
   providedIn: 'root'
@@ -141,11 +142,6 @@ export class MemeService {
   deletePhoto(photoId: number) {
     return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
   }
-
-  deleteMeme(memeId: number) {
-    console.log(memeId)
-    return this.http.delete(this.baseUrl + 'users/delete-meme/' + memeId);
-  }
   
   addLike(memeId: number) {
     // return this.http.post(this.baseUrl + 'meme-likes/' + memeId, {});
@@ -172,5 +168,13 @@ export class MemeService {
 
   getComments(memeId: number) {   
       return this.http.get<Comment[]>(this.baseUrl + 'users/get-comments/' + memeId);
+  }
+
+  getMemberComments(username: string) {
+      return this.http.get<Comment[]>(this.baseUrl + 'users/get-member-comments/' + username);
+  }
+
+  getUserPhoto(username: string) {
+    return this.http.get<Photo>(this.baseUrl + 'users/get-user-photo-by-username/' + username);
   }
 }

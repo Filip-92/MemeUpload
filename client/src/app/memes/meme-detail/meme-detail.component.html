@@ -32,15 +32,11 @@
     </form>
 </div>
 
-<div *ngIf="comments.length === 0" class="text-center">
+<div *ngIf="comments?.length === 0" class="text-center">
     <h3>Brak komentarzy</h3>
 </div>
 
 <div *ngFor="let comment of comments">
-    <table class="table">
-        <td style="width: 10%;"><a routerLink='/members/{{comment.username}}'>{{comment.username}}</a></td>
-        <td style="width: 10%;">{{comment.uploaded | timeago}}</td>
-        <td style="width: 80%;" class="text-center">{{comment.content}}</td>
-    </table>
+    <app-comment [comment]="comment"></app-comment>
 </div>
 
