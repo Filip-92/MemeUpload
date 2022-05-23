@@ -20,6 +20,20 @@
   background-color: #555 !important;
 }
 
+#customButton {
+  color: white;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  min-width: 70px;
+  border: 1px solid yellow;
+  border-radius: 5px;
+}
+
+#customButton:hover {
+  color: red;
+  text-decoration: none;
+}
+
 .card-footer {
     padding: 10px 15px;
     background-color: gray;

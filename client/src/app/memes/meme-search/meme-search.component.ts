@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Meme } from 'src/app/_models/meme';
 import { Pagination } from 'src/app/_models/pagination';
 import { MemeService } from 'src/app/_services/meme.service';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-meme-search',

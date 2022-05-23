@@ -107,7 +107,7 @@ export class MemeUploadComponent implements OnInit {
   initializeUploader() {
     let maxFileSize = 10 * 1024 * 1024;
     this.uploader = new FileUploader({
-      url: this.baseUrl + 'users/add-meme',
+      url: this.baseUrl + 'memes/add-meme',
       authToken: 'Bearer ' + this.user.token,
       allowedFileType: ['image', 'video'],
       isHTML5: true,

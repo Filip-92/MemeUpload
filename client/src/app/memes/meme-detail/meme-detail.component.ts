@@ -8,6 +8,7 @@ import { Meme } from 'src/app/_models/meme';
 import { Pagination } from 'src/app/_models/pagination';
 import { HelperService } from 'src/app/_services/helper.service';
 import { MemeService } from 'src/app/_services/meme.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-meme-detail',
@@ -32,12 +33,14 @@ export class MemeDetailComponent implements OnInit {
 
   constructor(private memeService: MemeService, private http: HttpClient,
     private route: ActivatedRoute, private toastr: ToastrService,
-    private helper: HelperService, private fb: FormBuilder) { }
+    private helper: HelperService, private fb: FormBuilder,
+    private location: Location) { }
 
   ngOnInit(): void {
     this.route.data.subscribe(data => {
       this.meme = data.meme;
     });
+    //this.location.replaceState("memes/" + this.meme.id + "/" + this.meme.title);
     this.initializeForm();
     this.getMeme(this.id);
     this.getComments(this.id);

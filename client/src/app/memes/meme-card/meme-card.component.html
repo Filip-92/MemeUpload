@@ -8,9 +8,9 @@
                 </h4>
                 </a>
                 <p>{{meme.uploaded | timeago}}</p>
-                <span *ngIf="meme.description?.length !== 0">
+                <span *ngIf="meme.description?.length > 0">
                     <br>         
-                    <div id="description" class="text-center">
+                    <div id="description" class="text-center" style="padding-top: 10px; padding-bottom: 5px;">
                         <p>{{meme.description}}</p>
                     </div>
                     <br>

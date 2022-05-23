@@ -58,7 +58,7 @@ export class MemeService {
     params = params.append('pageNumber', page.toString());
     params = params.append('pageSize', itemsPerPage.toString());
   }
-  return this.http.get<Meme[]>(this.baseUrl + 'users/memes-to-display', {observe: 'response', params}).pipe(
+  return this.http.get<Meme[]>(this.baseUrl + 'memes/memes-to-display', {observe: 'response', params}).pipe(
     map(response => {
       this.paginatedResult.result = response.body;
       if (response.headers.get('Pagination') !== null) {
@@ -76,7 +76,7 @@ export class MemeService {
       params = params.append('pageNumber', page.toString());
       params = params.append('pageSize', itemsPerPage.toString());
     }
-    return this.http.get<Meme[]>(this.baseUrl + 'users/memes-to-moderate/last24H', {observe: 'response', params}).pipe(
+    return this.http.get<Meme[]>(this.baseUrl + 'memes/memes-to-moderate/last24H', {observe: 'response', params}).pipe(
       map(response => {
         this.paginatedResult.result = response.body;
         if (response.headers.get('Pagination') !== null) {
@@ -88,11 +88,11 @@ export class MemeService {
   }
 
   getMeme(id: number) {
-    return this.http.get<Meme>(this.baseUrl + 'users/display-meme-detail/' + id);
+    return this.http.get<Meme>(this.baseUrl + 'memes/display-meme-detail/' + id);
   }
 
   getRandomMeme() {
-    return this.http.get<Meme>(this.baseUrl + 'users/get-random-meme/');
+    return this.http.get<Meme>(this.baseUrl + 'memes/get-random-meme/');
   }
 
   searchForMeme(searchString: string, page?: number, itemsPerPage?: number) {
@@ -102,7 +102,7 @@ export class MemeService {
     params = params.append('pageNumber', page.toString());
     params = params.append('pageSize', itemsPerPage.toString());
   }
-  return this.http.get<Meme[]>(this.baseUrl + 'users/search-memes/' + searchString, {observe: 'response', params}).pipe(
+  return this.http.get<Meme[]>(this.baseUrl + 'memes/search-memes/' + searchString, {observe: 'response', params}).pipe(
     map(response => {
       this.paginatedResult.result = response.body;
       if (response.headers.get('Pagination') !== null) {
@@ -120,7 +120,7 @@ export class MemeService {
     params = params.append('pageNumber', page.toString());
     params = params.append('pageSize', itemsPerPage.toString());
   }
-  return this.http.get<Meme[]>(this.baseUrl + 'users/get-member-memes/' + username, {observe: 'response', params}).pipe(
+  return this.http.get<Meme[]>(this.baseUrl + 'memes/get-member-memes/' + username, {observe: 'response', params}).pipe(
     map(response => {
       this.paginatedResult.result = response.body;
       if (response.headers.get('Pagination') !== null) {
@@ -136,16 +136,16 @@ export class MemeService {
   }
 
   setMainPhoto(photoId: number) {
-    return this.http.put(this.baseUrl + 'users/set-main-photo/' + photoId, {});
+    return this.http.put(this.baseUrl + 'memes/set-main-photo/' + photoId, {});
   }
 
   deletePhoto(photoId: number) {
-    return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
+    return this.http.delete(this.baseUrl + 'memes/delete-photo/' + photoId);
   }
   
   addLike(memeId: number) {
     // return this.http.post(this.baseUrl + 'meme-likes/' + memeId, {});
-    return this.http.post(this.baseUrl + 'users/add-meme-like/' + memeId, {});
+    return this.http.post(this.baseUrl + 'memes/add-meme-like/' + memeId, {});
   }
 
   getLikes(predicate: string, pageNumber, pageSize) {
@@ -155,26 +155,26 @@ export class MemeService {
   }
 
   removeMeme(memeId: number) {
-    return this.http.post(this.baseUrl + 'users/remove-meme/' + memeId, {});
+    return this.http.post(this.baseUrl + 'memes/remove-meme/' + memeId, {});
   }
 
   addYoutubeLink(model: any) {
-    return this.http.post(this.baseUrl + 'users/add-youtube-link', model);
+    return this.http.post(this.baseUrl + 'memes/add-youtube-link', model);
   }
 
   addComment(model: any) {
-    return this.http.post(this.baseUrl + 'users/add-comment', model);
+    return this.http.post(this.baseUrl + 'memes/add-comment', model);
   }
 
   getComments(memeId: number) {   
-      return this.http.get<Comment[]>(this.baseUrl + 'users/get-comments/' + memeId);
+      return this.http.get<Comment[]>(this.baseUrl + 'memes/get-comments/' + memeId);
   }
 
   getMemberComments(username: string) {
-      return this.http.get<Comment[]>(this.baseUrl + 'users/get-member-comments/' + username);
+      return this.http.get<Comment[]>(this.baseUrl + 'memes/get-member-comments/' + username);
   }
 
   getUserPhoto(username: string) {
-    return this.http.get<Photo>(this.baseUrl + 'users/get-user-photo-by-username/' + username);
+    return this.http.get<Photo>(this.baseUrl + 'memes/get-user-photo-by-username/' + username);
   }
 }

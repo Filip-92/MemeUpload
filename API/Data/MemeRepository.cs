@@ -206,6 +206,7 @@ namespace API.Data
                     Url = u.Url,
                     Content = u.Content,
                     Uploaded = u.Uploaded,
+                    MemeId = u.MemeId,
                     NumberOfLikes = u.NumberOfLikes
                 }).ToListAsync();
         }

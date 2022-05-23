@@ -6,4 +6,5 @@ export interface Comment {
     uploaded: string;
     username?: string;
     numberOfLikes: number;
+    memeId: number;
 }

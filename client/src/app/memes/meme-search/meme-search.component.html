@@ -35,14 +35,14 @@
     Nie znaleziono żadnych memów zawierających w tytule wpisaną frazę
 </div>
 
-<div *ngIf="memes?.length > 0" class="mt-3">
-    Liczba Znalezionych memów z podaną frazą - {{memes?.length}} 
+<div *ngIf="memes?.length > 0" class="mt-5">
+    <h4>Liczba Znalezionych memów z podaną frazą - {{memes?.length}} </h4>
 </div>
 <div *ngFor="let meme of memes">
     <app-meme-card [meme]="meme"></app-meme-card>
 </div>
 
-<div class="d-flex justify-content-center" *ngIf="memes?.length !== 0 && pagination">
+<div class="d-flex justify-content-center" *ngIf="memes?.length > pageSize && pagination">
     <pagination
         [boundaryLinks]="true" 
         [totalItems]="pagination.totalItems"
@@ -56,7 +56,7 @@
     </pagination>
 </div>
 
-<div class="col-md-3 mt-2 justify-content-right" style="text-align: right;" *ngIf="memes?.length !== 0 && pagination">
+<div class="col-md-3 mt-2 justify-content-right" style="text-align: right;" *ngIf="memes?.length > pageSize && pagination">
     <span class="mr-2">Page Size</span>
 
     <select (change)="updatePageSize($any($event.target).value)">
