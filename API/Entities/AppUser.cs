@@ -21,6 +21,7 @@ namespace API.Entities
         public string Gender { get; set; }
         public ICollection<Photo> Photos { get; set; }
         public ICollection<Memes> Memes { get; set; }
+        public ICollection<Comments> Comments { get; set; }
         public ICollection<UserLike> LikedByUsers { get; set; }
         public ICollection<UserLike> LikedUsers { get; set; }
         public ICollection<UserLike> LikedMemes { get; set; }

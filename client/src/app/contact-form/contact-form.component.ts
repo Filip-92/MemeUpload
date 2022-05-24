@@ -1,6 +1,10 @@
 import { ConnectionService } from '../_services/connection.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, HostListener } from '@angular/core';
+import { AccountService } from '../_services/account.service';
+import { take } from 'rxjs/operators';
+import { User } from '../_models/user';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-contact-form',
@@ -20,15 +24,30 @@ contactFormMode: boolean = true;
     }
   }
 
-  constructor(private fb: FormBuilder, private connectionService: ConnectionService) {
+  user: User;
 
-  this.contactForm = fb.group({
-    'contactFormName': ['', Validators.required],
-    'contactFormEmail': ['', Validators.compose([Validators.required, Validators.email])],
-    'contactFormSubjects': ['', Validators.required],
-    'contactFormMessage': ['', Validators.required],
-    'contactFormCopy': [''],
-    });
+  constructor(private fb: FormBuilder, private connectionService: ConnectionService,
+    public accountService: AccountService, private toastr: ToastrService) {
+
+    this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
+
+    if (this.user === null) {
+      this.contactForm = this.fb.group({
+        senderName: ['', [Validators.required]],
+        senderEmail: ['', [Validators.compose([Validators.required, Validators.email])]],
+        subject: ['', [Validators.required]],
+        message: ['', [Validators.required]],
+        contactFormCopy: [''],
+        });
+    } else {
+      this.contactForm = fb.group({
+        senderName: [this.user.username],
+        senderEmail: [this.user.email],
+        subject: ['', [Validators.required]],
+        message: ['', [Validators.required]],
+        contactFormCopy: [''],
+        });
+    }
   }
 
   contactFormToggle() {
@@ -37,7 +56,7 @@ contactFormMode: boolean = true;
 
   onSubmit() {
     this.connectionService.sendMessage(this.contactForm.value).subscribe(() => {
-      alert('Your message has been sent.');
+      this.toastr.success('Your message has been sent.');
       this.contactForm.reset();
       this.disabledSubmitButton = true;
     }, error => {

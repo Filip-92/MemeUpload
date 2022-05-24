@@ -67,7 +67,7 @@ export class PhotoManagementComponent implements OnInit {
   }
 
   checkURL(url) {
-    return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
+    return(url?.match(/\.(jpeg|jpg|gif|png)$/) != null);
   }
 
   formatYoutubeLink(url) {

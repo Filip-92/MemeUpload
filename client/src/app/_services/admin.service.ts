@@ -64,6 +64,6 @@ export class AdminService {
   }
 
   getUserPhoto(id: number) {
-    return this.http.get<Photo>(this.baseUrl + 'users/get-user-photo/' + id);
+    return this.http.get<Photo>(this.baseUrl + 'memes/get-user-photo/' + id);
   }
 }

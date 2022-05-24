@@ -18,9 +18,14 @@ textarea {
 }
 
 ::placeholder {
+    background-color: gray;
     color: whitesmoke;
 }
 
 .border-light {
     border-radius: 8px 8px 8px 8px;
+}
+
+.form-control {
+    background-color: gray;
 }

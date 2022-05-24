@@ -13,4 +13,5 @@ export interface User {
     banExpiration: Date;
     banReason: string;
     photos: Photo[];
+    email: string;
 }

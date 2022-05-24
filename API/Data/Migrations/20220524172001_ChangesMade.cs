@@ -57,6 +57,22 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Contact Form",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    SenderName = table.Column<string>(type: "TEXT", nullable: true),
+                    SenderEmail = table.Column<string>(type: "TEXT", nullable: true),
+                    Subject = table.Column<string>(type: "TEXT", nullable: true),
+                    Message = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Contact Form", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Groups",
                 columns: table => new
                 {
@@ -203,7 +219,6 @@ namespace API.Migrations
                 {
                     SourceUserId = table.Column<int>(type: "INTEGER", nullable: false),
                     LikedUserId = table.Column<int>(type: "INTEGER", nullable: false),
-                    NumberOfLikes = table.Column<int>(type: "INTEGER", nullable: false),
                     AppUserId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
@@ -329,6 +344,33 @@ namespace API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "MemeLikes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    SourceUserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    LikedMemeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    NumberOfLikes = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MemeLikes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MemeLikes_AspNetUsers_SourceUserId",
+                        column: x => x.SourceUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MemeLikes_Memes_LikedMemeId",
+                        column: x => x.LikedMemeId,
+                        principalTable: "Memes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -387,6 +429,16 @@ namespace API.Migrations
                 column: "LikedUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MemeLikes_LikedMemeId",
+                table: "MemeLikes",
+                column: "LikedMemeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MemeLikes_SourceUserId",
+                table: "MemeLikes",
+                column: "SourceUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Memes_AppUserId",
                 table: "Memes",
                 column: "AppUserId");
@@ -431,10 +483,13 @@ namespace API.Migrations
                 name: "Connections");
 
             migrationBuilder.DropTable(
+                name: "Contact Form");
+
+            migrationBuilder.DropTable(
                 name: "Likes");
 
             migrationBuilder.DropTable(
-                name: "Memes");
+                name: "MemeLikes");
 
             migrationBuilder.DropTable(
                 name: "Messages");
@@ -447,6 +502,9 @@ namespace API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Groups");
+
+            migrationBuilder.DropTable(
+                name: "Memes");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

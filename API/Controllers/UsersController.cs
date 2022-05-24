@@ -143,5 +143,27 @@ namespace API.Controllers
 
             return BadRequest("Failed to delete the photo");
         }
+
+        [HttpPost("submit-contact-form")]
+        [AllowAnonymous]
+        public async Task<ActionResult<ContactFormDto>> SubmitMessage([FromBody] ContactFormDto contactFormDto)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+
+            var contactForm = new ContactForm
+            {
+                SenderName = contactFormDto.SenderName,
+                SenderEmail = contactFormDto.SenderEmail,
+                Subject = contactFormDto.Subject,
+                Message = contactFormDto.Message
+            };
+
+            if (await _unitOfWork.Complete())
+            {
+                return Ok(contactForm);
+            }
+
+            return BadRequest("Problem sending message " + contactFormDto.SenderName + " " + contactFormDto.SenderEmail + " " + contactFormDto.Subject + " " + contactFormDto.Message);
+        }
     }
 }

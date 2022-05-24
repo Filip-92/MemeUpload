@@ -18,10 +18,12 @@ namespace API.Data
         }
 
         public DbSet<UserLike> Likes { get; set; }
+        public DbSet<MemeLike> MemeLikes { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Memes> Memes {get; set; }
         public DbSet<Comments> Comments { get; set; }
+        public DbSet<ContactForm> ContactForm { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Connection> Connections { get; set; }
 
@@ -74,6 +76,10 @@ namespace API.Data
             builder.Entity<Memes>().HasQueryFilter(m => m.IsApproved);
 
             builder.Entity<Comments>();
+
+            builder.Entity<MemeLike>();
+
+            builder.Entity<ContactForm>();
 
             builder.ApplyUtcDateTimeConverter();
         }

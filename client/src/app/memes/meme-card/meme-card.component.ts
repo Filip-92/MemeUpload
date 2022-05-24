@@ -57,8 +57,8 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     // temporary solution for incorrect timezone
     var newTime = Number(this.meme.uploaded.substring(11,13)) - 2;
     this.meme.uploaded = this.meme.uploaded.replace((this.meme.uploaded.substring(11,14)), newTime.toString() + ":");
-    if(this.meme.url.includes("youtube")) {
-      this.trustedUrl = this.formatYoutubeLink(this.meme.url);
+    if(this.meme?.url?.includes("youtube")) {
+      this.trustedUrl = this.formatYoutubeLink(this.meme?.url);
     }
   }
   
@@ -95,7 +95,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   }
 
   checkURL(url) {
-    return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
+    return(url?.match(/\.(jpeg|jpg|gif|png)$/) != null);
   }
 
   formatYoutubeLink(url) {

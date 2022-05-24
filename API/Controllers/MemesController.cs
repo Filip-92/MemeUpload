@@ -241,12 +241,14 @@ namespace API.Controllers
                 MemeId = commentDto.MemeId
             };
 
+            user.Comments.Add(comment);
+
             if (await _unitOfWork.Complete())
             {
                 return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<CommentDto>(comment));
             }
 
-            return BadRequest("Problem adding comment: " + commentDto.Content + " " + user + commentDto.MemeId);
+            return BadRequest("Problem adding comment: " + commentDto.Content + " " + user + " " + commentDto.MemeId);
         }
 
         [HttpGet("get-comments/{memeId}")]

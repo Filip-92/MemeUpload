@@ -27,7 +27,7 @@ export class UserCardComponent implements OnInit {
 
   getUserPhoto(id: number) {
     this.adminService.getUserPhoto(id).subscribe(photo => {
-      this.url = photo.url;
+      this.url = photo?.url;
     })
   }
 

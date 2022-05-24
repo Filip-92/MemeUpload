@@ -15,13 +15,13 @@
                     </div>
                     <br>
                 </span>
-                <div *ngIf="meme.url.includes('youtube')">
+                <div *ngIf="meme?.url?.includes('youtube')">
                     <iframe width="600" height="400" [src]="trustedUrl | safe"></iframe>
                 </div>
-                <a routerLink="../../memes/{{meme.id}}/{{ convertText(meme.title) || convertText('Jakieś gówno')}}">
+                <a routerLink="../../memes/{{meme.id}}/{{ convertText(meme?.title) || convertText('Jakieś gówno')}}">
                     <img src="{{meme.url ? meme.url : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme.url)" style="max-width: 400px;"/>
                 </a>
-                <video src="{{meme.url}}" class="card-img-top" *ngIf="!checkURL(meme.url) && !meme.url.includes('https://www.youtube')" style="max-width: 400px;" controls></video>
+                <video src="{{meme.url}}" class="card-img-top" *ngIf="!checkURL(meme?.url) && !meme?.url?.includes('https://www.youtube')" style="max-width: 400px;" controls></video>
             </div>
             <div class="mb-3">
                 <!-- <span class="text-center" id="container" *ngIf="(accountService.currentUser$ | async) !== null">

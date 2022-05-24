@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220521072001_Something")]
-    partial class Something
+    [Migration("20220524172001_ChangesMade")]
+    partial class ChangesMade
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -200,6 +200,29 @@ namespace API.Migrations
                     b.ToTable("Connections");
                 });
 
+            modelBuilder.Entity("API.Entities.ContactForm", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SenderEmail")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SenderName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Contact Form");
+                });
+
             modelBuilder.Entity("API.Entities.Group", b =>
                 {
                     b.Property<string>("Name")
@@ -208,6 +231,30 @@ namespace API.Migrations
                     b.HasKey("Name");
 
                     b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("API.Entities.MemeLike", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("LikedMemeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("NumberOfLikes")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SourceUserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LikedMemeId");
+
+                    b.HasIndex("SourceUserId");
+
+                    b.ToTable("MemeLikes");
                 });
 
             modelBuilder.Entity("API.Entities.Memes", b =>
@@ -440,7 +487,7 @@ namespace API.Migrations
             modelBuilder.Entity("API.Entities.Comments", b =>
                 {
                     b.HasOne("API.Entities.AppUser", "AppUser")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -454,6 +501,25 @@ namespace API.Migrations
                         .WithMany("Connections")
                         .HasForeignKey("GroupName")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("API.Entities.MemeLike", b =>
+                {
+                    b.HasOne("API.Entities.Memes", "LikedMeme")
+                        .WithMany()
+                        .HasForeignKey("LikedMemeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.AppUser", "SourceUser")
+                        .WithMany()
+                        .HasForeignKey("SourceUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("LikedMeme");
+
+                    b.Navigation("SourceUser");
                 });
 
             modelBuilder.Entity("API.Entities.Memes", b =>
@@ -563,6 +629,8 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.AppUser", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("LikedByUsers");
 
                     b.Navigation("LikedMemes");
