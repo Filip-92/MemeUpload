@@ -87,6 +87,14 @@ export class MembersService {
     return getPaginatedResult<Partial<Member[]>>(this.baseUrl + 'likes', params, this.http);
   }
 
+  getAllUserLikes(userId: number) {
+    return this.http.get<Member[]>(this.baseUrl + 'likes/get-all-likes/' + userId);
+  }
+
+  getAllUserLikesNumber(userId: number) {
+    return this.http.get<number>(this.baseUrl + 'users/get-user-likes-no/' + userId);
+  }
+
   deleteMeme(memeId: number) {
     return this.http.delete(this.baseUrl + 'users/delete-meme/' + memeId);
   }

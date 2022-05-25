@@ -19,7 +19,7 @@
             <ul class="nav">
                 <li style="width: 60px" title="Użytkownicy"><a class="nav-link" routerLink='/members' routerLinkActive='active'><i class="fa fa-user"></i></a></li>
                 <li style="width: 60px" title="Polubienia"><a class="nav-link" routerLink='/lists' routerLinkActive='active'><i class="fa fa-thumbs-up"></i></a></li>
-                <li style="width: 60px" title="Wiadomości"><a class="nav-link" routerLink='/messages'routerLinkActive='active'><i class="fa fa-envelope"></i></a></li>
+                <li style="width: 60px" title="Wiadomości"><a class="nav-link" routerLink='/messages'routerLinkActive='active'><i class="fa fa-envelope" [ngStyle]="unreadMessages > 0 ? { 'color': 'red' } : { 'color': 'white' }"><span *ngIf="unreadMessages > 0">{{unreadMessages}}</span></i></a></li>
                 <li style="width: 60px" *ngIf="(accountService.currentUser$ | async) || (accountService.currentUser$ | async) === null" title="Szukaj memów"><a class="nav-link" routerLink='/memes/szukaj' routerLinkActive='active'><i class="fa fa-search"></i></a></li>
                 <li *appHasRole='["Admin", "Moderator"]' class="nav-item" style="width: 60px">
                     <a class="nav-link" routerLink='/admin' routerLinkActive='active'><i class="fa fa-lock"></i></a>

@@ -10,6 +10,7 @@ import { Pagination } from '../_models/pagination';
 import { MessageService } from '../_services/message.service';
 import { add } from 'ngx-bootstrap/chronos';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import * as internal from 'stream';
 
 @Component({
   selector: 'app-nav',
@@ -32,6 +33,7 @@ export class NavComponent implements OnInit {
   display: boolean = true;
   isMobile: boolean;
   public innerWidth: any;
+  unreadMessages: number = null;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -43,7 +45,7 @@ export class NavComponent implements OnInit {
     private deviceService: DeviceDetectorService) { }
 
   ngOnInit(): void {
-    //this.loadMessages();
+    this.loadMessages();
     this.open = true;
     this.isMobile = this.deviceService.isMobile();
     this.innerWidth = window.innerWidth;
@@ -68,6 +70,7 @@ export class NavComponent implements OnInit {
   logout() {
     this.displayNavbar();
     this.accountService.logout();
+    this.unreadMessages = 0;
     this.router.navigateByUrl('/');
   }
 
@@ -80,10 +83,19 @@ export class NavComponent implements OnInit {
     this.loginMode = true;
   }
 
+  checkForUnreadMessages(messages: Message[]) {
+    for (var message of messages) {
+      if (message.dateRead === null) {
+        this.unreadMessages++;
+      }
+    }
+  }
+
   loadMessages() {
     this.loading = true;
     this.messageService.getMessages(this.pageNumber, this.pageSize, this.container).subscribe(response => {
       this.messages = response.result;
+      this.checkForUnreadMessages(this.messages);
       this.pagination = response.pagination;
       this.loading = false;
     })

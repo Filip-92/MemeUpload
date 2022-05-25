@@ -38,6 +38,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     photos: [],
     numberOflikes: 0
   };
+  userWithLikes: User;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
   activeTab: TabDirective;
@@ -54,6 +55,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   memes: Meme[];
   userId: number;
   comments: Comment[];
+  numberOfLikes: number = 0;
 
   constructor(public presence: PresenceService, private route: ActivatedRoute, 
     private messageService: MessageService, private accountService: AccountService,
@@ -66,11 +68,10 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.data.subscribe(data => {
       this.member = data.member;
-      console.log(this.member);
     })
     this.getUsers();
-    this.route.queryParams.subscribe(params => {
-      params.tab ? this.selectTab(params.tab) : this.selectTab(0);
+    this.route?.queryParams?.subscribe(params => {
+      params?.tab ? this.selectTab(params?.tab) : this.selectTab(0);
     })
     this.galleryOptions = [
       {
@@ -86,7 +87,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     this.loadLikes();
     this.getMemberMemes(this.member.username);
     this.getMemberComments(this.member.username);
-    // this.member.likes = this.getLikes(this.member);
+    this.getMemberNumberOfLikes(this.member.id);
   }
   getImages(): NgxGalleryImage[] {
     const imageUrls = [];
@@ -168,5 +169,12 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     this.memeService.getMemberComments(username).subscribe(comments => {
       this.comments = comments;
     });
+  }
+
+  getMemberNumberOfLikes(userId: number) {
+    this.memberService.getAllUserLikesNumber(userId).subscribe(numberOfLikes => {
+      this.numberOfLikes = numberOfLikes;
+      console.log(this.numberOfLikes);
+    })
   }
 }

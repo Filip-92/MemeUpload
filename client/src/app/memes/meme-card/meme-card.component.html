@@ -32,7 +32,7 @@
                         autor: <a class="nav-link" routerLink='/members/{{meme.username}}' style="color: greenyellow !important">{{meme.username}}</a>
                     </span>
                 </span> -->
-                <span class="text-center" id="container" *ngIf="(accountService.currentUser$ | async) === null">
+                <span class="text-center" id="container">
                     <span class="inline-block">
                         autor: <a class="nav-link" routerLink='/members/{{meme.username}}' style="color: greenyellow !important">{{meme.username}}</a>
                     </span>

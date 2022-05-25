@@ -18,5 +18,6 @@ namespace API.Interfaces
         Task<AppUser> GetUserByMemeId(int memeId);
         Task<string> GetUserGender(string username);
         Task<AppUser> GetUserByEmailAsync(string email);
+        Task<UserDto> GetUserNumberOfLikes(int userId);
     }
 }

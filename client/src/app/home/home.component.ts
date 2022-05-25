@@ -11,6 +11,8 @@ import { PaginatedResult, Pagination } from '../_models/pagination';
 import { MemeService } from '../_services/meme.service';
 import { Router } from '@angular/router';
 import * as watermark from 'watermarkjs';
+import { Message } from '../_models/message';
+import { MessageService } from '../_services/message.service';
 
 @Component({
   selector: 'app-home',
@@ -20,41 +22,11 @@ import * as watermark from 'watermarkjs';
 
 export class HomeComponent implements OnInit {
   @ViewChild('previewimage') waterMarkImage: ElementRef;
-  @Input() member: Member = {
-    memes: [],
-    memeUrl: '',
-    id: 0,
-    username: '',
-    photoUrl: '',
-    age: 0,
-    created: undefined,
-    lastActive: undefined,
-    gender: '',
-    photos: [],
-    numberOflikes: 0
-  };
-  members: Member[];
-  memes: Meme[];
-  photos: Photo[];
   model: any = {}
   user: User;
   users: any;
   memeUploadMode = false;
   isLoggedIn = false;
-  meme: Meme = {
-    x: '',
-    id: 0,
-    url: '',
-    title: '',
-    uploaded: undefined,
-    description: '',
-    isApproved: false,
-    numberOfLikes: 0
-  };
-
-  pagination: Pagination;
-  pageNumber = 1;
-  pageSize = 5;
 
   blobImage = null;
 

@@ -165,5 +165,14 @@ namespace API.Controllers
 
             return BadRequest("Problem sending message " + contactFormDto.SenderName + " " + contactFormDto.SenderEmail + " " + contactFormDto.Subject + " " + contactFormDto.Message);
         }
+
+        [HttpGet("get-user-likes-no/{userId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEntityTypeConfiguration<MemberDto>>> GetUserNumberOfLikes(int userId)
+        {
+            var member = await _unitOfWork.UserRepository.GetUserNumberOfLikes(userId);
+
+            return Ok(member.NumberOfLikes);
+        }
     }
 }
