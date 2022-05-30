@@ -104,4 +104,9 @@ export class MemeDetailComponent implements OnInit {
     });
   }
 
+  addImageWatermark(imageUrl: string) {
+    var watermarkedUrl = imageUrl.replace("/upload/", "/upload/l_logo_gimp_-_new_ucilaf,o_50,w_200,c_scale,g_south_east/")
+    return watermarkedUrl;
+  }
+
 }

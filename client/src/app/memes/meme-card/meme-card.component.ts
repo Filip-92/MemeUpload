@@ -60,6 +60,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     if(this.meme?.url?.includes("youtube")) {
       this.trustedUrl = this.formatYoutubeLink(this.meme?.url);
     }
+    //this.addImageWatermark("https://res.cloudinary.com/duj1ftjtp/image/upload/hcq1ymvalfdscq1m1i32.jpg");
   }
   
   // addLike(meme: Meme) {
@@ -110,10 +111,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   }
 
   addImageWatermark(imageUrl: string) {
-    watermark([imageUrl, '././assets/logo (gimp - new).png'])
-      .image(watermark.image.lowerRight(0.6))
-      .then(img => {
-        this.waterMarkImage.nativeElement.src = img.src;
-      });
+    var watermarkedUrl = imageUrl.replace("/upload/", "/upload/l_logo_gimp_-_new_ucilaf,o_50,w_300,c_scale,g_south_east/")
+    return watermarkedUrl;
   }
 }

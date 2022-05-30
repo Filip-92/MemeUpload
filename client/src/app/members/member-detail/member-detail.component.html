@@ -39,7 +39,7 @@
             <tab heading='Profil {{member.username}}' (selectTab)="onTabActivated($event)" class="text-center">
                 <br>
                 <h2 style="color: red;">{{member.username}}</h2>
-                <button (click)="addLike(member)" class="btn btn-primary mb-3">Like</button>
+                <button (click)="addLike(member)" class="btn btn-success mb-3" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'red' }"><i class="fa fa-plus"></i></button>
                 <div class="text-center">
                     <span class="ml-3 col-6"><i class="fa fa-photo mr-2"></i>Ilość wrzut: {{ member.memes?.length || '0' }}</span>
                     <span class="ml-3 col-6"><i class="fa fa-plus mr-2"></i>Ilość plusów: {{ numberOfLikes }}</span>   
@@ -55,6 +55,9 @@
                             <a id="customButton" routerLink='/memes/{{comment.memeId}}/..'>Idź do mema</a>
                         </div>
                     </div>
+                </div>
+                <div *ngIf="comments.length <= 0" class="text-center mt-3">
+                    <h3>Brak komentarzy użytkownika</h3>
                 </div>
             </tab>
             <tab heading='Memy użytkownika {{member.username}}' (selectTab)="onTabActivated($event)"

@@ -46,7 +46,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   user: User;
   users: any;
   members: Partial<Member[]>;
-  predicate = 'likedBy';
+  predicate = 'liked';
   pageNumber = 1;
   pageSize = 5;
   pagination: Pagination;
@@ -56,6 +56,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   userId: number;
   comments: Comment[];
   numberOfLikes: number = 0;
+  liked: boolean = false;
 
   constructor(public presence: PresenceService, private route: ActivatedRoute, 
     private messageService: MessageService, private accountService: AccountService,
@@ -68,8 +69,12 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.data.subscribe(data => {
       this.member = data.member;
+      if (this.member.username === this.user.username) {
+        window.location.replace('member/edit');
+      }
     })
     this.getUsers();
+    this.loadLikes();
     this.route?.queryParams?.subscribe(params => {
       params?.tab ? this.selectTab(params?.tab) : this.selectTab(0);
     })
@@ -84,7 +89,6 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
       }
     ]
     this.galleryImages = this.getImages();
-    this.loadLikes();
     this.getMemberMemes(this.member.username);
     this.getMemberComments(this.member.username);
     this.getMemberNumberOfLikes(this.member.id);
@@ -110,8 +114,8 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   }
   onTabActivated(data: TabDirective) {
     this.activeTab = data;
-    if (this.activeTab.heading === 'Messages' && this.messages.length === 0) {
-      this.messageService.createHubConnection(this.user, this.member.username);
+    if (this.activeTab?.heading === 'Messages' && this.messages?.length === 0) {
+      this.messageService.createHubConnection(this.user, this.member?.username);
     } else {
       this.messageService.stopHubConnection();
     }
@@ -128,14 +132,30 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
 
   addLike(member: Member) {
     this.memberService.addLike(member.username).subscribe(() => {
-      this.toastr.success('You have liked ' + member.username);
-      // this.member.likes++;
+      // this.toastr.success('You have liked ' + member.username);
+      this.liked = !this.liked;
+      if(this.liked) {
+        this.numberOfLikes++;
+        this.liked = true;
+      } else {
+        this.numberOfLikes--;
+        this.liked = false;
+      }
     })
+  }
+
+  checkIfUserLiked(members: Partial<Member[]>) {
+    for (var user of members) {
+      if (user.id === this.member.id) {
+        this.liked = true;
+      }
+    }
   }
 
   loadLikes() {
     this.memberService.getLikes(this.predicate, this.pageNumber, this.pageSize).subscribe(response => {
       this.members = response.result;
+      this.checkIfUserLiked(this.members);
       this.pagination = response.pagination;
     })
   }
@@ -174,7 +194,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   getMemberNumberOfLikes(userId: number) {
     this.memberService.getAllUserLikesNumber(userId).subscribe(numberOfLikes => {
       this.numberOfLikes = numberOfLikes;
-      console.log(this.numberOfLikes);
+      console.log('Likes: ' + this.numberOfLikes);
     })
   }
 }
