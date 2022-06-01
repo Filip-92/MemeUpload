@@ -63,6 +63,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { BanModalComponent } from './modals/ban-modal/ban-modal.component';
 import { UserCardComponent } from './admin/user-card/user-card.component';
 import { CommentComponent } from './memes/comment/comment.component';
+import { AdminDeleteMemeComponent } from './modals/admin-delete-meme/admin-delete-meme.component';
 registerLocaleData(localePl, 'pl')
 
 @NgModule({
@@ -109,7 +110,8 @@ registerLocaleData(localePl, 'pl')
     SafePipe,
     BanModalComponent,
     UserCardComponent,
-    CommentComponent
+    CommentComponent,
+    AdminDeleteMemeComponent
   ],
   imports: [
     BrowserModule,

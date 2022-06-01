@@ -165,6 +165,24 @@ namespace API.Controllers
         }
 
         [Authorize(Policy = "ModerateMemeRole")]
+        [HttpPost("push-meme-to-main/{memeId}")]
+        public async Task<ActionResult> PushMemeToMain(int memeId)
+        {
+            var meme = await _unitOfWork.MemeRepository.GetMemeById(memeId);
+
+            if (meme == null) return NotFound("Could not find meme");
+
+            meme.IsMain = true;
+            meme.IsApproved = true;
+
+            var user = await _unitOfWork.UserRepository.GetUserByMemeId(memeId);
+
+            await _unitOfWork.Complete();
+
+            return Ok();
+        }
+
+        [Authorize(Policy = "ModerateMemeRole")]
         [HttpPost("reject-meme/{memeId}")]
         public async Task<ActionResult> RejectMeme(int memeId)
         {

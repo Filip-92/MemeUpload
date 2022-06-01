@@ -108,6 +108,18 @@ namespace API.Controllers
             return Ok(memes);
         }
 
+        [HttpGet("memes-to-display-main")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemesMain([FromQuery] MemeParams memeParams)
+        {
+            var memes = await _unitOfWork.MemeRepository.GetMemesMain(memeParams);
+
+            Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
+                memes.TotalCount, memes.TotalPages);
+
+            return Ok(memes);
+        }
+
         [HttpGet("display-meme-detail/{memeId}")]
         [AllowAnonymous]
         public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMeme(int memeId)

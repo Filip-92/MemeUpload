@@ -80,6 +80,8 @@ namespace API.Data
             builder.Entity<MemeLike>();
 
             builder.Entity<ContactForm>();
+            
+            builder.Entity<Division>();
 
             builder.ApplyUtcDateTimeConverter();
         }

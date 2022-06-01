@@ -20,15 +20,26 @@ export class MemeListComponent implements OnInit {
   constructor(private memeService: MemeService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void { 
-    if (!this.router.url.includes('ostatnie24H')) { 
+    if (this.router.url.includes('ostatnie24H')) {
+      this.loadMemesLast24H(); 
+      // this.loadMainMemes();
+      // this.loadMemes();  
+    } else if (this.router.url.includes('poczekalnia')) {
       this.loadMemes(); 
     } else {
-      this.loadMemesLast24H();
+      this.loadMainMemes();
     }
   }
 
   loadMemes() {
     this.memeService.getMemes(this.pageNumber, this.pageSize).subscribe(response => {
+      this.memes = response.result;
+      this.pagination = response.pagination;
+    });
+  }
+
+  loadMainMemes() {
+    this.memeService.getMainMemes(this.pageNumber, this.pageSize).subscribe(response => {
       this.memes = response.result;
       this.pagination = response.pagination;
     });

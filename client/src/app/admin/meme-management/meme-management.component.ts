@@ -1,5 +1,7 @@
 import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AdminDeleteMemeComponent } from 'src/app/modals/admin-delete-meme/admin-delete-meme.component';
 import { Meme } from 'src/app/_models/meme';
 import { Pagination } from 'src/app/_models/pagination';
 import { Photo } from 'src/app/_models/photo';
@@ -26,8 +28,9 @@ export class PhotoManagementComponent implements OnInit {
   pageNumber = 1;
   pageSize = 10;
   trustedUrl: any;
+  memeId: number;
 
-  constructor(private adminService: AdminService) { }
+  constructor(private adminService: AdminService, private modalService: NgbModal) { }
   transform(value: any, ...args: any[]) {
     throw new Error('Method not implemented.');
   }
@@ -44,13 +47,26 @@ export class PhotoManagementComponent implements OnInit {
       });
     }
 
-  approveMeme(memeId) {
+  approveMeme(memeId: number) {
     this.adminService.approveMeme(memeId).subscribe(() => {
       this.memes.splice(this.memes.findIndex(p => p.id === memeId), 1);
     })
   }
 
-  rejectMeme(memeId) {
+  pushMemeToMain(memeId: number) {
+    this.adminService.pushMemeToMain(memeId).subscribe(() => {
+      this.memes.splice(this.memes.findIndex(p => p.id === memeId), 1);
+    })
+  }
+
+  openDeleteModal(memeId: number) {
+    const modalRef = this.modalService.open(AdminDeleteMemeComponent);
+    modalRef.componentInstance.memes = this.memes;
+    modalRef.componentInstance.memeId = memeId;
+    modalRef.componentInstance.modalRef = modalRef;
+  }
+
+  rejectMeme(memeId: number) {
     this.adminService.rejectMeme(memeId).subscribe(() => {
       this.memes.splice(this.memes.findIndex(p => p.id === memeId), 1);
     })

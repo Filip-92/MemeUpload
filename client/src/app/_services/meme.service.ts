@@ -69,6 +69,24 @@ export class MemeService {
   );
 }
 
+getMainMemes(page?: number, itemsPerPage?: number) {
+  let params = new HttpParams();
+
+  if (page !== null && itemsPerPage !== null) {
+    params = params.append('pageNumber', page.toString());
+    params = params.append('pageSize', itemsPerPage.toString());
+  }
+  return this.http.get<Meme[]>(this.baseUrl + 'memes/memes-to-display-main', {observe: 'response', params}).pipe(
+    map(response => {
+      this.paginatedResult.result = response.body;
+      if (response.headers.get('Pagination') !== null) {
+        this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+      }
+      return this.paginatedResult;
+    })
+  );
+}
+
   getMemesLast24H(page?: number, itemsPerPage?: number) {
     let params = new HttpParams();
 

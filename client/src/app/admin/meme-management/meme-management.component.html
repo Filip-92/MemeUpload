@@ -14,7 +14,8 @@
         <h4>{{meme.username}}</h4>
         <div class='text-center mb-5'>
             <button class='btn btn-sm btn-success mr-1' (click)='approveMeme(meme.id)'>Approve</button>
-            <button class='btn btn-sm btn-danger' (click)='rejectMeme(meme.id)'>Reject</button>
+            <button class='btn btn-sm btn-success mr-1' (click)='pushMemeToMain(meme.id)'>Główna</button>
+            <button class='btn btn-sm btn-danger' (click)="openDeleteModal(meme.id)" [attr.data-target]="'#'+meme.id">Usuń</button>
         </div>
     </div>
 </div>

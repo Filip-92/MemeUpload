@@ -44,7 +44,9 @@ namespace API.Data
                     Title = u.Title,
                     Description = u.Description,
                     Uploaded = u.Uploaded, 
-                    IsApproved = u.IsApproved
+                    IsApproved = u.IsApproved,
+                    IsMain = u.IsMain,
+                    NumberOfLikes = u.NumberOfLikes
                 }).AsNoTracking()
                 .OrderByDescending(u => u.Id);
 
@@ -66,14 +68,39 @@ namespace API.Data
         {
             var query = _context.Memes
                 .IgnoreQueryFilters()
+                .Where(m => m.IsMain == false)
                 .Select(u => new MemeDto
                 {
                     Id = u.Id,
                     Username = u.AppUser.UserName,
                     Url = u.Url,
                     Title = u.Title,
+                    IsMain = u.IsMain,
                     Description = u.Description,
                     Uploaded = u.Uploaded, 
+                    NumberOfLikes = u.NumberOfLikes,
+                }).AsNoTracking()
+                .OrderByDescending(u => u.Id);
+
+            return await PagedList<MemeDto>.CreateAsync(query, 
+            memeParams.PageNumber, memeParams.PageSize);
+        }
+
+        public async Task<PagedList<MemeDto>> GetMemesMain(MemeParams memeParams)
+        {
+            var query = _context.Memes
+                .IgnoreQueryFilters()
+                .Where(m => m.IsMain == true)
+                .Select(u => new MemeDto
+                {
+                    Id = u.Id,
+                    Username = u.AppUser.UserName,
+                    Url = u.Url,
+                    Title = u.Title,
+                    IsMain = u.IsMain,
+                    Description = u.Description,
+                    Uploaded = u.Uploaded, 
+                    NumberOfLikes = u.NumberOfLikes,
                 }).AsNoTracking()
                 .OrderByDescending(u => u.Id);
 

@@ -11,7 +11,7 @@ import { MemeService } from 'src/app/_services/meme.service';
 })
 export class MemeRandomComponent implements OnInit {
 
-  memes: Meme[];
+  memes: Meme;
   memeArray = [];
   id: number = +this.route.snapshot.paramMap.get('id');
   pagination: Pagination;
@@ -29,7 +29,7 @@ export class MemeRandomComponent implements OnInit {
 
   getMeme(memeId: number) {
     this.memeService.getMeme(memeId).subscribe(memes => {
-      this.memes = memes.reverse();
+      this.memes = memes;
     })
   }
 

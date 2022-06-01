@@ -42,6 +42,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   format;
   trustedUrl: any;
   waterMarkImage: ElementRef;
+  baseUrl = 'https://localhost:4200/';
 
   constructor(private memberService: MembersService, private toastr: ToastrService, 
     public presence: PresenceService, private memeService: MemeService, private http: HttpClient,

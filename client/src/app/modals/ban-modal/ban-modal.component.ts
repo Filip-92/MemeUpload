@@ -40,7 +40,6 @@ export class BanModalComponent implements OnInit {
   }
 
   banUser() {
-    console.log(this.username);
     var days = this.banUserForm.value.expirationDate;
     this.adminService.banUser(this.username, this.banUserForm.value, days).subscribe(() => {
       this.users.splice(this.users.findIndex(p => p.username === this.username), 1);

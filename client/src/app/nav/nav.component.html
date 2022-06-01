@@ -57,6 +57,11 @@
                         </a>
                     </button>
                     <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">
+                        <a [routerLink]="display ? [''] : ['/poczekalnia']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;">
+                            <i class="fa fa-clock-o mr-2"></i>Poczekalnia
+                        </a>
+                    </button>
+                    <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">
                         <a [routerLink]="display ? [''] : ['']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;">
                             <i class="fa fa-star mr-2"></i>Ulubione
                         </a>
@@ -70,6 +75,11 @@
             </div>
 
             <div id="profile-brand" *ngIf="(accountService.currentUser$ | async) === null">
+                    <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">
+                        <a [routerLink]="display ? [''] : ['']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;">
+                            <i class="fa fa-clock-o mr-2"></i>Poczekalnia
+                        </a>
+                    </button>
                     <p>Załóż konto</p>
                     <button class="dropdown-item" (click)="registerToggle()" id="register" class="btn btn-primary btn-lg mr-2 mb-3" style="align-items: center;">Rejestracja</button>
                     <div class="dropdown-divider"></div>
