@@ -52,6 +52,7 @@ img {
     margin-left: auto;
     margin-right: auto;
     min-height: 80px;
+    cursor: default !important;
 }
 
 .sidemenu-item a:hover {
@@ -60,6 +61,7 @@ img {
 
 #dropdownMenu {
     min-width: 250px !important;
+    cursor: default !important;
 }
 
 form {
@@ -86,6 +88,11 @@ form {
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
     box-shadow: 2px 2px 5px #999;
     transition: 0.5s;
+    cursor: default !important;
+  }
+
+  .sidebar:hover {
+    cursor: default !important;
   }
 
   .sidebar header {
@@ -172,7 +179,6 @@ form {
     -moz-border-radius: 200px 200px 200px 200px;
     -webkit-border-radius: 200px 200px 200px 200px;
     border: 0px solid #000000;
-    cursor: pointer;
   }
 
   .navbar-toggler-icon:hover {
@@ -186,6 +192,10 @@ form {
 
   ul {
     list-style-type: none !important;
+  }
+
+  .division a:hover {
+    color: red !important;
   }
   
   /* Style page content - use this if you want to push the page content to the right when you open the side navigation */

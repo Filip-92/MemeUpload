@@ -68,7 +68,7 @@ namespace API.Data
         {
             var query = _context.Memes
                 .IgnoreQueryFilters()
-                .Where(m => m.IsMain == false)
+                .Where(m => m.IsMain == false && m.Division == 0)
                 .Select(u => new MemeDto
                 {
                     Id = u.Id,
@@ -90,7 +90,29 @@ namespace API.Data
         {
             var query = _context.Memes
                 .IgnoreQueryFilters()
-                .Where(m => m.IsMain == true)
+                .Where(m => m.IsMain == true && m.Division == 0)
+                .Select(u => new MemeDto
+                {
+                    Id = u.Id,
+                    Username = u.AppUser.UserName,
+                    Url = u.Url,
+                    Title = u.Title,
+                    IsMain = u.IsMain,
+                    Description = u.Description,
+                    Uploaded = u.Uploaded, 
+                    NumberOfLikes = u.NumberOfLikes,
+                }).AsNoTracking()
+                .OrderByDescending(u => u.Id);
+
+            return await PagedList<MemeDto>.CreateAsync(query, 
+            memeParams.PageNumber, memeParams.PageSize);
+        }
+
+        public async Task<PagedList<MemeDto>> GetMemesByDivision(MemeParams memeParams, int divisionId)
+        {
+            var query = _context.Memes
+                .IgnoreQueryFilters()
+                .Where(m => m.Division == divisionId)
                 .Select(u => new MemeDto
                 {
                     Id = u.Id,
@@ -236,6 +258,43 @@ namespace API.Data
                     MemeId = u.MemeId,
                     NumberOfLikes = u.NumberOfLikes
                 }).ToListAsync();
+        }
+    
+        public async Task<IEnumerable<DivisionDto>> GetDivisions()
+        {
+                return await _context.Divisions
+                .IgnoreQueryFilters()
+                .Select(u => new DivisionDto
+                {
+                    Id = u.Id,
+                    Name = u.Name,
+                    IsCloseDivision = u.IsCloseDivision
+                }).ToListAsync();
+        }
+
+        public async Task<DivisionDto> GetDivisionNameById(int id)
+        {
+                return await _context.Divisions
+                .IgnoreQueryFilters()
+                .Where(m => m.Id == id)
+                .Select(u => new DivisionDto
+                {
+                    Name = u.Name,
+                    IsCloseDivision = u.IsCloseDivision
+                }).SingleOrDefaultAsync();
+        }
+
+        public async Task<DivisionDto> GetDivisionIdByName(string name)
+        {
+                return await _context.Divisions
+                .IgnoreQueryFilters()
+                .Where(m => m.Name == name)
+                .Select(u => new DivisionDto
+                {
+                    Id = u.Id,
+                    Name = u.Name,
+                    IsCloseDivision = u.IsCloseDivision
+                }).SingleOrDefaultAsync();
         }
     }
 }

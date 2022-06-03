@@ -64,6 +64,8 @@ import { BanModalComponent } from './modals/ban-modal/ban-modal.component';
 import { UserCardComponent } from './admin/user-card/user-card.component';
 import { CommentComponent } from './memes/comment/comment.component';
 import { AdminDeleteMemeComponent } from './modals/admin-delete-meme/admin-delete-meme.component';
+import { MemeListByDivisionComponent } from './memes/meme-list-by-division/meme-list-by-division.component';
+import { DivisionViewComponent } from './memes/division-view/division-view.component';
 registerLocaleData(localePl, 'pl')
 
 @NgModule({
@@ -111,7 +113,9 @@ registerLocaleData(localePl, 'pl')
     BanModalComponent,
     UserCardComponent,
     CommentComponent,
-    AdminDeleteMemeComponent
+    AdminDeleteMemeComponent,
+    MemeListByDivisionComponent,
+    DivisionViewComponent
   ],
   imports: [
     BrowserModule,

@@ -13,6 +13,7 @@ import { MemeService } from 'src/app/_services/meme.service';
 import { HttpClient, HttpEventType, HttpHeaders, HttpParams } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
+import { Division } from 'src/app/_models/division';
 
 @Component({
   selector: 'app-meme-upload',
@@ -49,7 +50,8 @@ export class MemeUploadComponent implements OnInit {
     isApproved: false,
     numberOfLikes: 0
   };
-  model: any = {}
+  model: any = {};
+  divisions: Division[];
   uploader: FileUploader;
   hasBaseDropzoneOver = false;
   baseUrl = environment.apiUrl;
@@ -76,6 +78,7 @@ export class MemeUploadComponent implements OnInit {
       this.initializeUploader();
     }
     this.initializeForm();
+    this.getDivisions();
   }
 
   initializeForm() {
@@ -96,7 +99,8 @@ export class MemeUploadComponent implements OnInit {
     this.youtubeForm = this.fb.group({
       title: [this.memeUploadForm.value.title],
       url: ['', [Validators.required, Validators.pattern(this.regExHyperlink)]],
-      description: ['', [Validators.maxLength(400)]]
+      description: ['', [Validators.maxLength(400)]],
+      division: ['']
     })
   }
 
@@ -189,6 +193,12 @@ export class MemeUploadComponent implements OnInit {
       }, error => {
       this.validationErrors = error;
     })
+  }
+
+  getDivisions() {
+    this.memeService.getDivisions().subscribe(divisions => {
+      this.divisions = divisions;
+    });
   }
 
   writeValue(obj: any): void {

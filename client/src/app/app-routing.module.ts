@@ -22,6 +22,7 @@ import { MemeDetailComponent } from './memes/meme-detail/meme-detail.component';
 import { MemeRandomComponent } from './memes/meme-random/meme-random.component';
 import { MemeListComponent } from './memes/meme-list/meme-list.component';
 import { MemeSearchComponent } from './memes/meme-search/meme-search.component';
+import { DivisionViewComponent } from './memes/division-view/division-view.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -37,6 +38,7 @@ const routes: Routes = [
       {path: 'memes/:id', component: MemeDetailComponent},
       {path: 'members', component: MemberListComponent},
       {path: 'strona/:pageNumber', component: HomeComponent},
+      {path: 'hard', component: HomeComponent},
       {path: 'ostatnie24H', component: HomeComponent},
       {path: 'poczekalnia/:id/:title', component: MemeDetailComponent},
       {path: 'poczekalnia/:id', component: MemeDetailComponent},

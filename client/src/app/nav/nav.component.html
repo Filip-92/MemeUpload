@@ -71,6 +71,12 @@
                             <i class="fa fa-sign-out mr-2"></i>Wyloguj
                         </a>
                     </button>
+                    <br />
+                    <br />
+                    <h2>Działy:</h2>
+                    <div *ngFor="let division of divisions" class="text-center mt-3 division">
+                        <a routerLink="{{division.name}}">{{division.name}}</a>
+                    </div>
                 </div>
             </div>
 

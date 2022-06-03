@@ -82,3 +82,8 @@ input {
 .form-control {
     color: whitesmoke;
 }
+
+select {
+    background-color: gray;
+    color: whitesmoke;
+}

@@ -194,7 +194,6 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   getMemberNumberOfLikes(userId: number) {
     this.memberService.getAllUserLikesNumber(userId).subscribe(numberOfLikes => {
       this.numberOfLikes = numberOfLikes;
-      console.log('Likes: ' + this.numberOfLikes);
     })
   }
 }

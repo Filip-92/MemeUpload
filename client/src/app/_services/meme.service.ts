@@ -12,6 +12,7 @@ import { Meme } from '../_models/meme';
 import { PresenceService } from './presence.service';
 import { PaginatedResult, Pagination } from '../_models/pagination';
 import { Photo } from '../_models/photo';
+import { Division } from '../_models/division';
 
 @Injectable({
   providedIn: 'root'
@@ -188,11 +189,41 @@ getMainMemes(page?: number, itemsPerPage?: number) {
       return this.http.get<Comment[]>(this.baseUrl + 'memes/get-comments/' + memeId);
   }
 
+  getDivisions() {   
+    return this.http.get<Division[]>(this.baseUrl + 'memes/get-divisions');
+  }
+
   getMemberComments(username: string) {
       return this.http.get<Comment[]>(this.baseUrl + 'memes/get-member-comments/' + username);
   }
 
   getUserPhoto(username: string) {
     return this.http.get<Photo>(this.baseUrl + 'memes/get-user-photo-by-username/' + username);
+  }
+
+  getMemesByDivision(divisionId: number, page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+  
+    if (page !== null && itemsPerPage !== null) {
+      params = params.append('pageNumber', page.toString());
+      params = params.append('pageSize', itemsPerPage.toString());
+    }
+    return this.http.get<Meme[]>(this.baseUrl + 'memes/get-memes-by-division/' + divisionId, {observe: 'response', params}).pipe(
+      map(response => {
+        this.paginatedResult.result = response.body;
+        if (response.headers.get('Pagination') !== null) {
+          this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+        }
+        return this.paginatedResult;
+      })
+    );
+  }
+
+  getDivisionNameById(divisionId: number) {
+    return this.http.get<Division>(this.baseUrl + 'memes/get-division-name-by-id/' + divisionId);
+  }
+
+  getDivisionIdByName(divisionName: string) {
+    return this.http.get<Division>(this.baseUrl + 'memes/get-division-id-by-name/' + divisionName);
   }
 }

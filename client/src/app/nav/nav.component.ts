@@ -11,6 +11,8 @@ import { MessageService } from '../_services/message.service';
 import { add } from 'ngx-bootstrap/chronos';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import * as internal from 'stream';
+import { Division } from '../_models/division';
+import { MemeService } from '../_services/meme.service';
 
 @Component({
   selector: 'app-nav',
@@ -24,6 +26,7 @@ export class NavComponent implements OnInit {
   registerMode = false;
   loginMode = false;
   messages: Message[] = [];
+  divisions: Division[];
   pagination: Pagination;
   container = 'Unread';
   pageNumber = 1;
@@ -42,13 +45,14 @@ export class NavComponent implements OnInit {
 
   constructor(public accountService: AccountService, private router: Router, 
     private toastr: ToastrService, private messageService: MessageService,
-    private deviceService: DeviceDetectorService) { }
+    private deviceService: DeviceDetectorService, private memeService: MemeService) { }
 
   ngOnInit(): void {
     this.loadMessages();
     this.open = true;
     this.isMobile = this.deviceService.isMobile();
     this.innerWidth = window.innerWidth;
+    this.getDivisions();
   }
   
   displayNavbar() {
@@ -99,5 +103,11 @@ export class NavComponent implements OnInit {
       this.pagination = response.pagination;
       this.loading = false;
     })
+  }
+
+  getDivisions() {
+    this.memeService.getDivisions().subscribe(divisions => {
+      this.divisions = divisions;
+    });
   }
 }

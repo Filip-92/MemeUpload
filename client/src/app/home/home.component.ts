@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
 
   blobImage = null;
 
-  constructor(public accountService: AccountService, private http: HttpClient) { 
+  constructor(public accountService: AccountService, private http: HttpClient, public router: Router) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 

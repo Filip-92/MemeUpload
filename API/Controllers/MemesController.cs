@@ -83,7 +83,8 @@ namespace API.Controllers
                 Url = memeDto.Url,
                 // PublicId = result.PublicId,
                 Title = memeDto.Title,
-                Description = memeDto.Description
+                Description = memeDto.Description,
+                Division = memeDto.Division
             };
 
             user.Memes.Add(meme);
@@ -273,7 +274,6 @@ namespace API.Controllers
         }
 
         [HttpGet("get-member-comments/{username}")]
-        [AllowAnonymous]
         public async Task<ActionResult<IEntityTypeConfiguration<CommentDto>>> GetMemberComments(string username)
         {
             var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
@@ -305,6 +305,45 @@ namespace API.Controllers
             var photo = await _unitOfWork.PhotoRepository.GetUserPhoto(user.Id);
 
             return Ok(photo);
+        }
+
+        [HttpGet("get-divisions")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEntityTypeConfiguration<DivisionDto>>> GetDivisions()
+        {
+            var divisions = await _unitOfWork.MemeRepository.GetDivisions();
+
+            return Ok(divisions);
+        }
+
+        [HttpGet("get-memes-by-division/{divisionId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEntityTypeConfiguration<DivisionDto>>> GetMemesByDivision([FromQuery] MemeParams memeParams, int divisionId)
+        {
+            var memes = await _unitOfWork.MemeRepository.GetMemesByDivision(memeParams, divisionId);
+
+            Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
+                memes.TotalCount, memes.TotalPages);
+
+            return Ok(memes);
+        }
+
+        [HttpGet("get-division-name-by-id/{divisionId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEntityTypeConfiguration<DivisionDto>>> GetDivisionNameById(int divisionId)
+        {
+            var division = await _unitOfWork.MemeRepository.GetDivisionNameById(divisionId);
+
+            return Ok(division);
+        }
+
+        [HttpGet("get-division-id-by-name/{divisionName}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEntityTypeConfiguration<DivisionDto>>> GetDivisionIdByName(string divisionName)
+        {
+            var division = await _unitOfWork.MemeRepository.GetDivisionIdByName(divisionName);
+
+            return Ok(division);
         }
     }
 }

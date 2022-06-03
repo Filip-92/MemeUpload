@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Division } from 'src/app/_models/division';
 import { Meme } from 'src/app/_models/meme';
 import { Pagination } from 'src/app/_models/pagination';
 import { MemeService } from 'src/app/_services/meme.service';
@@ -16,16 +17,23 @@ export class MemeListComponent implements OnInit {
   pageSize = 8;
   memes: Meme[];
   trustedUrl: any;
+  divisionId: number;
+  divisions: Division[];
+  divisionName: string;
+  division: Division;
 
   constructor(private memeService: MemeService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void { 
+    if (this.router.url !== null) {
+      this.divisionName = this.router.url.replace("/", "");
+    }
     if (this.router.url.includes('ostatnie24H')) {
-      this.loadMemesLast24H(); 
-      // this.loadMainMemes();
-      // this.loadMemes();  
+      this.loadMemesLast24H();
     } else if (this.router.url.includes('poczekalnia')) {
       this.loadMemes(); 
+    } else if (this.router.url.includes('hard')) {
+        this.loadMemesByDivision(1);
     } else {
       this.loadMainMemes();
     }
@@ -50,6 +58,31 @@ export class MemeListComponent implements OnInit {
       this.memes = response.result;
       this.pagination = response.pagination;
     });
+  }
+
+  loadMemesByDivision(divisionId: number) {
+    this.memeService.getMemesByDivision(divisionId, this.pageNumber, this.pageSize).subscribe(response => {
+      this.memes = response.result;
+      this.pagination = response.pagination;
+    });
+  }
+
+  getDivisions() {
+    this.memeService.getDivisions().subscribe(divisions => {
+      this.divisions = divisions;
+    });
+  }
+
+  // getDivisionIdByName(divisionName: string) {
+  //   this.memeService.getDivisionIdByName(divisionName).subscribe(division => {
+  //     this.division = division;
+  //   });
+  // }
+
+  getDivisionIdByName(divisionName: string) {
+    if (divisionName === 'hard') {
+      return 1;
+    }
   }
 
   pageChanged(event: any) {

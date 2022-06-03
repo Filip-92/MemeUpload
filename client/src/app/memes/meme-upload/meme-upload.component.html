@@ -52,7 +52,7 @@
                     Dodaj mema
                 </button>
                 </div>
-              </div>
+            </div>
         </form>
     </div>
 
@@ -96,21 +96,29 @@
         <div *ngIf="youtubeVideo" class="column">
             <form [formGroup]='youtubeForm' (ngSubmit)="youtubeForm.valid && addYoutubeLink()" class="text-center column">
                 <div>
-                    <input type="text" [formControl]='youtubeForm.controls["url"]' placeholder="Wstaw link z youtube" class="col-7">
-                    <button class="btn btn-success ml-2 col-2" type="submit" style="margin-top: 0 !important;">Dodaj link</button>
+                    <div>
+                        <input type="text" [formControl]='youtubeForm.controls["url"]' placeholder="Wstaw link z youtube" class="col-7">
+                        <button class="btn btn-success ml-2 col-2" type="submit" style="margin-top: 0 !important;">Dodaj link</button>
+                    </div>
+                    <div *ngIf="youtubeForm.dirty && !youtubeForm.controls['url'].errors?.pattern && !youtubeForm.controls['url'].errors?.required && youtubeForm.controls['url'].touched">
+                        <app-link-preview [link1]="youtubeForm.value.url"></app-link-preview>
+                    </div>
+                    <div *ngIf="youtubeForm.controls['url'].errors?.pattern" class="text-danger" style="margin-top: 0 !important;">
+                        Link musi mieć odpowiedni format
+                    </div>
+                    <div *ngIf="youtubeForm.controls['url'].errors?.required && youtubeForm.controls['url'].touched" class="text-danger mb-3">
+                        Link jest wymagany
+                    </div>
+                    <textarea class="col-9 ml-3" [formControl]='youtubeForm.controls["description"]' placeholder="Wpisz opis (opcjonalnie)" name="description" style="height: 100px !important;"></textarea>
+                    <div *ngIf="youtubeForm.controls['description'].errors?.maxlength" class="text-danger">
+                        Opis zbyt długi
+                    </div>
                 </div>
-                <div *ngIf="youtubeForm.dirty && !youtubeForm.controls['url'].errors?.pattern && !youtubeForm.controls['url'].errors?.required && youtubeForm.controls['url'].touched">
-                    <app-link-preview [link1]="youtubeForm.value.url"></app-link-preview>
-                </div>
-                <div *ngIf="youtubeForm.controls['url'].errors?.pattern" class="text-danger" style="margin-top: 0 !important;">
-                    Link musi mieć odpowiedni format
-                </div>
-                <div *ngIf="youtubeForm.controls['url'].errors?.required && youtubeForm.controls['url'].touched" class="text-danger mb-3">
-                    Link jest wymagany
-                </div>
-                <textarea class="col-9 ml-3" [formControl]='youtubeForm.controls["description"]' placeholder="Wpisz opis (opcjonalnie)" name="description" style="height: 100px !important;"></textarea>
-                <div *ngIf="youtubeForm.controls['description'].errors?.maxlength" class="text-danger">
-                    Opis zbyt długi
+                <div *ngFor="let division of divisions" class="text-center mt-3">
+                    <select formControlName='division' id="division">
+                        <option value='' disabled>Wybierz</option>
+                        <option value={{division.id}} selected>{{division.name}}</option>
+                    </select>   
                 </div>
             </form>
         </div>

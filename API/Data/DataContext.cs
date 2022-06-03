@@ -24,6 +24,7 @@ namespace API.Data
         public DbSet<Memes> Memes {get; set; }
         public DbSet<Comments> Comments { get; set; }
         public DbSet<ContactForm> ContactForm { get; set; }
+        public DbSet<Division> Divisions { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Connection> Connections { get; set; }
 
