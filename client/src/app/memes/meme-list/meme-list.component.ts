@@ -25,15 +25,15 @@ export class MemeListComponent implements OnInit {
   constructor(private memeService: MemeService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void { 
-    if (this.router.url !== null) {
-      this.divisionName = this.router.url.replace("/", "");
-    }
     if (this.router.url.includes('ostatnie24H')) {
       this.loadMemesLast24H();
     } else if (this.router.url.includes('poczekalnia')) {
       this.loadMemes(); 
-    } else if (this.router.url.includes('hard')) {
-        this.loadMemesByDivision(1);
+    } else if (this.router.url.includes('kategoria')) {
+        var category = this.router.url.split("/");
+        //var id = this.getDivisionIdByName(category[2]);
+        this.getDivisionIdByName(category[2]);
+        // this.loadMemesByDivision(id);
     } else {
       this.loadMainMemes();
     }
@@ -73,17 +73,18 @@ export class MemeListComponent implements OnInit {
     });
   }
 
-  // getDivisionIdByName(divisionName: string) {
-  //   this.memeService.getDivisionIdByName(divisionName).subscribe(division => {
-  //     this.division = division;
-  //   });
-  // }
-
   getDivisionIdByName(divisionName: string) {
-    if (divisionName === 'hard') {
-      return 1;
-    }
+    this.memeService.getDivisionIdByName(divisionName).subscribe(division => {
+      this.division = division;
+      this.loadMemesByDivision(this.division.id);
+    });
   }
+
+  // getDivisionIdByName(divisionName: string) {
+  //   if (divisionName === 'hard') {
+  //     return 1;
+  //   }
+  // }
 
   pageChanged(event: any) {
     this.pageNumber = event.page;

@@ -38,7 +38,7 @@ const routes: Routes = [
       {path: 'memes/:id', component: MemeDetailComponent},
       {path: 'members', component: MemberListComponent},
       {path: 'strona/:pageNumber', component: HomeComponent},
-      {path: 'hard', component: HomeComponent},
+      {path: 'kategoria/:divisionName', component: HomeComponent},
       {path: 'ostatnie24H', component: HomeComponent},
       {path: 'poczekalnia/:id/:title', component: MemeDetailComponent},
       {path: 'poczekalnia/:id', component: MemeDetailComponent},

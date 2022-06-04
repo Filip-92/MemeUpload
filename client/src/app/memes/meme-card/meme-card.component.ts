@@ -112,7 +112,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   }
 
   addImageWatermark(imageUrl: string) {
-    var watermarkedUrl = imageUrl.replace("/upload/", "/upload/l_logo_gimp_-_new_ucilaf,o_50,w_300,c_scale,g_south_east/")
+    var watermarkedUrl = imageUrl.replace("/upload/", "/upload/l_logo_gimp_-_new_ucilaf,o_50,w_0.4,c_scale,g_south_east/")
     return watermarkedUrl;
   }
 }

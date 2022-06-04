@@ -13,6 +13,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import * as internal from 'stream';
 import { Division } from '../_models/division';
 import { MemeService } from '../_services/meme.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-nav',
@@ -37,6 +38,7 @@ export class NavComponent implements OnInit {
   isMobile: boolean;
   public innerWidth: any;
   unreadMessages: number = null;
+  user: User;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -45,10 +47,14 @@ export class NavComponent implements OnInit {
 
   constructor(public accountService: AccountService, private router: Router, 
     private toastr: ToastrService, private messageService: MessageService,
-    private deviceService: DeviceDetectorService, private memeService: MemeService) { }
+    private deviceService: DeviceDetectorService, private memeService: MemeService) {
+      this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
+     }
 
   ngOnInit(): void {
-    this.loadMessages();
+    if (this.user !== null) {
+      this.loadMessages(); // trzeba ogarnac zeby nie odpalalo sie przy niezalogowanym
+    }
     this.open = true;
     this.isMobile = this.deviceService.isMobile();
     this.innerWidth = window.innerWidth;

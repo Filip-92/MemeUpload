@@ -75,14 +75,14 @@
                     <br />
                     <h2>Działy:</h2>
                     <div *ngFor="let division of divisions" class="text-center mt-3 division">
-                        <a routerLink="{{division.name}}">{{division.name}}</a>
+                        <a routerLink="kategoria/{{division.name}}">{{division.name}}</a>
                     </div>
                 </div>
             </div>
 
             <div id="profile-brand" *ngIf="(accountService.currentUser$ | async) === null">
                     <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">
-                        <a [routerLink]="display ? [''] : ['']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;">
+                        <a [routerLink]="display ? [''] : ['/poczekalnia']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;">
                             <i class="fa fa-clock-o mr-2"></i>Poczekalnia
                         </a>
                     </button>

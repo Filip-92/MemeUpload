@@ -115,7 +115,7 @@ registerLocaleData(localePl, 'pl')
     CommentComponent,
     AdminDeleteMemeComponent,
     MemeListByDivisionComponent,
-    DivisionViewComponent
+    DivisionViewComponent,
   ],
   imports: [
     BrowserModule,
