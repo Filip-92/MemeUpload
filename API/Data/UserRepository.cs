@@ -126,5 +126,25 @@ namespace API.Data
                     NumberOfLikes = u.NumberOfLikes
                 }).SingleOrDefaultAsync();
         }
+
+        public async Task<PagedList<MemberDto>> SearchForMembers(UserParams userParams, string searchString)
+        {
+            var query = _context.Users
+                .IgnoreQueryFilters()
+                .Where(m => m.UserName.ToLower().Contains(searchString))
+                .Select(u => new MemberDto
+                {
+                    Id = u.Id,
+                    Username = u.UserName,
+                    Gender = u.Gender,
+                    NumberOfLikes = u.NumberOfLikes,
+                    LastActive = u.LastActive,
+                    IsBanned = u.IsBanned 
+                }).AsNoTracking()
+                .OrderByDescending(u => u.Id);
+
+            return await PagedList<MemberDto>.CreateAsync(query, 
+            userParams.PageNumber, userParams.PageSize);
+        }
     }
 }

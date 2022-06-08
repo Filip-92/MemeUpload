@@ -114,14 +114,14 @@ getMainMemes(page?: number, itemsPerPage?: number) {
     return this.http.get<Meme>(this.baseUrl + 'memes/get-random-meme/');
   }
 
-  searchForMeme(searchString: string, page?: number, itemsPerPage?: number) {
+  searchForMeme(searchString: string, type: any, page?: number, itemsPerPage?: number) {
     let params = new HttpParams();
 
   if (page !== null && itemsPerPage !== null) {
     params = params.append('pageNumber', page.toString());
     params = params.append('pageSize', itemsPerPage.toString());
   }
-  return this.http.get<Meme[]>(this.baseUrl + 'memes/search-memes/' + searchString, {observe: 'response', params}).pipe(
+  return this.http.get<Meme[]>(this.baseUrl + 'memes/search-memes/' + searchString + "/" + type, {observe: 'response', params}).pipe(
     map(response => {
       this.paginatedResult.result = response.body;
       if (response.headers.get('Pagination') !== null) {

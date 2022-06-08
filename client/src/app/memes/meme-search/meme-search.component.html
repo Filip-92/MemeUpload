@@ -1,68 +1,152 @@
 <app-top-buttons></app-top-buttons>
 
-<div id="container" class="container text-center mt-5">
-    <div id="search">
-        <div class="form-group">
-            <form class="text-center" [formGroup]='memeSearchForm'>
-                <div class="row ml-3 text-center">
-                    <div class="column col-2"></div>
-                    <div class="column mr-3">
-                        <input type="text" placeholder="Wpisz tytuł wyszukiwanego mema" [formControl]='memeSearchForm.controls["searchString"]'>
-                    </div>
-                    <div class="column">
-                        <button 
-                        class="dropdown-item"
-                        class="btn btn-primary btn-lg" 
-                        style="align-items: center; font-size: 17px;"
-                        [disabled]="!this.memeSearchForm.value.searchString"
-                        (click)="searchForMeme(this.memeSearchForm.value.searchString)"
-                        >
-                        <i class="fas fa-file-import"></i>
-                        Szukaj
-                        </button>
-                    </div>
-                  </div>
-            </form>
+<tabset class="member-tabset text-center" class="col-12">
+    <tab heading='Szukaj memów'>
+        <div id="container" class="container text-center mt-5">
+            <div id="search">
+                <div class="form-group">
+                    <form class="text-center" [formGroup]='memeSearchForm'>
+                        <div class="row ml-3 text-center">
+                            <div class="column col-2"></div>
+                            <div class="column mr-3">
+                                <input type="text" placeholder="Wpisz tytuł wyszukiwanego mema" [formControl]='memeSearchForm.controls["searchString"]'>
+                            </div>
+                            <div class="column">
+                                <button 
+                                class="dropdown-item"
+                                class="btn btn-primary btn-lg" 
+                                style="align-items: center; font-size: 17px;"
+                                [disabled]="!this.memeSearchForm.value.searchString"
+                                (click)="searchForMeme(this.memeSearchForm.value.searchString)"
+                                >
+                                <i class="fas fa-file-import"></i>
+                                Szukaj
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <input type="radio" id="all" name="type" value="All" class="mr-1" formControlName='type' checked>
+                            <label for="all" class="mr-2">Wszystkie</label>
+                            <input type="radio" id="images" name="type" value="Images" formControlName='type' class="mr-1">
+                            <label for="images" class="mr-2">Obrazki</label>
+                            <input type="radio" id="gifs" name="type" value="Gifs" formControlName='type' class="mr-1">
+                            <label for="gifs" class="mr-2">Gify</label>
+                            <input type="radio" id="video" name="type" value="Video" formControlName='type' class="mr-1">
+                            <label for="video" class="mr-2">Video</label>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
+        
+        <div *ngIf="!searchActive" class="text-center mt-5" style="font-size: 25px">
+            Wyszukaj memy po tytule
+        </div>
+        
+        <div *ngIf="memes?.length === 0" class="text-center mt-5" style="font-size: 25px">
+            Nie znaleziono żadnych memów zawierających w tytule wpisaną frazę
+        </div>
+        
+        <div *ngIf="memes?.length > 0" class="mt-5">
+            <h4>Liczba Znalezionych memów z podaną frazą - {{memes?.length}} </h4>
+        </div>
+        <div *ngFor="let meme of memes">
+            <app-meme-card [meme]="meme"></app-meme-card>
+        </div>
+        
+        <div class="d-flex justify-content-center" *ngIf="memes?.length > pageSize && pagination">
+            <pagination
+                [boundaryLinks]="true" 
+                [totalItems]="pagination.totalItems"
+                [itemsPerPage]="pagination.itemsPerPage"
+                [(ngModel)]="pagination.currentPage"
+                (pageChanged)="pageChanged($event)"
+                previousText="&lsaquo;" 
+                nextText="&rsaquo;" 
+                firstText="&laquo;" 
+                lastText="&raquo;">
+            </pagination>
+        </div>
+        
+        <div class="col-md-3 mt-2 justify-content-right" style="text-align: right;" *ngIf="memes?.length > pageSize && pagination">
+            <span class="mr-2">Page Size</span>
+        
+            <select (change)="updatePageSize($any($event.target).value)">
+                <option selected="true">8</option>
+                <option>16</option>
+                <option>24</option>
+            </select>
+        </div>
+    </tab>
+    <tab heading='Szukaj użytkowników' class="text-center">
+        <div id="container" class="container text-center mt-5">
+            <div id="search">
+                <div class="form-group">
+                    <form class="text-center" [formGroup]='memberSearchForm'>
+                        <div class="row ml-3 text-center">
+                            <div class="column col-2"></div>
+                            <div class="column mr-3">
+                                <input type="text" placeholder="Wpisz nazwę wyszukiwanego użytkownika" [formControl]='memberSearchForm.controls["searchString"]'>
+                            </div>
+                            <div class="column">
+                                <button 
+                                class="dropdown-item"
+                                class="btn btn-primary btn-lg" 
+                                style="align-items: center; font-size: 17px;"
+                                [disabled]="!this.memberSearchForm.value.searchString"
+                                (click)="searchForMember(this.memberSearchForm.value.searchString)"
+                                >
+                                <i class="fas fa-file-import"></i>
+                                Szukaj
+                                </button>
+                            </div>
+                          </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div *ngIf="!searchActive" class="text-center mt-5" style="font-size: 25px">
+            Wyszukaj użytkownika po nazwie
+        </div>
+        
+        <div *ngIf="members?.length === 0" class="text-center mt-5" style="font-size: 25px">
+            Nie znaleziono żadnych użytkowników zawierających w tytule wpisaną frazę
+        </div>
+        
+        <div *ngIf="members?.length > 0" class="mt-5">
+            <h4>Liczba Znalezionych użytkowników z podaną frazą - {{members?.length}} </h4>
+        </div>
 
-<div *ngIf="!searchActive" class="text-center mt-5" style="font-size: 25px">
-    Wyszukaj memy po tytule
-</div>
-
-<div *ngIf="memes?.length === 0" class="text-center mt-5" style="font-size: 25px">
-    Nie znaleziono żadnych memów zawierających w tytule wpisaną frazę
-</div>
-
-<div *ngIf="memes?.length > 0" class="mt-5">
-    <h4>Liczba Znalezionych memów z podaną frazą - {{memes?.length}} </h4>
-</div>
-<div *ngFor="let meme of memes">
-    <app-meme-card [meme]="meme"></app-meme-card>
-</div>
-
-<div class="d-flex justify-content-center" *ngIf="memes?.length > pageSize && pagination">
-    <pagination
-        [boundaryLinks]="true" 
-        [totalItems]="pagination.totalItems"
-        [itemsPerPage]="pagination.itemsPerPage"
-        [(ngModel)]="pagination.currentPage"
-        (pageChanged)="pageChanged($event)"
-        previousText="&lsaquo;" 
-        nextText="&rsaquo;" 
-        firstText="&laquo;" 
-        lastText="&raquo;">
-    </pagination>
-</div>
-
-<div class="col-md-3 mt-2 justify-content-right" style="text-align: right;" *ngIf="memes?.length > pageSize && pagination">
-    <span class="mr-2">Page Size</span>
-
-    <select (change)="updatePageSize($any($event.target).value)">
-        <option selected="true">8</option>
-        <option>16</option>
-        <option>24</option>
-    </select>
-</div>
+        <div class="row">
+            <div *ngFor="let member of members" class="col-sm-6 col-md-4 col-lg-2">
+                <app-member-card [member]="member"></app-member-card>
+            </div>
+        </div>
+        
+        <div class="d-flex justify-content-center" *ngIf="members?.length > pageSize && pagination">
+            <pagination
+                [boundaryLinks]="true" 
+                [totalItems]="pagination.totalItems"
+                [itemsPerPage]="pagination.itemsPerPage"
+                [(ngModel)]="pagination.currentPage"
+                (pageChanged)="pageChanged($event)"
+                previousText="&lsaquo;" 
+                nextText="&rsaquo;" 
+                firstText="&laquo;" 
+                lastText="&raquo;">
+            </pagination>
+        </div>
+        
+        <div class="col-md-3 mt-2 justify-content-right" style="text-align: right;" *ngIf="members?.length > pageSize && pagination">
+            <span class="mr-2">Page Size</span>
+        
+            <select (change)="updatePageSize($any($event.target).value)">
+                <option selected="true">8</option>
+                <option>16</option>
+                <option>24</option>
+            </select>
+        </div>
+    </tab>
+</tabset>
 

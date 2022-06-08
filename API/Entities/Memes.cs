@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Entities
@@ -11,6 +12,7 @@ namespace API.Entities
         public string Title { get; set; }
         public string Description { get; set; }
         public bool IsApproved { get; set; }
+        public ICollection<Comments> Comments { get; set; }
         public bool IsMain { get; set; }
         public string PublicId { get; set; }
         public AppUser AppUser { get; set; }

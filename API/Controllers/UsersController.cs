@@ -174,5 +174,17 @@ namespace API.Controllers
 
             return Ok(member.NumberOfLikes);
         }
+
+        [HttpGet("search-members/{searchString}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEntityTypeConfiguration<MemberDto>>> SearchForMembers([FromQuery] UserParams userParams, string searchString)
+        {
+            var memes = await _unitOfWork.UserRepository.SearchForMembers(userParams, searchString);
+
+            Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
+                memes.TotalCount, memes.TotalPages);
+
+            return Ok(memes);
+        }
     }
 }

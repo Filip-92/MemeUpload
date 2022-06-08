@@ -6,6 +6,24 @@ input[type=text] {
     color: whitesmoke;
 }
 
+/* input[type="radio"] ~ label:before {
+	font-family: FontAwesome;
+	content: '\f096';
+	font-size: 22px;
+} */
+
+input[type="radio"] {
+    background-color: black;
+}
+
+input[type="radio"]:checked {
+    background-color: black;
+}
+
+/* input[type="radio"]:checked ~ label:before {
+	content: '\f046';
+} */
+
 button {
     margin-top: 25px !important;
     height: 50px;
@@ -18,10 +36,36 @@ button {
 
 #container {
     background-color: rgb(49, 49, 49) !important;
-    height: 100px;
+    height: 110px;
     margin: auto;
 }
 
 .card {
     min-height: 600px !important;
+}
+
+.frb-group {
+	margin: 15px 0;
+}
+
+.frb ~ .frb {
+	margin-top: 15px;
+}
+
+.frb input[type="radio"]:empty {
+	display: none;
+}
+
+.frb input[type="radio"] ~ label:before {
+	font-family: FontAwesome;
+	content: '\f096';
+	position: absolute;
+	top: 50%;
+	margin-top: -11px;
+	left: 15px;
+	font-size: 22px;
+}
+
+.frb input[type="radio"]:checked ~ label:before {
+	content: '\f046';
 }

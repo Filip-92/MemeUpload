@@ -20,6 +20,8 @@ export class MemberCardComponent implements OnInit {
   pageNumber = 1;
   pageSize = 5;
   pagination: Pagination;
+  photo: Photo;
+  url: string;
 
   constructor(private memberService: MembersService, private toastr: ToastrService, 
     public presence: PresenceService) { }
@@ -28,6 +30,7 @@ export class MemberCardComponent implements OnInit {
     this.deletePhotos();
     // this.loadLikes(this.member.id);
     this.loadLikes();
+    this.getUserPhoto(this.member.id);
   }
   addLike(member: Member) {
     this.memberService.addLike(member.username).subscribe(() => {
@@ -67,4 +70,10 @@ export class MemberCardComponent implements OnInit {
   //     this.members = members;
   //   })
   // }
+
+  getUserPhoto(id: number) {
+    this.memberService.getUserPhoto(id).subscribe(photo => {
+      this.url = photo?.url;
+    })
+  }
 }

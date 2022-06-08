@@ -41,7 +41,8 @@ namespace API.Controllers
                 {
                     u.Id,
                     Username = u.UserName,
-                    Roles = u.UserRoles.Select(r => r.Role.Name).ToList()
+                    Roles = u.UserRoles.Select(r => r.Role.Name).ToList(),
+                    IsBanned = u.IsBanned
                 })
                 .ToListAsync();
 

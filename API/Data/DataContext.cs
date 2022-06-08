@@ -78,7 +78,13 @@ namespace API.Data
 
             builder.Entity<Comments>();
 
-            builder.Entity<MemeLike>();
+            builder.Entity<MemeLike>()
+                .HasKey(k => new { k.SourceUserId, k.LikedMemeId });
+
+            builder.Entity<MemeLike>()
+                .HasOne(s => s.SourceUser)
+                .WithMany(l => l.LikedMemes)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<ContactForm>();
             

@@ -8,8 +8,10 @@ namespace API.Interfaces
 {
     public interface IMemeLikesRepository
     {
-        Task<UserLike> GetMemeLike(int sourceUserId, int likedMemeId);
+        Task<MemeLike> GetMemeLike(int sourceUserId, int likedMemeId);
         Task<AppUser> GetMemeWithLikes(int memeId);
-        Task<PagedList<LikeDto>> GetMemeLikes(LikesParams likesParams);
+        //Task<PagedList<MemeLikeDto>> GetUserLikes(MemeLikesParams likesParams);
+        Task<IEnumerable<MemeLikeDto>> GetMemesLikedByUser(int userId);
+        Task<IEnumerable<MemeLikeDto>> GetMemeLikes2(int id);
     }
 } 

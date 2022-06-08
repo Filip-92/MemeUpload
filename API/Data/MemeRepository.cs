@@ -163,7 +163,7 @@ namespace API.Data
                 }).SingleOrDefaultAsync();
         }
 
-        public async Task<PagedList<MemeDto>> SearchForMemes(MemeParams memeParams, string searchString)
+        public async Task<PagedList<MemeDto>> SearchForMemes(MemeParams memeParams, string searchString, string type)
         {
             var query = _context.Memes
                 .IgnoreQueryFilters()
@@ -178,6 +178,53 @@ namespace API.Data
                     Uploaded = u.Uploaded, 
                 }).AsNoTracking()
                 .OrderByDescending(u => u.Id);
+
+            if (type == "Images") {
+                query = _context.Memes
+                .IgnoreQueryFilters()
+                .Where(m => m.Title.ToLower().Contains(searchString))
+                .Where(m => m.Url.Contains(".jpg") || m.Url.Contains(".png"))
+                .Select(u => new MemeDto
+                {
+                    Id = u.Id,
+                    Username = u.AppUser.UserName,
+                    Url = u.Url,
+                    Title = u.Title,
+                    Description = u.Description,
+                    Uploaded = u.Uploaded, 
+                }).AsNoTracking()
+                .OrderByDescending(u => u.Id);
+            } else if (type == "Gifs") {
+                query = _context.Memes
+                .IgnoreQueryFilters()
+                .Where(m => m.Title.ToLower().Contains(searchString))
+                .Where(m => m.Url.Contains(".gif"))
+                .Select(u => new MemeDto
+                {
+                    Id = u.Id,
+                    Username = u.AppUser.UserName,
+                    Url = u.Url,
+                    Title = u.Title,
+                    Description = u.Description,
+                    Uploaded = u.Uploaded, 
+                }).AsNoTracking()
+                .OrderByDescending(u => u.Id);
+            } else if (type == "Video") {
+                query = _context.Memes
+                .IgnoreQueryFilters()
+                .Where(m => m.Title.ToLower().Contains(searchString))
+                .Where(m => m.Url.Contains(".mp4"))
+                .Select(u => new MemeDto
+                {
+                    Id = u.Id,
+                    Username = u.AppUser.UserName,
+                    Url = u.Url,
+                    Title = u.Title,
+                    Description = u.Description,
+                    Uploaded = u.Uploaded, 
+                }).AsNoTracking()
+                .OrderByDescending(u => u.Id);
+            }
 
             return await PagedList<MemeDto>.CreateAsync(query, 
             memeParams.PageNumber, memeParams.PageSize);

@@ -64,10 +64,6 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     //this.addImageWatermark("https://res.cloudinary.com/duj1ftjtp/image/upload/hcq1ymvalfdscq1m1i32.jpg");
   }
   
-  // addLike(meme: Meme) {
-  //   this.memberService.addLike(meme.url).subscribe();
-  // }
-
   addLike(meme: Meme) {
     this.memeService.addLike(meme.id).subscribe(() => {
       //this.toastr.success('You have liked ' + member.username);

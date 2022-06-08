@@ -19,5 +19,6 @@ namespace API.Interfaces
         Task<string> GetUserGender(string username);
         Task<AppUser> GetUserByEmailAsync(string email);
         Task<UserDto> GetUserNumberOfLikes(int userId);
+        Task<PagedList<MemberDto>> SearchForMembers(UserParams userParams, string searchString);
     }
 }

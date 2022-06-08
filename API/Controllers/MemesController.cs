@@ -130,11 +130,11 @@ namespace API.Controllers
             return Ok(meme);
         }
 
-        [HttpGet("search-memes/{searchString}")]
+        [HttpGet("search-memes/{searchString}/{type}")]
         [AllowAnonymous]
-        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> SearchForMemes([FromQuery] MemeParams memeParams, string searchString)
+        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> SearchForMemes([FromQuery] MemeParams memeParams, string searchString, string type)
         {
-            var memes = await _unitOfWork.MemeRepository.SearchForMemes(memeParams, searchString);
+            var memes = await _unitOfWork.MemeRepository.SearchForMemes(memeParams, searchString, type);
 
             Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
                 memes.TotalCount, memes.TotalPages);
@@ -167,41 +167,6 @@ namespace API.Controllers
                 memes.TotalCount, memes.TotalPages);
 
             return Ok(memes);
-        }
-
-        [HttpPost("add-meme-like/{memeId}")]
-        public async Task<ActionResult> AddLike(int memeId)
-        {
-            var sourceUserUsername = User.GetUsername();
-            var likedMeme = await _unitOfWork.MemeRepository.GetMeme(memeId);
-            // var sourceUser = await _unitOfWork.MemeLikesRepository.GetMemeWithLikes(sourceUserId);
-
-            // if (likedMeme == null) return NotFound();
-
-            if (likedMeme.Username == sourceUserUsername) return BadRequest("You cannot like yourself");
-
-            // var userLike = await _unitOfWork.LikesRepository.GetUserLike(sourceUserId, likedUser.Id);
-
-            likedMeme.NumberOfLikes++;
-
-            // if (userLike != null)
-            // {
-            //     sourceUser.LikedUsers.Remove(userLike);
-            // }
-            // else if (userLike == null)
-            // {
-            //     userLike = new UserLike
-            //     {
-            //         SourceUserId = sourceUserId,
-            //         LikedUserId = likedUser.Id
-            //     };
-
-            //     sourceUser.LikedUsers.Add(userLike);
-            // }
-
-            if (await _unitOfWork.Complete()) return Ok();
-
-            return BadRequest("Failed to like meme");
         }
 
         [HttpPost("remove-meme/{memeId}")]
@@ -247,6 +212,8 @@ namespace API.Controllers
         {
             var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
 
+            var memes = await _unitOfWork.MemeRepository.GetMemeById(commentDto.MemeId);
+
             var comment = new Comments
             {
                 Content = commentDto.Content,
@@ -254,7 +221,7 @@ namespace API.Controllers
                 MemeId = commentDto.MemeId
             };
 
-            user.Comments.Add(comment);
+            memes.Comments.Add(comment);
 
             if (await _unitOfWork.Complete())
             {
@@ -298,10 +265,6 @@ namespace API.Controllers
         {
             var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
 
-            if (user.UserName == "lisa") {
-                BadRequest(user.Id);
-            }
-
             var photo = await _unitOfWork.PhotoRepository.GetUserPhoto(user.Id);
 
             return Ok(photo);
@@ -344,6 +307,59 @@ namespace API.Controllers
             var division = await _unitOfWork.MemeRepository.GetDivisionIdByName(divisionName);
 
             return Ok(division);
+        }
+
+        [HttpGet("get-meme-likes/{memeId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<MemeLikeDto>>> GetMemeLikes(int memeId)
+        {
+            var memes = await _unitOfWork.MemeLikesRepository.GetMemeLikes2(memeId);
+
+            return Ok(memes);
+        }
+
+        [HttpPost("add-meme-like/{memeId}")]
+        public async Task<ActionResult> AddLike(int memeId)
+        {
+            var sourceUserId = User.GetUserId();
+            var likedMeme = await _unitOfWork.MemeRepository.GetMemeById(memeId);
+            var sourceUser = await _unitOfWork.LikesRepository.GetUserWithLikes(sourceUserId);
+
+            if (likedMeme == null) return NotFound();
+
+            if (likedMeme.AppUserId == sourceUserId) return BadRequest("You cannot like your meme");
+
+            var userLike = await _unitOfWork.MemeLikesRepository.GetMemeLike(sourceUserId, likedMeme.Id);
+
+            if (userLike != null)
+            {
+                //sourceUser.LikedMemes.Remove(userLike);
+                likedMeme.NumberOfLikes--;
+            }
+            else if (userLike == null)
+            {
+                userLike = new MemeLike
+                {
+                    SourceUserId = sourceUserId,
+                    LikedMemeId = likedMeme.Id
+                };
+
+                //sourceUser.LikedMemes.Add(userLike);
+                likedMeme.NumberOfLikes++;
+            }
+
+            if (await _unitOfWork.Complete()) return Ok();
+
+            return BadRequest("Failed to like meme");
+        }
+
+        [HttpGet("get-memes-liked-by-user/{userId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<MemeLikeDto>>> GetMemesLikedByUser(int userId)
+        {
+            var memes = await _unitOfWork.MemeLikesRepository.GetMemesLikedByUser(userId);
+
+            return Ok(memes);
         }
     }
 }

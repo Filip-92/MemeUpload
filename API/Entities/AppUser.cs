@@ -24,7 +24,7 @@ namespace API.Entities
         public ICollection<Comments> Comments { get; set; }
         public ICollection<UserLike> LikedByUsers { get; set; }
         public ICollection<UserLike> LikedUsers { get; set; }
-        public ICollection<UserLike> LikedMemes { get; set; }
+        public ICollection<MemeLike> LikedMemes { get; set; }
         public int NumberOfLikes { get; set; } = 0;
         public ICollection<Message> MessagesSent { get; set; }
         public ICollection<Message> MessagesReceived { get; set; }

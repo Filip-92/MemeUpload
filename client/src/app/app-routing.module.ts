@@ -32,7 +32,8 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {path: 'memes/szukaj/:search', component: MemeSearchComponent},
-      {path: 'memes/szukaj', component: MemeSearchComponent},
+      {path: 'szukaj/uzytkownicy', component: MemeSearchComponent},
+      {path: 'szukaj/memes', component: MemeSearchComponent},
       {path: 'memes/losowe/:id', component: MemeRandomComponent},
       {path: 'memes/:id/:title', component: MemeDetailComponent},
       {path: 'memes/:id', component: MemeDetailComponent},
