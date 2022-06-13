@@ -3,14 +3,16 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220613093354_ICollectionToList")]
+    partial class ICollectionToList
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,40 +151,6 @@ namespace API.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
-            modelBuilder.Entity("API.Entities.CommentResponses", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("AppUserId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CommentId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Content")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("MemeId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("NumberOfLikes")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Uploaded")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Url")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
-
-                    b.ToTable("Responses");
-                });
-
             modelBuilder.Entity("API.Entities.Comments", b =>
                 {
                     b.Property<int>("Id")
@@ -243,9 +211,6 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("AppUserId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Message")
                         .HasColumnType("TEXT");
 
@@ -260,8 +225,6 @@ namespace API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
-
                     b.ToTable("Contact Form");
                 });
 
@@ -271,9 +234,6 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("AppUserId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<bool>("IsCloseDivision")
                         .HasColumnType("INTEGER");
 
@@ -281,8 +241,6 @@ namespace API.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
 
                     b.ToTable("Division");
                 });
@@ -543,17 +501,6 @@ namespace API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("API.Entities.CommentResponses", b =>
-                {
-                    b.HasOne("API.Entities.AppUser", "AppUser")
-                        .WithMany("Responses")
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
-                });
-
             modelBuilder.Entity("API.Entities.Comments", b =>
                 {
                     b.HasOne("API.Entities.AppUser", "AppUser")
@@ -575,20 +522,6 @@ namespace API.Migrations
                         .WithMany("Connections")
                         .HasForeignKey("GroupName")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("API.Entities.ContactForm", b =>
-                {
-                    b.HasOne("API.Entities.AppUser", null)
-                        .WithMany("Messages")
-                        .HasForeignKey("AppUserId");
-                });
-
-            modelBuilder.Entity("API.Entities.Division", b =>
-                {
-                    b.HasOne("API.Entities.AppUser", null)
-                        .WithMany("Divisions")
-                        .HasForeignKey("AppUserId");
                 });
 
             modelBuilder.Entity("API.Entities.MemeLike", b =>
@@ -715,8 +648,6 @@ namespace API.Migrations
                 {
                     b.Navigation("Comments");
 
-                    b.Navigation("Divisions");
-
                     b.Navigation("LikedByUsers");
 
                     b.Navigation("LikedMemes");
@@ -725,15 +656,11 @@ namespace API.Migrations
 
                     b.Navigation("Memes");
 
-                    b.Navigation("Messages");
-
                     b.Navigation("MessagesReceived");
 
                     b.Navigation("MessagesSent");
 
                     b.Navigation("Photos");
-
-                    b.Navigation("Responses");
 
                     b.Navigation("UserRoles");
                 });

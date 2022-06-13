@@ -6,6 +6,7 @@ using API.Entities;
 using API.Extensions;
 using API.Helpers;
 using API.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,18 +16,20 @@ namespace API.Controllers
 {
     public class AdminController : BaseApiController
     {
+        private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPhotoService _photoService;
         private readonly IMemeService _memeService;
     
         public AdminController(UserManager<AppUser> userManager, IUnitOfWork unitOfWork, 
-            IPhotoService photoService, IMemeService memeService)
+            IPhotoService photoService, IMemeService memeService, IMapper mapper)
         {
             _photoService = photoService;
             _memeService = memeService;
             _unitOfWork = unitOfWork;
             _userManager = userManager;
+            _mapper = mapper;
         }
 
         [Authorize(Policy = "RequireAdminRole")]
@@ -261,6 +264,37 @@ namespace API.Controllers
             await _unitOfWork.Complete();
 
             return Ok();
+        }
+
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpGet("contact-form-messages")]
+        public async Task<ActionResult> GetContactFormMessages()
+        {
+            var messages = await _unitOfWork.UserRepository.GetContactFormMessages();
+
+            return Ok(messages);
+        }
+
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpPost("add-division")]
+        public async Task<ActionResult<DivisionDto>> AddDivision(DivisionDto divisionDto)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+
+            var division = new Division
+            {
+                Id = divisionDto.Id,
+                Name = divisionDto.Name
+            };
+
+            user.Divisions.Add(division);
+
+            if (await _unitOfWork.Complete())
+            {
+                return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<DivisionDto>(division));
+            }
+
+            return BadRequest("Problem z dodawaniem działu");
         }
 
     }

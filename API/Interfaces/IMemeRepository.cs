@@ -21,6 +21,10 @@ namespace API.Interfaces
          void RemoveMeme(Memes meme);
          Task<IEnumerable<CommentDto>> GetComments(int id);
          Task<IEnumerable<CommentDto>> GetMemberComments(int id);
+         Task<Comments> GetCommentById(int id);
+         void RemoveComment(Comments comment);
+         void Update(Comments comment);
+         Task<IEnumerable<CommentResponseDto>> GetReplies(int id);
          Task<IEnumerable<DivisionDto>> GetDivisions();
          Task<PagedList<MemeDto>> GetMemesByDivision(MemeParams memeParams, int divisionId);
          Task<DivisionDto> GetDivisionNameById(int id);

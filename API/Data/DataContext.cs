@@ -23,6 +23,7 @@ namespace API.Data
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Memes> Memes {get; set; }
         public DbSet<Comments> Comments { get; set; }
+        public DbSet<CommentResponses> CommentResponses { get; set; }
         public DbSet<ContactForm> ContactForm { get; set; }
         public DbSet<Division> Divisions { get; set; }
         public DbSet<Group> Groups { get; set; }
@@ -77,6 +78,8 @@ namespace API.Data
             builder.Entity<Memes>().HasQueryFilter(m => m.IsApproved);
 
             builder.Entity<Comments>();
+
+            builder.Entity<CommentResponses>();
 
             builder.Entity<MemeLike>()
                 .HasKey(k => new { k.SourceUserId, k.LikedMemeId });

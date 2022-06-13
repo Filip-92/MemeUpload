@@ -66,5 +66,14 @@ namespace API.Services
 
             return result;
         }
+
+        // public async Task<DeletionResult> DeleteCommentAsync(string id)
+        // {
+        //     var deleteParams = new DeletionParams(id);
+
+        //     var result = await _cloudinary.DestroyAsync(deleteParams);
+
+        //     return result;
+        // }
     }
 }

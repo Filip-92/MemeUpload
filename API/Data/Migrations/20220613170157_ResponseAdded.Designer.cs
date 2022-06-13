@@ -3,14 +3,16 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220613170157_ResponseAdded")]
+    partial class ResponseAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -271,9 +273,6 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("AppUserId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<bool>("IsCloseDivision")
                         .HasColumnType("INTEGER");
 
@@ -281,8 +280,6 @@ namespace API.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
 
                     b.ToTable("Division");
                 });
@@ -584,13 +581,6 @@ namespace API.Migrations
                         .HasForeignKey("AppUserId");
                 });
 
-            modelBuilder.Entity("API.Entities.Division", b =>
-                {
-                    b.HasOne("API.Entities.AppUser", null)
-                        .WithMany("Divisions")
-                        .HasForeignKey("AppUserId");
-                });
-
             modelBuilder.Entity("API.Entities.MemeLike", b =>
                 {
                     b.HasOne("API.Entities.Memes", "LikedMeme")
@@ -714,8 +704,6 @@ namespace API.Migrations
             modelBuilder.Entity("API.Entities.AppUser", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("Divisions");
 
                     b.Navigation("LikedByUsers");
 

@@ -67,6 +67,8 @@ import { AdminDeleteMemeComponent } from './modals/admin-delete-meme/admin-delet
 import { MemeListByDivisionComponent } from './memes/meme-list-by-division/meme-list-by-division.component';
 import { DivisionViewComponent } from './memes/division-view/division-view.component';
 import { AdminMemeViewComponent } from './modals/admin-meme-view/admin-meme-view.component';
+import { ReplyComponent } from './memes/reply/reply.component';
+import { SiteManagementComponent } from './admin/site-management/site-management.component';
 registerLocaleData(localePl, 'pl')
 
 @NgModule({
@@ -118,6 +120,8 @@ registerLocaleData(localePl, 'pl')
     MemeListByDivisionComponent,
     DivisionViewComponent,
     AdminMemeViewComponent,
+    ReplyComponent,
+    SiteManagementComponent,
   ],
   imports: [
     BrowserModule,

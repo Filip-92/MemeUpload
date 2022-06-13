@@ -1,0 +1,14 @@
+<div class="row">
+    <div class="col-1">|</div>
+    <div class="col-10">
+        <table class="table">
+            <td style="width: 10%"><img src="{{url || '././assets/LogoImage.png'}}" alt=""></td> <!-- zjebane zdjęcie, do poprawy ale nie dzisiaj -->
+            <td style="width: 5%;"><a routerLink='/members/{{reply.username}}'>{{reply.username}}</a></td>
+            <td style="width: 15%;">{{reply.uploaded | timeago}}</td>
+            <span>
+                <td style="width: 60%;">{{reply.content}}</td>
+            </span>
+            <td style="width: 10%" *ngIf="reply.username === user.username"><button class="btn btn-danger" (click)="removeComment(reply.id)">Usuń</button></td>
+        </table>
+    </div>
+</div>

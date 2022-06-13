@@ -1,4 +1,4 @@
-export interface Comment {
+export interface Reply {
     id: number;
     url: string;
     content: string;
@@ -6,4 +6,5 @@ export interface Comment {
     username?: string;
     numberOfLikes: number;
     memeId: number;
+    commentId: number;
 }

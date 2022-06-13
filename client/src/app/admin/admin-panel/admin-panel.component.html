@@ -11,5 +11,10 @@
                 <app-meme-management></app-meme-management>
             </div>
         </tab>
+        <tab heading='Zarządzaj stroną' *appHasRole='["Admin", "Moderator"]'>
+            <div class="container">
+                <app-site-management></app-site-management>
+            </div>
+        </tab>
     </tabset>
 </div>

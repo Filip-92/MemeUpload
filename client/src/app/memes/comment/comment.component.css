@@ -1,7 +1,32 @@
 table {
     background-color: rgb(95, 94, 94);
+    word-wrap:break-word !important;
+}
+
+#comment {
+    background-color: rgb(95, 94, 94);
+}
+
+i {
+    cursor: pointer;
 }
 
 img {
     max-height: 50px;
+}
+
+span { 
+    display:block;
+    width:600px;
+    word-break:break-all;
+    white-space: normal;
+}
+
+textarea {
+    background-color: gray;
+    color: whitesmoke;
+}
+
+textarea::placeholder {
+    color: white;
 }

@@ -1,0 +1,44 @@
+
+<h3>Wiadomości od użytkowników</h3>
+<br>
+<div class="row">
+    <table class="table">
+        <tr>
+            <th style="width: 10%">Avatar</th>
+            <th style="width: 10%;">Użytkownik</th>
+            <th style="width: 10%;">E-mail</th>
+            <th style="width: 15%;">Temat</th>
+            <th style="width: 55%;">Wiadomość</th>
+        </tr>
+        <tr *ngFor="let message of messages">
+            <app-user-card [user]="message.senderName"></app-user-card>
+            <td><a routerLink='/members/{{message.senderName}}'>{{message.senderName}}</a></td>
+            <td>{{message.senderEmail}}</td>
+            <td>{{getSubject(message.subject)}}</td>
+            <td>{{message.message}}</td>
+        </tr>
+    </table>
+</div>
+<br>
+<div class="row">
+    <div class="col-6">
+        <h3>Dodaj dział</h3>
+        <form [formGroup]='divisionForm' (ngSubmit)="divisionForm.valid && addDivision()" class="text-center column">
+            <div>
+                <input type="text" [formControl]='divisionForm.controls["name"]' placeholder="Wpisz nazwę działu" class="col-7" />
+                <button class="btn btn-success ml-2 col-2" type="submit" [disabled]="!divisionForm.valid">Dodaj dział</button>
+            </div>
+            <div *ngIf="divisionForm.controls['name'].errors?.maxlength" class="text-danger">
+                Komentarz zbyt długi
+            </div>
+        </form>
+    </div>
+    <div class="col-6">
+        <h3>Obecne działy</h3>
+        <div *ngFor="let division of divisions">
+            {{division.name}}
+        </div>
+    </div>
+</div>
+
+

@@ -14,7 +14,12 @@ namespace API.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override string Email { get; set; }
         public AppUser() 
-        {}
+        {
+            Comments = new List<Comments>();
+            Messages = new List<ContactForm>();
+            Responses = new List<CommentResponses>();
+            Divisions = new List<Division>();
+        }
         public DateTime DateOfBirth { get; set; }
         public DateTime Created { get; set; } = DateTime.Now;
         public DateTime LastActive { get; set; } = DateTime.Now;
@@ -22,6 +27,9 @@ namespace API.Entities
         public ICollection<Photo> Photos { get; set; }
         public ICollection<Memes> Memes { get; set; }
         public ICollection<Comments> Comments { get; set; }
+        public ICollection<CommentResponses> Responses { get; set; }
+        public ICollection<ContactForm> Messages { get; set; }
+        public ICollection<Division> Divisions { get; set; }
         public ICollection<UserLike> LikedByUsers { get; set; }
         public ICollection<UserLike> LikedUsers { get; set; }
         public ICollection<MemeLike> LikedMemes { get; set; }

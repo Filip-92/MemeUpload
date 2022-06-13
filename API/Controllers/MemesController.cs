@@ -221,6 +221,7 @@ namespace API.Controllers
                 MemeId = commentDto.MemeId
             };
 
+            user.Comments.Add(comment);
             memes.Comments.Add(comment);
 
             if (await _unitOfWork.Complete())
@@ -248,6 +249,70 @@ namespace API.Controllers
             var comments = await _unitOfWork.MemeRepository.GetMemberComments(user.Id);
 
             return Ok(comments);
+        }
+
+        [HttpPost("remove-comment/{commentId}")]
+        public async Task<ActionResult> RemoveComment(int commentId)
+        {
+            var comment = await _unitOfWork.MemeRepository.GetCommentById(commentId);
+
+            if (comment == null) return NotFound("Could not find comment");
+
+            _unitOfWork.MemeRepository.RemoveComment(comment);
+
+            await _unitOfWork.Complete();
+
+            return Ok();
+        }
+
+        [HttpPut("{commentId}")]
+        public async Task<ActionResult> UpdateComment(CommentUpdateDto commentUpdateDto, int commentId)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+            var comment = await _unitOfWork.MemeRepository.GetCommentById(commentId);
+
+            _mapper.Map(commentUpdateDto, user);
+
+            _unitOfWork.MemeRepository.Update(comment);
+
+            if (await _unitOfWork.Complete()) return NoContent();
+
+            return BadRequest("Failed to update comment");
+        }
+
+        [HttpPost("add-reply")]
+        public async Task<ActionResult<CommentResponseDto>> AddReply(CommentResponseDto commentResponseDto)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+
+            var memes = await _unitOfWork.MemeRepository.GetMemeById(commentResponseDto.MemeId);
+
+            var response = new CommentResponses
+            {
+                Content = commentResponseDto.Content,
+                //Url = commentDto.Url
+                MemeId = commentResponseDto.MemeId,
+                CommentId = commentResponseDto.CommentId
+            };
+
+            user.Responses.Add(response);
+            //memes.Comments.Add(comment);
+
+            if (await _unitOfWork.Complete())
+            {
+                return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<CommentResponseDto>(response));
+            }
+
+            return BadRequest("Problem adding comment: " + commentResponseDto.Content + " " + user + " " + commentResponseDto.MemeId);
+        }
+
+        [HttpGet("get-replies/{commentId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEntityTypeConfiguration<CommentResponseDto>>> GetReplies(int commentId)
+        {
+            var replies = await _unitOfWork.MemeRepository.GetReplies(commentId);
+
+            return Ok(replies);
         }
 
         [HttpGet("get-user-photo/{userId}")]

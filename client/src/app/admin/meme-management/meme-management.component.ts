@@ -46,7 +46,7 @@ export class PhotoManagementComponent implements OnInit {
         this.memes = response.result;
         this.pagination = response.pagination;
       });
-    }
+  }
 
   approveMeme(memeId: number) {
     this.adminService.approveMeme(memeId).subscribe(() => {

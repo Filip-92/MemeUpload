@@ -23,7 +23,9 @@ namespace API.Helpers
             CreateMap<Photo, PhotoDto>();
             CreateMap<Memes, MemeDto>();
             CreateMap<Comments, CommentDto>();
+            CreateMap<CommentResponses, CommentResponseDto>();
             CreateMap<ContactForm, ContactFormDto>();
+            CreateMap<Division, DivisionDto>();
             CreateMap<MemberUpdateDto, AppUser>();
             CreateMap<RegisterDto, AppUser>();
             CreateMap<Message, MessageDto>()

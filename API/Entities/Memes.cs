@@ -7,6 +7,9 @@ namespace API.Entities
     [Table("Memes")]
     public class Memes
     {
+        public Memes() {
+            Comments = new List<Comments>();
+        }
         public int Id { get; set; }
         public string Url { get; set; }
         public string Title { get; set; }

@@ -1,0 +1,70 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { ContactFormMessages } from 'src/app/_models/contactFormMessages';
+import { Division } from 'src/app/_models/division';
+import { AdminService } from 'src/app/_services/admin.service';
+import { MemeService } from 'src/app/_services/meme.service';
+
+@Component({
+  selector: 'app-site-management',
+  templateUrl: './site-management.component.html',
+  styleUrls: ['./site-management.component.css']
+})
+export class SiteManagementComponent implements OnInit {
+  messages: ContactFormMessages[];
+  divisions: Division[];
+  divisionForm: FormGroup;
+  validationErrors: string[] = [];
+
+  constructor(private adminService: AdminService, private memeService: MemeService, 
+    private fb: FormBuilder, private toastr: ToastrService) { }
+
+  ngOnInit(): void {
+    this.getContactFormMessages();
+    this.getDivisions();
+    this.initializeForm();
+  }
+
+  getSubject(id: number) {
+    if(id === 1) {
+      return "Feedback";
+    } else if (id === 2) {
+      return "Zgłoś błąd";
+    } else if (id === 3) {
+      return "Propozycje usprawnień";
+    } else if (id === 4) {
+      return "Zgłoś użytkownika";
+    } else {
+      return "Inny problem"
+    }
+  }
+
+  getContactFormMessages() {
+    this.adminService.getContactFormMessages().subscribe(messages => {
+      this.messages = messages;
+    });
+  }
+
+  initializeForm() {
+    this.divisionForm = this.fb.group({
+      name: ['', [Validators.required, Validators.maxLength(20)]],
+    })
+  }
+
+  getDivisions() {
+    this.memeService.getDivisions().subscribe(divisions => {
+      this.divisions = divisions;
+    });
+  }
+
+  addDivision() {
+    this.adminService.addDivision(this.divisionForm.value).subscribe(response => {
+      this.toastr.success('Pomyślnie dodano dział');
+      this.divisionForm.reset();
+      }, error => {
+      this.validationErrors = error;
+    })
+  }
+
+}

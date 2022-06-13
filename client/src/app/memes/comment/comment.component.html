@@ -1,6 +1,30 @@
-<table class="table">
-    <td style="width: 10%"><img src="{{url}}" alt=""></td>
-    <td style="width: 5%;"><a routerLink='/members/{{comment.username}}'>{{comment.username}}</a></td>
-    <td style="width: 5%;">{{comment.uploaded | timeago}}</td>
-    <td style="width: 80%;" class="text-center">{{comment.content}}</td>
-</table>
+<div id="comment" class="mb-3">
+    <table class="table">
+        <td style="width: 10%"><img src="{{url || '././assets/LogoImage.png'}}" alt=""></td>
+        <td style="width: 5%;"><a routerLink='/members/{{comment.username}}'>{{comment.username}}</a></td>
+        <td style="width: 15%;">{{comment.uploaded | timeago}}</td>
+        <span>
+            <td style="width: 60%;">{{comment.content}}</td>
+        </span>
+        <td style="width: 10%" *ngIf="comment.username === user.username"><button class="btn btn-danger" (click)="removeComment(comment.id)">Usuń</button></td>
+    </table>
+    <i class="fa fa-reply ml-3 mb-1" (click)="addReply(comment.id)"> Odpowiedz</i>
+</div>
+<div id="reply">
+    <div *ngFor="let reply of replies">
+        <app-reply [reply]="reply"></app-reply>
+    </div>
+</div>
+
+<div *ngIf="reply">
+    <form [formGroup]='replyForm' (ngSubmit)="replyForm.valid && replyComment()" class="text-center column">
+        <div>
+            <textarea type="text" [formControl]='replyForm.controls["content"]' placeholder="Wpisz treść komentarza" class="col-7"></textarea>
+            <button class="btn btn-success ml-2 col-2" type="submit" [disabled]="!replyForm.valid" style="margin-bottom: 40px;">Dodaj komentarz</button>
+        </div>
+        <div *ngIf="replyForm.controls['content'].errors?.maxlength" class="text-danger">
+            Komentarz zbyt długi
+        </div>
+    </form>
+</div>
+

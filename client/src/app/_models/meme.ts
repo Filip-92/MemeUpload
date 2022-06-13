@@ -8,4 +8,5 @@ export interface Meme {
     isApproved: boolean;
     username?: string;
     numberOfLikes: number;
+    comments: Comment[];
 }

@@ -18,6 +18,9 @@
             <button (click)="removeLike()" class="btn btn-danger"><i class="fa fa-minus"></i></button>
         </div>
     </div>
+    <div *ngIf="comments?.length > 0" class="text-left mt-3 mb-2 ml-3">
+        Komentarze: {{ comments?.length }}
+    </div>
 </div>
 
 <div>
@@ -35,6 +38,8 @@
 <div *ngIf="comments?.length === 0" class="text-center">
     <h3>Brak komentarzy</h3>
 </div>
+
+<div *ngIf="comments?.length > 0"></div>
 
 <div *ngFor="let comment of comments">
     <app-comment [comment]="comment"></app-comment>

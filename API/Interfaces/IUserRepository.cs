@@ -20,5 +20,6 @@ namespace API.Interfaces
         Task<AppUser> GetUserByEmailAsync(string email);
         Task<UserDto> GetUserNumberOfLikes(int userId);
         Task<PagedList<MemberDto>> SearchForMembers(UserParams userParams, string searchString);
+        Task<IEnumerable<ContactFormDto>> GetContactFormMessages();
     }
 }

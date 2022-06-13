@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Meme } from '../_models/meme';
+import { ContactFormMessages } from '../_models/contactFormMessages';
 import { PaginatedResult } from '../_models/pagination';
 import { Photo } from '../_models/photo';
 import { User } from '../_models/user';
@@ -69,5 +70,13 @@ export class AdminService {
 
   getUserPhoto(id: number) {
     return this.http.get<Photo>(this.baseUrl + 'memes/get-user-photo/' + id);
+  }
+
+  getContactFormMessages() {
+    return this.http.get<ContactFormMessages[]>(this.baseUrl + 'admin/contact-form-messages', {});
+  }
+
+  addDivision(model: any) {
+    return this.http.post(this.baseUrl + 'admin/add-division', model);
   }
 }

@@ -21,7 +21,8 @@ export class TopButtonsComponent implements OnInit {
     uploaded: undefined,
     description: '',
     isApproved: false,
-    numberOfLikes: 0
+    numberOfLikes: 0,
+    comments: undefined
   };
 
   ngOnInit(): void {

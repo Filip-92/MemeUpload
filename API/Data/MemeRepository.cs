@@ -287,7 +287,8 @@ namespace API.Data
                     Content = u.Content,
                     Uploaded = u.Uploaded,
                     NumberOfLikes = u.NumberOfLikes
-                }).ToListAsync();
+                }).OrderByDescending(u => u.Id)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<CommentDto>> GetMemberComments(int id)
@@ -304,7 +305,44 @@ namespace API.Data
                     Uploaded = u.Uploaded,
                     MemeId = u.MemeId,
                     NumberOfLikes = u.NumberOfLikes
-                }).ToListAsync();
+                }).OrderByDescending(u => u.Id)
+                .ToListAsync();
+        }
+
+        public async Task<Comments> GetCommentById(int id)
+        {
+            return await _context.Comments
+                .IgnoreQueryFilters()
+                .SingleOrDefaultAsync(x => x.Id == id);
+        }
+
+        public void RemoveComment(Comments comment)
+        {
+            _context.Comments.Remove(comment);
+        }
+
+        public void Update(Comments comment)
+        {
+            _context.Entry(comment).State = EntityState.Modified;
+        }
+
+        public async Task<IEnumerable<CommentResponseDto>> GetReplies(int id)
+        {
+                return await _context.CommentResponses
+                .IgnoreQueryFilters()
+                .Where(m => m.CommentId == id)
+                .Select(u => new CommentResponseDto
+                {
+                    Id = u.Id,
+                    Username = u.AppUser.UserName,
+                    Url = u.Url,
+                    MemeId = u.MemeId,
+                    CommentId = u.CommentId,
+                    Content = u.Content,
+                    Uploaded = u.Uploaded,
+                    NumberOfLikes = u.NumberOfLikes
+                }).OrderByDescending(u => u.Id)
+                .ToListAsync();
         }
     
         public async Task<IEnumerable<DivisionDto>> GetDivisions()

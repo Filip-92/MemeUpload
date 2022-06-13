@@ -48,7 +48,8 @@ export class MemeUploadComponent implements OnInit {
     uploaded: undefined,
     description: '',
     isApproved: false,
-    numberOfLikes: 0
+    numberOfLikes: 0,
+    comments: undefined
   };
   model: any = {};
   divisions: Division[];

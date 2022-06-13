@@ -158,9 +158,11 @@ namespace API.Controllers
                 Message = contactFormDto.Message
             };
 
+            user.Messages.Add(contactForm);
+
             if (await _unitOfWork.Complete())
             {
-                return Ok(contactForm);
+                return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<ContactFormDto>(contactForm));
             }
 
             return BadRequest("Problem sending message " + contactFormDto.SenderName + " " + contactFormDto.SenderEmail + " " + contactFormDto.Subject + " " + contactFormDto.Message);

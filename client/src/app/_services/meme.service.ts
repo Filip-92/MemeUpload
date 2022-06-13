@@ -13,6 +13,7 @@ import { PresenceService } from './presence.service';
 import { PaginatedResult, Pagination } from '../_models/pagination';
 import { Photo } from '../_models/photo';
 import { Division } from '../_models/division';
+import { Reply } from '../_models/reply';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +36,8 @@ export class MemeService {
     uploaded: undefined,
     description: '',
     isApproved: false,
-    numberOfLikes: 0
+    numberOfLikes: 0,
+    comments: undefined
   };
 
   paginatedResult: PaginatedResult<Meme[]> = new PaginatedResult<Meme[]>();
@@ -189,16 +191,28 @@ getMainMemes(page?: number, itemsPerPage?: number) {
       return this.http.get<Comment[]>(this.baseUrl + 'memes/get-comments/' + memeId);
   }
 
-  getDivisions() {   
-    return this.http.get<Division[]>(this.baseUrl + 'memes/get-divisions');
-  }
-
   getMemberComments(username: string) {
       return this.http.get<Comment[]>(this.baseUrl + 'memes/get-member-comments/' + username);
   }
 
+  removeComment(commentId: number) {
+    return this.http.post(this.baseUrl + 'memes/remove-comment/' + commentId, {});
+  }
+
+  addReply(model: any) {
+    return this.http.post(this.baseUrl + 'memes/add-reply', model);
+  }
+
+  getReplies(commentId: number) {   
+    return this.http.get<Reply[]>(this.baseUrl + 'memes/get-replies/' + commentId);
+  }
+
   getUserPhoto(username: string) {
     return this.http.get<Photo>(this.baseUrl + 'memes/get-user-photo-by-username/' + username);
+  }
+
+  getDivisions() {   
+    return this.http.get<Division[]>(this.baseUrl + 'memes/get-divisions');
   }
 
   getMemesByDivision(divisionId: number, page?: number, itemsPerPage?: number) {

@@ -146,5 +146,20 @@ namespace API.Data
             return await PagedList<MemberDto>.CreateAsync(query, 
             userParams.PageNumber, userParams.PageSize);
         }
+
+        public async Task<IEnumerable<ContactFormDto>> GetContactFormMessages()
+        {
+                return await _context.ContactForm
+                .IgnoreQueryFilters()
+                .Select(u => new ContactFormDto
+                {
+                    Id = u.Id,
+                    SenderName = u.SenderName,
+                    SenderEmail = u.SenderEmail,
+                    Subject = u.Subject,
+                    Message = u.Message
+                }).OrderByDescending(u => u.Id)
+                .ToListAsync();
+        }
     }
 }
