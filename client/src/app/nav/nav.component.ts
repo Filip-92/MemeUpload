@@ -14,6 +14,8 @@ import * as internal from 'stream';
 import { Division } from '../_models/division';
 import { MemeService } from '../_services/meme.service';
 import { take } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NotificationsModalComponent } from '../modals/notifications-modal/notifications-modal.component';
 
 @Component({
   selector: 'app-nav',
@@ -39,6 +41,7 @@ export class NavComponent implements OnInit {
   public innerWidth: any;
   unreadMessages: number = null;
   user: User;
+  notifications: Notification[];
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -47,7 +50,8 @@ export class NavComponent implements OnInit {
 
   constructor(public accountService: AccountService, private router: Router, 
     private toastr: ToastrService, private messageService: MessageService,
-    private deviceService: DeviceDetectorService, private memeService: MemeService) {
+    private deviceService: DeviceDetectorService, private memeService: MemeService,
+    private modalServ: NgbModal) {
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
      }
 
@@ -115,5 +119,11 @@ export class NavComponent implements OnInit {
     this.memeService.getDivisions().subscribe(divisions => {
       this.divisions = divisions;
     });
+  }
+
+  openNotificationsModal(username: string) {
+    const modalRef = this.modalServ.open(NotificationsModalComponent);
+    modalRef.componentInstance.username = username;
+    modalRef.componentInstance.modalRef = modalRef;
   }
 }

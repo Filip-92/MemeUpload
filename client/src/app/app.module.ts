@@ -69,7 +69,7 @@ import { DivisionViewComponent } from './memes/division-view/division-view.compo
 import { AdminMemeViewComponent } from './modals/admin-meme-view/admin-meme-view.component';
 import { ReplyComponent } from './memes/reply/reply.component';
 import { SiteManagementComponent } from './admin/site-management/site-management.component';
-registerLocaleData(localePl, 'pl')
+import { NotificationsModalComponent } from './modals/notifications-modal/notifications-modal.component';
 
 @NgModule({
   declarations: [
@@ -122,6 +122,7 @@ registerLocaleData(localePl, 'pl')
     AdminMemeViewComponent,
     ReplyComponent,
     SiteManagementComponent,
+    NotificationsModalComponent,
   ],
   imports: [
     BrowserModule,

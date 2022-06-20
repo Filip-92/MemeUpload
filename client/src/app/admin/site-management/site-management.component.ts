@@ -49,6 +49,7 @@ export class SiteManagementComponent implements OnInit {
   initializeForm() {
     this.divisionForm = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(20)]],
+      isCloseDivision: ['0', [Validators.required]]
     })
   }
 

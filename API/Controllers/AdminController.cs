@@ -21,7 +21,6 @@ namespace API.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPhotoService _photoService;
         private readonly IMemeService _memeService;
-    
         public AdminController(UserManager<AppUser> userManager, IUnitOfWork unitOfWork, 
             IPhotoService photoService, IMemeService memeService, IMapper mapper)
         {
@@ -183,7 +182,28 @@ namespace API.Controllers
 
             await _unitOfWork.Complete();
 
+            await SendNotification(meme.Id, user);
+
             return Ok();
+        }
+
+        public async Task<ActionResult<NotificationDto>> SendNotification(int memeId, AppUser user)
+        {
+            var notification = new Notifications
+            {
+                Content = "Twój mem został dodany na stronę główną",
+                MemeId = memeId,
+                AppUserId = user.Id
+            };
+
+            user.Notifications.Add(notification);
+
+            if (await _unitOfWork.Complete())
+            {
+                return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<NotificationDto>(notification));
+            }
+
+            return BadRequest("Problem adding meme");
         }
 
         [Authorize(Policy = "ModerateMemeRole")]
@@ -284,7 +304,8 @@ namespace API.Controllers
             var division = new Division
             {
                 Id = divisionDto.Id,
-                Name = divisionDto.Name
+                Name = divisionDto.Name,
+                IsCloseDivision = divisionDto.IsCloseDivision
             };
 
             user.Divisions.Add(division);

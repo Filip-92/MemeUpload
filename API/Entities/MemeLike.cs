@@ -9,7 +9,7 @@ namespace API.Entities
         public int SourceUserId { get; set; }
         public Memes LikedMeme { get; set; }
         public int LikedMemeId { get; set; }
-        public int NumberOfLikes { get; set; }
+        public bool Disliked { get; set; }
         
     }
 }

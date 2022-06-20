@@ -132,7 +132,6 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
 
   addLike(member: Member) {
     this.memberService.addLike(member.username).subscribe(() => {
-      // this.toastr.success('You have liked ' + member.username);
       this.liked = !this.liked;
       if(this.liked) {
         this.numberOfLikes++;

@@ -112,4 +112,8 @@ export class AccountService {
     localStorage.removeItem('codeSendSuccess');
     localStorage.removeItem('user_id');
   }
+
+  getNotifications(username: string) {
+    return this.http.get<Notification[]>(this.baseUrl + 'users/get-notifications/' + username);
+  }
 }

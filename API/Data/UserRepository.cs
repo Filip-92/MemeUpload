@@ -161,5 +161,18 @@ namespace API.Data
                 }).OrderByDescending(u => u.Id)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<NotificationDto>> GetNotifications(int id)
+        {
+                return await _context.Notifications
+                .IgnoreQueryFilters()
+                .Where(m => m.AppUserId == id)
+                .Select(u => new NotificationDto
+                {
+                    Id = u.Id,
+                    Content = u.Content,
+                    MemeId = u.MemeId,
+                }).ToListAsync();
+        }
     }
 }

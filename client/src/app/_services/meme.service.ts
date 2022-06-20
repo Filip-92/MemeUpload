@@ -165,14 +165,15 @@ getMainMemes(page?: number, itemsPerPage?: number) {
   }
   
   addLike(memeId: number) {
-    // return this.http.post(this.baseUrl + 'meme-likes/' + memeId, {});
     return this.http.post(this.baseUrl + 'memes/add-meme-like/' + memeId, {});
   }
 
-  getLikes(predicate: string, pageNumber, pageSize) {
-    let params = getPaginationHeaders(pageNumber, pageSize);
-    params = params.append('predicate', predicate);
-    return getPaginatedResult<Partial<Member[]>>(this.baseUrl + 'likes', params, this.http);
+  addDislike(memeId: number) {
+    return this.http.post(this.baseUrl + 'memes/add-meme-dislike/' + memeId, {});
+  }
+
+  getLikes() {
+    return this.http.get<Partial<Meme[]>>(this.baseUrl + 'memes/likes', {});
   }
 
   removeMeme(memeId: number) {

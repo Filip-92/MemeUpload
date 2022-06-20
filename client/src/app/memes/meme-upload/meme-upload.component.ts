@@ -21,7 +21,6 @@ import { Division } from 'src/app/_models/division';
   styleUrls: ['./meme-upload.component.css']
 })
 export class MemeUploadComponent implements OnInit {
-  // @Output() public onUploadFinished = new EventEmitter();
   @Input() member: Member = {
     memes: [],
     memeUrl: '',

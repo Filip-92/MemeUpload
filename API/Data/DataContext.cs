@@ -26,6 +26,7 @@ namespace API.Data
         public DbSet<CommentResponses> CommentResponses { get; set; }
         public DbSet<ContactForm> ContactForm { get; set; }
         public DbSet<Division> Divisions { get; set; }
+        public DbSet<Notifications> Notifications { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Connection> Connections { get; set; }
 
@@ -92,6 +93,8 @@ namespace API.Data
             builder.Entity<ContactForm>();
             
             builder.Entity<Division>();
+
+            builder.Entity<Notifications>();
 
             builder.ApplyUtcDateTimeConverter();
         }

@@ -1,0 +1,12 @@
+<div *ngFor="let notification of notifications">
+    <a routerLink="/memes/{{notification.memeId}}" (click)="close()" class="nav-link notification">
+        <div class="row">
+            <div class="col-4">
+                <img src="././assets/LogoImage.png" alt="">
+            </div>
+            <div class="col-8 text-center" style="margin-top: auto; margin-bottom: auto">
+                {{notification.content}}
+            </div>
+        </div>
+    </a>
+</div>

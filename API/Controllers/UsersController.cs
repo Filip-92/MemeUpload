@@ -181,12 +181,22 @@ namespace API.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<IEntityTypeConfiguration<MemberDto>>> SearchForMembers([FromQuery] UserParams userParams, string searchString)
         {
-            var memes = await _unitOfWork.UserRepository.SearchForMembers(userParams, searchString);
+            var members = await _unitOfWork.UserRepository.SearchForMembers(userParams, searchString);
 
-            Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
-                memes.TotalCount, memes.TotalPages);
+            Response.AddPaginationHeader(members.CurrentPage, members.PageSize, 
+                members.TotalCount, members.TotalPages);
 
-            return Ok(memes);
+            return Ok(members);
+        }
+
+        [HttpGet("get-notifications/{username}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEntityTypeConfiguration<NotificationDto>>> GetNotifications(string username)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
+            var notifications = await _unitOfWork.UserRepository.GetNotifications(user.Id);
+
+            return Ok(notifications);
         }
     }
 }

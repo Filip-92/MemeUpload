@@ -14,7 +14,6 @@ import { HelperService } from 'src/app/_services/helper.service';
 import { AccountService } from 'src/app/_services/account.service';
 import { take } from 'rxjs/operators';
 import * as watermark from 'watermarkjs';
-import { ThrowStmt } from '@angular/compiler';
 
 @Pipe({ name: 'safe' })
 export class SafePipe implements PipeTransform {
@@ -35,7 +34,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   likes: number = 0;
   users: any;
   user: User;
-  memes: Meme[];
+  memes: Partial<Meme[]>;
   pagination: Pagination;
   pageNumber = 1;
   pageSize = 5;
@@ -43,6 +42,9 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   trustedUrl: any;
   waterMarkImage: ElementRef;
   baseUrl = 'https://localhost:4200/';
+  liked: boolean;
+  disliked: boolean;
+  likedMemes: Meme[];
 
   constructor(private memberService: MembersService, private toastr: ToastrService, 
     public presence: PresenceService, private memeService: MemeService, private http: HttpClient,
@@ -58,6 +60,11 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     // temporary solution for incorrect timezone
     var newTime = Number(this.meme.uploaded.substring(11,13)) - 2;
     this.meme.uploaded = this.meme.uploaded.replace((this.meme.uploaded.substring(11,14)), newTime.toString() + ":");
+    this.loadLikes();
+    if(this.user === null) {
+      this.liked = false;
+      this.disliked = false;
+    }
     if(this.meme?.url?.includes("youtube")) {
       this.trustedUrl = this.formatYoutubeLink(this.meme?.url);
     }
@@ -65,14 +72,88 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   }
   
   addLike(meme: Meme) {
-    this.memeService.addLike(meme.id).subscribe(() => {
-      //this.toastr.success('You have liked ' + member.username);
+    // if (meme.disliked === true) {
+    //   this.memeService.addDislike(meme.id).subscribe(() => {
+    //     this.disliked = !this.disliked;
+    //   })
+      this.memeService.addLike(meme.id).subscribe(() => {
+        this.liked = !this.liked;
+      if(this.liked) {
+        this.meme.numberOfLikes++;
+        this.liked = true;
+      } else {
+        this.meme.numberOfLikes--;
+        this.liked = false;
+      }
     })
-    meme.numberOfLikes++;
+    // } else {
+    //   this.memeService.addLike(meme.id).subscribe(() => {
+    //     this.liked = !this.liked;
+    //   if(this.liked) {
+    //     this.meme.numberOfLikes++;
+    //     this.liked = true;
+    //   } else {
+    //     this.meme.numberOfLikes--;
+    //     this.liked = false;
+    //   }
+    // })
+    // }
   }
 
-  removeLike() {
-    this.likes--;
+  addDislike(meme: Meme) {
+    // if (meme.disliked !== true) {
+    //   this.memeService.addLike(meme.id).subscribe(() => {
+    //     this.liked = !this.liked;
+    //   })
+      this.memeService.addDislike(meme.id).subscribe(() => {
+        this.disliked = !this.disliked;
+      if(this.disliked) {
+        this.meme.numberOfLikes--;
+        this.disliked = true;
+        this.liked = false;
+      } else {
+        this.meme.numberOfLikes++;
+        this.disliked = false;
+      }
+    })
+  // } else {
+  //   this.memeService.addDislike(meme.id).subscribe(() => {
+  //     this.disliked = !this.disliked;
+  //   if(this.disliked) {
+  //     this.meme.numberOfLikes--;
+  //     this.disliked = true;
+  //     this.liked = false;
+  //   } else {
+  //     this.meme.numberOfLikes++;
+  //     this.disliked = false;
+  //   }
+  // })
+  // }
+  }
+
+  loadLikes() {
+    this.memeService.getLikes().subscribe(response => {
+      this.likedMemes = response;
+      for (var meme of this.likedMemes) {
+        if (meme.disliked === true) {
+          this.checkIfMemeDisliked(meme.likedMemeId);
+        } else {
+          this.checkIfMemeLiked(meme.likedMemeId);
+        }
+      }
+    })
+  }
+
+  checkIfMemeLiked(id: number) {
+    if (id === this.meme.id) {
+      this.liked = !this.liked;
+    }
+  }
+
+  checkIfMemeDisliked(id: number) {
+    if (id === this.meme.id) {
+      this.disliked = !this.disliked;
+    }
   }
 
   getUsers() {
@@ -92,7 +173,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     return result;
   }
 
-  checkURL(url) {
+  checkURL(url: string) {
     return(url?.match(/\.(jpeg|jpg|gif|png)$/) != null);
   }
 

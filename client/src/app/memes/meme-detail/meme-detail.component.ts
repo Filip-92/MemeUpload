@@ -30,6 +30,9 @@ export class MemeDetailComponent implements OnInit {
   trustedUrl: any;
   commentForm: FormGroup;
   validationErrors: string[] = [];
+  liked: boolean;
+  disliked: boolean;
+  likedMemes: Meme[];
 
   constructor(private memeService: MemeService, private http: HttpClient,
     private route: ActivatedRoute, private toastr: ToastrService,
@@ -40,10 +43,10 @@ export class MemeDetailComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.meme = data.meme;
     });
-    //this.location.replaceState("memes/" + this.meme.id + "/" + this.meme.title);
     this.initializeForm();
     this.getMeme(this.id);
     this.getComments(this.id);
+    this.loadLikes();
   }
 
   getMeme(memeId: number) {
@@ -60,12 +63,56 @@ export class MemeDetailComponent implements OnInit {
     return uploadedDate;
   }
 
-  addLike() {
-    this.likes++;
+  addLike(meme: Meme) {
+      this.memeService.addLike(meme.id).subscribe(() => {
+        this.liked = !this.liked;
+      if(this.liked) {
+        this.meme.numberOfLikes++;
+        this.liked = true;
+      } else {
+        this.meme.numberOfLikes--;
+        this.liked = false;
+      }
+    })
   }
 
-  removeLike() {
-    this.likes--;
+  addDislike(meme: Meme) {
+      this.memeService.addDislike(meme.id).subscribe(() => {
+        this.disliked = !this.disliked;
+      if(this.disliked) {
+        this.meme.numberOfLikes--;
+        this.disliked = true;
+        this.liked = false;
+      } else {
+        this.meme.numberOfLikes++;
+        this.disliked = false;
+      }
+    })
+  }
+
+  loadLikes() {
+    this.memeService.getLikes().subscribe(response => {
+      this.likedMemes = response;
+      for (var meme of this.likedMemes) {
+        if (meme.disliked === true) {
+          this.checkIfMemeDisliked(meme.likedMemeId);
+        } else {
+          this.checkIfMemeLiked(meme.likedMemeId);
+        }
+      }
+    })
+  }
+
+  checkIfMemeLiked(id: number) {
+    if (id === this.meme.id) {
+      this.liked = !this.liked;
+    }
+  }
+
+  checkIfMemeDisliked(id: number) {
+    if (id === this.meme.id) {
+      this.disliked = !this.disliked;
+    }
   }
 
   checkURL(url: string) {
@@ -92,6 +139,7 @@ export class MemeDetailComponent implements OnInit {
   addComment() {
     this.memeService.addComment(this.commentForm.value).subscribe(response => {
       this.toastr.success('Pomyślnie dodano komentarz');
+      this.getComments(this.id);
       this.commentForm.reset();
       }, error => {
       this.validationErrors = error;

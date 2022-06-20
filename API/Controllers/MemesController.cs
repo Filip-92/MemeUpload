@@ -67,6 +67,7 @@ namespace API.Controllers
 
             if (await _unitOfWork.Complete())
             {
+
                 return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<MemeDto>(meme));
             }
 
@@ -81,7 +82,6 @@ namespace API.Controllers
             var meme = new Memes
             {
                 Url = memeDto.Url,
-                // PublicId = result.PublicId,
                 Title = memeDto.Title,
                 Description = memeDto.Description,
                 Division = memeDto.Division
@@ -94,7 +94,7 @@ namespace API.Controllers
                 return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<MemeDto>(meme));
             }
 
-            return BadRequest("Problem addding meme");
+            return BadRequest("Problem adding meme");
         }
 
         [HttpGet("memes-to-display")]
@@ -398,7 +398,7 @@ namespace API.Controllers
 
             if (userLike != null)
             {
-                //sourceUser.LikedMemes.Remove(userLike);
+                sourceUser.LikedMemes.Remove(userLike);
                 likedMeme.NumberOfLikes--;
             }
             else if (userLike == null)
@@ -406,16 +406,62 @@ namespace API.Controllers
                 userLike = new MemeLike
                 {
                     SourceUserId = sourceUserId,
-                    LikedMemeId = likedMeme.Id
+                    LikedMemeId = likedMeme.Id,
+                    Disliked = false
                 };
 
-                //sourceUser.LikedMemes.Add(userLike);
+                sourceUser.LikedMemes.Add(userLike);
                 likedMeme.NumberOfLikes++;
             }
 
             if (await _unitOfWork.Complete()) return Ok();
 
             return BadRequest("Failed to like meme");
+        }
+
+        [HttpPost("add-meme-dislike/{memeId}")]
+        public async Task<ActionResult> AddDislike(int memeId)
+        {
+            var sourceUserId = User.GetUserId();
+            var likedMeme = await _unitOfWork.MemeRepository.GetMemeById(memeId);
+            var sourceUser = await _unitOfWork.LikesRepository.GetUserWithLikes(sourceUserId);
+
+            if (likedMeme == null) return NotFound();
+
+            if (likedMeme.AppUserId == sourceUserId) return BadRequest("You cannot dislike your meme");
+
+            var userLike = await _unitOfWork.MemeLikesRepository.GetMemeLike(sourceUserId, likedMeme.Id);
+
+            if (userLike != null)
+            {
+                sourceUser.LikedMemes.Remove(userLike);
+                likedMeme.NumberOfLikes++;
+            }
+            else if (userLike == null)
+            {
+                userLike = new MemeLike
+                {
+                    SourceUserId = sourceUserId,
+                    LikedMemeId = likedMeme.Id,
+                    Disliked = true
+                };
+
+                sourceUser.LikedMemes.Add(userLike);
+                likedMeme.NumberOfLikes--;
+            }
+
+            if (await _unitOfWork.Complete()) return Ok();
+
+            return BadRequest("Failed to like meme");
+        }
+
+        [HttpGet("likes")]
+        public async Task<ActionResult<IEnumerable<MemeLikeDto>>> GetMemeLikes([FromQuery]MemeLikesParams likesParams)
+        {
+            likesParams.UserId = User.GetUserId();
+            var memes = await _unitOfWork.MemeLikesRepository.GetUserLikes(likesParams.UserId);
+
+            return Ok(memes);
         }
 
         [HttpGet("get-memes-liked-by-user/{userId}")]

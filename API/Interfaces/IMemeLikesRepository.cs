@@ -10,7 +10,7 @@ namespace API.Interfaces
     {
         Task<MemeLike> GetMemeLike(int sourceUserId, int likedMemeId);
         Task<AppUser> GetMemeWithLikes(int memeId);
-        //Task<PagedList<MemeLikeDto>> GetUserLikes(MemeLikesParams likesParams);
+        Task<IEnumerable<MemeLikeDto>> GetUserLikes(int userId);
         Task<IEnumerable<MemeLikeDto>> GetMemesLikedByUser(int userId);
         Task<IEnumerable<MemeLikeDto>> GetMemeLikes2(int id);
     }

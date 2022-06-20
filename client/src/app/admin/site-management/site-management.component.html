@@ -24,9 +24,15 @@
     <div class="col-6">
         <h3>Dodaj dział</h3>
         <form [formGroup]='divisionForm' (ngSubmit)="divisionForm.valid && addDivision()" class="text-center column">
+            <div class="mt-2">
+                <input type="radio" id="false" name="isCloseDivision" value="0" class="mr-1" formControlName="isCloseDivision" checked>
+                <label for="0" class="mr-2">Otwarty</label>
+                <input type="radio" id="true" name="isCloseDivision" value="1" formControlName="isCloseDivision" class="mr-1">
+                <label for="1" class="mr-2">+18</label>
+            </div>
             <div>
                 <input type="text" [formControl]='divisionForm.controls["name"]' placeholder="Wpisz nazwę działu" class="col-7" />
-                <button class="btn btn-success ml-2 col-2" type="submit" [disabled]="!divisionForm.valid">Dodaj dział</button>
+                <button class="btn btn-success ml-2 col-3" type="submit" [disabled]="!divisionForm.valid">Dodaj dział</button>
             </div>
             <div *ngIf="divisionForm.controls['name'].errors?.maxlength" class="text-danger">
                 Komentarz zbyt długi
@@ -36,7 +42,7 @@
     <div class="col-6">
         <h3>Obecne działy</h3>
         <div *ngFor="let division of divisions">
-            {{division.name}}
+            {{division.name}} | <span *ngIf="division.isCloseDivision === true" style="color: red;">Zamknięty</span><span *ngIf="division.isCloseDivision !== true" style="color: rgb(28, 206, 28);">Otwarty</span>
         </div>
     </div>
 </div>

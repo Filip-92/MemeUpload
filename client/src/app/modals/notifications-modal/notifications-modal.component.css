@@ -1,0 +1,8 @@
+.notification {
+    border-top: 1px solid whitesmoke;
+    border-bottom: 1px solid whitesmoke;
+}
+
+img {
+    max-height: 70px;
+}

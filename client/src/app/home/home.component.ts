@@ -36,7 +36,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsers();
-    // this.addWatermark();
   }
 
   getUsers() {
@@ -65,4 +64,6 @@ export class HomeComponent implements OnInit {
         this.waterMarkImage.nativeElement.src = img.src;
       });
   }
+
+
 }

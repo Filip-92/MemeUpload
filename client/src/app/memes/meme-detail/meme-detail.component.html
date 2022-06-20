@@ -4,6 +4,7 @@
             <h4 class="card-title text-center mb-4 mt-3"> 
                 {{meme?.title || 'Jakieś gówno'}}
             </h4>
+            {{meme.id}}
             <p>{{changeTimeZone(meme?.uploaded) | timeago}}</p>
             <div *ngIf="meme?.url?.includes('youtube')">
                 <iframe width="600" height="400" [src]="trustedUrl | safe"></iframe>
@@ -13,9 +14,9 @@
         </div>
         <div class="mb-3">
             <span class="inline-block">autor: <a class="nav-link" routerLink='/members/{{meme?.username}}'>{{meme?.username}}</a></span>
-            <button (click)="addLike()" class="btn btn-success mr-2"><i class="fa fa-plus"></i></button>
+            <button (click)="addLike(meme)" [disabled]="disliked" class="btn btn-success mr-2" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-plus"></i></button>
             <span class="btn btn-primary mr-2" style="min-width: 100px;">{{meme?.numberOfLikes}}</span>
-            <button (click)="removeLike()" class="btn btn-danger"><i class="fa fa-minus"></i></button>
+            <button (click)="addDislike(meme)" [disabled]="liked" class="btn btn-danger" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-minus"></i></button>
         </div>
     </div>
     <div *ngIf="comments?.length > 0" class="text-left mt-3 mb-2 ml-3">

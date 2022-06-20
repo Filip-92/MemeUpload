@@ -43,6 +43,21 @@ namespace API.Data
         //     return await PagedList<MemeLikeDto>.CreateAsync(likedMemes, 
         //         likesParams.PageNumber, likesParams.PageSize);
         // }
+        public async Task<IEnumerable<MemeLikeDto>> GetUserLikes(int userId)
+        {
+            // var users = _context.Users.OrderBy(u => u.UserName).AsQueryable();
+            // var likes = _context.MemeLikes.AsQueryable();
+
+             return await _context.MemeLikes
+                .IgnoreQueryFilters()
+                .Where(m => m.SourceUserId == userId)
+                .Select(u => new MemeLikeDto
+                {
+                    SourceUserId = u.SourceUserId,
+                    LikedMemeId = u.LikedMemeId,
+                    Disliked = u.Disliked
+                }).ToListAsync();
+        }
         public async Task<IEnumerable<MemeLikeDto>> GetMemesLikedByUser(int userId)
         {
             return await _context.MemeLikes
@@ -51,7 +66,8 @@ namespace API.Data
             .Select(u => new MemeLikeDto
                 {
                     SourceUserId = u.SourceUserId,
-                    LikedMemeId = u.LikedMemeId
+                    LikedMemeId = u.LikedMemeId,
+                    Disliked = u.Disliked
             }).ToListAsync();
         }
 

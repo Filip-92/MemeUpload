@@ -21,5 +21,6 @@ namespace API.Interfaces
         Task<UserDto> GetUserNumberOfLikes(int userId);
         Task<PagedList<MemberDto>> SearchForMembers(UserParams userParams, string searchString);
         Task<IEnumerable<ContactFormDto>> GetContactFormMessages();
+        Task<IEnumerable<NotificationDto>> GetNotifications(int id);
     }
 }

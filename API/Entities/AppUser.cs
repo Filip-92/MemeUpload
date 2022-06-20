@@ -19,6 +19,8 @@ namespace API.Entities
             Messages = new List<ContactForm>();
             Responses = new List<CommentResponses>();
             Divisions = new List<Division>();
+            LikedMemes = new List<MemeLike>();
+            Notifications = new List<Notifications>();
         }
         public DateTime DateOfBirth { get; set; }
         public DateTime Created { get; set; } = DateTime.Now;
@@ -33,6 +35,7 @@ namespace API.Entities
         public ICollection<UserLike> LikedByUsers { get; set; }
         public ICollection<UserLike> LikedUsers { get; set; }
         public ICollection<MemeLike> LikedMemes { get; set; }
+        public ICollection<Notifications> Notifications { get; set; }
         public int NumberOfLikes { get; set; } = 0;
         public ICollection<Message> MessagesSent { get; set; }
         public ICollection<Message> MessagesReceived { get; set; }
