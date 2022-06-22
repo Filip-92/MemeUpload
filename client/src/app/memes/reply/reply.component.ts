@@ -29,4 +29,10 @@ export class ReplyComponent implements OnInit {
     })
   }
 
+  removeReply(replyId: number) {
+    this.memeService.removeReply(replyId).subscribe(reply => {
+      this.reply.id = replyId
+    });
+  }
+
 }

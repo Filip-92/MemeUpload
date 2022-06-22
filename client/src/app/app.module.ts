@@ -70,6 +70,7 @@ import { AdminMemeViewComponent } from './modals/admin-meme-view/admin-meme-view
 import { ReplyComponent } from './memes/reply/reply.component';
 import { SiteManagementComponent } from './admin/site-management/site-management.component';
 import { NotificationsModalComponent } from './modals/notifications-modal/notifications-modal.component';
+import { FavouriteComponent } from './memes/favourite/favourite.component';
 
 @NgModule({
   declarations: [
@@ -123,6 +124,7 @@ import { NotificationsModalComponent } from './modals/notifications-modal/notifi
     ReplyComponent,
     SiteManagementComponent,
     NotificationsModalComponent,
+    FavouriteComponent,
   ],
   imports: [
     BrowserModule,

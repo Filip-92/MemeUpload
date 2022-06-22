@@ -214,6 +214,8 @@ namespace API.Controllers
 
             var memes = await _unitOfWork.MemeRepository.GetMemeById(commentDto.MemeId);
 
+            var notifiedUser = await _unitOfWork.UserRepository.GetUserByMemeId(commentDto.MemeId);
+
             var comment = new Comments
             {
                 Content = commentDto.Content,
@@ -226,10 +228,32 @@ namespace API.Controllers
 
             if (await _unitOfWork.Complete())
             {
+                await SendNotification(commentDto.MemeId, notifiedUser);
                 return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<CommentDto>(comment));
             }
 
             return BadRequest("Problem adding comment: " + commentDto.Content + " " + user + " " + commentDto.MemeId);
+        }
+
+        public async Task<ActionResult<NotificationDto>> SendNotification(int memeId, AppUser user)
+        {
+            BadRequest(user);
+
+            var notification = new Notifications
+            {
+                Content = "Pojawił się nowy komentarz pod Twoim memem",
+                MemeId = memeId,
+                AppUserId = user.Id
+            };
+
+            user.Notifications.Add(notification);
+
+            if (await _unitOfWork.Complete())
+            {
+                return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<NotificationDto>(notification));
+            }
+
+            return BadRequest("Problem z wysłaniem powiadomienia");
         }
 
         [HttpGet("get-comments/{memeId}")]
@@ -315,6 +339,20 @@ namespace API.Controllers
             return Ok(replies);
         }
 
+        [HttpPost("remove-reply/{replyId}")]
+        public async Task<ActionResult> RemoveReply(int replyId)
+        {
+            var reply = await _unitOfWork.MemeRepository.GetReplyById(replyId);
+
+            if (reply == null) return NotFound("Nie można znaleźć odpowiedzi");
+
+            _unitOfWork.MemeRepository.RemoveReply(reply);
+
+            await _unitOfWork.Complete();
+
+            return Ok();
+        }
+
         [HttpGet("get-user-photo/{userId}")]
         [AllowAnonymous]
         public async Task<ActionResult<PhotoDto>> GetPhoto(int userId)
@@ -392,7 +430,7 @@ namespace API.Controllers
 
             if (likedMeme == null) return NotFound();
 
-            if (likedMeme.AppUserId == sourceUserId) return BadRequest("You cannot like your meme");
+            if (likedMeme.AppUserId == sourceUserId) return BadRequest("Nie możesz polubić własnego mema!");
 
             var userLike = await _unitOfWork.MemeLikesRepository.GetMemeLike(sourceUserId, likedMeme.Id);
 
@@ -428,7 +466,7 @@ namespace API.Controllers
 
             if (likedMeme == null) return NotFound();
 
-            if (likedMeme.AppUserId == sourceUserId) return BadRequest("You cannot dislike your meme");
+            if (likedMeme.AppUserId == sourceUserId) return BadRequest("Nie możesz zminusować własnego mema!");
 
             var userLike = await _unitOfWork.MemeLikesRepository.GetMemeLike(sourceUserId, likedMeme.Id);
 
@@ -469,6 +507,152 @@ namespace API.Controllers
         public async Task<ActionResult<IEnumerable<MemeLikeDto>>> GetMemesLikedByUser(int userId)
         {
             var memes = await _unitOfWork.MemeLikesRepository.GetMemesLikedByUser(userId);
+
+            return Ok(memes);
+        }
+
+        [HttpPost("add-meme-to-favourite/{memeId}")]
+        public async Task<ActionResult> AddMemeToFavourite(int memeId)
+        {
+            var sourceUserId = User.GetUserId();
+            var favouriteMeme = await _unitOfWork.MemeRepository.GetMemeById(memeId);
+            var sourceUser = await _unitOfWork.LikesRepository.GetUserWithLikes(sourceUserId);
+
+            if (favouriteMeme == null) return NotFound();
+
+            var userLike = await _unitOfWork.MemeLikesRepository.GetFavourites(sourceUserId, favouriteMeme.Id);
+
+            if (userLike != null)
+            {
+                sourceUser.Favourites.Remove(userLike);
+            }
+            else if (userLike == null)
+            {
+                userLike = new Favourite
+                {
+                    SourceUserId = sourceUserId,
+                    MemeId = favouriteMeme.Id,
+                    FavouriteMeme = favouriteMeme
+                };
+
+                sourceUser.Favourites.Add(userLike);
+            }
+
+            if (await _unitOfWork.Complete()) return Ok();
+
+            return BadRequest("Nie można dodać do ulubionych");
+        }
+
+        [HttpGet("get-user-favourites/{username}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<FavouriteDto>>> GetUserFavourites(string username)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
+
+            var memes = await _unitOfWork.MemeLikesRepository.GetUserFavourites(user.Id);
+
+            var fav = new List<int>();
+
+            // foreach (var meme in memes)
+            // {
+            //     fav.Append(meme.MemeId);
+            // }
+
+            // var favouriteMemes = await _unitOfWork.MemeLikesRepository.GetMemesList(fav);
+
+            return Ok(memes);
+        }
+
+        [HttpGet("get-number-of-comments/{memeId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult> GetNumberOfComments(int memeId)
+        {
+            var comments = await _unitOfWork.MemeRepository.GetComments(memeId);
+            
+            var replies = await _unitOfWork.MemeRepository.GetMemeReplies(memeId);
+
+            return Ok(comments.Count() + replies.Count());
+        }
+
+        [HttpPost("add-comment-like/{commentId}")]
+        public async Task<ActionResult> AddCommentLike(int commentId)
+        {
+            var sourceUserId = User.GetUserId();
+            var likedComment = await _unitOfWork.MemeRepository.GetCommentById(commentId);
+            var sourceUser = await _unitOfWork.LikesRepository.GetUserWithLikes(sourceUserId);
+
+            if (likedComment == null) return NotFound();
+
+            if (likedComment.AppUserId == sourceUserId) return BadRequest("Nie możesz polubić własnego komentarza!");
+
+            var userLike = await _unitOfWork.MemeLikesRepository.GetCommentLikes(sourceUserId, likedComment.Id);
+
+            if (userLike != null)
+            {
+                sourceUser.LikedComments.Remove(userLike);
+                likedComment.NumberOfLikes--;
+            }
+            else if (userLike == null)
+            {
+                userLike = new CommentLike
+                {
+                    SourceUserId = sourceUserId,
+                    LikedCommentId = likedComment.Id,
+                    MemeId = likedComment.MemeId,
+                    Disliked = false
+                };
+
+                sourceUser.LikedComments.Add(userLike);
+                likedComment.NumberOfLikes++;
+            }
+
+            if (await _unitOfWork.Complete()) return Ok();
+
+            return BadRequest("Failed to like meme");
+        }
+
+        [HttpPost("add-comment-dislike/{commentId}")]
+        public async Task<ActionResult> AddCommentDislike(int commentId)
+        {
+            var sourceUserId = User.GetUserId();
+            var likedComment = await _unitOfWork.MemeRepository.GetCommentById(commentId);
+            var sourceUser = await _unitOfWork.LikesRepository.GetUserWithLikes(sourceUserId);
+
+            if (likedComment == null) return NotFound();
+
+            if (likedComment.AppUserId == sourceUserId) return BadRequest("Nie możesz zminusować własnego komentarza!");
+
+            var userLike = await _unitOfWork.MemeLikesRepository.GetCommentLikes(sourceUserId, likedComment.Id);
+
+            if (userLike != null)
+            {
+                sourceUser.LikedComments.Remove(userLike);
+                likedComment.NumberOfLikes++;
+            }
+            else if (userLike == null)
+            {
+                userLike = new CommentLike
+                {
+                    SourceUserId = sourceUserId,
+                    LikedCommentId = likedComment.Id,
+                    MemeId = likedComment.MemeId,
+                    Disliked = true
+                };
+
+                sourceUser.LikedComments.Add(userLike);
+                likedComment.NumberOfLikes--;
+            }
+
+            if (await _unitOfWork.Complete()) return Ok();
+
+            return BadRequest("Failed to like meme");
+        }
+
+        [HttpGet("comment-likes")]
+        public async Task<ActionResult<IEnumerable<CommentLikeDto>>> GetCommentLikes()
+        {
+            var userId = User.GetUserId();
+            var memes = await _unitOfWork.MemeLikesRepository.GetCommentLikes(userId);
 
             return Ok(memes);
         }

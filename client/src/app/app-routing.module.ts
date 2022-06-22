@@ -23,6 +23,7 @@ import { MemeRandomComponent } from './memes/meme-random/meme-random.component';
 import { MemeListComponent } from './memes/meme-list/meme-list.component';
 import { MemeSearchComponent } from './memes/meme-search/meme-search.component';
 import { DivisionViewComponent } from './memes/division-view/division-view.component';
+import { FavouriteComponent } from './memes/favourite/favourite.component'
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -31,6 +32,7 @@ const routes: Routes = [
     runGuardsAndResolvers: 'always',
     canActivate: [AuthGuard],
     children: [
+      {path: 'ulubione', component: FavouriteComponent},
       {path: 'memes/szukaj/:search', component: MemeSearchComponent},
       {path: 'szukaj/uzytkownicy', component: MemeSearchComponent},
       {path: 'szukaj/memes', component: MemeSearchComponent},

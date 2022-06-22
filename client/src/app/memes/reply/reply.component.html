@@ -8,7 +8,7 @@
             <span>
                 <td style="width: 60%;">{{reply.content}}</td>
             </span>
-            <td style="width: 10%" *ngIf="reply.username === user.username"><button class="btn btn-danger" (click)="removeComment(reply.id)">Usuń</button></td>
+            <td style="width: 10%" *ngIf="reply.username === user.username"><button class="btn btn-danger" (click)="removeReply(reply.id)">Usuń</button></td>
         </table>
     </div>
 </div>

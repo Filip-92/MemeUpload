@@ -176,6 +176,26 @@ getMainMemes(page?: number, itemsPerPage?: number) {
     return this.http.get<Partial<Meme[]>>(this.baseUrl + 'memes/likes', {});
   }
 
+  addFavourite(memeId: number) {
+    return this.http.post(this.baseUrl + 'memes/add-meme-to-favourite/' + memeId, {});
+  }
+
+  getFavourites(username: string) {
+    return this.http.get<Partial<Meme[]>>(this.baseUrl + 'memes/get-user-favourites/' + username, {});
+  }
+
+  addCommentLike(commentId: number) {
+    return this.http.post(this.baseUrl + 'memes/add-comment-like/' + commentId, {});
+  }
+
+  addCommentDislike(commentId: number) {
+    return this.http.post(this.baseUrl + 'memes/add-comment-dislike/' + commentId, {});
+  }
+
+  getCommentLikes() {
+    return this.http.get<Partial<Comment[]>>(this.baseUrl + 'memes/comment-likes', {});
+  }
+
   removeMeme(memeId: number) {
     return this.http.post(this.baseUrl + 'memes/remove-meme/' + memeId, {});
   }
@@ -206,6 +226,10 @@ getMainMemes(page?: number, itemsPerPage?: number) {
 
   getReplies(commentId: number) {   
     return this.http.get<Reply[]>(this.baseUrl + 'memes/get-replies/' + commentId);
+  }
+
+  removeReply(replyId: number) {
+    return this.http.post(this.baseUrl + 'memes/remove-reply/' + replyId, {});
   }
 
   getUserPhoto(username: string) {
@@ -240,5 +264,9 @@ getMainMemes(page?: number, itemsPerPage?: number) {
 
   getDivisionIdByName(divisionName: string) {
     return this.http.get<Division>(this.baseUrl + 'memes/get-division-id-by-name/' + divisionName);
+  }
+
+  getNumberOfComments(memeId: number) {
+    return this.http.get<number>(this.baseUrl + 'memes/get-number-of-comments/' + memeId, {});
   }
 }

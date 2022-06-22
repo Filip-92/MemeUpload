@@ -1,4 +1,5 @@
 export interface Comment {
+    [x: string]: any;
     id: number;
     url: string;
     content: string;

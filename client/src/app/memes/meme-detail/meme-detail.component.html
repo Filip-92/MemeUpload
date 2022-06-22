@@ -4,7 +4,6 @@
             <h4 class="card-title text-center mb-4 mt-3"> 
                 {{meme?.title || 'Jakieś gówno'}}
             </h4>
-            {{meme.id}}
             <p>{{changeTimeZone(meme?.uploaded) | timeago}}</p>
             <div *ngIf="meme?.url?.includes('youtube')">
                 <iframe width="600" height="400" [src]="trustedUrl | safe"></iframe>
@@ -20,7 +19,7 @@
         </div>
     </div>
     <div *ngIf="comments?.length > 0" class="text-left mt-3 mb-2 ml-3">
-        Komentarze: {{ comments?.length }}
+        Komentarze: {{ numberOfComments }}
     </div>
 </div>
 
@@ -28,7 +27,8 @@
     <form [formGroup]='commentForm' (ngSubmit)="commentForm.valid && addComment()" class="text-center column">
         <div>
             <textarea type="text" [formControl]='commentForm.controls["content"]' placeholder="Wpisz treść komentarza" class="col-7"></textarea>
-            <button class="btn btn-success ml-2 col-2" type="submit" [disabled]="!commentForm.valid" style="margin-bottom: 40px;">Dodaj komentarz</button>
+            <button class="btn btn-warning" style="margin-bottom: 40px;"><i class="fa fa-paperclip" aria-hidden="true"></i></button>
+            <button class="btn btn-success col-2" type="submit" [disabled]="!commentForm.valid" style="margin-bottom: 40px;">Dodaj komentarz</button>
         </div>
         <div *ngIf="commentForm.controls['content'].errors?.maxlength" class="text-danger">
             Komentarz zbyt długi

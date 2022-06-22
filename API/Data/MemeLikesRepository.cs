@@ -23,26 +23,6 @@ namespace API.Data
             return await _context.MemeLikes.FindAsync(sourceUserId, likedMemeId);
         }
 
-        // public async Task<PagedList<MemeLikeDto>> GetUserLikes(MemeLikesParams likesParams)
-        // {
-        //     var users = _context.Users.OrderBy(u => u.UserName).AsQueryable();
-        //     var likes = _context.MemeLikes.AsQueryable();
-
-        //     if (likesParams.Predicate == "liked")
-        //     {
-        //         likes = likes.Where(like => like.SourceUserId == likesParams.UserId);
-        //         users = likes.Select(like => like.LikedUser);
-        //     }
-
-        //     var likedMemes = users.Select(meme => new MemeLikeDto
-        //     {
-        //         Username = meme.UserName,
-        //         Id = meme.Id
-        //     });
-
-        //     return await PagedList<MemeLikeDto>.CreateAsync(likedMemes, 
-        //         likesParams.PageNumber, likesParams.PageSize);
-        // }
         public async Task<IEnumerable<MemeLikeDto>> GetUserLikes(int userId)
         {
             // var users = _context.Users.OrderBy(u => u.UserName).AsQueryable();
@@ -87,6 +67,61 @@ namespace API.Data
                 {
                     SourceUserId = u.SourceUserId,
                     LikedMemeId = u.LikedMemeId
+                }).ToListAsync();
+        }
+
+        public async Task<Favourite> GetFavourites(int sourceUserId, int favouriteMemeId)
+        {
+            return await _context.Favourites.FindAsync(sourceUserId, favouriteMemeId);
+        }
+
+        public async Task<IEnumerable<FavouriteDto>> GetUserFavourites(int userId)
+        {
+            return await _context.Favourites
+            .IgnoreQueryFilters()
+            .Where(m => m.SourceUserId == userId)
+            .Select(u => new FavouriteDto
+                {
+                    SourceUserId = u.SourceUserId,
+                    MemeId = u.MemeId
+            }).ToListAsync();
+        }
+
+        public async Task<IEnumerable<MemeDto>> GetMemesList(List<int> memeIds)
+        {
+                return await _context.Memes
+                .IgnoreQueryFilters()
+                .Where(m => m.Id == memeIds[0])
+                .Select(u => new MemeDto
+                {
+                    Id = u.Id,
+                    Username = u.AppUser.UserName,
+                    Url = u.Url,
+                    Title = u.Title,
+                    Description = u.Description,
+                    Uploaded = u.Uploaded,
+                    NumberOfLikes = u.NumberOfLikes
+                }).ToListAsync();
+        }
+
+        public async Task<CommentLike> GetCommentLikes(int sourceUserId, int commentId)
+        {
+            return await _context.CommentLikes.FindAsync(sourceUserId, commentId);
+        }
+
+        public async Task<IEnumerable<CommentLikeDto>> GetCommentLikes(int userId)
+        {
+            // var users = _context.Users.OrderBy(u => u.UserName).AsQueryable();
+            // var likes = _context.MemeLikes.AsQueryable();
+
+             return await _context.CommentLikes
+                .IgnoreQueryFilters()
+                .Where(m => m.SourceUserId == userId)
+                .Select(u => new CommentLikeDto
+                {
+                    SourceUserId = u.SourceUserId,
+                    LikedCommentId = u.LikedCommentId,
+                    Disliked = u.Disliked
                 }).ToListAsync();
         }
     }

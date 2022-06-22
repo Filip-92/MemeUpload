@@ -13,7 +13,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { HelperService } from 'src/app/_services/helper.service';
 import { AccountService } from 'src/app/_services/account.service';
 import { take } from 'rxjs/operators';
-import * as watermark from 'watermarkjs';
+import { Reply } from 'src/app/_models/reply';
 
 @Pipe({ name: 'safe' })
 export class SafePipe implements PipeTransform {
@@ -44,7 +44,11 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   baseUrl = 'https://localhost:4200/';
   liked: boolean;
   disliked: boolean;
+  favourite: boolean;
   likedMemes: Meme[];
+  favouriteMemes: Meme[];
+  comments: number;
+  replies: Reply[];
 
   constructor(private memberService: MembersService, private toastr: ToastrService, 
     public presence: PresenceService, private memeService: MemeService, private http: HttpClient,
@@ -58,8 +62,8 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   ngOnInit(): void {
     this.getUsers();
     // temporary solution for incorrect timezone
-    var newTime = Number(this.meme.uploaded.substring(11,13)) - 2;
-    this.meme.uploaded = this.meme.uploaded.replace((this.meme.uploaded.substring(11,14)), newTime.toString() + ":");
+    var newTime = Number(this.meme?.uploaded?.substring(11,13)) - 2;
+    this.meme.uploaded = this.meme?.uploaded?.replace((this.meme?.uploaded?.substring(11,14)), newTime.toString() + ":");
     this.loadLikes();
     if(this.user === null) {
       this.liked = false;
@@ -68,14 +72,11 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     if(this.meme?.url?.includes("youtube")) {
       this.trustedUrl = this.formatYoutubeLink(this.meme?.url);
     }
-    //this.addImageWatermark("https://res.cloudinary.com/duj1ftjtp/image/upload/hcq1ymvalfdscq1m1i32.jpg");
+    this.getNumberOfComments(this.meme.id); //oddzielna funkcja dla komentarzy i odpowiedzi
+    this.getFavouriteMemes(this.user.username);
   }
   
   addLike(meme: Meme) {
-    // if (meme.disliked === true) {
-    //   this.memeService.addDislike(meme.id).subscribe(() => {
-    //     this.disliked = !this.disliked;
-    //   })
       this.memeService.addLike(meme.id).subscribe(() => {
         this.liked = !this.liked;
       if(this.liked) {
@@ -86,25 +87,9 @@ export class MemeCardComponent implements OnInit, PipeTransform {
         this.liked = false;
       }
     })
-    // } else {
-    //   this.memeService.addLike(meme.id).subscribe(() => {
-    //     this.liked = !this.liked;
-    //   if(this.liked) {
-    //     this.meme.numberOfLikes++;
-    //     this.liked = true;
-    //   } else {
-    //     this.meme.numberOfLikes--;
-    //     this.liked = false;
-    //   }
-    // })
-    // }
   }
 
   addDislike(meme: Meme) {
-    // if (meme.disliked !== true) {
-    //   this.memeService.addLike(meme.id).subscribe(() => {
-    //     this.liked = !this.liked;
-    //   })
       this.memeService.addDislike(meme.id).subscribe(() => {
         this.disliked = !this.disliked;
       if(this.disliked) {
@@ -116,19 +101,6 @@ export class MemeCardComponent implements OnInit, PipeTransform {
         this.disliked = false;
       }
     })
-  // } else {
-  //   this.memeService.addDislike(meme.id).subscribe(() => {
-  //     this.disliked = !this.disliked;
-  //   if(this.disliked) {
-  //     this.meme.numberOfLikes--;
-  //     this.disliked = true;
-  //     this.liked = false;
-  //   } else {
-  //     this.meme.numberOfLikes++;
-  //     this.disliked = false;
-  //   }
-  // })
-  // }
   }
 
   loadLikes() {
@@ -155,6 +127,17 @@ export class MemeCardComponent implements OnInit, PipeTransform {
       this.disliked = !this.disliked;
     }
   }
+
+  addFavourite(meme: Meme) {
+    this.memeService.addFavourite(meme.id).subscribe(() => {
+      this.favourite = !this.favourite;
+    if(this.favourite) {
+      this.favourite = true;
+    } else {
+      this.favourite = false;
+    }
+  })
+}
 
   getUsers() {
     this.http.get('https://localhost:5001/api/users').subscribe(response => {
@@ -191,5 +174,41 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   addImageWatermark(imageUrl: string) {
     var watermarkedUrl = imageUrl.replace("/upload/", "/upload/l_logo_gimp_-_new_ucilaf,o_50,w_0.4,c_scale,g_south_east/")
     return watermarkedUrl;
+  }
+
+  // getComments(memeId: number) {
+  //   this.memeService.getComments(memeId).subscribe(comments => {
+  //     this.comments = comments;
+  //   });
+  // }
+
+  // getReplies(commentId: number) {
+  //   this.memeService.getReplies(commentId).subscribe(replies => {
+  //     this.replies = replies;
+  //   });
+  // }
+  getNumberOfComments(memeId: number) {
+    this.memeService.getNumberOfComments(memeId).subscribe(comments => {
+      this.comments = comments;
+    });
+  }
+
+  getFavouriteMemes(username: string) {
+    this.memeService.getFavourites(username).subscribe(response => {
+      this.favouriteMemes = response;
+      console.log(this.favouriteMemes);
+      if (this.favouriteMemes?.length > 0) {
+        for (var meme of this.favouriteMemes) {
+          this.checkIfMemeFavourite(meme.memeId);
+        }
+      }
+    });
+  }
+
+  checkIfMemeFavourite(id: number) {
+    console.log(id);
+    if (id === this.meme.id) {
+      this.favourite = !this.favourite;
+    }
   }
 }

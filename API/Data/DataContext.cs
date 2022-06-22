@@ -27,6 +27,9 @@ namespace API.Data
         public DbSet<ContactForm> ContactForm { get; set; }
         public DbSet<Division> Divisions { get; set; }
         public DbSet<Notifications> Notifications { get; set; }
+        public DbSet<CommentLike> CommentLikes { get; set;}
+        public DbSet<ReplyLike> ReplyLikes { get; set; }
+        public DbSet<Favourite> Favourites { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Connection> Connections { get; set; }
 
@@ -95,6 +98,30 @@ namespace API.Data
             builder.Entity<Division>();
 
             builder.Entity<Notifications>();
+
+            builder.Entity<CommentLike>()
+                .HasKey(k => new { k.SourceUserId, k.LikedCommentId });
+
+            builder.Entity<CommentLike>()
+                .HasOne(s => s.SourceUser)
+                .WithMany(l => l.LikedComments)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ReplyLike>()
+                .HasKey(k => new { k.SourceUserId, k.LikedReplyId });
+
+            builder.Entity<ReplyLike>()
+                .HasOne(s => s.SourceUser)
+                .WithMany(l => l.LikedReplies)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Favourite>()
+                .HasKey(k => new { k.SourceUserId, k.MemeId });
+
+            builder.Entity<Favourite>()
+                .HasOne(s => s.SourceUser)
+                .WithMany(l => l.Favourites)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.ApplyUtcDateTimeConverter();
         }

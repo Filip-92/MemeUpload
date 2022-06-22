@@ -4,8 +4,11 @@
         <td style="width: 5%;"><a routerLink='/members/{{comment.username}}'>{{comment.username}}</a></td>
         <td style="width: 15%;">{{comment.uploaded | timeago}}</td>
         <span>
-            <td style="width: 60%;">{{comment.content}}</td>
+            <td style="width: 50%;">{{comment.content}}</td>
         </span>
+        <td style="width: 3%;"><button id="like" [disabled]="disliked" (click)="addLike(comment)"><i class="fa fa-plus" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'green' }"></i></button></td>
+        <td style="width: 3%;">{{comment.numberOfLikes}}</td>
+        <td style="width: 3%;"><button id="like" [disabled]="liked" (click)="addDislike(comment)"><i class="fa fa-minus" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red' }"></i></button></td>
         <td style="width: 10%" *ngIf="comment.username === user.username"><button class="btn btn-danger" (click)="removeComment(comment.id)">Usuń</button></td>
     </table>
     <i class="fa fa-reply ml-3 mb-1" (click)="addReply(comment.id)"> Odpowiedz</i>

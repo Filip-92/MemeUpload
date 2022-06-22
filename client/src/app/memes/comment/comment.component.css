@@ -11,6 +11,14 @@ i {
     cursor: pointer;
 }
 
+i:hover {
+    color: red;
+}
+
+#like {
+    background-color: black !important;
+}
+
 img {
     max-height: 50px;
 }

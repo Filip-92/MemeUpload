@@ -23,7 +23,7 @@ export class MemeDetailComponent implements OnInit {
   users: any;
   id: number = +this.route.snapshot.paramMap.get('id');
   likes: number = 0;
-
+  numberOfComments: number;
   pagination: Pagination;
   pageNumber = 1;
   pageSize = 5;
@@ -47,6 +47,7 @@ export class MemeDetailComponent implements OnInit {
     this.getMeme(this.id);
     this.getComments(this.id);
     this.loadLikes();
+    this.getNumberOfComments(this.id);
   }
 
   getMeme(memeId: number) {
@@ -155,6 +156,12 @@ export class MemeDetailComponent implements OnInit {
   addImageWatermark(imageUrl: string) {
     var watermarkedUrl = imageUrl.replace("/upload/", "/upload/l_logo_gimp_-_new_ucilaf,o_50,w_200,c_scale,g_south_east/")
     return watermarkedUrl;
+  }
+
+  getNumberOfComments(memeId: number) {
+    this.memeService.getNumberOfComments(memeId).subscribe(comments => {
+      this.numberOfComments = comments;
+    });
   }
 
 }

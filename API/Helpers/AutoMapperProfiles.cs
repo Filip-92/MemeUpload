@@ -27,6 +27,9 @@ namespace API.Helpers
             CreateMap<ContactForm, ContactFormDto>();
             CreateMap<Division, DivisionDto>();
             CreateMap<Notifications, NotificationDto>();
+            CreateMap<CommentLike, CommentLikeDto>();
+            CreateMap<ReplyLike, ReplyLikeDto>();
+            CreateMap<Favourite, FavouriteDto>();
             CreateMap<MemberUpdateDto, AppUser>();
             CreateMap<RegisterDto, AppUser>();
             CreateMap<Message, MessageDto>()
