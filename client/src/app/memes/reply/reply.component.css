@@ -2,3 +2,23 @@ table {
     background-color: rgb(95, 94, 94);
     word-wrap:break-word !important;
 }
+
+img {
+    max-height: 50px;
+}
+
+#reply {
+    background-color: rgb(95, 94, 94);
+}
+
+i {
+    cursor: pointer;
+}
+
+i:hover {
+    color: red;
+}
+
+#like {
+    background-color: black !important;
+}

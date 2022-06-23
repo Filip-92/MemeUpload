@@ -18,5 +18,7 @@ namespace API.Interfaces
         Task<IEnumerable<MemeDto>> GetMemesList(List<int> memeIds);
         Task<CommentLike> GetCommentLikes(int sourceUserId, int commentId);
         Task<IEnumerable<CommentLikeDto>> GetCommentLikes(int userId);
+        Task<ReplyLike> GetReplyLikes(int sourceUserId, int replyId);
+        Task<IEnumerable<ReplyLikeDto>> GetReplyLikes(int userId);
     }
 } 

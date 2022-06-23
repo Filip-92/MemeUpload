@@ -196,6 +196,18 @@ getMainMemes(page?: number, itemsPerPage?: number) {
     return this.http.get<Partial<Comment[]>>(this.baseUrl + 'memes/comment-likes', {});
   }
 
+  addReplyLike(replyId: number) {
+    return this.http.post(this.baseUrl + 'memes/add-reply-like/' + replyId, {});
+  }
+
+  addReplyDislike(replyId: number) {
+    return this.http.post(this.baseUrl + 'memes/add-reply-dislike/' + replyId, {});
+  }
+
+  getReplyLikes() {
+    return this.http.get<Partial<Reply[]>>(this.baseUrl + 'memes/reply-likes', {});
+  }
+
   removeMeme(memeId: number) {
     return this.http.post(this.baseUrl + 'memes/remove-meme/' + memeId, {});
   }

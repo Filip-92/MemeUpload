@@ -342,8 +342,7 @@ namespace API.Data
                     Content = u.Content,
                     Uploaded = u.Uploaded,
                     NumberOfLikes = u.NumberOfLikes
-                }).OrderByDescending(u => u.Id)
-                .ToListAsync();
+                }).ToListAsync();
         }
 
         public async Task<IEnumerable<CommentResponseDto>> GetMemeReplies(int id)
@@ -361,8 +360,7 @@ namespace API.Data
                     Content = u.Content,
                     Uploaded = u.Uploaded,
                     NumberOfLikes = u.NumberOfLikes
-                }).OrderByDescending(u => u.Id)
-                .ToListAsync();
+                }).ToListAsync();
         }
 
         public async Task<CommentResponses> GetReplyById(int id)

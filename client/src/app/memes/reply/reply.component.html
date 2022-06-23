@@ -1,14 +1,30 @@
 <div class="row">
     <div class="col-1">|</div>
-    <div class="col-10">
+    <div id="reply" class="col-10 mb-2">
         <table class="table">
             <td style="width: 10%"><img src="{{url || '././assets/LogoImage.png'}}" alt=""></td> <!-- zjebane zdjęcie, do poprawy ale nie dzisiaj -->
             <td style="width: 5%;"><a routerLink='/members/{{reply.username}}'>{{reply.username}}</a></td>
             <td style="width: 15%;">{{reply.uploaded | timeago}}</td>
             <span>
-                <td style="width: 60%;">{{reply.content}}</td>
+                <td style="width: 51%;">{{reply.content}}</td>
             </span>
+            <td style="width: 3%;"><button id="like" [disabled]="disliked" (click)="addLike(reply)"><i class="fa fa-plus" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'green' }"></i></button></td>
+            <td style="width: 3%;">{{reply.numberOfLikes}}</td>
+            <td style="width: 3%;"><button id="like" [disabled]="liked" (click)="addDislike(reply)"><i class="fa fa-minus" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red' }"></i></button></td>
             <td style="width: 10%" *ngIf="reply.username === user.username"><button class="btn btn-danger" (click)="removeReply(reply.id)">Usuń</button></td>
         </table>
+        <i class="fa fa-reply ml-3 mb-1" (click)="addReply(reply.commentId)"> Odpowiedz</i>
     </div>
+</div>
+
+<div *ngIf="replyField">
+    <form [formGroup]='replyForm' (ngSubmit)="replyForm.valid && replyComment()" class="text-center column">
+        <div>
+            <textarea type="text" [formControl]='replyForm.controls["content"]' placeholder="Wpisz treść komentarza" class="col-7"></textarea>
+            <button class="btn btn-success ml-2 col-2" type="submit" [disabled]="!replyForm.valid" style="margin-bottom: 40px;">Dodaj komentarz</button>
+        </div>
+        <div *ngIf="replyForm.controls['content'].errors?.maxlength" class="text-danger">
+            Komentarz zbyt długi
+        </div>
+    </form>
 </div>

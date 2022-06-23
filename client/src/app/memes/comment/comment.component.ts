@@ -24,19 +24,10 @@ export class CommentComponent implements OnInit {
   replies: Reply[];
   liked: boolean;
   disliked: boolean;
-  // likedComments: Comment[] = {
-  //   id: 0,
-  //   url: '',
-  //   content: '',
-  //   uploaded: '',
-  //   username: '',
-  //   numberOfLikes: 0,
-  //   memeId: ''
-  // }
   likedComments: any;
 
   constructor(private memeService: MemeService, private accountService: AccountService,
-    private toastr: ToastrService, private fb: FormBuilder,) { 
+    private toastr: ToastrService, private fb: FormBuilder) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 

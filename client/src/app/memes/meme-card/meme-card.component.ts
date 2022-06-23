@@ -64,7 +64,6 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     // temporary solution for incorrect timezone
     var newTime = Number(this.meme?.uploaded?.substring(11,13)) - 2;
     this.meme.uploaded = this.meme?.uploaded?.replace((this.meme?.uploaded?.substring(11,14)), newTime.toString() + ":");
-    this.loadLikes();
     if(this.user === null) {
       this.liked = false;
       this.disliked = false;
@@ -72,8 +71,11 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     if(this.meme?.url?.includes("youtube")) {
       this.trustedUrl = this.formatYoutubeLink(this.meme?.url);
     }
-    this.getNumberOfComments(this.meme.id); //oddzielna funkcja dla komentarzy i odpowiedzi
-    this.getFavouriteMemes(this.user.username);
+    if(this.user !== null) {
+      this.getNumberOfComments(this.meme.id); //oddzielna funkcja dla komentarzy i odpowiedzi
+      this.getFavouriteMemes(this.user.username);
+      this.loadLikes();
+    }
   }
   
   addLike(meme: Meme) {
@@ -176,17 +178,6 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     return watermarkedUrl;
   }
 
-  // getComments(memeId: number) {
-  //   this.memeService.getComments(memeId).subscribe(comments => {
-  //     this.comments = comments;
-  //   });
-  // }
-
-  // getReplies(commentId: number) {
-  //   this.memeService.getReplies(commentId).subscribe(replies => {
-  //     this.replies = replies;
-  //   });
-  // }
   getNumberOfComments(memeId: number) {
     this.memeService.getNumberOfComments(memeId).subscribe(comments => {
       this.comments = comments;

@@ -111,9 +111,6 @@ namespace API.Data
 
         public async Task<IEnumerable<CommentLikeDto>> GetCommentLikes(int userId)
         {
-            // var users = _context.Users.OrderBy(u => u.UserName).AsQueryable();
-            // var likes = _context.MemeLikes.AsQueryable();
-
              return await _context.CommentLikes
                 .IgnoreQueryFilters()
                 .Where(m => m.SourceUserId == userId)
@@ -121,6 +118,24 @@ namespace API.Data
                 {
                     SourceUserId = u.SourceUserId,
                     LikedCommentId = u.LikedCommentId,
+                    Disliked = u.Disliked
+                }).ToListAsync();
+        }
+
+        public async Task<ReplyLike> GetReplyLikes(int sourceUserId, int replyId)
+        {
+            return await _context.ReplyLikes.FindAsync(sourceUserId, replyId);
+        }
+
+        public async Task<IEnumerable<ReplyLikeDto>> GetReplyLikes(int userId)
+        {
+             return await _context.ReplyLikes
+                .IgnoreQueryFilters()
+                .Where(m => m.SourceUserId == userId)
+                .Select(u => new ReplyLikeDto
+                {
+                    SourceUserId = u.SourceUserId,
+                    LikedReplyId = u.LikedReplyId,
                     Disliked = u.Disliked
                 }).ToListAsync();
         }
