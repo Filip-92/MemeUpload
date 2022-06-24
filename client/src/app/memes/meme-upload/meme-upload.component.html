@@ -114,12 +114,10 @@
                         Opis zbyt długi
                     </div>
                 </div>
-                <div *ngFor="let division of divisions" class="text-center mt-3">
-                    <select formControlName='division' id="division">
+                    <select formControlName='division' id="division" class="mt-2">
                         <option value='' disabled>Wybierz</option>
-                        <option value={{division.id}} selected>{{division.name}}</option>
+                        <option value={{division.id}} *ngFor="let division of divisions">{{division.name}}</option>
                     </select>   
-                </div>
             </form>
         </div>
 

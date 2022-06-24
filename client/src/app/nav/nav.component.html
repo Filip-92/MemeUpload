@@ -75,8 +75,17 @@
                     <br />
                     <br />
                     <h2>Działy:</h2>
-                    <div *ngFor="let division of divisions" class="text-center mt-3 division">
-                        <a routerLink="kategoria/{{division.name}}">{{division.name}}</a>
+                    <span style="color: rgb(49, 247, 49)" id="division">Otwarte</span>
+                    <div *ngFor="let division of divisions" class="text-center mt-1 division">
+                        <span *ngIf="division.isCloseDivision === false">
+                            <a routerLink="kategoria/{{replaceTitle(division.name)}}" (click)="reloadCurrentPage()" style="font-size: 14px !important;">{{division.name}}</a>
+                        </span>
+                    </div>
+                    <span style="color: rgb(255, 55, 55)" id="division">Zamknięte</span>
+                    <div *ngFor="let division of divisions" class="text-center mt-1 division">
+                        <span *ngIf="division.isCloseDivision === true">
+                            <a routerLink="kategoria/{{replaceTitle(division.name)}}" (click)="reloadCurrentPage()" style="font-size: 14px !important;">{{division.name}}</a>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -116,6 +125,15 @@
                             <i class="fa fa-clock-o mr-2"></i>Poczekalnia
                         </a>
                     </button>
+                    <br />
+                    <br />
+                    <h2>Działy:</h2>
+                    <span style="color: rgb(49, 247, 49)" id="division">Otwarte</span>
+                    <div *ngFor="let division of divisions" class="text-center mt-1 division">
+                        <span *ngIf="division.isCloseDivision === false">
+                            <a routerLink="kategoria/{{replaceTitle(division.name)}}" (click)="reloadCurrentPage()" style="font-size: 14px !important;">{{division.name}}</a>
+                        </span>
+                    </div>
             </div>
 
             </section>

@@ -9,6 +9,11 @@ import { Pagination } from 'src/app/_models/pagination';
 import { HelperService } from 'src/app/_services/helper.service';
 import { MemeService } from 'src/app/_services/meme.service';
 import { Location } from '@angular/common';
+import { FileUploader } from 'ng2-file-upload';
+import { environment } from 'src/environments/environment';
+import { AccountService } from 'src/app/_services/account.service';
+import { User } from 'src/app/_models/user';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-meme-detail',
@@ -33,11 +38,16 @@ export class MemeDetailComponent implements OnInit {
   liked: boolean;
   disliked: boolean;
   likedMemes: Meme[];
+  uploader: FileUploader;
+  baseUrl = environment.apiUrl;
+  user: User;
 
   constructor(private memeService: MemeService, private http: HttpClient,
     private route: ActivatedRoute, private toastr: ToastrService,
     private helper: HelperService, private fb: FormBuilder,
-    private location: Location) { }
+    private location: Location, protected accountService: AccountService) {
+      this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
+     }
 
   ngOnInit(): void {
     this.route.data.subscribe(data => {
@@ -163,5 +173,55 @@ export class MemeDetailComponent implements OnInit {
       this.numberOfComments = comments;
     });
   }
+
+  initializeUploader() {
+    let maxFileSize = 10 * 1024 * 1024;
+    this.uploader = new FileUploader({
+      url: this.baseUrl + 'memes/add-comment-with-image',
+      authToken: 'Bearer ' + this.user.token,
+      allowedFileType: ['image'],
+      isHTML5: true,
+      removeAfterUpload: true,
+      autoUpload: false,
+      maxFileSize: maxFileSize
+    });
+
+    this.uploader.onWhenAddingFileFailed = (item, filter) => {
+      let message = '';
+      switch (filter.name) {
+        case 'fileSize':
+          message = 'Plik jest za duży. Rozmiar pliku to ' + this.formatBytes(item.size) + ', podczas gdy maksymalny dopuszczalny rozmiar to ' + this.formatBytes(maxFileSize);
+          break;
+        default:
+          message = 'Wystąpił błąd';
+          break;
+      }
+      this.toastr.warning(message);
+    };
+
+    this.uploader.onAfterAddingFile = (file) => {
+      file.withCredentials = false;
+      file.file.name = this.commentForm.value.content;
+    }
+
+    this.uploader.onSuccessItem = (item, response) => {
+      if (response) {
+        const meme: Meme = JSON.parse(response);
+           this.accountService.setCurrentUser(this.user);
+           this.toastr.success('Pomyślnie dodano komentarz');
+           this.getComments(this.id);
+           this.commentForm.reset();
+      }
+    }
+  }
+
+  private formatBytes(bytes: number, decimals?: number) {
+    if (bytes == 0) return '0 Bytes';
+    const k = 1024,
+      dm = decimals || 2,
+      sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+      i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+      }
 
 }

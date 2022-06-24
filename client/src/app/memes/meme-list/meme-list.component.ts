@@ -21,6 +21,7 @@ export class MemeListComponent implements OnInit {
   divisions: Division[];
   divisionName: string;
   division: Division;
+  currentCategory: string;
 
   constructor(private memeService: MemeService, private route: ActivatedRoute, private router: Router) { }
 
@@ -31,9 +32,9 @@ export class MemeListComponent implements OnInit {
       this.loadMemes(); 
     } else if (this.router.url.includes('kategoria')) {
         var category = this.router.url.split("/");
-        //var id = this.getDivisionIdByName(category[2]);
-        this.getDivisionIdByName(category[2]);
-        // this.loadMemesByDivision(id);
+        this.currentCategory = category[2];
+        this.currentCategory = this.currentCategory.replace("-", " ");
+        this.getDivisionIdByName(this.currentCategory);
     } else {
       this.loadMainMemes();
     }
@@ -79,12 +80,6 @@ export class MemeListComponent implements OnInit {
       this.loadMemesByDivision(this.division.id);
     });
   }
-
-  // getDivisionIdByName(divisionName: string) {
-  //   if (divisionName === 'hard') {
-  //     return 1;
-  //   }
-  // }
 
   pageChanged(event: any) {
     this.pageNumber = event.page;

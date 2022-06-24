@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { AccountService } from '../_services/account.service';
 import { Observable } from 'rxjs';
 import { User } from '../_models/user';
@@ -16,6 +16,7 @@ import { MemeService } from '../_services/meme.service';
 import { take } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationsModalComponent } from '../modals/notifications-modal/notifications-modal.component';
+import { MemeListComponent } from '../memes/meme-list/meme-list.component';
 
 @Component({
   selector: 'app-nav',
@@ -49,11 +50,12 @@ export class NavComponent implements OnInit {
   }
 
   constructor(public accountService: AccountService, private router: Router, 
-    private toastr: ToastrService, private messageService: MessageService,
-    private deviceService: DeviceDetectorService, private memeService: MemeService,
-    private modalServ: NgbModal) {
+    private messageService: MessageService, private deviceService: DeviceDetectorService, 
+    private memeService: MemeService, private modalServ: NgbModal) {
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
      }
+
+    // @ViewChild("component1") meme_list: MemeListComponent;
 
   ngOnInit(): void {
     if (this.user !== null) {
@@ -126,4 +128,18 @@ export class NavComponent implements OnInit {
     modalRef.componentInstance.username = username;
     modalRef.componentInstance.modalRef = modalRef;
   }
+
+  convertText(title: string) {
+    var result = title?.toLowerCase().replace(' ', '-');
+    return result;
+  }
+
+  replaceTitle(title: string) {
+    return title.replace(" ", "-");
+  }
+
+  reloadCurrentPage() {
+    window.setTimeout(function(){location.reload()},100);
+   }
+
 }

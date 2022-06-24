@@ -18,3 +18,11 @@ textarea {
 table {
     background-color: rgb(95, 94, 94);
 }
+
+#warning {
+    color: white; 
+    border: 1px solid white;
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+}

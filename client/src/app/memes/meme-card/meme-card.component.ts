@@ -50,8 +50,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   comments: number;
   replies: Reply[];
 
-  constructor(private memberService: MembersService, private toastr: ToastrService, 
-    public presence: PresenceService, private memeService: MemeService, private http: HttpClient,
+  constructor(public presence: PresenceService, private memeService: MemeService, private http: HttpClient,
     public sanitizer: DomSanitizer, public helper: HelperService, public accountService: AccountService) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
     }

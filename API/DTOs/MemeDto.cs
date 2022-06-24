@@ -14,5 +14,6 @@ namespace API.DTOs
         public DateTime Uploaded { get; set; } = DateTime.Now;
         public int Division { get; set; }
         public int NumberOfLikes { get; set; }
+        public int NumberOfSpamFlags { get; set; }
     }
 }

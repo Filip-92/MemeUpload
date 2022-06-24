@@ -235,6 +235,47 @@ namespace API.Controllers
             return BadRequest("Problem adding comment: " + commentDto.Content + " " + user + " " + commentDto.MemeId);
         }
 
+        [HttpPost("add-meme")]
+        public async Task<ActionResult<MemeDto>> AddCommentWithImage(IFormFile file)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+
+            dynamic result = null;
+
+            if (file.ContentType.Contains("image"))
+            {
+                result = await _memeService.AddMemeAsync(file);
+            }
+            else if (file.ContentType.Contains("video"))
+            {
+                result = await _memeService.AddMemeVidAsync(file);
+            }
+
+            var title = file.FileName;
+
+            string[] splitTitleAndDesc = title.Split('^');
+
+            if (result.Error != null) return BadRequest(result.Error.Message);
+
+            var meme = new Memes
+            {
+                Url = result.SecureUrl.AbsoluteUri,
+                PublicId = result.PublicId,
+                Title = splitTitleAndDesc[0],
+                Description = splitTitleAndDesc[1]
+            };
+
+            user.Memes.Add(meme);
+
+            if (await _unitOfWork.Complete())
+            {
+
+                return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<MemeDto>(meme));
+            }
+
+            return BadRequest("Problem addding meme");
+        }
+
         public async Task<ActionResult<NotificationDto>> SendNotification(int memeId, AppUser user)
         {
             BadRequest(user);

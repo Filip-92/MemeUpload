@@ -7,6 +7,7 @@ import { Reply } from 'src/app/_models/reply';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
 import { MemeService } from 'src/app/_services/meme.service';
+import { MemeDetailComponent } from '../meme-detail/meme-detail.component';
 
 
 @Component({
@@ -25,16 +26,22 @@ export class CommentComponent implements OnInit {
   liked: boolean;
   disliked: boolean;
   likedComments: any;
+  memeDetail: MemeDetailComponent;
+  logged: boolean = false;
 
-  constructor(private memeService: MemeService, private accountService: AccountService,
+  constructor(private memeService: MemeService, protected accountService: AccountService,
     private toastr: ToastrService, private fb: FormBuilder) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
+    this.logged = true;
   }
+  
 
   ngOnInit(): void {
     this.getUserPhoto(this.comment.username);
     this.getReplies(this.comment.id);
-    this.loadLikes();
+    if (this.user.username !== null) {
+      this.loadLikes();
+    }
   }
 
   getUserPhoto(username: string) {
@@ -47,6 +54,10 @@ export class CommentComponent implements OnInit {
     this.memeService.removeComment(commentId).subscribe(comment => {
       this.comment.id = commentId
     });
+  }
+
+  reloadComments(comment) {
+    this.memeDetail.getComments(comment.memeId);
   }
 
   replyComment() {

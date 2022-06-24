@@ -12,6 +12,7 @@ namespace API.Entities
         public AppUser AppUser { get; set; }
         public int AppUserId { get; set; }
         public int MemeId { get; set; }
+        public int PublicId { get; set; }
         public DateTime Uploaded {get; set; } = DateTime.Now;
         public int NumberOfLikes { get; set; } = 0;
     }

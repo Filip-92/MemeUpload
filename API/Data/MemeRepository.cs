@@ -261,9 +261,10 @@ namespace API.Data
                     Url = u.Url,
                     Title = u.Title,
                     Description = u.Description,
-                    Uploaded = u.Uploaded, 
+                    Uploaded = u.Uploaded,
+                    NumberOfLikes = u.NumberOfLikes 
                 }).AsNoTracking()
-                .OrderByDescending(u => u.Id);
+                .OrderByDescending(u => u.NumberOfLikes);
 
             return await PagedList<MemeDto>.CreateAsync(query, 
             memeParams.PageNumber, memeParams.PageSize);

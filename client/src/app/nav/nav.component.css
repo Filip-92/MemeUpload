@@ -167,6 +167,10 @@ form {
     }
   
   /* boton de cierre */
+
+  #division a {
+    font-size: 12px !important;
+  }
   
   #menu {
     position: absolute;
