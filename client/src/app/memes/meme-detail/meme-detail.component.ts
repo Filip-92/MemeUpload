@@ -41,6 +41,7 @@ export class MemeDetailComponent implements OnInit {
   uploader: FileUploader;
   baseUrl = environment.apiUrl;
   user: User;
+  imageChangedEvent: any = '';
 
   constructor(private memeService: MemeService, private http: HttpClient,
     private route: ActivatedRoute, private toastr: ToastrService,
@@ -58,6 +59,7 @@ export class MemeDetailComponent implements OnInit {
     this.getComments(this.id);
     this.loadLikes();
     this.getNumberOfComments(this.id);
+    this.initializeUploader();
   }
 
   getMeme(memeId: number) {
@@ -148,18 +150,24 @@ export class MemeDetailComponent implements OnInit {
   }
 
   addComment() {
-    this.memeService.addComment(this.commentForm.value).subscribe(response => {
+    if (this.uploader?.queue?.length !== 0) {
+      this.uploader.uploadAll();
       this.toastr.success('Pomyślnie dodano komentarz');
-      this.getComments(this.id);
-      this.commentForm.reset();
-      }, error => {
-      this.validationErrors = error;
-    })
+    } else if (this.uploader?.queue?.length === 0) {
+      this.memeService.addComment(this.commentForm.value).subscribe(response => {
+        this.toastr.success('Pomyślnie dodano komentarz');
+        this.getComments(this.id);
+        this.commentForm.reset();
+        }, error => {
+        this.validationErrors = error;
+      })
+    }
   }
 
   getComments(memeId: number) {
     this.memeService.getComments(memeId).subscribe(comments => {
       this.comments = comments;
+      console.log(this.comments);
     });
   }
 
@@ -177,7 +185,7 @@ export class MemeDetailComponent implements OnInit {
   initializeUploader() {
     let maxFileSize = 10 * 1024 * 1024;
     this.uploader = new FileUploader({
-      url: this.baseUrl + 'memes/add-comment-with-image',
+      url: this.baseUrl + 'memes/add-comment-with-image/' + this.id,
       authToken: 'Bearer ' + this.user.token,
       allowedFileType: ['image'],
       isHTML5: true,
@@ -213,6 +221,10 @@ export class MemeDetailComponent implements OnInit {
            this.commentForm.reset();
       }
     }
+  }
+
+  fileChangeEvent(event: any): void {
+    this.imageChangedEvent = event;
   }
 
   private formatBytes(bytes: number, decimals?: number) {

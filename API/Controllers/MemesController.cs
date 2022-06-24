@@ -235,45 +235,31 @@ namespace API.Controllers
             return BadRequest("Problem adding comment: " + commentDto.Content + " " + user + " " + commentDto.MemeId);
         }
 
-        [HttpPost("add-meme")]
-        public async Task<ActionResult<MemeDto>> AddCommentWithImage(IFormFile file)
+        [HttpPost("add-comment-with-image/{memeId}")]
+        public async Task<ActionResult<MemeDto>> AddCommentWithImage(IFormFile file, int memeId)
         {
             var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
 
-            dynamic result = null;
-
-            if (file.ContentType.Contains("image"))
-            {
-                result = await _memeService.AddMemeAsync(file);
-            }
-            else if (file.ContentType.Contains("video"))
-            {
-                result = await _memeService.AddMemeVidAsync(file);
-            }
-
-            var title = file.FileName;
-
-            string[] splitTitleAndDesc = title.Split('^');
+            var result = await _memeService.AddMemeAsync(file);
 
             if (result.Error != null) return BadRequest(result.Error.Message);
 
-            var meme = new Memes
+            var comment = new Comments
             {
                 Url = result.SecureUrl.AbsoluteUri,
                 PublicId = result.PublicId,
-                Title = splitTitleAndDesc[0],
-                Description = splitTitleAndDesc[1]
+                Content = file.FileName,
+                MemeId = memeId
             };
 
-            user.Memes.Add(meme);
+            user.Comments.Add(comment);
 
             if (await _unitOfWork.Complete())
             {
-
-                return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<MemeDto>(meme));
+                return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<CommentDto>(comment));
             }
 
-            return BadRequest("Problem addding meme");
+            return BadRequest("Nie można dodać komentarza");
         }
 
         public async Task<ActionResult<NotificationDto>> SendNotification(int memeId, AppUser user)
@@ -322,6 +308,11 @@ namespace API.Controllers
             var comment = await _unitOfWork.MemeRepository.GetCommentById(commentId);
 
             if (comment == null) return NotFound("Could not find comment");
+
+            if (comment.PublicId != null) 
+            {
+                await _memeService.DeleteMemeAsync(comment.PublicId);
+            }
 
             _unitOfWork.MemeRepository.RemoveComment(comment);
 

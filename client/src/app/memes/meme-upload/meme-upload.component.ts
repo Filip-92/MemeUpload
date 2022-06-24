@@ -130,7 +130,6 @@ export class MemeUploadComponent implements OnInit {
           message = 'Wystąpił błąd';
           break;
       }
-    
       this.toastr.warning(message);
     };
 

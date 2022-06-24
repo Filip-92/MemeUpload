@@ -1,5 +1,5 @@
 <div class="row" *ngIf="(accountService.currentUser$ | async) !== null">
-    <div class="col-1">|</div>
+    <div class="col-1"></div>
     <div id="reply" class="col-10 mb-2">
         <table class="table">
             <td style="width: 10%"><img src="{{url || '././assets/LogoImage.png'}}" alt=""></td> <!-- zjebane zdjęcie, do poprawy ale nie dzisiaj -->
@@ -18,9 +18,9 @@
 </div>
 
 <div class="row" *ngIf="(accountService.currentUser$ | async) === null">
-    <div class="col-1">|</div>
     <div id="reply" class="col-10 mb-2">
         <table class="table">
+            <td class="col-1"></td>
             <td style="width: 10%"><img src="{{url || '././assets/LogoImage.png'}}" alt=""></td> <!-- zjebane zdjęcie, do poprawy ale nie dzisiaj -->
             <td style="width: 5%;"><a routerLink='/members/{{reply.username}}'>{{reply.username}}</a></td>
             <td style="width: 15%;">{{reply.uploaded | timeago}}</td>

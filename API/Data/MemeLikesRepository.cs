@@ -83,7 +83,7 @@ namespace API.Data
             .Select(u => new FavouriteDto
                 {
                     SourceUserId = u.SourceUserId,
-                    MemeId = u.MemeId
+                    MemeId = u.MemeId,
             }).ToListAsync();
         }
 

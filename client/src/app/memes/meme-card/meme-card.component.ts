@@ -63,6 +63,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     // temporary solution for incorrect timezone
     var newTime = Number(this.meme?.uploaded?.substring(11,13)) - 2;
     this.meme.uploaded = this.meme?.uploaded?.replace((this.meme?.uploaded?.substring(11,14)), newTime.toString() + ":");
+    this.getNumberOfComments(this.meme.id);
     if(this.user === null) {
       this.liked = false;
       this.disliked = false;
@@ -71,7 +72,6 @@ export class MemeCardComponent implements OnInit, PipeTransform {
       this.trustedUrl = this.formatYoutubeLink(this.meme?.url);
     }
     if(this.user !== null) {
-      this.getNumberOfComments(this.meme.id); //oddzielna funkcja dla komentarzy i odpowiedzi
       this.getFavouriteMemes(this.user.username);
       this.loadLikes();
     }
@@ -129,8 +129,8 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     }
   }
 
-  addFavourite(meme: Meme) {
-    this.memeService.addFavourite(meme.id).subscribe(() => {
+  addFavourite(memeId: number) {
+    this.memeService.addFavourite(memeId).subscribe(() => {
       this.favourite = !this.favourite;
     if(this.favourite) {
       this.favourite = true;

@@ -19,10 +19,25 @@ table {
     background-color: rgb(95, 94, 94);
 }
 
+input[type="file"] {
+    display: none;
+    margin-left: -50px !important;
+}
+
 #warning {
     color: white; 
     border: 1px solid white;
     width: 40%;
     margin-left: auto;
     margin-right: auto;
+}
+
+.fa-paperclip {
+    border: 1px solid white;
+    background-color: orange;
+    font-size: 20px;
+    border-radius: 8px;
+    min-width: 50px;
+    min-height: 40px;
+    cursor: pointer;
 }

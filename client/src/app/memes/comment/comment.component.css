@@ -19,8 +19,14 @@ i:hover {
     background-color: black !important;
 }
 
-img {
+td img {
     max-height: 50px;
+}
+
+img {
+    max-width: 200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 span { 

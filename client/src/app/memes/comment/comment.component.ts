@@ -120,7 +120,6 @@ addDislike(comment: Comment) {
 loadLikes() {
   this.memeService.getCommentLikes().subscribe(response => {
     this.likedComments = response;
-    console.log(this.likedComments);
     for (var comment of this.likedComments) {
       if (comment.disliked === true) {
         this.checkIfCommentDisliked(comment.likedCommentId);

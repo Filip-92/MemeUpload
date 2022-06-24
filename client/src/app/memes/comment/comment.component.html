@@ -11,6 +11,9 @@
         <td style="width: 3%;"><button id="like" [disabled]="liked" (click)="addDislike(comment)"><i class="fa fa-minus" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red' }"></i></button></td>
         <td style="width: 10%" *ngIf="comment.username === user.username"><button class="btn btn-danger" (click)="removeComment(comment.id) && reloadComments(comment)">Usuń</button></td>
     </table>
+    <div class="text-center">
+        <img src="{{comment.url}}" alt="">
+    </div>
     <i class="fa fa-reply ml-3 mb-1" (click)="addReply(comment.id)"> Odpowiedz</i>
 </div>
 
@@ -26,8 +29,9 @@
         <td style="width: 3%;">{{comment.numberOfLikes}}</td>
         <td style="width: 3%;"><button id="like" [disabled]><i class="fa fa-minus" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red' }"></i></button></td>
     </table>
+    <img src="{{comment.url}}" alt="">
 </div>
-<div id="reply">
+<div id="reply" style="border-left: 1px solid white;">
     <div *ngFor="let reply of replies">
         <app-reply [reply]="reply"></app-reply>
     </div>
