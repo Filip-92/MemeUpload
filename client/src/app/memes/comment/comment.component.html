@@ -9,12 +9,24 @@
         <td style="width: 3%;"><button id="like" [disabled]="disliked" (click)="addLike(comment)"><i class="fa fa-plus" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'green' }"></i></button></td>
         <td style="width: 3%;">{{comment.numberOfLikes}}</td>
         <td style="width: 3%;"><button id="like" [disabled]="liked" (click)="addDislike(comment)"><i class="fa fa-minus" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red' }"></i></button></td>
-        <td style="width: 10%" *ngIf="comment.username === user.username"><button class="btn btn-danger" (click)="removeComment(comment.id) && reloadComments(comment)">Usuń</button></td>
+        <td style="width: 10%" *ngIf="comment.username === user.username">
+            <button class="btn btn-success mb-2" (click)="editCommentToggle(comment.id) && reloadComments(comment)">Edytuj</button>
+            <button class="btn btn-danger" (click)="removeComment(comment.id) && reloadComments(comment)">Usuń</button>
+        </td>
     </table>
     <div class="text-center">
         <img src="{{comment.url}}" alt="">
     </div>
     <i class="fa fa-reply ml-3 mb-1" (click)="addReply(comment.id)"> Odpowiedz</i>
+</div>
+
+<div *ngIf="commentUpdate">
+    <div class="text-center">
+        <form [formGroup]='editForm' (ngSubmit)="editForm.valid && editComment(comment.id)" class="text-center column">
+            <textarea type="text" [formControl]='editForm.controls["content"]' placeholder="{{comment.content}}" class="col-7"></textarea>
+            <button class="btn btn-success ml-2 col-2" type="submit" [disabled]="!editForm.valid" style="margin-bottom: 40px;">Edytuj komentarz</button>
+        </form>
+    </div>
 </div>
 
 <div id="comment" class="mb-3" *ngIf="(accountService.currentUser$ | async) === null">

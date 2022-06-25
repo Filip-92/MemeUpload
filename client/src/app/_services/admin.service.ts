@@ -56,6 +56,10 @@ export class AdminService {
     return this.http.post(this.baseUrl + 'admin/reject-meme/' + memeId, {});
   }
 
+  removeMessage(messageId: number) {
+    return this.http.post(this.baseUrl + 'admin/remove-message/' + messageId, {});
+  }
+
   removeUser(userId: number) {
     return this.http.delete(this.baseUrl + 'admin/remove-user/' + userId, {});
   }

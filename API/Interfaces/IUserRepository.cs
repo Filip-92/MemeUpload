@@ -22,5 +22,7 @@ namespace API.Interfaces
         Task<PagedList<MemberDto>> SearchForMembers(UserParams userParams, string searchString);
         Task<IEnumerable<ContactFormDto>> GetContactFormMessages();
         Task<IEnumerable<NotificationDto>> GetNotifications(int id);
+        Task<ContactForm> GetMessageById(int id);
+        void RemoveMessage(ContactForm message);
     }
 }

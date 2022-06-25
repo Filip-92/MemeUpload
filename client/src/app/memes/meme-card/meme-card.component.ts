@@ -186,7 +186,6 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   getFavouriteMemes(username: string) {
     this.memeService.getFavourites(username).subscribe(response => {
       this.favouriteMemes = response;
-      console.log(this.favouriteMemes);
       if (this.favouriteMemes?.length > 0) {
         for (var meme of this.favouriteMemes) {
           this.checkIfMemeFavourite(meme.memeId);
@@ -196,7 +195,6 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   }
 
   checkIfMemeFavourite(id: number) {
-    console.log(id);
     if (id === this.meme.id) {
       this.favourite = !this.favourite;
     }

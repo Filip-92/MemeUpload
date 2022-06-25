@@ -327,6 +327,11 @@ namespace API.Controllers
             var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
             var comment = await _unitOfWork.MemeRepository.GetCommentById(commentId);
 
+            if (comment != null)
+            {
+                return BadRequest(commentUpdateDto.Content);
+            }
+
             _mapper.Map(commentUpdateDto, user);
 
             _unitOfWork.MemeRepository.Update(comment);
@@ -346,7 +351,7 @@ namespace API.Controllers
             var response = new CommentResponses
             {
                 Content = commentResponseDto.Content,
-                //Url = commentDto.Url
+                Url = commentResponseDto.Url,
                 MemeId = commentResponseDto.MemeId,
                 CommentId = commentResponseDto.CommentId
             };
@@ -754,20 +759,13 @@ namespace API.Controllers
 
         [HttpGet("get-user-favourites/{username}")]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<FavouriteDto>>> GetUserFavourites(string username)
+        public async Task<ActionResult<IEnumerable<FavouriteDto>>> GetUserFavourites([FromQuery] MemeParams memeParams, string username)
         {
             var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
 
             var memes = await _unitOfWork.MemeLikesRepository.GetUserFavourites(user.Id);
 
             var fav = new List<int>();
-
-            // foreach (var meme in memes)
-            // {
-            //     fav.Append(meme.MemeId);
-            // }
-
-            // var favouriteMemes = await _unitOfWork.MemeLikesRepository.GetMemesList(fav);
 
             return Ok(memes);
         }

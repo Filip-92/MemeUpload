@@ -2,13 +2,17 @@
 <h3>Wiadomości od użytkowników</h3>
 <br>
 <div class="row">
-    <table class="table">
+    <table class="table"
+    #scrollMe
+    style="overflow-y: auto;"
+    [scrollTop]="scrolltop">
         <tr>
             <th style="width: 10%">Avatar</th>
             <th style="width: 10%;">Użytkownik</th>
             <th style="width: 10%;">E-mail</th>
             <th style="width: 15%;">Temat</th>
-            <th style="width: 55%;">Wiadomość</th>
+            <th style="width: 50%;">Wiadomość</th>
+            <th style="width: 5%;"></th>
         </tr>
         <tr *ngFor="let message of messages">
             <app-user-card [user]="message.senderName"></app-user-card>
@@ -16,6 +20,7 @@
             <td>{{message.senderEmail}}</td>
             <td>{{getSubject(message.subject)}}</td>
             <td>{{message.message}}</td>
+            <td><button class="button btn btn-danger" (click)="removeMessage(message.id)">Usuń</button></td>
         </tr>
     </table>
 </div>

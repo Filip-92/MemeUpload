@@ -75,6 +75,29 @@ namespace API.Data
             return await _context.Favourites.FindAsync(sourceUserId, favouriteMemeId);
         }
 
+                public async Task<PagedList<MemeForApprovalDto>> GetUnapprovedMemes(MemeParams memeParams)
+        {
+                var query = _context.Memes
+                .IgnoreQueryFilters()
+                .Where(m => m.IsApproved == false)
+                .Select(u => new MemeForApprovalDto
+                {
+                    Id = u.Id,
+                    Username = u.AppUser.UserName,
+                    Url = u.Url,
+                    Title = u.Title,
+                    Description = u.Description,
+                    Uploaded = u.Uploaded, 
+                    IsApproved = u.IsApproved,
+                    IsMain = u.IsMain,
+                    NumberOfLikes = u.NumberOfLikes
+                }).AsNoTracking()
+                .OrderByDescending(u => u.Id);
+
+            return await PagedList<MemeForApprovalDto>.CreateAsync(query, 
+            memeParams.PageNumber, memeParams.PageSize);
+        }
+
         public async Task<IEnumerable<FavouriteDto>> GetUserFavourites(int userId)
         {
             return await _context.Favourites

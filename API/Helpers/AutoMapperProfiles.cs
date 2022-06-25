@@ -31,6 +31,7 @@ namespace API.Helpers
             CreateMap<ReplyLike, ReplyLikeDto>();
             CreateMap<Favourite, FavouriteDto>();
             CreateMap<MemberUpdateDto, AppUser>();
+            CreateMap<CommentUpdateDto, AppUser>();
             CreateMap<RegisterDto, AppUser>();
             CreateMap<Message, MessageDto>()
                 .ForMember(dest => dest.SenderPhotoUrl, opt => opt.MapFrom(src => 

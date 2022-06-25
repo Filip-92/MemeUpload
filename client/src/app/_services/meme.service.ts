@@ -39,12 +39,12 @@ export class MemeService {
     numberOfLikes: 0,
     comments: undefined
   };
-
   paginatedResult: PaginatedResult<Meme[]> = new PaginatedResult<Meme[]>();
   pagination: Pagination;
   pageNumber = 1;
   pageSize = 5;
   loading = false;
+  comments: Comment[] = [];
 
   constructor(private http: HttpClient, private accountService: AccountService,
                 private presence: PresenceService) {
@@ -280,5 +280,14 @@ getMainMemes(page?: number, itemsPerPage?: number) {
 
   getNumberOfComments(memeId: number) {
     return this.http.get<number>(this.baseUrl + 'memes/get-number-of-comments/' + memeId, {});
+  }
+
+  updateComment(comment: Comment, commentId: number) {
+    return this.http.put(this.baseUrl + 'memes/' + commentId, comment).pipe(
+      map(() => {
+        const index = this.comments.indexOf(comment);
+        this.comments[index] = comment;
+      })
+    )
   }
 }

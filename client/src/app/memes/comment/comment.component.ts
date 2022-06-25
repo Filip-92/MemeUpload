@@ -20,6 +20,7 @@ export class CommentComponent implements OnInit {
   url: string;
   user: User;
   replyForm: FormGroup;
+  editForm: FormGroup;
   validationErrors: string[] = [];
   reply: boolean;
   replies: Reply[];
@@ -28,6 +29,7 @@ export class CommentComponent implements OnInit {
   likedComments: any;
   memeDetail: MemeDetailComponent;
   logged: boolean = false;
+  commentUpdate: boolean = false;
 
   constructor(private memeService: MemeService, protected accountService: AccountService,
     private toastr: ToastrService, private fb: FormBuilder) { 
@@ -81,6 +83,14 @@ export class CommentComponent implements OnInit {
       content: ['', [Validators.required, Validators.maxLength(2000)]],
       memeId: [this.comment.memeId],
       commentId: [commentId]
+    })
+  }
+
+  initializeEditForm(commentId) {
+    this.editForm = this.fb.group({
+      content: ['', [Validators.required, Validators.maxLength(2000)]],
+      memeId: [this.comment.memeId],
+      id: [commentId]
     })
   }
 
@@ -140,6 +150,18 @@ checkIfCommentDisliked(id: number) {
   if (id === this.comment.id) {
     this.disliked = !this.disliked;
   }
+}
+
+editCommentToggle(commentId: number) {
+  this.commentUpdate = !this.commentUpdate;
+  this.initializeEditForm(commentId);
+}
+
+editComment(commentId: number) {
+  this.memeService.updateComment(this.editForm.value, commentId).subscribe(() => {
+    this.editForm.reset(this.editForm.value);
+    this.commentUpdate = !this.commentUpdate;
+  })
 }
 
 }

@@ -15,6 +15,7 @@ export class FavouriteComponent implements OnInit {
   memes: Meme[];
   meme: Meme;
   trustedUrl: any;
+  favouriteMemes: Meme[];
 
   constructor(private accountService: AccountService, private memeService: MemeService) {
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
@@ -28,15 +29,6 @@ export class FavouriteComponent implements OnInit {
     this.memeService.getFavourites(username).subscribe(response => {
       this.memes = response;
     });
-  }
-
-  getMeme(memeId: number) {
-    this.memeService.getMeme(memeId).subscribe(meme => {
-      this.meme = meme;
-      if (this.meme.url.includes("youtube")) {
-        this.trustedUrl = this.formatYoutubeLink(this.meme.url)
-      }
-    })
   }
 
   formatYoutubeLink(url) {

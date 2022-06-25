@@ -16,6 +16,7 @@ export class SiteManagementComponent implements OnInit {
   divisions: Division[];
   divisionForm: FormGroup;
   validationErrors: string[] = [];
+  scrolltop: number=null;
 
   constructor(private adminService: AdminService, private memeService: MemeService, 
     private fb: FormBuilder, private toastr: ToastrService) { }
@@ -65,6 +66,12 @@ export class SiteManagementComponent implements OnInit {
       this.divisionForm.reset();
       }, error => {
       this.validationErrors = error;
+    })
+  }
+
+  removeMessage(messageId: number) {
+    this.adminService.removeMessage(messageId).subscribe(() => {
+      this.messages.splice(this.messages.findIndex(p => p.id === messageId), 1);
     })
   }
 

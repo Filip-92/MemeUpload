@@ -234,6 +234,21 @@ namespace API.Controllers
         }
 
         [Authorize(Policy = "RequireAdminRole")]
+        [HttpPost("remove-message/{messageId}")]
+        public async Task<ActionResult> RemoveMeme(int messageId)
+        {
+            var message = await _unitOfWork.UserRepository.GetMessageById(messageId);
+
+            if (message == null) return NotFound("Could not find message");
+
+            _unitOfWork.UserRepository.RemoveMessage(message);
+
+            await _unitOfWork.Complete();
+
+            return Ok();
+        }
+
+        [Authorize(Policy = "RequireAdminRole")]
         [HttpDelete("/remove-user/{userId}"), ActionName("Delete")]
         public async Task<ActionResult> RemoveUser(int userId)
         {

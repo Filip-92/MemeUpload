@@ -174,5 +174,17 @@ namespace API.Data
                     MemeId = u.MemeId,
                 }).ToListAsync();
         }
+
+        public async Task<ContactForm> GetMessageById(int id)
+        {
+            return await _context.ContactForm
+                .IgnoreQueryFilters()
+                .SingleOrDefaultAsync(x => x.Id == id);
+        }
+
+        public void RemoveMessage(ContactForm message)
+        {
+            _context.ContactForm.Remove(message);
+        }
     }
 }

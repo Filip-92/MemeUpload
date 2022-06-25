@@ -167,7 +167,6 @@ export class MemeDetailComponent implements OnInit {
   getComments(memeId: number) {
     this.memeService.getComments(memeId).subscribe(comments => {
       this.comments = comments;
-      console.log(this.comments);
     });
   }
 

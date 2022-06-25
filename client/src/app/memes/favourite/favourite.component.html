@@ -1,10 +1,10 @@
 <div *ngIf="memes?.length > 0">
     <div *ngFor="let meme of memes">
-        <app-meme-card [meme]="meme"></app-meme-card>
+        <app-meme-card-favourite [meme]="meme"></app-meme-card-favourite>
     </div>
 </div>
 
-<div *ngIf="memes?.length <= 0">
+<div *ngIf="memes?.length <= 0" class="text-center mt-3">
     Brak ulubionych memów
 </div>
 
