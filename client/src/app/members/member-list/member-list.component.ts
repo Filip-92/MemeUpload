@@ -4,6 +4,12 @@ import { MembersService } from 'src/app/_services/members.service';
 import { Pagination } from 'src/app/_models/pagination';
 import { UserParams } from 'src/app/_models/userParams';
 import { User } from 'src/app/_models/user';
+import { AccountService } from 'src/app/_services/account.service';
+import { map, take } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
+import { AuthenticationService } from 'src/app/_services/authentication.service';
 
 @Component({
   selector: 'app-member-list',
@@ -15,14 +21,31 @@ export class MemberListComponent implements OnInit {
   pagination: Pagination;
   userParams: UserParams;
   user: User;
+  loggedIn: boolean;
   genderList = [{ value: 'male', display: 'Males' }, { value: 'female', display: 'Females' }];
+  account: AccountService;
 
-  constructor(private memberService: MembersService) {
+  constructor(private memberService: MembersService, private authService: AuthenticationService, private accountService: AccountService, private router: Router, private toastr: ToastrService) {
     this.userParams = this.memberService.getUserParams();
+    this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
   ngOnInit(): void {
-    this.loadMembers();
+    if ("user" in localStorage) {
+      this.loadMembers();
+    } else {
+      this.router.navigateByUrl('/');
+    }
+  }
+
+  requiresLogin() {
+    return this.accountService.currentUser$.pipe(
+      map(user => {
+        if (user) return true;
+        this.toastr.error('You shall not pass!')
+        return false;
+      })
+    )
   }
 
   loadMembers() {

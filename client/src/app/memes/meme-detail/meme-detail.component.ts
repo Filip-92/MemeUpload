@@ -38,6 +38,7 @@ export class MemeDetailComponent implements OnInit {
   liked: boolean;
   disliked: boolean;
   likedMemes: Meme[];
+  likedMeme: Meme;
   uploader: FileUploader;
   baseUrl = environment.apiUrl;
   user: User;
@@ -60,11 +61,13 @@ export class MemeDetailComponent implements OnInit {
     this.loadLikes();
     this.getNumberOfComments(this.id);
     this.initializeUploader();
+    this.id = +this.route.snapshot.paramMap.get('id');
   }
 
   getMeme(memeId: number) {
     this.memeService.getMeme(memeId).subscribe(meme => {
       this.meme = meme;
+      this.id = meme.id;
       if (this.meme.url.includes("youtube")) {
         this.trustedUrl = this.formatYoutubeLink(this.meme.url)
       }
@@ -107,11 +110,14 @@ export class MemeDetailComponent implements OnInit {
     this.memeService.getLikes().subscribe(response => {
       this.likedMemes = response;
       for (var meme of this.likedMemes) {
-        if (meme.disliked === true) {
-          this.checkIfMemeDisliked(meme.likedMemeId);
-        } else {
-          this.checkIfMemeLiked(meme.likedMemeId);
+        if (this.likedMemes.find(temp=>temp.id === this.id) !== null) {
+          if (meme.disliked === true) {
+            this.checkIfMemeDisliked(this.id);
+          } else {
+            this.checkIfMemeLiked(this.id);
+          }
         }
+
       }
     })
   }

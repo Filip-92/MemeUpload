@@ -58,7 +58,7 @@ export class NavComponent implements OnInit {
     // @ViewChild("component1") meme_list: MemeListComponent;
 
   ngOnInit(): void {
-    if (this.user !== null) {
+    if ("user" in localStorage) {
       this.loadMessages(); // trzeba ogarnac zeby nie odpalalo sie przy niezalogowanym
     }
     this.open = true;

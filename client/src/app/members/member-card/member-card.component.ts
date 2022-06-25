@@ -50,7 +50,6 @@ export class MemberCardComponent implements OnInit {
 
   checkIfUserLiked(members: Partial<Member[]>) {
     for (var user of members) {
-      console.log(members);
       if (user.id === this.member.id) {
         this.liked = !this.liked;
       }

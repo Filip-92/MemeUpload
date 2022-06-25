@@ -64,16 +64,15 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     var newTime = Number(this.meme?.uploaded?.substring(11,13)) - 2;
     this.meme.uploaded = this.meme?.uploaded?.replace((this.meme?.uploaded?.substring(11,14)), newTime.toString() + ":");
     this.getNumberOfComments(this.meme.id);
-    if(this.user === null) {
-      this.liked = false;
-      this.disliked = false;
-    }
     if(this.meme?.url?.includes("youtube")) {
       this.trustedUrl = this.formatYoutubeLink(this.meme?.url);
     }
-    if(this.user !== null) {
+    if ("user" in localStorage) {
       this.getFavouriteMemes(this.user.username);
       this.loadLikes();
+    } else {
+      this.liked = false;
+      this.disliked = false;
     }
   }
   
