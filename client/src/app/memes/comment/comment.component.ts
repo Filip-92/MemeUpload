@@ -31,7 +31,7 @@ export class CommentComponent implements OnInit {
   logged: boolean = false;
   commentUpdate: boolean = false;
 
-  constructor(private memeService: MemeService, protected accountService: AccountService,
+  constructor(private memeService: MemeService, public accountService: AccountService,
     private toastr: ToastrService, private fb: FormBuilder) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
     this.logged = true;
@@ -41,7 +41,7 @@ export class CommentComponent implements OnInit {
   ngOnInit(): void {
     this.getUserPhoto(this.comment.username);
     this.getReplies(this.comment.id);
-    if (this.user.username !== null) {
+    if ("user" in localStorage) {
       this.loadLikes();
     }
   }

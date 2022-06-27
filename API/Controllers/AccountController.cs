@@ -13,6 +13,8 @@ using System.Web;
 using EmailService;
 using Message = EmailService.Message;
 using API.Extensions;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Text;
 
 namespace API.Controllers
 {
@@ -117,6 +119,27 @@ namespace API.Controllers
 
             IdentityResult identityResult = await _userManager.ChangePasswordAsync(appUser, model.CurrentPassword, model.NewPassword);
             return identityResult.Succeeded;
+        }
+
+        [HttpPost("change-password/{email}")]
+        public async Task<ActionResult> ChangeOldPassword(ChangePasswordDto changePasswordDto, string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            //token = token.Replace(" ", "+");
+            token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+            //var result = await _userManager.ResetPasswordAsync(user, token, "NoweHaslo");
+            var result = await _userManager.ChangePasswordAsync(user, changePasswordDto.CurrentPassword, changePasswordDto.NewPassword);
+
+            if (!result.Succeeded) 
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(error.Code, error.Description);
+                    return BadRequest(ModelState);
+                }
+            }
+            return Ok();
         }
 
         [HttpPost("forgot-password")]

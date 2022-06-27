@@ -3,9 +3,9 @@
         <h1>Twój profil</h1>
     </div>
     <div class="col-8">
-        <div class="alert alert-info" *ngIf="editForm.dirty">
+        <!-- <div class="alert alert-info" *ngIf="editForm.dirty">
             <strong>Information: </strong> You have made changes.  Any unsaved changes will be lost
-        </div>
+        </div> -->
     </div>
     <div class="col-4">
         <div class="card">
@@ -81,8 +81,7 @@
                 <app-photo-editor [member]="member"></app-photo-editor>
             </tab>
             <tab heading='Zmiana hasła' class="text-center">
-                <!-- <app-reset-password></app-reset-password> -->
-                <app-reset-password></app-reset-password>
+                <app-change-password></app-change-password>
             </tab>
         </tabset>
     </div>

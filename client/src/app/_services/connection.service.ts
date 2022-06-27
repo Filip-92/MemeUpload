@@ -12,7 +12,6 @@ export class ConnectionService {
 constructor(private http: HttpClient) { }
 
   sendMessage(model: any) {
-    console.log(model);
     return this.http.post(this.baseUrl + 'users/submit-contact-form', 
     JSON.stringify(model),
     { headers: new HttpHeaders({ 'Content-Type': 'application/json'}), responseType: 'text'});

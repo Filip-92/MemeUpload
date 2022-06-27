@@ -1,8 +1,11 @@
-import { Component, OnInit, ViewChild, HostListener, ElementRef } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { AccountService } from '../../_services/account.service';
-import { ValidatorService } from '../../_services/validator.service';
+import { Component, OnInit } from "@angular/core";
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from "@angular/forms";
+import { ToastrService } from "ngx-toastr";
+import { User } from "src/app/_models/user";
+import { AccountService } from "src/app/_services/account.service";
+import { MembersService } from "src/app/_services/members.service";
+import { ValidatorService } from "src/app/_services/validator.service";
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-change-password',
@@ -11,38 +14,47 @@ import { ValidatorService } from '../../_services/validator.service';
 })
 export class ChangePasswordComponent implements OnInit {
   updatePasswordForm: FormGroup;
-  oldPassword: FormControl;
-  newPassword: FormControl;
-  confirmNewPassword: FormControl;
+  user: User;
 
-  constructor(private formBuilder: FormBuilder, 
-      private accountService: AccountService, 
-      private validatorService: ValidatorService, 
-      private toastr: ToastrService) {}
+  constructor(private formBuilder: FormBuilder, private accountService: AccountService, 
+      private validatorService: ValidatorService, private toastr: ToastrService, private memberService: MembersService) {
+        this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
+      }
   
   ngOnInit(): void {
-      this.oldPassword = new FormControl('', [Validators.required]);
-      this.newPassword = new FormControl('', [Validators.maxLength(16), Validators.minLength(8)]);
-      //this.confirmNewPassword = new FormControl('', Validators.required, this.validatorService.MustMatch(this.newPassword));
+    this.initializeForm();
+  }
 
-      this.updatePasswordForm = this.formBuilder.group({
-          'oldPassword': this.oldPassword,
-          'newPassword': this.newPassword,
-          'confirmNewPassword': this.confirmNewPassword,
-      });
+  initializeForm() {
+    this.updatePasswordForm = this.formBuilder.group({
+        currentPassword: ['', [Validators.required]],
+        newPassword: ['', [Validators.required, Validators.maxLength(16), Validators.minLength(8), 
+                        Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]],
+        confirmPassword: ['', [Validators.required]],
+    });
   }
 
   onSubmit() {
-      if (this.updatePasswordForm.valid) {
-          this.accountService.getUserProfile().subscribe((result) => {
-              if (result.email) {
-                  let userDetails = this.updatePasswordForm.value;
-                  userDetails.email = result.email;
-                  this.accountService.changePassword(userDetails).subscribe((result) => {
-                      this.toastr.success(result.message);
-                  });
-              }
-          });
-      }
+    this.memberService.changePassword(this.user.email, this.updatePasswordForm.value).subscribe(() => {
+      this.toastr.success('Hasło zostało zmienione');
+      this.updatePasswordForm.reset();
+    }, error => {
+      console.log('Error', error);
+    });
+  }
+
+  passwordsMatch() {
+    if (this.updatePasswordForm.value.newPassword === this.updatePasswordForm.value.confirmNewPassword) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  matchValues(matchTo: string): ValidatorFn {
+    return (control: AbstractControl) => {
+      return control?.value === control?.parent?.controls[matchTo]?.value 
+        ? null : {isMatching: true}
+    }
   }
 }

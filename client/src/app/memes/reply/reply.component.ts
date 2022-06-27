@@ -23,15 +23,14 @@ export class ReplyComponent implements OnInit {
   disliked: boolean;
   likedReplies: any;
 
-  constructor(protected accountService: AccountService, private memeService: MemeService,
+  constructor(public accountService: AccountService, private memeService: MemeService,
     private fb: FormBuilder, private toastr: ToastrService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
   ngOnInit(): void {
     this.getUserPhoto(this.reply.username);
-    console.log(this.user);
-    if (this.user.username !== null) {
+    if ("user" in localStorage) {
       this.loadLikes();
     }
   }

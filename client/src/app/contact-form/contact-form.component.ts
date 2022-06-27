@@ -31,18 +31,18 @@ contactFormMode: boolean = true;
 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
 
-    if (this.user === null) {
-      this.contactForm = this.fb.group({
-        senderName: ['', [Validators.required]],
-        senderEmail: ['', [Validators.compose([Validators.required, Validators.email])]],
+    if ("user" in localStorage) {
+      this.contactForm = fb.group({
+        senderName: [this.user.username],
+        senderEmail: [this.user.email],
         subject: ['', [Validators.required]],
         message: ['', [Validators.required]],
         contactFormCopy: [''],
         });
     } else {
-      this.contactForm = fb.group({
-        senderName: [this.user.username],
-        senderEmail: [this.user.email],
+      this.contactForm = this.fb.group({
+        senderName: ['', [Validators.required]],
+        senderEmail: ['', [Validators.compose([Validators.required, Validators.email]), Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
         subject: ['', [Validators.required]],
         message: ['', [Validators.required]],
         contactFormCopy: [''],

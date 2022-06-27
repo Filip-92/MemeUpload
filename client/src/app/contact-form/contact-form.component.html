@@ -6,7 +6,7 @@
   style="margin-left: auto; margin-right: auto;"
   >
 
-  <div class="form-group">
+  <div class="row">
     <div class="col-md-12 col-lg-6" style="display: inline-block; margin-left: auto; margin-right: auto;">
       <p class="h4 mb-4 contact">Kontakt</p>
   
@@ -19,6 +19,9 @@
         <input type="text" formControlName="senderName" id="defaultContactFormName"
         class="form-control mb-4 contact" style="width: 300px; margin-left: auto; margin-right: auto;" placeholder="Name">
       </span>
+      <div *ngIf="contactForm.controls['senderName'].errors?.required && contactForm.controls['senderName'].touched" class="text-danger mb-2">
+        Nazwa jest wymagana
+      </div>
     
       <!-- Email -->
       <span *ngIf="(accountService.currentUser$ | async) !== null">
@@ -29,6 +32,12 @@
       <input type="email" [formControl]='contactForm.controls["senderEmail"]' id="defaultContactFormEmail"
         class="form-control mb-4 contact" style="width: 300px; margin-left: auto; margin-right: auto;" placeholder="E-mail">
       </span>
+      <div *ngIf="contactForm.controls['senderEmail'].errors?.pattern" class="text-danger mb-2">
+        Podaj prawidłowy adres email
+      </div>
+      <div *ngIf="contactForm.controls['senderEmail'].errors?.required && contactForm.controls['senderEmail'].touched" class="text-danger mb-2">
+        Email jest wymagany
+      </div>
       <br>
     </div>
   
@@ -52,6 +61,9 @@
         <textarea [formControl]='contactForm.controls["message"]' class="form-control rounded-0" mdbInput id="exampleFormControlTextarea2"
           rows="3" placeholder="Message" style="width: 300px; margin-left: auto; margin-right: auto;"></textarea>
       </div>
+      <div *ngIf="contactForm.controls['message'].errors?.required && contactForm.controls['message'].touched" class="text-danger">
+        Treść wiadomości jest wymagana
+      </div>
     </div>
   </div>
 
@@ -61,7 +73,7 @@
     <!-- Send button -->
     <button class="btn btn-warning mr-5" (click)="contactFormMode=false" >Anuluj</button>
     <button mdbBtn color="info" outline="true" block="true" class="z-depth-0 my-4 waves-effect btn btn-success"
-      mdbWavesEffect type="submit" [disabled]="disabledSubmitButton">Send</button>
+      mdbWavesEffect type="submit" [disabled]="disabledSubmitButton">Wyślij</button>
   
   </form>
   <br>

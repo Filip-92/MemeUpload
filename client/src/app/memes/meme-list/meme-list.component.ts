@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Division } from 'src/app/_models/division';
 import { Meme } from 'src/app/_models/meme';
 import { Pagination } from 'src/app/_models/pagination';
@@ -23,7 +24,7 @@ export class MemeListComponent implements OnInit {
   division: Division;
   currentCategory: string;
 
-  constructor(private memeService: MemeService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private memeService: MemeService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit(): void { 
     if (this.router.url.includes('ostatnie24H')) {
@@ -77,7 +78,16 @@ export class MemeListComponent implements OnInit {
   getDivisionIdByName(divisionName: string) {
     this.memeService.getDivisionIdByName(divisionName).subscribe(division => {
       this.division = division;
-      this.loadMemesByDivision(this.division.id);
+      if(this.division.isCloseDivision) {
+        if ("user" in localStorage) {
+          this.loadMemesByDivision(this.division.id);
+        } else {
+          this.toastr.warning("Zaloguj się aby mieć dostęp do działu zamkniętego");
+          this.router.navigateByUrl('/');
+        }
+      } else {
+        this.loadMemesByDivision(this.division.id);
+      }
     });
   }
 

@@ -72,6 +72,7 @@ import { SiteManagementComponent } from './admin/site-management/site-management
 import { NotificationsModalComponent } from './modals/notifications-modal/notifications-modal.component';
 import { FavouriteComponent } from './memes/favourite/favourite.component';
 import { MemeCardFavouriteComponent } from './memes/meme-card-favourite/meme-card-favourite.component';
+import { ChangePasswordComponent } from './members/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -126,7 +127,8 @@ import { MemeCardFavouriteComponent } from './memes/meme-card-favourite/meme-car
     SiteManagementComponent,
     NotificationsModalComponent,
     FavouriteComponent,
-    MemeCardFavouriteComponent
+    MemeCardFavouriteComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,

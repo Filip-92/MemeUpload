@@ -125,4 +125,8 @@ export class MembersService {
   );
   }
 
+  changePassword(email: string, model: any) {
+    return this.http.post(this.baseUrl + 'account/change-password/' + email, model);
+  }
+
 }

@@ -31,11 +31,11 @@ export class MemberEditComponent implements OnInit {
   pagination: Pagination;
   memes: Meme[];
   
-  @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) {
-    if (this.editForm.dirty) {
-      $event.returnValue = true;
-    }
-  }
+  // @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) {
+  //   if (this.editForm.dirty) {
+  //     $event.returnValue = true;
+  //   }
+  // }
 
   constructor(private accountService: AccountService, private memberService: MembersService, 
     private toastr: ToastrService, private router: Router, private memeService: MemeService) { 
@@ -43,9 +43,15 @@ export class MemberEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if ("user" in localStorage) {
     this.loadMember();
     this.loadLikes();
     this.getMemberMemes(this.user.username);
+    } else {
+      this.toastr.warning("Zaloguj się aby mieć dostęp");
+      this.router.navigateByUrl('/');
+    }
+    console.log(this.user.email);
   }
 
   getMemberMemes(username: string) {
