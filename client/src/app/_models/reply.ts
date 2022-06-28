@@ -7,4 +7,5 @@ export interface Reply {
     numberOfLikes: number;
     memeId: number;
     commentId: number;
+    quote: string;
 }

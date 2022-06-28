@@ -17,7 +17,8 @@
     <div class="text-center">
         <img src="{{comment.url}}" alt="">
     </div>
-    <i class="fa fa-reply ml-3 mb-1" (click)="addReply(comment.id)"> Odpowiedz</i>
+    <i class="fa fa-reply ml-3 mb-1" *ngIf="!replyQuote" (click)="addReply(comment.id)"> Odpowiedz</i>
+    <i class="fa fa-quote-left ml-3 mb-1" *ngIf="!reply" (click)="addQuotedReply(comment.id)"> Zacytuj</i>
 </div>
 
 <div *ngIf="commentUpdate">
@@ -50,6 +51,18 @@
 </div>
 
 <div *ngIf="reply">
+    <form [formGroup]='replyForm' (ngSubmit)="replyForm.valid && replyComment()" class="text-center column">
+        <div>
+            <textarea type="text" [formControl]='replyForm.controls["content"]' placeholder="Wpisz treść komentarza" class="col-7"></textarea>
+            <button class="btn btn-success ml-2 col-2" type="submit" [disabled]="!replyForm.valid" style="margin-bottom: 40px;">Dodaj komentarz</button>
+        </div>
+        <div *ngIf="replyForm.controls['content'].errors?.maxlength" class="text-danger">
+            Komentarz zbyt długi
+        </div>
+    </form>
+</div>
+
+<div *ngIf="replyQuote">
     <form [formGroup]='replyForm' (ngSubmit)="replyForm.valid && replyComment()" class="text-center column">
         <div>
             <textarea type="text" [formControl]='replyForm.controls["content"]' placeholder="Wpisz treść komentarza" class="col-7"></textarea>

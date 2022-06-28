@@ -16,6 +16,7 @@ namespace API.Interfaces
         Task<MemberDto> GetMemberAsync(string username, bool isCurrentUser);
         Task<AppUser> GetUserByPhotoId(int photoId);
         Task<AppUser> GetUserByMemeId(int memeId);
+        Task<AppUser> GetUserByCommentId(int commentId);
         Task<string> GetUserGender(string username);
         Task<AppUser> GetUserByEmailAsync(string email);
         Task<UserDto> GetUserNumberOfLikes(int userId);

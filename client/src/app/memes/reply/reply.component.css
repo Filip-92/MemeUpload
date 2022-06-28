@@ -22,3 +22,12 @@ i:hover {
 #like {
     background-color: black !important;
 }
+
+#quote {
+    background-color: rgb(34, 31, 31);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px;
+}

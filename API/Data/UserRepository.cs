@@ -88,6 +88,15 @@ namespace API.Data
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<AppUser> GetUserByCommentId(int commentId)
+        {
+            return await _context.Users
+                .Include(m => m.Comments)
+                .IgnoreQueryFilters()
+                .Where(m => m.Comments.Any(m => m.Id == commentId))
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<AppUser> GetUserByUsernameAsync(string username)
         {
             return await _context.Users
@@ -172,7 +181,9 @@ namespace API.Data
                     Id = u.Id,
                     Content = u.Content,
                     MemeId = u.MemeId,
-                }).ToListAsync();
+                    SentTime = u.SentTime
+                }).OrderByDescending(u => u.Id)
+                .ToListAsync();
         }
 
         public async Task<ContactForm> GetMessageById(int id)

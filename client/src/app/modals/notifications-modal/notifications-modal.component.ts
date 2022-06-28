@@ -9,6 +9,7 @@ import { AccountService } from 'src/app/_services/account.service';
 export class NotificationsModalComponent implements OnInit {
   @Input() username: string;
   @Input() modalRef: any;
+  scrolltop: number=null;
 
   constructor(private accountService: AccountService) { }
 
@@ -17,6 +18,7 @@ export class NotificationsModalComponent implements OnInit {
   getNotifications(username: string) {
     this.accountService.getNotifications(username).subscribe(notifications => {
       this.notifications = notifications;
+      console.log(this.notifications);
     });
   }
 

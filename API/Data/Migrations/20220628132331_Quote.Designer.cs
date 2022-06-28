@@ -3,14 +3,16 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220628132331_Quote")]
+    partial class Quote
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -191,9 +193,6 @@ namespace API.Migrations
                     b.Property<int>("NumberOfLikes")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Quote")
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("Uploaded")
                         .HasColumnType("TEXT");
 
@@ -229,6 +228,9 @@ namespace API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("PublicId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Quote")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Uploaded")
@@ -462,9 +464,6 @@ namespace API.Migrations
 
                     b.Property<int>("MemeId")
                         .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("SentTime")
-                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 

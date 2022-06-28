@@ -15,6 +15,8 @@ using Message = EmailService.Message;
 using API.Extensions;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -25,7 +27,7 @@ namespace API.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IUnitOfWork _unitOfWork;
-        //private readonly IEmailSender _emailSender;
+        private readonly IEmailSender _emailSender;
         private readonly IConfiguration _config;
         public AccountController(
             UserManager<AppUser> userManager, 
@@ -33,8 +35,8 @@ namespace API.Controllers
             ITokenService tokenService, 
             IMapper mapper,
             IConfiguration config,
-            IUnitOfWork unitOfWork
-            //IEmailSender emailSender
+            IUnitOfWork unitOfWork,
+            IEmailSender emailSender
             )
         {
             _signInManager = signInManager;
@@ -43,7 +45,7 @@ namespace API.Controllers
             _tokenService = tokenService;
             _config = config;
             _unitOfWork = unitOfWork;
-            //_emailSender = emailSender;
+            _emailSender = emailSender;
         }
 
         [HttpPost("register")]
@@ -122,13 +124,12 @@ namespace API.Controllers
         }
 
         [HttpPost("change-password/{email}")]
+        [Authorize]
         public async Task<ActionResult> ChangeOldPassword(ChangePasswordDto changePasswordDto, string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-            //token = token.Replace(" ", "+");
             token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-            //var result = await _userManager.ResetPasswordAsync(user, token, "NoweHaslo");
             var result = await _userManager.ChangePasswordAsync(user, changePasswordDto.CurrentPassword, changePasswordDto.NewPassword);
 
             if (!result.Succeeded) 
@@ -164,6 +165,17 @@ namespace API.Controllers
             //await _emailSender.SendEmailAsync(message);
 
             return Ok();
+        }
+
+        [HttpPost("send-email/{email}")]
+        public void SendEmail(string email) 
+        {
+            //var files = Request.Form.Files.Any() ? Request.Form.Files : new FormFileCollection();
+            var subject = "Resetowanie hasła";
+            var content = "Aby zresetować swoje hasło, kliknij na poniższy link: \n https://localhost:4200/reset-password";
+
+            var message = new Message(new string[] { email }, subject, content, null);
+            _emailSender.SendEmail(message);
         }
 
         [HttpPost("reset-password")]

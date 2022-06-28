@@ -47,23 +47,31 @@ export class AccountService {
     return;
   }
 
-  changePassword(userDetails: any) {
-    const resetPasswordViewModel = {
-      OldPassword: userDetails.oldPassword,
-      Password: userDetails.newPassword,
-      ConfirmPassword: userDetails.newPassword,
-      Email: userDetails.email
-    };
+  // changePassword(userDetails: any) {
+  //   const resetPasswordViewModel = {
+  //     OldPassword: userDetails.oldPassword,
+  //     Password: userDetails.newPassword,
+  //     ConfirmPassword: userDetails.newPassword,
+  //     Email: userDetails.email
+  //   };
 
-    return this.http  
-      .post<any>(this.baseUrlChangePassword, resetPasswordViewModel, {
-        headers: { Accept: 'multipart/form-data', 'X-XSRF-TOKEN': this.cookieService.get('XSRF-TOKEN')}
-      })
-      .pipe(
-        map((result) => {
-          return result;
-        })
-      );
+  //   return this.http  
+  //     .post<any>(this.baseUrlChangePassword, resetPasswordViewModel, {
+  //       headers: { Accept: 'multipart/form-data', 'X-XSRF-TOKEN': this.cookieService.get('XSRF-TOKEN')}
+  //     })
+  //     .pipe(
+  //       map((result) => {
+  //         return result;
+  //       })
+  //     );
+  // }
+
+  changePassword(email: string, model: any) {
+    return this.http.post(this.baseUrl + 'account/change-password/' + email, model);
+  }
+
+  forgotPassword(email: any) {
+    return this.http.post(this.baseUrl + 'account/send-email/' + email, {});
   }
 
   register(model: any) {

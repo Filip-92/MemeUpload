@@ -195,6 +195,21 @@ namespace API.Controllers
             return Ok();
         }
 
+        [HttpPost("flag-meme-as-spam/{memeId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult> FlagMemeAsSpam(int memeId)
+        {
+            var meme = await _unitOfWork.MemeRepository.GetMemeById(memeId);
+
+            if (meme == null) return NotFound("Could not find meme");
+
+            meme.NumberOfSpamFlags++;
+
+            if (await _unitOfWork.Complete()) return Ok();
+
+            return BadRequest("Nie można oznaczyć jako SPAM");
+        }
+
         [AllowAnonymous]
         [HttpGet("memes-to-moderate/last24H")]
         public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemesLast24H([FromQuery] MemeParams memeParams)
@@ -228,7 +243,7 @@ namespace API.Controllers
 
             if (await _unitOfWork.Complete())
             {
-                await SendNotification(commentDto.MemeId, notifiedUser);
+                await SendNotification(commentDto.MemeId, notifiedUser, "Pojawił się nowy komentarz pod Twoim memem");
                 return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<CommentDto>(comment));
             }
 
@@ -241,6 +256,8 @@ namespace API.Controllers
             var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
 
             var result = await _memeService.AddMemeAsync(file);
+
+            var notifiedUser = await _unitOfWork.UserRepository.GetUserByMemeId(memeId);
 
             if (result.Error != null) return BadRequest(result.Error.Message);
 
@@ -256,19 +273,20 @@ namespace API.Controllers
 
             if (await _unitOfWork.Complete())
             {
+                await SendNotification(memeId, notifiedUser, "Pojawił się nowy komentarz pod Twoim memem");
                 return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<CommentDto>(comment));
             }
 
             return BadRequest("Nie można dodać komentarza");
         }
 
-        public async Task<ActionResult<NotificationDto>> SendNotification(int memeId, AppUser user)
+        public async Task<ActionResult<NotificationDto>> SendNotification(int memeId, AppUser user, string message)
         {
             BadRequest(user);
 
             var notification = new Notifications
             {
-                Content = "Pojawił się nowy komentarz pod Twoim memem",
+                Content = message,
                 MemeId = memeId,
                 AppUserId = user.Id
             };
@@ -348,12 +366,16 @@ namespace API.Controllers
 
             var memes = await _unitOfWork.MemeRepository.GetMemeById(commentResponseDto.MemeId);
 
+            var notifiedUser1 = await _unitOfWork.UserRepository.GetUserByMemeId(commentResponseDto.MemeId);
+            var notifiedUser2 = await _unitOfWork.UserRepository.GetUserByCommentId(commentResponseDto.CommentId);
+
             var response = new CommentResponses
             {
                 Content = commentResponseDto.Content,
                 Url = commentResponseDto.Url,
                 MemeId = commentResponseDto.MemeId,
-                CommentId = commentResponseDto.CommentId
+                CommentId = commentResponseDto.CommentId,
+                Quote = commentResponseDto.Quote
             };
 
             user.Responses.Add(response);
@@ -361,6 +383,8 @@ namespace API.Controllers
 
             if (await _unitOfWork.Complete())
             {
+                await SendNotification(commentResponseDto.MemeId, notifiedUser1, "Pojawił się nowy komentarz pod Twoim memem");
+                await SendNotification(commentResponseDto.MemeId, notifiedUser1, "Ktoś odpowiedział na Twój komentarz");
                 return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<CommentResponseDto>(response));
             }
 
@@ -557,6 +581,32 @@ namespace API.Controllers
             var replies = await _unitOfWork.MemeRepository.GetMemeReplies(memeId);
 
             return Ok(comments.Count() + replies.Count());
+        }
+
+        [HttpGet("get-comment-username/{commentId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult> GetCommentUsername(int commentId)
+        {
+            // var comment = await _unitOfWork.MemeRepository.GetCommentById(commentId);
+
+            // if (comment == null) return NotFound();
+
+            var user = await _unitOfWork.UserRepository.GetUserByCommentId(commentId);
+
+            if (user == null) return NotFound();
+
+            return Ok(user.UserName);
+        }
+
+        [HttpGet("get-reply-username/{replyId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult> GetReplyUsername(int replyId)
+        {
+            var reply = await _unitOfWork.MemeRepository.GetReplyById(replyId);
+
+            if (reply == null) return NotFound();
+
+            return Ok(reply);
         }
 
         [HttpPost("add-comment-like/{commentId}")]

@@ -35,7 +35,7 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   onSubmit() {
-    this.memberService.changePassword(this.user.email, this.updatePasswordForm.value).subscribe(() => {
+    this.accountService.changePassword(this.user.email, this.updatePasswordForm.value).subscribe(() => {
       this.toastr.success('Hasło zostało zmienione');
       this.updatePasswordForm.reset();
     }, error => {

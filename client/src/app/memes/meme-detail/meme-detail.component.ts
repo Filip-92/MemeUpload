@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Member } from 'src/app/_models/member';
 import { Meme } from 'src/app/_models/meme';
@@ -43,10 +43,12 @@ export class MemeDetailComponent implements OnInit {
   baseUrl = environment.apiUrl;
   user: User;
   imageChangedEvent: any = '';
+  favourite: boolean;
+  url: string[];
 
   constructor(private memeService: MemeService, private http: HttpClient,
     private route: ActivatedRoute, private toastr: ToastrService,
-    private helper: HelperService, private fb: FormBuilder,
+    private helper: HelperService, private fb: FormBuilder, private router: Router,
     private location: Location, public accountService: AccountService) {
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
      }
@@ -55,13 +57,14 @@ export class MemeDetailComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.meme = data.meme;
     });
+    this.url = this.router.url.split('/');
     this.initializeForm();
-    this.getMeme(this.id);
-    this.getComments(this.id);
+    this.getMeme(Number(this.url[2]));
+    this.getComments(Number(this.url[2]));
     this.loadLikes();
     this.getNumberOfComments(this.id);
     this.initializeUploader();
-    this.id = +this.route.snapshot.paramMap.get('id');
+    this.checkIfMemeFavourite(Number(this.url[2]));
   }
 
   getMeme(memeId: number) {
@@ -123,13 +126,13 @@ export class MemeDetailComponent implements OnInit {
   }
 
   checkIfMemeLiked(id: number) {
-    if (id === this.meme.id) {
+    if (id === Number(this.url[2])) {
       this.liked = !this.liked;
     }
   }
 
   checkIfMemeDisliked(id: number) {
-    if (id === this.meme.id) {
+    if (id === Number(this.url[2])) {
       this.disliked = !this.disliked;
     }
   }
@@ -240,5 +243,27 @@ export class MemeDetailComponent implements OnInit {
       i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
       }
+
+  flagAsSpam(memeId: number) {
+    this.memeService.flagAsSpam(memeId);
+    this.toastr.success("Jebać spammerów!");
+  }
+
+  addFavourite(memeId: number) {
+    this.memeService.addFavourite(memeId).subscribe(() => {
+      this.favourite = !this.favourite;
+    if(this.favourite) {
+      this.favourite = true;
+    } else {
+      this.favourite = false;
+    }
+  })
+  }
+
+  checkIfMemeFavourite(id: number) {
+    if (id === Number(this.url[2])) {
+      this.favourite = !this.favourite;
+    }
+  }
 
 }

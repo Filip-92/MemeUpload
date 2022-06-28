@@ -13,5 +13,6 @@ namespace API.DTOs
         public int NumberOfLikes { get; set; }
         public bool IsApproved { get; set; }
         public bool IsMain { get; set; }
+        public int NumberOfFlags { get; set; }
     }
 }

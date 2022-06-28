@@ -22,6 +22,7 @@ export class ReplyComponent implements OnInit {
   liked: boolean;
   disliked: boolean;
   likedReplies: any;
+  username: any;
 
   constructor(public accountService: AccountService, private memeService: MemeService,
     private fb: FormBuilder, private toastr: ToastrService) { 
@@ -33,6 +34,7 @@ export class ReplyComponent implements OnInit {
     if ("user" in localStorage) {
       this.loadLikes();
     }
+    //this.getCommentUsername(this.reply.commentId);
   }
 
   getUserPhoto(username: string) {
@@ -120,6 +122,13 @@ checkIfReplyDisliked(id: number) {
   if (id === this.reply.id) {
     this.disliked = !this.disliked;
   }
+}
+
+getCommentUsername(id: number) {
+  this.memeService.getCommentUsername(id).subscribe(response => {
+    this.username = response;
+    console.log(this.username);
+  });
 }
 
 }

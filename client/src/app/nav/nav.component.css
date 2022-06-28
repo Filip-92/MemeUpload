@@ -26,6 +26,10 @@ ul.nav {
     margin-bottom: auto;
 }
 
+#forgot:hover {
+  color: red !important;
+}
+
 li {
   display: inline-block !important;
 }

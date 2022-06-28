@@ -200,6 +200,10 @@ getMainMemes(page?: number, itemsPerPage?: number) {
     return this.http.post(this.baseUrl + 'memes/add-reply-like/' + replyId, {});
   }
 
+  flagAsSpam(memeId: number) {
+    return this.http.post(this.baseUrl + 'memes/flag-meme-as-spam/' + memeId, {});
+  }
+
   addReplyDislike(replyId: number) {
     return this.http.post(this.baseUrl + 'memes/add-reply-dislike/' + replyId, {});
   }
@@ -230,6 +234,10 @@ getMainMemes(page?: number, itemsPerPage?: number) {
 
   removeComment(commentId: number) {
     return this.http.post(this.baseUrl + 'memes/remove-comment/' + commentId, {});
+  }
+
+  getCommentUsername(commentId: number) {   
+    return this.http.get<String>(this.baseUrl + 'memes/get-comment-username/' + commentId);
   }
 
   addReply(model: any) {

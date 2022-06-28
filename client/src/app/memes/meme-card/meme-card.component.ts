@@ -51,7 +51,8 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   replies: Reply[];
 
   constructor(public presence: PresenceService, private memeService: MemeService, private http: HttpClient,
-    public sanitizer: DomSanitizer, public helper: HelperService, public accountService: AccountService) { 
+    public sanitizer: DomSanitizer, public helper: HelperService, public accountService: AccountService,
+    private toastr: ToastrService) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
     }
   transform(value: any, ...args: any[]) {
@@ -87,6 +88,11 @@ export class MemeCardComponent implements OnInit, PipeTransform {
         this.liked = false;
       }
     })
+  }
+
+  flagAsSpam(memeId: number) {
+    this.memeService.flagAsSpam(memeId);
+    this.toastr.success("Jebać spammerów!");
   }
 
   addDislike(meme: Meme) {

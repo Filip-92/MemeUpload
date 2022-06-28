@@ -23,6 +23,7 @@ export class CommentComponent implements OnInit {
   editForm: FormGroup;
   validationErrors: string[] = [];
   reply: boolean;
+  replyQuote: boolean;
   replies: Reply[];
   liked: boolean;
   disliked: boolean;
@@ -56,6 +57,7 @@ export class CommentComponent implements OnInit {
     this.memeService.removeComment(commentId).subscribe(comment => {
       this.comment.id = commentId
     });
+    this.reloadCurrentPage();
   }
 
   reloadComments(comment) {
@@ -78,10 +80,24 @@ export class CommentComponent implements OnInit {
     this.initializeForm(commentId)
   }
 
+  addQuotedReply(commentId) {
+    this.replyQuote = !this.replyQuote;
+    this.initializeQuoteForm(commentId)
+  }
+
   initializeForm(commentId) {
     this.replyForm = this.fb.group({
       content: ['', [Validators.required, Validators.maxLength(2000)]],
       memeId: [this.comment.memeId],
+      commentId: [commentId]
+    })
+  }
+
+  initializeQuoteForm(commentId) {
+    this.replyForm = this.fb.group({
+      content: ['', [Validators.required, Validators.maxLength(2000)]],
+      memeId: [this.comment.memeId],
+      quote: [this.comment.content],
       commentId: [commentId]
     })
   }
@@ -163,5 +179,9 @@ editComment(commentId: number) {
     this.commentUpdate = !this.commentUpdate;
   })
 }
+
+reloadCurrentPage() {
+  window.setTimeout(function(){location.reload()},100);
+ }
 
 }

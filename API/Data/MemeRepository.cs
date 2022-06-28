@@ -46,7 +46,8 @@ namespace API.Data
                     Uploaded = u.Uploaded, 
                     IsApproved = u.IsApproved,
                     IsMain = u.IsMain,
-                    NumberOfLikes = u.NumberOfLikes
+                    NumberOfLikes = u.NumberOfLikes,
+                    NumberOfFlags = u.NumberOfSpamFlags
                 }).AsNoTracking()
                 .OrderByDescending(u => u.Id);
 
@@ -341,6 +342,7 @@ namespace API.Data
                     MemeId = u.MemeId,
                     CommentId = u.CommentId,
                     Content = u.Content,
+                    Quote = u.Quote,
                     Uploaded = u.Uploaded,
                     NumberOfLikes = u.NumberOfLikes
                 }).ToListAsync();
@@ -359,6 +361,7 @@ namespace API.Data
                     MemeId = u.MemeId,
                     CommentId = u.CommentId,
                     Content = u.Content,
+                    Quote = u.Quote,
                     Uploaded = u.Uploaded,
                     NumberOfLikes = u.NumberOfLikes
                 }).ToListAsync();

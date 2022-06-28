@@ -67,13 +67,6 @@ export class MemberEditComponent implements OnInit {
     })
   }
 
-  changePassword() {
-    this.accountService.changePassword(this.model).subscribe(() => {
-      this.toastr.success('Password changed successfully');
-      this.changePasswordForm.reset(this.member);
-    })
-  }
-
   loadMember() {
     this.memberService.getMember(this.user.username).subscribe(member => {
       this.member = member;
