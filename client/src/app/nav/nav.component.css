@@ -237,20 +237,23 @@ form {
     }
 
     .sidebar {
-      position: fixed; /* Stay in place */
       width: 100%;
       min-width: 300px;
       height: 100%;
       z-index: 1; /* Stay on top */
       top: 0;
       right: 0;
-      opacity: 1;
+      opacity: 1 !important;
       background-color: #111; /* Black*/
       overflow-x: hidden; /* Disable horizontal scroll */
       padding-top: 20px; /* Place content 60px from the top */
       transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
       box-shadow: 2px 2px 5px #999;
       transition: 0.5s;
+    }
+
+    .sidebar-mini {
+      visibility: hidden;
     }
 
     .nav-item {

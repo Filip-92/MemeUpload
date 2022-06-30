@@ -37,7 +37,7 @@
             <i class="navbar-toggler-icon mr-5 text-center" (click)="displayNavbar()" *ngIf="display"></i>
         </div>
 
-        <div class="sidebar text-center" [ngStyle]="!display ? {'animation': 'slideMe 0.7s ease-in', 'opacity': '0.8', 'cursor': 'pointer'} : {'animation': 'slideOut 0.7s ease-out', 'opacity': '0', 'cursor': 'default'}">
+        <div class="sidebar sidebar-mini text-center" [ngStyle]="!display ? {'animation': 'slideMe 0.7s ease-in', 'visibility': 'visible', 'opacity': '0.8','cursor': 'pointer'} : {'animation': 'slideOut 0.7s ease-out', 'opacity': '0', 'cursor': 'default'}">
             <div>
                 <i class="navbar-toggler-icon text-center mb-3" (click)="closeNavbar()"></i>
             </div>
@@ -98,26 +98,26 @@
                         <p>Lub</p>
                     <div class="dropdown-divider"></div>
                     <p>Zaloguj się, jeśli posiadasz już konto</p>
-                    <form *ngIf="(accountService.currentUser$ | async) === null" #loginForm="ngForm" class="form-inline mt-2 mt-md-0 align-center" (ngSubmit)="login() && 
+                    <form *ngIf="(accountService.currentUser$ | async) === null" #loginForm="ngForm" class="mt-2 mt-md-0 align-center" (ngSubmit)="login() && 
                     cancelRegisterMode($event)"
                     autocomplete="off">
                     <input 
                         name="email"
                         [(ngModel)]="model.email"
-                        class="form-control mr-sm-2 col-9" 
+                        class="form-control mr-sm-2 col-sm-12 col-9" 
                         type="text" 
                         placeholder="Email">
                     <input 
                         name="password"
                         [(ngModel)]="model.password"
-                        class="form-control mr-sm-2 mt-2 mb-2 col-9" 
+                        class="form-control mr-sm-2 mt-2 mb-2 col-sm-12 col-9" 
                         type="password" 
                         placeholder="Password">
                     <button class="btn btn-success my-2 my-sm-0 mt-2 col-4" type="submit" style="display: block; margin-left: auto; margin-right: auto;">Zaloguj</button>
                     </form>
                     <br><br>
                     <div class="card-footer mt-3">        
-                        <a routerLink='/forgot-password' routerLinkActive='active' id="forgot" style="color: yellow;">Zapomniałem hasła</a>
+                        <a routerLink='/forgot-password' routerLinkActive='active' id="forgot" (click)="displayNavbar()" style="color: yellow;">Zapomniałem hasła</a>
                     </div>
                     <br />
                     <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">

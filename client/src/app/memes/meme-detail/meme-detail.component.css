@@ -2,10 +2,6 @@ img {
     min-width: 600px;
 }
 
-.card {
-    min-height: 600px !important;
-  }
-
 textarea {
     background-color: gray;
     color: whitesmoke;
@@ -27,7 +23,7 @@ input[type="file"] {
 #warning {
     color: white; 
     border: 1px solid white;
-    width: 40%;
+    width: 80%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -40,4 +36,11 @@ input[type="file"] {
     min-width: 50px;
     min-height: 40px;
     cursor: pointer;
+}
+
+@media screen and (max-width: 700px) {
+
+    img {
+        min-width: 400px !important;
+    }
 }

@@ -1,8 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbDayTemplateData } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-view-model';
 import { ToastrService } from 'ngx-toastr';
 import { PasswordConfirmationValidatorService } from 'src/app/shared/custom-validators/password-confirmation-validator.service';
+import { User } from 'src/app/_models/user';
 import { ResetPasswordDto } from '../../_interfaces/ResetPasswordDto.model';
 import { AuthenticationService } from '../../_services/authentication.service';
 
@@ -20,20 +23,23 @@ export class ResetPasswordComponent implements OnInit {
 
   private _token: string;
   private _email: string;
+  private _userId: string;
+  private user: any;
 
   constructor(private _authService: AuthenticationService, private _passConfValidator: PasswordConfirmationValidatorService, 
-    private _route: ActivatedRoute) { }
+    private _route: ActivatedRoute, private http: HttpClient) { }
 
   ngOnInit(): void {
     this.resetPasswordForm = new FormGroup({
-      password: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]),
       confirm: new FormControl('')
     });
-    this.resetPasswordForm.get('confirm').setValidators([Validators.required,
+    this._userId = this._route.snapshot.queryParams['userid'];
+    this.resetPasswordForm.get('confirm').setValidators([Validators.required,,
       this._passConfValidator.validateConfirmPassword(this.resetPasswordForm.get('password'))]);
     
       this._token = this._route.snapshot.queryParams['token'];
-      this._email = this._route.snapshot.queryParams['email'];
+      this._userId = this._route.snapshot.queryParams['userid'];
   }
 
   public validateControl = (controlName: string) => {
@@ -52,10 +58,10 @@ export class ResetPasswordComponent implements OnInit {
       password: resetPass.password,
       confirmPassword: resetPass.confirm,
       token: this._token,
-      email: this._email
+      userId: this._userId,
     }
 
-    this._authService.resetPassword('/', resetPassDto)
+    this._authService.resetPassword('account/reset-password', resetPassDto)
     .subscribe(_ => {
       this.showSuccess = true;
     },
@@ -73,7 +79,7 @@ export class ResetPasswordComponent implements OnInit {
       password: resetPass.password,
       confirmPassword: resetPass.confirm,
       token: this._token,
-      email: this._email
+      userId: this._userId,
     }
 
     this._authService.resetPassword('account/reset-password', resetPassDto)
@@ -84,6 +90,13 @@ export class ResetPasswordComponent implements OnInit {
       this.showError = true;
       this.errorMessage = error;
     })
+  }
+
+  getUserEmailById(userId: number) {
+    this._authService.getUserEmailById(userId).subscribe(email => {
+      this.user = email;
+      console.log(this.user.email);
+    });
   }
 
 }

@@ -198,5 +198,14 @@ namespace API.Controllers
 
             return Ok(notifications);
         }
+
+        [HttpGet("get-user-email-by-id/{userId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetEmailById(int userId)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByIdAsync(userId);
+
+            return Ok(user);
+        }
     }
 }

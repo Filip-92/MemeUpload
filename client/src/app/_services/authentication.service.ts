@@ -5,6 +5,8 @@ import { ResetPasswordDto } from "../_interfaces/ResetPasswordDto.model";
 import { EnvironmentUrlService } from "./environment-url.service";
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ForgotPasswordDto } from "../_interfaces/ForgotPasswordDto.model";
+import { environment } from "src/environments/environment";
+import { User } from "../_models/user";
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +14,10 @@ import { ForgotPasswordDto } from "../_interfaces/ForgotPasswordDto.model";
 export class AuthenticationService {
   private _authChangeSub = new Subject<boolean>()
   public authChanged = this._authChangeSub.asObservable();
+  baseUrl = environment.apiUrl;
   
-  constructor(private _http: HttpClient, private _envUrl: EnvironmentUrlService, private _jwtHelper: JwtHelperService) { }
+  constructor(private _http: HttpClient, private _envUrl: EnvironmentUrlService, private _jwtHelper: JwtHelperService,
+    private http: HttpClient) { }
 
   public resetPassword = (route: string, body: ResetPasswordDto) => {
     return this._http.post(this.createCompleteRoute(route, this._envUrl.urlAddress), body);
@@ -36,6 +40,10 @@ export class AuthenticationService {
   }
 
   private createCompleteRoute = (route: string, envAddress: string) => {
-    return `${envAddress}/${route}`;
+    return `${envAddress}${route}`;
+  }
+
+  public getUserEmailById(userId: number) {
+    return this.http.get<User>(this.baseUrl + 'users/get-user-email-by-id/' + userId, {});
   }
 }

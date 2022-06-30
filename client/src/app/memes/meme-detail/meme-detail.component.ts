@@ -57,14 +57,16 @@ export class MemeDetailComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.meme = data.meme;
     });
+    if ("user" in localStorage) {
+      this.initializeUploader();
+      this.initializeForm();
+      this.loadLikes();
+      this.checkIfMemeFavourite(this.id);
+    }
     this.url = this.router.url.split('/');
-    this.initializeForm();
-    this.getMeme(Number(this.url[2]));
-    this.getComments(Number(this.url[2]));
-    this.loadLikes();
+    this.getMeme(this.id);
+    this.getComments(this.id);
     this.getNumberOfComments(this.id);
-    this.initializeUploader();
-    this.checkIfMemeFavourite(Number(this.url[2]));
   }
 
   getMeme(memeId: number) {
@@ -126,13 +128,13 @@ export class MemeDetailComponent implements OnInit {
   }
 
   checkIfMemeLiked(id: number) {
-    if (id === Number(this.url[2])) {
+    if (id === this.id) {
       this.liked = !this.liked;
     }
   }
 
   checkIfMemeDisliked(id: number) {
-    if (id === Number(this.url[2])) {
+    if (id === this.id) {
       this.disliked = !this.disliked;
     }
   }
@@ -261,7 +263,7 @@ export class MemeDetailComponent implements OnInit {
   }
 
   checkIfMemeFavourite(id: number) {
-    if (id === Number(this.url[2])) {
+    if (id === this.id) {
       this.favourite = !this.favourite;
     }
   }

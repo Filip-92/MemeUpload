@@ -35,25 +35,6 @@ export class ForgotPasswordComponent implements OnInit {
     return this.forgotPasswordForm.controls[controlName].hasError(errorName)
   }
 
-  // public forgotPassword = (forgotPasswordFormValue) => {
-  //   this.showError = this.showSuccess = false;
-
-  //   const forgotPass = { ...forgotPasswordFormValue };
-  //   const forgotPassDto: ForgotPasswordDto = {
-  //     email: forgotPass.email,
-  //     clientURI: 'http://localhost:4200/authentication/reset-password'
-  //   }
-
-  //   this._authService.forgotPassword('api/accounts/send-email/' + forgotPass.email, forgotPassDto)
-  //   .subscribe(_ => {
-  //     this.showSuccess = true;
-  //     this.successMessage = 'Link został wysłany, sprawdź swoją skrzynkę mailową aby zmienić hasło.'
-  //   },
-  //   err => {
-  //     this.showError = true;
-  //     this.errorMessage = err;
-  //   })
-  // }
   forgotPassword() {
     this.accountService.forgotPassword(this.forgotPasswordForm.value.email).subscribe(() => {
       this.toastr.success('Link został wysłany, sprawdź swoją skrzynkę mailową aby zmienić hasło.');

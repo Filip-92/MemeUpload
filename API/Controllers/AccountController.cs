@@ -81,7 +81,6 @@ namespace API.Controllers
         {
             var user = await _userManager.Users
                 .Include(p => p.Photos)
-                // .Include(p => p.Memes) // moze zepsuc
                 .SingleOrDefaultAsync(x => x.Email == loginDto.Email.ToLower());
 
             if (user == null) return Unauthorized("Invalid email");
@@ -101,26 +100,9 @@ namespace API.Controllers
                 Username = user.UserName,
                 Token = await _tokenService.CreateToken(user),
                 PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
-                // MemeUrl = user.Memes.FirstOrDefault(x => x.IsApproved)?.Url, // moze zepsuc
                 Gender = user.Gender,
                 NumberOfLikes = user.NumberOfLikes
             };
-        }
-
-        [HttpPut]
-        [Route("api/user/changepassword/{ident}")]
-        public async Task<bool> ChangePassword(int ident, [FromBody]ChangePasswordDto model)
-        {
-            if (!ModelState.IsValid)
-                return false;
-
-            AppUser appUser;
-
-            if ((appUser = await _userManager.FindByIdAsync(ident.ToString())) == null)
-                return false;
-
-            IdentityResult identityResult = await _userManager.ChangePasswordAsync(appUser, model.CurrentPassword, model.NewPassword);
-            return identityResult.Succeeded;
         }
 
         [HttpPost("change-password/{email}")]
@@ -143,15 +125,16 @@ namespace API.Controllers
             return Ok();
         }
 
-        [HttpPost("forgot-password")]
-        public async Task<ActionResult> ForgotPassword(ForgotPasswordDto forgotPassword)
+        [HttpPost("forgot-password/{email}")]
+        [AllowAnonymous]
+        public async Task<ActionResult> ForgotPassword(string email)
         {
             var user = await _userManager.Users
                         .IgnoreQueryFilters()
-                        .Where(e => e.Email.ToLower() == forgotPassword.Email.ToLower())
+                        .Where(e => e.Email.ToLower() == email.ToLower())
                         .FirstOrDefaultAsync();
 
-            if (user == null) return Unauthorized("Username not Found");
+            if (user == null) return Unauthorized("Nie ma takiego użytkownika");
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var uriBuilder = new UriBuilder(_config["returnPaths:PasswordChange"]);
@@ -161,21 +144,13 @@ namespace API.Controllers
             uriBuilder.Query = query.ToString();
             var changePasswordLink = uriBuilder.ToString();
 
-            var message = new Message(new string[] { user.Email }, "Change Password link", changePasswordLink, null);
-            //await _emailSender.SendEmailAsync(message);
+            var subject = "Resetowanie hasła";
+            var content = "<div style='font-size: 20px'>Aby zresetować swoje hasło, kliknij na poniższy link: </div>";
+
+            var message = new Message(new string[] { user.Email }, subject, content + changePasswordLink, null);
+            await _emailSender.SendEmailAsync(message);
 
             return Ok();
-        }
-
-        [HttpPost("send-email/{email}")]
-        public void SendEmail(string email) 
-        {
-            //var files = Request.Form.Files.Any() ? Request.Form.Files : new FormFileCollection();
-            var subject = "Resetowanie hasła";
-            var content = "Aby zresetować swoje hasło, kliknij na poniższy link: \n https://localhost:4200/reset-password";
-
-            var message = new Message(new string[] { email }, subject, content, null);
-            _emailSender.SendEmail(message);
         }
 
         [HttpPost("reset-password")]
@@ -183,7 +158,8 @@ namespace API.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest();
-            var user = await _userManager.FindByEmailAsync(resetPasswordDto.Email);
+
+            var user = await _userManager.FindByIdAsync(resetPasswordDto.UserId);
             if (user == null)
                 return BadRequest("Invalid Request");
             var resetPassResult = await _userManager.ResetPasswordAsync(user, resetPasswordDto.Token, resetPasswordDto.Password);

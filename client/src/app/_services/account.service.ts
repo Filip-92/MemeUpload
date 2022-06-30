@@ -71,8 +71,12 @@ export class AccountService {
   }
 
   forgotPassword(email: any) {
-    return this.http.post(this.baseUrl + 'account/send-email/' + email, {});
+    return this.http.post(this.baseUrl + 'account/forgot-password/' + email, {});
   }
+
+  // forgotPassword(email: any) {
+  //   return this.http.post(this.baseUrl + 'account/send-email/' + email, {});
+  // }
 
   register(model: any) {
     return this.http.post(this.baseUrl + 'account/register', model).pipe(

@@ -5,6 +5,10 @@ table {
 
 #comment {
     background-color: rgb(95, 94, 94);
+    width: 80%;
+    border-radius: 8px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 i {
@@ -31,9 +35,28 @@ img {
 
 span { 
     display:block;
-    width:600px;
     word-break:break-all;
     white-space: normal;
+}
+
+@media screen and (max-width: 700px) {
+
+    #comment {
+        width: 100%;
+    }
+}
+
+#reply {
+    width: 80%;
+    margin-left: 100px;
+}
+
+@media screen and (max-width: 700px) {
+
+    #reply {
+        width: 100%;
+        margin-left: 0;
+    }
 }
 
 textarea {
