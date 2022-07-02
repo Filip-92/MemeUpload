@@ -43,6 +43,7 @@ const routes: Routes = [
       {path: 'strona/:pageNumber', component: HomeComponent},
       {path: 'kategoria/:divisionName', component: HomeComponent},
       {path: 'ostatnie24H', component: HomeComponent},
+      {path: 'ostatnie48H', component: HomeComponent},
       {path: 'poczekalnia/:id/:title', component: MemeDetailComponent},
       {path: 'poczekalnia/:id', component: MemeDetailComponent},
       {path: 'poczekalnia', component: HomeComponent},

@@ -47,25 +47,6 @@ export class AccountService {
     return;
   }
 
-  // changePassword(userDetails: any) {
-  //   const resetPasswordViewModel = {
-  //     OldPassword: userDetails.oldPassword,
-  //     Password: userDetails.newPassword,
-  //     ConfirmPassword: userDetails.newPassword,
-  //     Email: userDetails.email
-  //   };
-
-  //   return this.http  
-  //     .post<any>(this.baseUrlChangePassword, resetPasswordViewModel, {
-  //       headers: { Accept: 'multipart/form-data', 'X-XSRF-TOKEN': this.cookieService.get('XSRF-TOKEN')}
-  //     })
-  //     .pipe(
-  //       map((result) => {
-  //         return result;
-  //       })
-  //     );
-  // }
-
   changePassword(email: string, model: any) {
     return this.http.post(this.baseUrl + 'account/change-password/' + email, model);
   }
@@ -73,10 +54,6 @@ export class AccountService {
   forgotPassword(email: any) {
     return this.http.post(this.baseUrl + 'account/forgot-password/' + email, {});
   }
-
-  // forgotPassword(email: any) {
-  //   return this.http.post(this.baseUrl + 'account/send-email/' + email, {});
-  // }
 
   register(model: any) {
     return this.http.post(this.baseUrl + 'account/register', model).pipe(
@@ -128,4 +105,13 @@ export class AccountService {
   getNotifications(username: string) {
     return this.http.get<Notification[]>(this.baseUrl + 'users/get-notifications/' + username);
   }
+
+  markAsRead(notificationId: number) {
+    return this.http.post(this.baseUrl + 'users/mark-notification-as-read/' + notificationId, {});
+  }
+
+  getUnreadNotifications(username: string) {
+    return this.http.get<Notification[]>(this.baseUrl + 'users/get-unread-notifications/' + username);
+  }
+
 }

@@ -97,7 +97,25 @@ getMainMemes(page?: number, itemsPerPage?: number) {
       params = params.append('pageNumber', page.toString());
       params = params.append('pageSize', itemsPerPage.toString());
     }
-    return this.http.get<Meme[]>(this.baseUrl + 'memes/memes-to-moderate/last24H', {observe: 'response', params}).pipe(
+    return this.http.get<Meme[]>(this.baseUrl + 'memes/memes-to-display/last24H', {observe: 'response', params}).pipe(
+      map(response => {
+        this.paginatedResult.result = response.body;
+        if (response.headers.get('Pagination') !== null) {
+          this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+        }
+        return this.paginatedResult;
+      })
+    );
+  }
+
+  getMemesLast48H(page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+
+    if (page !== null && itemsPerPage !== null) {
+      params = params.append('pageNumber', page.toString());
+      params = params.append('pageSize', itemsPerPage.toString());
+    }
+    return this.http.get<Meme[]>(this.baseUrl + 'memes/memes-to-display/last48H', {observe: 'response', params}).pipe(
       map(response => {
         this.paginatedResult.result = response.body;
         if (response.headers.get('Pagination') !== null) {
@@ -242,6 +260,10 @@ getMainMemes(page?: number, itemsPerPage?: number) {
 
   addReply(model: any) {
     return this.http.post(this.baseUrl + 'memes/add-reply', model);
+  }
+
+  addReplyToReply(model: any) {
+    return this.http.post(this.baseUrl + 'memes/add-reply-to-reply', model);
   }
 
   getReplies(commentId: number) {   

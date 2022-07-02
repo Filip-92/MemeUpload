@@ -17,12 +17,15 @@ namespace API.Interfaces
         Task<AppUser> GetUserByPhotoId(int photoId);
         Task<AppUser> GetUserByMemeId(int memeId);
         Task<AppUser> GetUserByCommentId(int commentId);
+        Task<AppUser> GetUserByReplyId(int replyId);
         Task<string> GetUserGender(string username);
         Task<AppUser> GetUserByEmailAsync(string email);
         Task<UserDto> GetUserNumberOfLikes(int userId);
         Task<PagedList<MemberDto>> SearchForMembers(UserParams userParams, string searchString);
         Task<IEnumerable<ContactFormDto>> GetContactFormMessages();
         Task<IEnumerable<NotificationDto>> GetNotifications(int id);
+        Task<Notifications> GetNotificationById(int id);
+        Task<IEnumerable<NotificationDto>> GetUnreadNotifications(int id);
         Task<ContactForm> GetMessageById(int id);
         void RemoveMessage(ContactForm message);
     }

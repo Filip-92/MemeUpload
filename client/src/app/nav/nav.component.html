@@ -15,13 +15,13 @@
             </div>
         </a>
 
-        <ng-container *ngIf="accountService.currentUser$ | async" class="min-width" style="float: right;">
+        <ng-container *ngIf="accountService.currentUser$ | async" style="float: right !important;">
             <ul class="nav">
                 <li style="width: 60px" title="Użytkownicy"><a class="nav-link" routerLink='/members' routerLinkActive='active'><i class="fa fa-user"></i></a></li>
-                <li style="width: 60px" title="Polubienia"><a class="nav-link" routerLink='/lists' routerLinkActive='active'><i class="fa fa-thumbs-up"></i></a></li>
-                <li style="width: 60px" title="Wiadomości"><a class="nav-link" routerLink='/messages'routerLinkActive='active'><i class="fa fa-envelope" [ngStyle]="unreadMessages > 0 ? { 'color': 'red' } : { 'color': 'white' }"><span *ngIf="unreadMessages > 0">{{unreadMessages}}</span></i></a></li>
+                <!-- <li style="width: 60px" title="Polubienia"><a class="nav-link" routerLink='/lists' routerLinkActive='active'><i class="fa fa-thumbs-up"></i></a></li> -->
                 <li style="width: 60px" *ngIf="(accountService.currentUser$ | async) || (accountService.currentUser$ | async) === null" title="Szukaj memów"><a class="nav-link" routerLink='szukaj/memes' routerLinkActive='active'><i class="fa fa-search"></i></a></li>
-                <li style="width: 60px" title="Powiadomienia"><a class="nav-link" style="cursor: pointer;" (click)="openNotificationsModal(user.username)" routerLinkActive='active'><i class="fa fa-bell"></i></a></li>
+                <li style="width: 60px" title="Wiadomości"><a class="nav-link" routerLink='/messages'routerLinkActive='active'><i class="fa fa-envelope" [ngStyle]="unreadMessages > 0 ? { 'color': 'red' } : { 'color': 'white' }"><span class="ml-1" *ngIf="unreadMessages > 0" id="unread">{{unreadMessages}}</span></i></a></li>
+                <li style="width: 60px" title="Powiadomienia"><a class="nav-link" style="cursor: pointer;" (click)="openNotificationsModal(user.username)" routerLinkActive='active'><i class="fa fa-bell" [ngStyle]="notifications?.length > 0 ? { 'color': 'red' } : { 'color': 'white' }"><span class="ml-1" id="unread">{{notifications?.length}}</span></i></a></li>
                 <li *appHasRole='["Admin", "Moderator"]' class="nav-item" style="width: 60px">
                     <a class="nav-link" routerLink='/admin' routerLinkActive='active'><i class="fa fa-lock"></i></a>
                 </li>
@@ -33,18 +33,18 @@
 
 
         <!-- </div> -->
-        <div>
+        <div id="toggle">
             <i class="navbar-toggler-icon mr-5 text-center" (click)="displayNavbar()" *ngIf="display"></i>
         </div>
 
         <div class="sidebar sidebar-mini text-center" [ngStyle]="!display ? {'animation': 'slideMe 0.7s ease-in', 'visibility': 'visible', 'opacity': '0.8','cursor': 'pointer'} : {'animation': 'slideOut 0.7s ease-out', 'opacity': '0', 'cursor': 'default'}">
-            <div>
+            <div id="toggle">
                 <i class="navbar-toggler-icon text-center mb-3" (click)="closeNavbar()"></i>
             </div>
             <section>
               <header>
                 <div *ngIf="(accountService.currentUser$ | async) as user">
-                    <img src="{{user.photoUrl || './assets/user.png'}}" alt="{{user.username}}" class="mr-2">
+                    <img src="{{user.photoUrl || '././assets/LogoImage.png'}}" alt="{{user.username}}" class="mr-2">
                     {{user.knownAs || user.username | titlecase}}
                 </div>
               </header>

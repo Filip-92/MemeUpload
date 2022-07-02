@@ -5,4 +5,5 @@ export interface Notification {
     memeId: number;
     userId: number;
     sentTime: string;
+    isRead: false;
 }

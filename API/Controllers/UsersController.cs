@@ -199,6 +199,31 @@ namespace API.Controllers
             return Ok(notifications);
         }
 
+        [HttpPost("mark-notification-as-read/{notificationId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult> MarkNotificationAsRead(int notificationId)
+        {
+            var notification = await _unitOfWork.UserRepository.GetNotificationById(notificationId);
+
+            if (notification == null) return NotFound("Could not find notification");
+
+            notification.IsRead = true;
+
+            if (await _unitOfWork.Complete()) return Ok();
+
+            return BadRequest("Nie można otworzyć notyfikacji");
+        }
+
+        [HttpGet("get-unread-notifications/{username}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEntityTypeConfiguration<NotificationDto>>> GetUnreadNotifications(string username)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
+            var notifications = await _unitOfWork.UserRepository.GetUnreadNotifications(user.Id);
+
+            return Ok(notifications);
+        }
+
         [HttpGet("get-user-email-by-id/{userId}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetEmailById(int userId)

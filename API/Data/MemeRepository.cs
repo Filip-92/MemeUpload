@@ -271,6 +271,27 @@ namespace API.Data
             memeParams.PageNumber, memeParams.PageSize);
         }
 
+        public async Task<PagedList<MemeDto>> GetMemesLast48H(MemeParams memeParams)
+        {
+            var query = _context.Memes
+                .IgnoreQueryFilters()
+                .Where(m => m.Uploaded > (DateTime.Now.AddDays(-2)))
+                .Select(u => new MemeDto
+                {
+                    Id = u.Id,
+                    Username = u.AppUser.UserName,
+                    Url = u.Url,
+                    Title = u.Title,
+                    Description = u.Description,
+                    Uploaded = u.Uploaded,
+                    NumberOfLikes = u.NumberOfLikes 
+                }).AsNoTracking()
+                .OrderByDescending(u => u.NumberOfLikes);
+
+            return await PagedList<MemeDto>.CreateAsync(query, 
+            memeParams.PageNumber, memeParams.PageSize);
+        }
+
         public void RemoveMeme(Memes meme)
         {
             _context.Memes.Remove(meme);
@@ -344,7 +365,8 @@ namespace API.Data
                     Content = u.Content,
                     Quote = u.Quote,
                     Uploaded = u.Uploaded,
-                    NumberOfLikes = u.NumberOfLikes
+                    NumberOfLikes = u.NumberOfLikes,
+                    ReplyingToUser = u.ReplyingToUser
                 }).ToListAsync();
         }
 

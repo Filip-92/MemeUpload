@@ -1,4 +1,4 @@
-<div id="comment" class="mb-3 text-center" *ngIf="(accountService.currentUser$ | async) !== null">
+<div id="comment" class="mb-3" *ngIf="(accountService.currentUser$ | async) !== null">
     <table class="table">
         <td style="width: 10%"><img src="{{url || '././assets/LogoImage.png'}}" alt=""></td>
         <td style="width: 5%;"><a routerLink='/members/{{comment.username}}'>{{comment.username}}</a></td>
@@ -48,15 +48,19 @@
 </div>
 <div id="reply" style="border-left: 1px solid white;">
     <div *ngFor="let reply of replies">
-        <app-reply [reply]="reply"></app-reply>
+        <app-reply [reply]="reply" [comment]="comment"></app-reply>
     </div>
 </div>
 
 <div *ngIf="reply">
     <form [formGroup]='replyForm' (ngSubmit)="replyForm.valid && replyComment()" class="text-center column">
         <div>
-            <textarea type="text" [formControl]='replyForm.controls["content"]' placeholder="Wpisz treść komentarza" class="col-7"></textarea>
-            <button class="btn btn-success ml-2 col-2" type="submit" [disabled]="!replyForm.valid" style="margin-bottom: 40px;">Dodaj komentarz</button>
+            <textarea type="text" [formControl]='replyForm.controls["content"]' placeholder="Wpisz treść komentarza" class="col-7 mr-1"></textarea>
+            <label class="custom-file-upload">
+                <input type="file" ng2FileSelect [uploader]="uploader" (change)="fileChangeEvent($event)" class="text-center" title="Wybierz"/>
+                <i class="fa fa-paperclip"></i>
+            </label>
+            <button class="btn btn-success ml-2 col-2" type="submit" [disabled]="!replyForm.valid">Dodaj komentarz</button>
         </div>
         <div *ngIf="replyForm.controls['content'].errors?.maxlength" class="text-danger">
             Komentarz zbyt długi
@@ -65,10 +69,10 @@
 </div>
 
 <div *ngIf="replyQuote">
-    <form [formGroup]='replyForm' (ngSubmit)="replyForm.valid && replyComment()" class="text-center column">
+    <form [formGroup]='replyForm' (ngSubmit)="replyForm.valid && replyComment()" class="text-center column mb-3 ml-5">
         <div>
             <textarea type="text" [formControl]='replyForm.controls["content"]' placeholder="Wpisz treść komentarza" class="col-7"></textarea>
-            <button class="btn btn-success ml-2 col-2" type="submit" [disabled]="!replyForm.valid" style="margin-bottom: 40px;">Dodaj komentarz</button>
+            <button class="btn btn-success ml-2 col-2" type="submit" [disabled]="!replyForm.valid">Dodaj komentarz</button>
         </div>
         <div *ngIf="replyForm.controls['content'].errors?.maxlength" class="text-danger">
             Komentarz zbyt długi

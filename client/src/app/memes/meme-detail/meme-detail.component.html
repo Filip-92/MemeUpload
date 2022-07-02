@@ -26,14 +26,14 @@
 </div>
 
 <div *ngIf="(accountService.currentUser$ | async) !== null">
-    <form [formGroup]='commentForm' (ngSubmit)="commentForm.valid && addComment()" class="text-center column">
+    <form [formGroup]='commentForm' (ngSubmit)="commentForm.valid && addComment()" class="text-center column mb-3">
         <div>
-            <textarea type="text" [formControl]='commentForm.controls["content"]' placeholder="Wpisz treść komentarza" class="col-7"></textarea>
+            <textarea type="text" [formControl]='commentForm.controls["content"]' placeholder="Wpisz treść komentarza" class="col-7 mr-1"></textarea>
             <label class="custom-file-upload">
                 <input type="file" ng2FileSelect [uploader]="uploader" (change)="fileChangeEvent($event)" class="text-center" title="Wybierz"/>
                 <i class="fa fa-paperclip"></i>
             </label>
-            <button class="btn btn-success col-2" type="submit" [disabled]="!commentForm.valid" style="margin-bottom: 40px;">Dodaj komentarz</button>
+            <button class="btn btn-success col-2 ml-1 mr-1" type="submit" [disabled]="!commentForm.valid">Dodaj komentarz</button>
         </div>
         <div *ngIf="commentForm.controls['content'].errors?.maxlength" class="text-danger">
             Komentarz zbyt długi

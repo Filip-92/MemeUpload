@@ -24,6 +24,6 @@ input {
     input[type=text] {
         min-width: 300px;
         left: 0;
-        margin-left: -100px;
+        margin-left: -80px;
     }
 }

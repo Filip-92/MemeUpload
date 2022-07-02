@@ -16,6 +16,7 @@ namespace API.Interfaces
          Task<MemeDto> GetMemeAsync(int id);
          Task<MemeDto> GetMeme(int id);
          Task<PagedList<MemeDto>> GetMemesLast24H(MemeParams memeParams);
+         Task<PagedList<MemeDto>> GetMemesLast48H(MemeParams memeParams);
          Task<PagedList<MemeDto>> GetMemberMemes(MemeParams memeParams, string username);
          Task<Memes> GetMemeById(int id);
          void RemoveMeme(Memes meme);

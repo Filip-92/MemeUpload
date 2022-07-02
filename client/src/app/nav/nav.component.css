@@ -266,4 +266,23 @@ form {
     }
   }
 
+  #unread {
+    background-color: red;
+    color: white;
+    padding: 3px;
+    text-align: center;
+    font: sans-serif;
+  }
+
+  @media screen and (max-width: 700px) {
+    #toggle {
+      font-size: 25px;
+    }
+
+    .nav i {
+      font-size: 20px;
+      margin-top: 10px;
+    }
+  }
+
 

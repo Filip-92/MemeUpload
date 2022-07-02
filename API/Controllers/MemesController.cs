@@ -60,7 +60,8 @@ namespace API.Controllers
                 Url = result.SecureUrl.AbsoluteUri,
                 PublicId = result.PublicId,
                 Title = splitTitleAndDesc[0],
-                Description = splitTitleAndDesc[1]
+                Division = Int32.Parse(splitTitleAndDesc[1]),
+                Description = splitTitleAndDesc[2]
             };
 
             user.Memes.Add(meme);
@@ -211,10 +212,22 @@ namespace API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("memes-to-moderate/last24H")]
+        [HttpGet("memes-to-display/last24H")]
         public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemesLast24H([FromQuery] MemeParams memeParams)
         {
             var memes = await _unitOfWork.MemeRepository.GetMemesLast24H(memeParams);
+
+            Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
+                memes.TotalCount, memes.TotalPages);
+
+            return Ok(memes);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("memes-to-display/last48H")]
+        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemesLast48H([FromQuery] MemeParams memeParams)
+        {
+            var memes = await _unitOfWork.MemeRepository.GetMemesLast48H(memeParams);
 
             Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
                 memes.TotalCount, memes.TotalPages);
@@ -275,6 +288,41 @@ namespace API.Controllers
             {
                 await SendNotification(memeId, notifiedUser, "Pojawił się nowy komentarz pod Twoim memem");
                 return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<CommentDto>(comment));
+            }
+
+            return BadRequest("Nie można dodać komentarza");
+        }
+
+        [HttpPost("add-reply-with-image/{memeId}")]
+        public async Task<ActionResult<MemeDto>> AddReplyWithImage(IFormFile file, int memeId)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+
+            var result = await _memeService.AddMemeAsync(file);
+
+            var notifiedUser = await _unitOfWork.UserRepository.GetUserByMemeId(memeId);
+
+            var content = file.FileName;
+
+            string[] splitTitleAndDesc = content.Split('^');
+
+            if (result.Error != null) return BadRequest(result.Error.Message);
+
+            var reply = new CommentResponses
+            {
+                Url = result.SecureUrl.AbsoluteUri,
+                PublicId = result.PublicId,
+                Content = splitTitleAndDesc[0],
+                MemeId = memeId,
+                CommentId = Int32.Parse(splitTitleAndDesc[1])
+            };
+
+            user.Responses.Add(reply);
+
+            if (await _unitOfWork.Complete())
+            {
+                await SendNotification(memeId, notifiedUser, "Pojawił się nowy komentarz pod Twoim memem");
+                return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<CommentDto>(reply));
             }
 
             return BadRequest("Nie można dodać komentarza");
@@ -375,7 +423,8 @@ namespace API.Controllers
                 Url = commentResponseDto.Url,
                 MemeId = commentResponseDto.MemeId,
                 CommentId = commentResponseDto.CommentId,
-                Quote = commentResponseDto.Quote
+                Quote = commentResponseDto.Quote,
+                ReplyingToUser = commentResponseDto.ReplyingToUser
             };
 
             user.Responses.Add(response);
@@ -385,6 +434,41 @@ namespace API.Controllers
             {
                 await SendNotification(commentResponseDto.MemeId, notifiedUser1, "Pojawił się nowy komentarz pod Twoim memem");
                 await SendNotification(commentResponseDto.MemeId, notifiedUser1, "Ktoś odpowiedział na Twój komentarz");
+                return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<CommentResponseDto>(response));
+            }
+
+            return BadRequest("Problem adding comment: " + commentResponseDto.Content + " " + user + " " + commentResponseDto.MemeId);
+        }
+
+        [HttpPost("add-reply-to-reply")]
+        public async Task<ActionResult<CommentResponseDto>> AddReplyToReply(CommentResponseDto commentResponseDto)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+
+            var memes = await _unitOfWork.MemeRepository.GetMemeById(commentResponseDto.MemeId);
+
+            var notifiedUser1 = await _unitOfWork.UserRepository.GetUserByMemeId(commentResponseDto.MemeId);
+            var notifiedUser2 = await _unitOfWork.UserRepository.GetUserByReplyId(commentResponseDto.ReplyingToReplyId);
+            var notifiedUser3 = await _unitOfWork.UserRepository.GetUserByUsernameAsync(commentResponseDto.ReplyingToUser);
+
+            var response = new CommentResponses
+            {
+                Content = commentResponseDto.Content,
+                Url = commentResponseDto.Url,
+                MemeId = commentResponseDto.MemeId,
+                CommentId = commentResponseDto.CommentId,
+                Quote = commentResponseDto.Quote,
+                ReplyingToUser = commentResponseDto.ReplyingToUser,
+                ReplyingToReplyId = commentResponseDto.ReplyingToReplyId
+            };
+
+            user.Responses.Add(response);
+
+            if (await _unitOfWork.Complete())
+            {
+                await SendNotification(commentResponseDto.MemeId, notifiedUser1, "Pojawił się nowy komentarz pod Twoim memem");
+                await SendNotification(commentResponseDto.MemeId, notifiedUser2, "Ktoś odpowiedział na Twój komentarz");
+                await SendNotification(commentResponseDto.MemeId, notifiedUser3, "Ktoś odpowiedział na Twój komentarz");
                 return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<CommentResponseDto>(response));
             }
 
@@ -406,6 +490,11 @@ namespace API.Controllers
             var reply = await _unitOfWork.MemeRepository.GetReplyById(replyId);
 
             if (reply == null) return NotFound("Nie można znaleźć odpowiedzi");
+
+            if (reply.PublicId != null) 
+            {
+                await _memeService.DeleteMemeAsync(reply.PublicId);
+            }
 
             _unitOfWork.MemeRepository.RemoveReply(reply);
 

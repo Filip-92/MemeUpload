@@ -29,6 +29,8 @@ export class MemeListComponent implements OnInit {
   ngOnInit(): void { 
     if (this.router.url.includes('ostatnie24H')) {
       this.loadMemesLast24H();
+    } else if (this.router.url.includes('ostatnie48H')) {
+      this.loadMemesLast48H();
     } else if (this.router.url.includes('poczekalnia')) {
       this.loadMemes(); 
     } else if (this.router.url.includes('kategoria')) {
@@ -57,6 +59,13 @@ export class MemeListComponent implements OnInit {
 
   loadMemesLast24H() {
     this.memeService.getMemesLast24H(this.pageNumber, this.pageSize).subscribe(response => {
+      this.memes = response.result;
+      this.pagination = response.pagination;
+    });
+  }
+
+  loadMemesLast48H() {
+    this.memeService.getMemesLast48H(this.pageNumber, this.pageSize).subscribe(response => {
       this.memes = response.result;
       this.pagination = response.pagination;
     });
@@ -97,6 +106,8 @@ export class MemeListComponent implements OnInit {
     this.loadMemes();
     if (this.router.url.includes('ostatnie24H')) {  
       this.loadMemesLast24H();
+     } else if (this.router.url.includes('ostatnie48H')) {  
+      this.loadMemesLast48H();
      }
   }
 

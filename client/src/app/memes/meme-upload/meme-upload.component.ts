@@ -38,6 +38,7 @@ export class MemeUploadComponent implements OnInit {
   public message: string;
   memeUploadForm: FormGroup;
   youtubeForm: FormGroup;
+  divisionForm: FormGroup;
   members: Member[];
   meme: Meme = {
     x: '',
@@ -66,6 +67,7 @@ export class MemeUploadComponent implements OnInit {
   youtubeVideo: boolean;
   imageChangedEvent: any = '';
   croppedImage: any = '';
+  openDivision: boolean = false;
 
   constructor(public accountService: AccountService, private toastr: ToastrService, 
     private sanitizer: DomSanitizer, private fb: FormBuilder, private memeService: MemeService, 
@@ -79,6 +81,7 @@ export class MemeUploadComponent implements OnInit {
     }
     this.initializeForm();
     this.getDivisions();
+    this.initializeDivisionForm();
   }
 
   initializeForm() {
@@ -86,8 +89,15 @@ export class MemeUploadComponent implements OnInit {
       title: ['', 
               [Validators.required, 
               Validators.minLength(8), 
-              Validators.maxLength(32)]],
+              Validators.maxLength(32),
+              Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]],
       description: ['', [Validators.maxLength(400)]]
+    })
+  }
+
+  initializeDivisionForm() {
+    this.divisionForm = this.fb.group({
+      division: ['0']
     })
   }
 
@@ -100,7 +110,7 @@ export class MemeUploadComponent implements OnInit {
       title: [this.memeUploadForm.value.title],
       url: ['', [Validators.required, Validators.pattern(this.regExHyperlink)]],
       description: ['', [Validators.maxLength(400)]],
-      division: ['']
+      division: [this.divisionForm.value.division]
     })
   }
 
@@ -141,7 +151,7 @@ export class MemeUploadComponent implements OnInit {
         this.format = 'video';
       } 
       this.previewImg = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(file._file)));
-      file.file.name = this.memeUploadForm.value.title + '^' + this.memeUploadForm.value.description;
+      file.file.name = this.memeUploadForm.value.title + '^' + this.divisionForm.value.division + '^' + this.memeUploadForm.value.description;
       file.file.rawFile = this.croppedImage;
     }
 
@@ -193,10 +203,15 @@ export class MemeUploadComponent implements OnInit {
       this.validationErrors = error;
     })
   }
+  closedDivisions: any;
 
   getDivisions() {
     this.memeService.getDivisions().subscribe(divisions => {
       this.divisions = divisions;
+      // for (let division of this.divisions) {
+      //   this.closedDivisions?.append(division.name);
+      //   console.log(this.closedDivisions);
+      // }
     });
   }
 

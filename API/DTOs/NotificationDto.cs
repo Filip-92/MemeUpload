@@ -8,5 +8,6 @@ namespace API.DTOs
         public string Content { get; set; }
         public int MemeId { get; set; }
         public DateTime SentTime {get; set; } = DateTime.Now;
+        public Boolean IsRead { get; set; }
     }
 }

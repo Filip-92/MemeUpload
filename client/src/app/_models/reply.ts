@@ -8,4 +8,6 @@ export interface Reply {
     memeId: number;
     commentId: number;
     quote: string;
+    replyingToUser: string;
+    replyingToReplyId: number;
 }

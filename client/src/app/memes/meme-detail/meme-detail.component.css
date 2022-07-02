@@ -2,22 +2,8 @@ img {
     min-width: 600px;
 }
 
-textarea {
-    background-color: gray;
-    color: whitesmoke;
-}
-
-::placeholder {
-    color: whitesmoke;
-}
-
 table {
     background-color: rgb(95, 94, 94);
-}
-
-input[type="file"] {
-    display: none;
-    margin-left: -50px !important;
 }
 
 #warning {
@@ -26,6 +12,17 @@ input[type="file"] {
     width: 80%;
     margin-left: auto;
     margin-right: auto;
+}
+
+@media screen and (max-width: 700px) {
+
+    img {
+        min-width: 400px !important;
+    }
+}
+
+i {
+    padding-top: 7px;
 }
 
 .fa-paperclip {
@@ -38,9 +35,29 @@ input[type="file"] {
     cursor: pointer;
 }
 
+input[type="file"] {
+    display: none;
+    margin-left: -50px !important;
+}
+
+textarea {
+    margin-bottom: -20px;
+    background-color: gray;
+    color: whitesmoke;
+}
+
+::placeholder {
+    color: whitesmoke;
+}
+
 @media screen and (max-width: 700px) {
 
-    img {
-        min-width: 400px !important;
+    .btn {
+        max-height: 40px;
+        font-size: 10px;
+    }
+
+    button {
+        margin-top: -5px;
     }
 }

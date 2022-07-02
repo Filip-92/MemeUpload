@@ -87,3 +87,28 @@ select {
     background-color: gray;
     color: whitesmoke;
 }
+
+@media screen and (max-width: 700px) {
+
+    input[type=text] {
+        margin-left: 20px;
+        min-width: 300px !important;
+    }
+
+    textarea {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: -50px;
+        min-width: 450px;
+        height: 120px;
+    }
+
+    #link {
+        margin-left: 10px;
+        min-width: 350px !important;
+    }
+
+    #youtubeButton {
+        font-size: 12px;
+    }
+}

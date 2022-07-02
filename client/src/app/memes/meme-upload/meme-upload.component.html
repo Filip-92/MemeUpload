@@ -9,9 +9,9 @@
                 <div>
                     {{memeUploadForm.value.description}}
                 </div>
-                <!-- <img id="preview" [src]="previewImg" *ngIf="previewImg && format==='image'"/> -->
+                <img id="preview" [src]="previewImg" *ngIf="previewImg && format==='image'"/>
 
-                <image-cropper
+                <!-- <image-cropper                         trzeba bedzie ogarnac jak przekazywac zdjecie
                 [imageChangedEvent]="imageChangedEvent"
                 [maintainAspectRatio]="true"
                 [aspectRatio]="4 / 3"
@@ -22,7 +22,7 @@
                 (loadImageFailed)="loadImageFailed()"
                 ></image-cropper>
 
-                <img [src]="croppedImage" class="mt-3" style="height: 150px;" />
+                <img [src]="croppedImage" class="mt-3" style="height: 150px;" /> -->
 
                 <video id="preview" [src]="previewImg" *ngIf="previewImg && format==='video'" controls></video>
             </div>
@@ -58,12 +58,51 @@
 
     <div class="container text-center" *ngIf="memeUploadMode" style="max-height: 1200px !important;">
 
+        <div style="margin-top: -20px;">
+            <div class="row">
+                <div class="col-sm-2 col-4"></div>
+                <div class="col-sm-4 col-2">
+                    Wybierz dział: 
+                </div>
+                <div class="col-sm-3 col-1" style="margin-top: -5px;">
+                    <form [formGroup]='divisionForm' class="mb-3">
+                        <select formControlName='division' id="division" class="mt-2">
+                            <option value='' disabled>Wybierz</option>
+                            <option value='0'>domyślny</option>
+                            <option value={{division.id}} *ngFor="let division of divisions">{{division.name}}</option>
+                        </select> 
+                    </form>
+                </div>
+                <div class="col-sm-5 col-6"></div>
+            </div>
+            <!-- <input type="radio" id="false" [(ngModel)]="type" value="0" class="mr-1" checked>
+            <label for="0" class="mr-2">Otwarty</label>
+            <input type="radio" id="true" [(ngModel)]="type" value="1" class="mr-1">
+            <label for="1" class="mr-2">+18</label>
+            <div *ngIf="type === '0'">
+                <select [formGroup]='divisionForm' id="division" class="mt-2">
+                    <option value='' disabled>Wybierz</option>
+                    <option value='0'>domyślny</option>
+                    <option value={{division.id}} *ngFor="let division of divisions">{{division.name}}</option>
+                </select>  
+            </div>
+            <div *ngIf="type === '1'">
+                <select [formGroup]='divisionForm' id="division" class="mt-2">
+                    <option value='' disabled>Wybierz</option>
+                    <option value='0'>domyślny</option>
+                    <option value={{division.id}} *ngFor="let division of divisions">
+                        {{division.name}}
+                    </option>
+                </select>  
+            </div> -->
+        </div>
+
         <button (click)="normalMemeToggle()" [disabled]="youtubeVideo" class="btn btn-danger mb-2" style="width: 80%; margin-top: 10px !important;">
             Dodaj klasycznego mema
         </button>
 
         <div *ngIf="normalMeme" class="mb-2">
-            <div class="column col-10" style="margin-left: auto; margin-right: auto;">
+            <div class="column col-10" style="margin-left: auto; margin-right: auto;"> 
                 <textarea class="col-8" placeholder="Wpisz opis (opcjonalnie)" name="description" [formControl]='memeUploadForm.controls["description"]' style="display: inline-block;"></textarea>
                 <div class="col-3" style="max-width: 200px; display: inline-block;">
                     <label class="custom-file-upload" style="min-width: 150px !important;">
@@ -97,8 +136,8 @@
             <form [formGroup]='youtubeForm' (ngSubmit)="youtubeForm.valid && addYoutubeLink()" class="text-center column">
                 <div>
                     <div>
-                        <input type="text" [formControl]='youtubeForm.controls["url"]' placeholder="Wstaw link z youtube" class="col-7">
-                        <button class="btn btn-success ml-2 col-2" type="submit" style="margin-top: 0 !important;">Dodaj link</button>
+                        <input id="link" type="text" [formControl]='youtubeForm.controls["url"]' placeholder="Wstaw link z youtube" class="col-7">
+                        <button id="youtubeButton" class="btn btn-success ml-2 col-2" type="submit" style="margin-top: 0 !important;">Dodaj link</button>
                     </div>
                     <div *ngIf="youtubeForm.dirty && !youtubeForm.controls['url'].errors?.pattern && !youtubeForm.controls['url'].errors?.required && youtubeForm.controls['url'].touched">
                         <app-link-preview [link1]="youtubeForm.value.url"></app-link-preview>
@@ -114,10 +153,10 @@
                         Opis zbyt długi
                     </div>
                 </div>
-                    <select formControlName='division' id="division" class="mt-2">
+                    <!-- <select formControlName='division' id="division" class="mt-2">
                         <option value='' disabled>Wybierz</option>
                         <option value={{division.id}} *ngFor="let division of divisions">{{division.name}}</option>
-                    </select>   
+                    </select>    -->
             </form>
         </div>
 

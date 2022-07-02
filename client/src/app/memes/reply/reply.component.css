@@ -41,3 +41,50 @@ i:hover {
     margin-right: auto;
     border-radius: 8px;
 }
+
+i {
+    padding-top: 7px;
+}
+
+.fa-paperclip {
+    border: 1px solid white;
+    background-color: orange;
+    font-size: 20px;
+    border-radius: 8px;
+    min-width: 50px;
+    min-height: 40px;
+    cursor: pointer;
+}
+
+input[type="file"] {
+    display: none;
+    margin-left: -50px !important;
+}
+
+textarea {
+    margin-bottom: -20px;
+    background-color: gray;
+    color: whitesmoke;
+}
+
+::placeholder {
+    color: whitesmoke;
+}
+
+#image img {
+    min-height: 150px;
+    max-height: 150px;
+    margin-bottom: 10px;
+}
+
+@media screen and (max-width: 700px) {
+
+    .btn {
+        max-height: 40px;
+        font-size: 10px;
+    }
+
+    button {
+        margin-top: -5px;
+    }
+}

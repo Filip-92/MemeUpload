@@ -142,12 +142,13 @@ namespace API.Controllers
             query["token"] = token;
             query["userid"] = user.Id.ToString();
             uriBuilder.Query = query.ToString();
-            var changePasswordLink = uriBuilder.ToString();
+            var changePasswordLink = "<a style='margin-top: 10px' href=\"" + uriBuilder.ToString() + "\">Link</a><br />";
 
             var subject = "Resetowanie hasła";
             var content = "<div style='font-size: 20px'>Aby zresetować swoje hasło, kliknij na poniższy link: </div>";
+            var footer = "<br /><hr style='width: 100%'><br /><div style='font-size: 22px; color: red;'>Daily Dose of Memes &#174 2022</div><br><div style='font-size: 16px'>Wszystkie prawa zastrzeżone</div>";
 
-            var message = new Message(new string[] { user.Email }, subject, content + changePasswordLink, null);
+            var message = new Message(new string[] { user.Email }, subject, content + changePasswordLink + footer, null);
             await _emailSender.SendEmailAsync(message);
 
             return Ok();

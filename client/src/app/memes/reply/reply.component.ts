@@ -1,11 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
 import { Reply } from 'src/app/_models/reply';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
 import { MemeService } from 'src/app/_services/meme.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-reply',
@@ -14,6 +16,7 @@ import { MemeService } from 'src/app/_services/meme.service';
 })
 export class ReplyComponent implements OnInit {
   @Input() reply: Reply;
+  @Input() comment: any;
   user: User;
   url: string;
   replyField: boolean;
@@ -23,6 +26,12 @@ export class ReplyComponent implements OnInit {
   disliked: boolean;
   likedReplies: any;
   username: any;
+  uploader: FileUploader;
+  baseUrl = environment.apiUrl;
+  imageChangedEvent: any = '';
+  replies: any;
+  replyQuote: boolean;
+  ifReply: boolean;
 
   constructor(public accountService: AccountService, private memeService: MemeService,
     private fb: FormBuilder, private toastr: ToastrService) { 
@@ -31,10 +40,10 @@ export class ReplyComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserPhoto(this.reply.username);
+    this.getReplies(this.comment.id);
     if ("user" in localStorage) {
       this.loadLikes();
     }
-    //this.getCommentUsername(this.reply.commentId);
   }
 
   getUserPhoto(username: string) {
@@ -47,9 +56,15 @@ export class ReplyComponent implements OnInit {
     this.memeService.removeReply(replyId).subscribe(reply => {
       this.reply.id = replyId
     });
+    this.reloadCurrentPage();
   }
 
+  reloadCurrentPage() {
+    window.setTimeout(function(){location.reload()},100);
+   }
+
   addReply(commentId) {
+    this.ifReply = !this.ifReply;
     this.replyField = !this.replyField;
     this.initializeForm(commentId)
   }
@@ -58,18 +73,28 @@ export class ReplyComponent implements OnInit {
     this.replyForm = this.fb.group({
       content: ['', [Validators.required, Validators.maxLength(2000)]],
       memeId: [this.reply.memeId],
-      commentId: [commentId]
+      commentId: [commentId],
+      replyingToUser: [this.reply.username],
+      replyingToReplyId: [this.reply.id]
     })
   }
 
+  getReplies(commentId: number) {
+    this.memeService.getReplies(commentId).subscribe(replies => {
+      this.replies = replies;
+    });
+  }
+
   replyComment() {
-    this.memeService.addReply(this.replyForm.value).subscribe(response => {
+    this.memeService.addReplyToReply(this.replyForm.value).subscribe(response => {
       this.toastr.success('Pomyślnie dodano odpowiedź');
       this.replyForm.reset();
       this.replyField = !this.replyField;
       }, error => {
       this.validationErrors = error;
     })
+    this.replyField = false;
+    this.replyQuote = false;
   }
 
   addLike(reply: Reply) {
@@ -130,5 +155,76 @@ getCommentUsername(id: number) {
     console.log(this.username);
   });
 }
+
+initializeUploader() {
+  let maxFileSize = 10 * 1024 * 1024;
+  this.uploader = new FileUploader({
+    url: this.baseUrl + 'memes/add-reply-with-image/' + this.comment.id,
+    authToken: 'Bearer ' + this.user.token,
+    allowedFileType: ['image'],
+    isHTML5: true,
+    removeAfterUpload: true,
+    autoUpload: false,
+    maxFileSize: maxFileSize
+  });
+
+  this.uploader.onWhenAddingFileFailed = (item, filter) => {
+    let message = '';
+    switch (filter.name) {
+      case 'fileSize':
+        message = 'Plik jest za duży. Rozmiar pliku to ' + this.formatBytes(item.size) + ', podczas gdy maksymalny dopuszczalny rozmiar to ' + this.formatBytes(maxFileSize);
+        break;
+      default:
+        message = 'Wystąpił błąd';
+        break;
+    }
+    this.toastr.warning(message);
+  };
+
+  this.uploader.onAfterAddingFile = (file) => {
+    file.withCredentials = false;
+    file.file.name = this.replyForm.value.content;
+  }
+
+  this.uploader.onSuccessItem = (item, response) => {
+    if (response) {
+      const reply: Reply = JSON.parse(response);
+         this.accountService.setCurrentUser(this.user);
+         this.toastr.success('Pomyślnie dodano komentarz');
+         this.getReplies(this.comment.id);
+         this.replyForm.reset();
+    }
+  }
+}
+
+fileChangeEvent(event: any): void {
+  this.imageChangedEvent = event;
+}
+
+private formatBytes(bytes: number, decimals?: number) {
+  if (bytes == 0) return '0 Bytes';
+  const k = 1024,
+    dm = decimals || 2,
+    sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+    i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    }
+
+  addQuotedReply(commentId) {
+    this.replyQuote = !this.replyQuote;
+    this.initializeQuoteForm(commentId);
+  }
+
+  initializeQuoteForm(commentId) {
+    this.replyForm = this.fb.group({
+      content: ['', [Validators.required, Validators.maxLength(2000)]],
+      memeId: [this.comment.memeId],
+      quote: [this.reply.content],
+      commentId: [commentId],
+      replyingToUser: [this.reply.replyingToUser],
+      replyingToReplyId: [this.reply.id]
+    })
+  }
+
 
 }

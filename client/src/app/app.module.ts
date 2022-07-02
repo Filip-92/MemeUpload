@@ -128,7 +128,7 @@ import { ChangePasswordComponent } from './members/change-password/change-passwo
     NotificationsModalComponent,
     FavouriteComponent,
     MemeCardFavouriteComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,

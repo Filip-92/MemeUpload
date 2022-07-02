@@ -59,7 +59,8 @@ export class NavComponent implements OnInit {
 
   ngOnInit(): void {
     if ("user" in localStorage) {
-      this.loadMessages(); // trzeba ogarnac zeby nie odpalalo sie przy niezalogowanym
+      this.loadMessages();
+      this.getUnreadNotifications(this.user.username);
     }
     this.open = true;
     this.isMobile = this.deviceService.isMobile();
@@ -81,6 +82,7 @@ export class NavComponent implements OnInit {
       this.router.navigateByUrl('/');
     })
     this.registerMode = false;
+    this.reloadCurrentPage();
   }
 
   logout() {
@@ -127,6 +129,12 @@ export class NavComponent implements OnInit {
     const modalRef = this.modalServ.open(NotificationsModalComponent);
     modalRef.componentInstance.username = username;
     modalRef.componentInstance.modalRef = modalRef;
+  }
+
+  getUnreadNotifications(username: string) {
+    this.accountService.getUnreadNotifications(username).subscribe(notifications => {
+      this.notifications = notifications;
+    });
   }
 
   convertText(title: string) {

@@ -18,7 +18,6 @@ export class NotificationsModalComponent implements OnInit {
   getNotifications(username: string) {
     this.accountService.getNotifications(username).subscribe(notifications => {
       this.notifications = notifications;
-      console.log(this.notifications);
     });
   }
 
@@ -26,7 +25,8 @@ export class NotificationsModalComponent implements OnInit {
     this.getNotifications(this.username);
   }
 
-  close() {
+  markAsRead(notificationId: number) {
+    this.accountService.markAsRead(notificationId);
     this.modalRef.close();
   }
 

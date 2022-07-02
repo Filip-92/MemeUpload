@@ -97,6 +97,15 @@ namespace API.Data
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<AppUser> GetUserByReplyId(int replyId)
+        {
+            return await _context.Users
+                .Include(m => m.Responses)
+                .IgnoreQueryFilters()
+                .Where(m => m.Responses.Any(m => m.Id == replyId))
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<AppUser> GetUserByUsernameAsync(string username)
         {
             return await _context.Users
@@ -181,7 +190,31 @@ namespace API.Data
                     Id = u.Id,
                     Content = u.Content,
                     MemeId = u.MemeId,
-                    SentTime = u.SentTime
+                    SentTime = u.SentTime,
+                    IsRead = u.IsRead
+                }).OrderByDescending(u => u.Id)
+                .ToListAsync();
+        }
+
+        public async Task<Notifications> GetNotificationById(int id)
+        {
+            return await _context.Notifications
+            .IgnoreQueryFilters()
+            .SingleOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<IEnumerable<NotificationDto>> GetUnreadNotifications(int id)
+        {
+                return await _context.Notifications
+                .IgnoreQueryFilters()
+                .Where(m => m.AppUserId == id && m.IsRead == false)
+                .Select(u => new NotificationDto
+                {
+                    Id = u.Id,
+                    Content = u.Content,
+                    MemeId = u.MemeId,
+                    SentTime = u.SentTime,
+                    IsRead = u.IsRead
                 }).OrderByDescending(u => u.Id)
                 .ToListAsync();
         }

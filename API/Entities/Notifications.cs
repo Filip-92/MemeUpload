@@ -12,5 +12,6 @@ namespace API.Entities
         public AppUser AppUser { get; set; }
         public int AppUserId { get; set; }
         public DateTime SentTime {get; set; } = DateTime.Now;
+        public Boolean IsRead { get; set; }
     }
 }
