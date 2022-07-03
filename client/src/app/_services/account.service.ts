@@ -107,7 +107,8 @@ export class AccountService {
   }
 
   markAsRead(notificationId: number) {
-    return this.http.post(this.baseUrl + 'users/mark-notification-as-read/' + notificationId, {});
+    console.log(this.baseUrl + 'users/mark-notification-as-read/' + notificationId);
+    return this.http.post(this.baseUrl + 'memes/mark-notification-as-read/' + notificationId, {});
   }
 
   getUnreadNotifications(username: string) {

@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using API.Data;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
@@ -211,6 +209,21 @@ namespace API.Controllers
             return BadRequest("Nie można oznaczyć jako SPAM");
         }
 
+        [HttpPost("mark-notification-as-read/{notificationId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult> MarkNotificationAsRead(int notificationId)
+        {
+            var notification = await _unitOfWork.UserRepository.GetNotificationById(notificationId);
+
+            if (notification == null) return NotFound("Could not find notification");
+
+            notification.IsRead = true;
+
+            if (await _unitOfWork.Complete()) return Ok();
+
+            return BadRequest("Nie można otworzyć notyfikacji");
+        }
+
         [AllowAnonymous]
         [HttpGet("memes-to-display/last24H")]
         public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemesLast24H([FromQuery] MemeParams memeParams)
@@ -388,19 +401,33 @@ namespace API.Controllers
         }
 
         [HttpPut("{commentId}")]
+        [AllowAnonymous]
         public async Task<ActionResult> UpdateComment(CommentUpdateDto commentUpdateDto, int commentId)
         {
             var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
             var comment = await _unitOfWork.MemeRepository.GetCommentById(commentId);
 
-            if (comment != null)
-            {
-                return BadRequest(commentUpdateDto.Content);
-            }
+            _mapper.Map(commentUpdateDto, user);
+
+            // _unitOfWork.MemeRepository.Update(comment);
+            comment.Content = commentUpdateDto.Content;
+
+            if (await _unitOfWork.Complete()) return NoContent();
+
+            return BadRequest("Failed to update comment");
+        }
+
+        [HttpPut("edit-reply/{replyId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult> UpdateReply(CommentUpdateDto commentUpdateDto, int replyId)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+            var reply = await _unitOfWork.MemeRepository.GetReplyById(replyId);
 
             _mapper.Map(commentUpdateDto, user);
 
-            _unitOfWork.MemeRepository.Update(comment);
+            // _unitOfWork.MemeRepository.Update(comment);
+            reply.Content = commentUpdateDto.Content;
 
             if (await _unitOfWork.Complete()) return NoContent();
 

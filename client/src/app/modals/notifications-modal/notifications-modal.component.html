@@ -6,7 +6,7 @@
     >
     <div *ngFor="let notification of notifications">
         <a routerLink="/memes/{{notification.memeId}}" (click)="markAsRead(notification.id)" class="nav-link notification">
-            <div class="row" [ngStyle]="notification.isRead ? { 'color': 'red', 'opacity': '0.5' } : { 'opacity': '1' }">
+            <div class="row" [ngStyle]="notification.isRead ? { 'color': 'yellow', 'opacity': '0.5' } : { 'opacity': '1' }">
                 <div class="col-2">
                     <img src="././assets/LogoImage.png" alt="">
                 </div>

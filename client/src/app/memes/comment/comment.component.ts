@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
@@ -18,11 +18,16 @@ import { MemeDetailComponent } from '../meme-detail/meme-detail.component';
   styleUrls: ['./comment.component.css']
 })
 export class CommentComponent implements OnInit {
-  @Input() comment: Comment;
+  @Input() comment: any;
+  @ViewChild('editForm') editForm: NgForm;
+  @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) {
+    if (this.editForm?.dirty) {
+      $event.returnValue = true;
+    }
+  }
   url: string;
   user: User;
   replyForm: FormGroup;
-  editForm: FormGroup;
   validationErrors: string[] = [];
   reply: boolean;
   replyQuote: boolean;
@@ -117,13 +122,13 @@ export class CommentComponent implements OnInit {
     })
   }
 
-  initializeEditForm(commentId) {
-    this.editForm = this.fb.group({
-      content: ['', [Validators.required, Validators.maxLength(2000)]],
-      memeId: [this.comment.memeId],
-      id: [commentId]
-    })
-  }
+  // initializeEditForm(commentId) {
+  //   this.editForm = this.fb.group({
+  //     content: ['', [Validators.required, Validators.maxLength(2000)]],
+  //     memeId: [this.comment.memeId],
+  //     id: [commentId]
+  //   })
+  // }
 
   getReplies(commentId: number) {
     this.memeService.getReplies(commentId).subscribe(replies => {
@@ -185,11 +190,11 @@ checkIfCommentDisliked(id: number) {
 
 editCommentToggle(commentId: number) {
   this.commentUpdate = !this.commentUpdate;
-  this.initializeEditForm(commentId);
+  //this.initializeEditForm(commentId);
 }
 
-editComment(commentId: number) {
-  this.memeService.updateComment(this.editForm.value, commentId).subscribe(() => {
+editComment() {
+  this.memeService.updateComment(this.comment).subscribe(() => {
     this.editForm.reset(this.editForm.value);
     this.commentUpdate = !this.commentUpdate;
   })

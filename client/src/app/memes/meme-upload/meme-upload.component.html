@@ -60,11 +60,10 @@
 
         <div style="margin-top: -20px;">
             <div class="row">
-                <div class="col-sm-2 col-4"></div>
-                <div class="col-sm-4 col-2">
+                <div class="col-sm-4 col-9 text-right">
                     Wybierz dział: 
                 </div>
-                <div class="col-sm-3 col-1" style="margin-top: -5px;">
+                <div class="col-sm-3 col-3 text-center" style="margin-top: -5px;">
                     <form [formGroup]='divisionForm' class="mb-3">
                         <select formControlName='division' id="division" class="mt-2">
                             <option value='' disabled>Wybierz</option>
@@ -73,7 +72,6 @@
                         </select> 
                     </form>
                 </div>
-                <div class="col-sm-5 col-6"></div>
             </div>
             <!-- <input type="radio" id="false" [(ngModel)]="type" value="0" class="mr-1" checked>
             <label for="0" class="mr-2">Otwarty</label>

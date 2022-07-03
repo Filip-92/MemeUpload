@@ -77,6 +77,10 @@ textarea {
     margin-bottom: 10px;
 }
 
+#editForm {
+    margin-left: 100px;
+}
+
 @media screen and (max-width: 700px) {
 
     .btn {
@@ -86,5 +90,13 @@ textarea {
 
     button {
         margin-top: -5px;
+    }
+
+    #reply {
+        font-size: 12px;
+    }
+
+    #editForm {
+        margin-left: 50px;
     }
 }

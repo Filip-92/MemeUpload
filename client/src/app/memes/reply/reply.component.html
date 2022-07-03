@@ -6,28 +6,41 @@
             <td style="width: 5%;"><a routerLink='/members/{{reply.username}}'>{{reply.username}}</a></td>
             <td style="width: 15%;">{{reply.uploaded | timeago}}</td>
             <span>
-                <td style="width: 51%;">
-                    <span class="mb-3" style="color: black;">
-                        @{{reply.replyingToUser}}
-                    </span>
-                    <div *ngIf="reply.quote !== null" id="quote" class="text-center mb-3">
-                        "{{reply.quote}}"
-                    </div>
-                    <div>
-                        {{reply.content}}
-                    </div>
-                </td>
+                <td style="width: 51%;"></td>
             </span>
             <td style="width: 3%;"><button id="like" [disabled]="disliked" (click)="addLike(reply)"><i class="fa fa-plus" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'green' }"></i></button></td>
             <td style="width: 3%;">{{reply.numberOfLikes}}</td>
             <td style="width: 3%;"><button id="like" [disabled]="liked" (click)="addDislike(reply)"><i class="fa fa-minus" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red' }"></i></button></td>
-            <td style="width: 10%" *ngIf="reply.username === user.username"><button class="btn btn-danger" (click)="removeReply(reply.id)">Usuń</button></td>
+            <td style="width: 10%" *ngIf="reply.username === user.username">
+                <button class="btn btn-success mb-2" (click)="editReplyToggle(comment.id) && reloadComments(comment)">Edytuj</button>
+                <button class="btn btn-danger" (click)="removeReply(reply.id)">Usuń</button>
+            </td>
         </table>
+        <div class="text-center" id="content" style="padding: 10px;">                    
+            <span class="mb-3" style="color: black;">
+            @{{reply.replyingToUser}}
+            </span>
+            <div *ngIf="reply.quote !== null" id="quote" class="text-center mb-3">
+                "{{reply.quote}}"
+            </div>
+            <div>
+                {{reply.content}}
+            </div>
+        </div>
         <div id="image" class="text-center mb-3" *ngIf="reply.url !== null">
             <img src="{{reply.url}}" alt="">
         </div>
         <i class="fa fa-reply ml-3 mb-1" (click)="addReply(reply.commentId)"> Odpowiedz</i>
         <i class="fa fa-quote-left ml-3 mb-1" *ngIf="!ifReply" (click)="addQuotedReply(reply.commentId)"> Zacytuj</i>
+    </div>
+</div>
+
+<div *ngIf="commentUpdate">
+    <div class="text-center mt-2 mb-3" id="editForm">
+        <form #editForm="ngForm" (ngSubmit)="editReply()" class="text-center column">
+            <textarea type="text" name="content" [(ngModel)]="reply.content" placeholder="{{reply.content}}" class="col-7"></textarea>
+            <button class="btn btn-success ml-2 col-2" type="submit" [disabled]="!editForm?.dirty">Edytuj komentarz</button>
+        </form>
     </div>
 </div>
 

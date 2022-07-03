@@ -1,6 +1,11 @@
 table {
     background-color: rgb(95, 94, 94);
     word-wrap:break-word !important;
+    border-radius: 8px;
+}
+
+#content {
+    word-wrap:break-word !important;
 }
 
 #comment {
@@ -97,5 +102,13 @@ textarea {
 
     button {
         margin-top: -5px;
+    }
+
+    #comment {
+        font-size: 12px;
+    }
+
+    #replyForm {
+        margin-left: 50px;
     }
 }

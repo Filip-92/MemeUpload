@@ -16,8 +16,6 @@ namespace API.Data
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        private DataContext context;
-
         public MemeRepository(DataContext context, IMapper mapper)
         {
             _context = context;

@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
@@ -17,6 +17,12 @@ import { environment } from 'src/environments/environment';
 export class ReplyComponent implements OnInit {
   @Input() reply: Reply;
   @Input() comment: any;
+  @ViewChild('editForm') editForm: NgForm;
+  @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) {
+    if (this.editForm?.dirty) {
+      $event.returnValue = true;
+    }
+  }
   user: User;
   url: string;
   replyField: boolean;
@@ -32,6 +38,7 @@ export class ReplyComponent implements OnInit {
   replies: any;
   replyQuote: boolean;
   ifReply: boolean;
+  commentUpdate: boolean;
 
   constructor(public accountService: AccountService, private memeService: MemeService,
     private fb: FormBuilder, private toastr: ToastrService) { 
@@ -226,5 +233,14 @@ private formatBytes(bytes: number, decimals?: number) {
     })
   }
 
+  editReplyToggle(commentId: number) {
+    this.commentUpdate = !this.commentUpdate;
+  }
 
+  editReply() {
+    this.memeService.updateReply(this.reply).subscribe(() => {
+      this.editForm.reset(this.editForm.value);
+      this.commentUpdate = !this.commentUpdate;
+    })
+  }
 }

@@ -45,6 +45,7 @@ export class MemeService {
   pageSize = 5;
   loading = false;
   comments: Comment[] = [];
+  replies: Reply[] = [];
 
   constructor(private http: HttpClient, private accountService: AccountService,
                 private presence: PresenceService) {
@@ -312,11 +313,20 @@ getMainMemes(page?: number, itemsPerPage?: number) {
     return this.http.get<number>(this.baseUrl + 'memes/get-number-of-comments/' + memeId, {});
   }
 
-  updateComment(comment: Comment, commentId: number) {
-    return this.http.put(this.baseUrl + 'memes/' + commentId, comment).pipe(
+  updateComment(comment: any) {
+    return this.http.put(this.baseUrl + 'memes/' + comment.id, comment).pipe(
       map(() => {
         const index = this.comments.indexOf(comment);
         this.comments[index] = comment;
+      })
+    )
+  }
+
+  updateReply(reply: any) {
+    return this.http.put(this.baseUrl + 'memes/edit-reply/' + reply.id, reply).pipe(
+      map(() => {
+        const index = this.replies.indexOf(reply);
+        this.replies[index] = reply;
       })
     )
   }
