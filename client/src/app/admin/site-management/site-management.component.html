@@ -1,7 +1,8 @@
 
 <h3>Wiadomości od użytkowników</h3>
 <br>
-<div class="row">
+<p>Liczba wiadomości: {{messages?.length}}</p>
+<!-- <div class="row">
     <table class="table"
     #scrollMe
     style="overflow-y: auto;"
@@ -11,7 +12,7 @@
             <th style="width: 10%;">Użytkownik</th>
             <th style="width: 10%;">E-mail</th>
             <th style="width: 15%;">Temat</th>
-            <th style="width: 50%;">Wiadomość</th>
+            <th id="message" style="width: 50%;">Wiadomość</th>
             <th style="width: 5%;"></th>
         </tr>
         <tr *ngFor="let message of messages">
@@ -19,14 +20,37 @@
             <td><a routerLink='/members/{{message.senderName}}'>{{message.senderName}}</a></td>
             <td>{{message.senderEmail}}</td>
             <td>{{getSubject(message.subject)}}</td>
-            <td>{{message.message}}</td>
+            <td id="message">{{message.message}}</td>
             <td><button class="button btn btn-danger" (click)="removeMessage(message.id)">Usuń</button></td>
         </tr>
     </table>
+</div> -->
+<div class="row mb-2" style="border-bottom: 1px solid white;">
+    <div class="col-sm-3 col-md-2">Avatar</div>
+    <div class="col-sm-3 col-md-2">Użytkownik</div>
+    <div class="col-sm-3 col-md-2">E-mail</div>
+    <div class="col-sm-3 col-md-2">Temat</div>
+    <div id="message" class="col-sm-3 col-md-2">Wiadomość</div>
+    <div class="col-sm-3 col-md-2"></div>
 </div>
+<div class="row mb-2"
+#scrollMe
+    style="overflow-y: auto; border-bottom: 1px solid white;"
+    [scrollTop]="scrolltop"
+    *ngFor="let message of messages"
+    >
+    <div class="col-sm-3 col-md-2 mb-2"><app-user-card [user]="message.senderName"></app-user-card></div>
+    <div class="col-sm-3 col-md-2"><a routerLink='/members/{{message.senderName}}'>{{message.senderName}}</a></div>
+    <div class="col-sm-3 col-md-2">{{message.senderEmail}}</div>
+    <div class="col-sm-3 col-md-2">{{getSubject(message.subject)}}</div>
+    <div class="col-sm-3 mb-3" id="content">Treść: </div>
+    <div class="col-sm-6 col-md-2 mb-3" id="messageContent">{{message.message}}</div>
+    <div class="col-sm-3 col-md-2"><button class="button btn btn-danger" (click)="removeMessage(message.id)"><i class="fa fa-trash" aria-hidden="true"> Usuń</i></button></div>
+</div>
+<div class="row"> </div>
 <br>
 <div class="row">
-    <div class="col-6">
+    <div class="col-sm-12 col-md-6 mb-3">
         <h3>Dodaj dział</h3>
         <form [formGroup]='divisionForm' (ngSubmit)="divisionForm.valid && addDivision()" class="text-center column">
             <div class="mt-2">
@@ -44,7 +68,7 @@
             </div>
         </form>
     </div>
-    <div class="col-6">
+    <div class="col-sm-12 col-md-6 mb-3">
         <h3>Obecne działy</h3>
         <div *ngFor="let division of divisions">
             {{division.name}} | <span *ngIf="division.isCloseDivision === true" style="color: red;">Zamknięty</span><span *ngIf="division.isCloseDivision !== true" style="color: rgb(28, 206, 28);">Otwarty</span>

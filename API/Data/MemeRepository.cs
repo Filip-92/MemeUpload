@@ -78,6 +78,7 @@ namespace API.Data
                     Description = u.Description,
                     Uploaded = u.Uploaded, 
                     NumberOfLikes = u.NumberOfLikes,
+                    Division = u.Division
                 }).AsNoTracking()
                 .OrderByDescending(u => u.Id);
 
@@ -122,6 +123,7 @@ namespace API.Data
                     Description = u.Description,
                     Uploaded = u.Uploaded, 
                     NumberOfLikes = u.NumberOfLikes,
+                    Division = u.Division
                 }).AsNoTracking()
                 .OrderByDescending(u => u.Id);
 
@@ -158,7 +160,8 @@ namespace API.Data
                     Title = u.Title,
                     Description = u.Description,
                     Uploaded = u.Uploaded,
-                    NumberOfLikes = u.NumberOfLikes
+                    NumberOfLikes = u.NumberOfLikes,
+                    Division = u.Division
                 }).SingleOrDefaultAsync();
         }
 

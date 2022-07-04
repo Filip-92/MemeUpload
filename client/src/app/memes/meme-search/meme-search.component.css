@@ -4,6 +4,7 @@ input[type=text] {
     margin-top: 25px !important;
     min-width: 600px;
     color: whitesmoke;
+    margin-left: 200px;
 }
 
 /* input[type="radio"] ~ label:before {
@@ -68,4 +69,28 @@ button {
 
 .frb input[type="radio"]:checked ~ label:before {
 	content: '\f046';
+}
+
+#search {
+    margin-left: -50px;
+}
+
+#searchUser {
+    margin-left: -250px;
+}
+
+@media screen and (max-width: 700px) {
+    input[type=text] {
+        min-width: 320px;
+        margin-left: 0px;
+    }
+
+    #search {
+        margin-left: 0px !important;
+    }
+
+    #searchUser {
+        margin-left: -75px !important;
+    }
+
 }

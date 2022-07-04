@@ -9,4 +9,5 @@ export interface Meme {
     username?: string;
     numberOfLikes: number;
     comments: Comment[];
+    division: number;
 }

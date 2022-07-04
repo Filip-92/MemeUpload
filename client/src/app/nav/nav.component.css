@@ -281,8 +281,21 @@ form {
 
     .nav i {
       font-size: 20px;
-      margin-top: 10px;
+      margin-top: 5px;
+      /* margin-left: 50px; */
     }
+
+    #division {
+      font-size: 15px !important;
+    }
+
+    /* li {
+      width: 40px !important;
+    }
+
+    #messages {
+      width: 50px !important;
+    } */
   }
 
 

@@ -7,19 +7,20 @@
                 <div class="form-group">
                     <form class="text-center" [formGroup]='memeSearchForm'>
                         <div class="row ml-3 text-center">
-                            <div class="column col-2"></div>
-                            <div class="column mr-3">
+                            <div class="col-sm-5 mr-3">
                                 <input type="text" placeholder="Wpisz tytuł wyszukiwanego mema" [formControl]='memeSearchForm.controls["searchString"]'>
                             </div>
-                            <div class="column">
+                            <div class="col-sm-3 col-1"></div>
+                            <div class="col-sm-3">
                                 <button 
                                 class="dropdown-item"
-                                class="btn btn-primary btn-lg" 
+                                class="btn btn-primary btn-lg"
+                                id="search" 
                                 style="align-items: center; font-size: 17px;"
                                 [disabled]="!this.memeSearchForm.value.searchString"
                                 (click)="searchForMeme(this.memeSearchForm.value.searchString)"
                                 >
-                                <i class="fas fa-file-import"></i>
+                                <i class="fa fa-file-import"></i>
                                 Szukaj
                                 </button>
                             </div>
@@ -80,7 +81,7 @@
     </tab>
     <tab heading='Szukaj użytkowników' class="text-center">
         <div id="container" class="container text-center mt-5">
-            <div id="search">
+            <div id="searchUser">
                 <div class="form-group">
                     <form class="text-center" [formGroup]='memberSearchForm'>
                         <div class="row ml-3 text-center">

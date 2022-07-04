@@ -63,12 +63,8 @@ export class ReplyComponent implements OnInit {
     this.memeService.removeReply(replyId).subscribe(reply => {
       this.reply.id = replyId
     });
-    this.reloadCurrentPage();
+    this.reply.content = "[Komentarz został usunięty]";
   }
-
-  reloadCurrentPage() {
-    window.setTimeout(function(){location.reload()},100);
-   }
 
   addReply(commentId) {
     this.ifReply = !this.ifReply;

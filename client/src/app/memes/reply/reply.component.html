@@ -4,23 +4,21 @@
         <table class="table">
             <td style="width: 10%"><img src="{{url || '././assets/LogoImage.png'}}" alt=""></td> <!-- zjebane zdjęcie, do poprawy ale nie dzisiaj -->
             <td style="width: 5%;"><a routerLink='/members/{{reply.username}}'>{{reply.username}}</a></td>
-            <td style="width: 15%;">{{reply.uploaded | timeago}}</td>
-            <span>
-                <td style="width: 51%;"></td>
-            </span>
+            <td id="timeago" style="width: 15%;">{{reply.uploaded | timeago}}</td>
+            <td id="freespace" style="width: 49%;"></td>
             <td style="width: 3%;"><button id="like" [disabled]="disliked" (click)="addLike(reply)"><i class="fa fa-plus" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'green' }"></i></button></td>
             <td style="width: 3%;">{{reply.numberOfLikes}}</td>
             <td style="width: 3%;"><button id="like" [disabled]="liked" (click)="addDislike(reply)"><i class="fa fa-minus" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red' }"></i></button></td>
-            <td style="width: 10%" *ngIf="reply.username === user.username">
-                <button class="btn btn-success mb-2" (click)="editReplyToggle(comment.id) && reloadComments(comment)">Edytuj</button>
-                <button class="btn btn-danger" (click)="removeReply(reply.id)">Usuń</button>
+            <td id="buttons" style="width: 12%" *ngIf="reply.username === user.username && reply.content !== '[Komentarz został usunięty]'">
+                <span (click)="editReplyToggle(comment.id)"><i id="edit" class="fa fa-pencil-square-o" aria-hidden="true"> Edytuj</i></span>
+                <span (click)="removeReply(reply.id) && reloadComments(comment)"><i id="delete" class="fa fa-trash" aria-hidden="true"> Usuń</i></span>
             </td>
         </table>
         <div class="text-center" id="content" style="padding: 10px;">                    
-            <span class="mb-3" style="color: black;">
+            <span class="mb-3" *ngIf="reply.content !== '[Komentarz został usunięty]'" style="color: black;">
             @{{reply.replyingToUser}}
             </span>
-            <div *ngIf="reply.quote !== null" id="quote" class="text-center mb-3">
+            <div *ngIf="reply.quote !== null && reply.content !== '[Komentarz został usunięty]'" id="quote" class="text-center mb-3">
                 "{{reply.quote}}"
             </div>
             <div>
@@ -54,9 +52,9 @@
             <span>
                 <td style="width: 51%;">{{reply.content}}</td>
             </span>
-            <td style="width: 3%;"><button id="like" [disabled]><i class="fa fa-plus" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'green' }"></i></button></td>
+            <td style="width: 3%;"><button id="like" [disabled]="disliked"><i class="fa fa-plus" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'green' }"></i></button></td>
             <td style="width: 3%;">{{reply.numberOfLikes}}</td>
-            <td style="width: 3%;"><button id="like" [disabled]><i class="fa fa-minus" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red' }"></i></button></td>
+            <td style="width: 3%;"><button id="like" [disabled]="liked"><i class="fa fa-minus" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red' }"></i></button></td>
         </table>
     </div>
 </div>

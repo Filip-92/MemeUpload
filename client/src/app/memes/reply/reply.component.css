@@ -1,6 +1,7 @@
 table {
-    background-color: rgb(95, 94, 94);
+    background-color: rgb(83, 83, 83);
     word-wrap:break-word !important;
+    border-top: none !important;
 }
 
 img {
@@ -8,9 +9,10 @@ img {
 }
 
 #reply {
-    background-color: rgb(95, 94, 94);
+    background-color: rgb(83, 83, 83);
     margin-left: 150px;
     border-radius: 8px;
+    border: none !important;
 }
 
 @media screen and (max-width: 700px) {
@@ -77,8 +79,25 @@ textarea {
     margin-bottom: 10px;
 }
 
+#edit, #delete {
+    font-size: 12px;
+}
+
+#edit:hover {
+    color: rgb(12, 179, 12) !important;
+}
+
 #editForm {
     margin-left: 100px;
+}
+
+#content {
+    margin-top: -30px;
+    margin-bottom: -10px;
+}
+
+#timeago {
+    color: gray;
 }
 
 @media screen and (max-width: 700px) {
@@ -98,5 +117,21 @@ textarea {
 
     #editForm {
         margin-left: 50px;
+    }
+
+    #content {
+        margin-top: -30px;
+    }
+
+    #timeago {
+        font-size: 10px;
+    }
+
+    #freespace {
+        width: 15% !important;
+    }
+
+    #buttons {
+        width: 35% !important;
     }
 }

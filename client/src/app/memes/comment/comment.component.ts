@@ -66,7 +66,7 @@ export class CommentComponent implements OnInit {
     this.memeService.removeComment(commentId).subscribe(comment => {
       this.comment.id = commentId
     });
-    this.reloadCurrentPage();
+    this.comment.content = "[Komentarz został usunięty]";
   }
 
   reloadComments(comment) {

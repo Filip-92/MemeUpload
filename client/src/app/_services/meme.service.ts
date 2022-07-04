@@ -37,7 +37,8 @@ export class MemeService {
     description: '',
     isApproved: false,
     numberOfLikes: 0,
-    comments: undefined
+    comments: undefined,
+    division: 0
   };
   paginatedResult: PaginatedResult<Meme[]> = new PaginatedResult<Meme[]>();
   pagination: Pagination;

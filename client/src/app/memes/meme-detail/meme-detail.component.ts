@@ -45,6 +45,7 @@ export class MemeDetailComponent implements OnInit {
   imageChangedEvent: any = '';
   favourite: boolean;
   url: string[];
+  division: any;
 
   constructor(private memeService: MemeService, private http: HttpClient,
     private route: ActivatedRoute, private toastr: ToastrService,
@@ -63,7 +64,6 @@ export class MemeDetailComponent implements OnInit {
       this.loadLikes();
       this.checkIfMemeFavourite(this.id);
     }
-    this.url = this.router.url.split('/');
     this.getMeme(this.id);
     this.getComments(this.id);
     this.getNumberOfComments(this.id);
@@ -72,6 +72,9 @@ export class MemeDetailComponent implements OnInit {
   getMeme(memeId: number) {
     this.memeService.getMeme(memeId).subscribe(meme => {
       this.meme = meme;
+      if(this.meme.division !== 0) {
+        this.getDivisionNameById(this.meme.division);
+      }
       this.id = meme.id;
       if (this.meme.url.includes("youtube")) {
         this.trustedUrl = this.formatYoutubeLink(this.meme.url)
@@ -266,6 +269,20 @@ export class MemeDetailComponent implements OnInit {
     if (id === this.id) {
       this.favourite = !this.favourite;
     }
+  }
+
+  getDivisionNameById(divisionId: number) {
+    this.memeService.getDivisionNameById(divisionId).subscribe(division => {
+      this.division = division;
+      if ("user" in localStorage) {
+
+      } else {
+        if(this.division.isCloseDivision) {
+          this.router.navigateByUrl('/');
+          this.toastr.error("Zaloguj się aby mieć dostęp");
+        }
+      }
+    })
   }
 
 }

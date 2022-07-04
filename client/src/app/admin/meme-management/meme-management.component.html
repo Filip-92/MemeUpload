@@ -1,5 +1,5 @@
-<div class='row'>
-    <div class='col-10 col-lg-4 text-center' *ngFor='let meme of memes'>
+<div class='row text'>
+    <div class='col-10 col-lg-4 text-center' id="memeCard" *ngFor='let meme of memes'>
         <a routerLink="../memes/{{meme.id}}/{{convertText(meme?.title) || convertText('Jakieś gówno')}}">
             <h4 class="card-title text-center mb-4 mt-3"> 
                 {{meme.title || 'Jakieś gówno'}}

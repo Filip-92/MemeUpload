@@ -1,7 +1,8 @@
 table {
-    background-color: rgb(95, 94, 94);
+    background-color: rgb(83, 83, 83);
     word-wrap:break-word !important;
     border-radius: 8px;
+    border-top: none !important;
 }
 
 #content {
@@ -9,7 +10,7 @@ table {
 }
 
 #comment {
-    background-color: rgb(95, 94, 94);
+    background-color: rgb(83, 83, 83);
     width: 80%;
     border-radius: 8px;
     margin-left: auto;
@@ -22,6 +23,14 @@ i {
 
 i:hover {
     color: red;
+}
+
+#edit, #delete {
+    font-size: 12px;
+}
+
+#edit:hover {
+    color: rgb(12, 179, 12) !important;
 }
 
 #like {
@@ -42,6 +51,10 @@ span {
     display:block;
     word-break:break-all;
     white-space: normal;
+}
+
+#timeago {
+    color: gray;
 }
 
 @media screen and (max-width: 700px) {
@@ -93,6 +106,11 @@ textarea {
     color: whitesmoke;
 }
 
+#content {
+    margin-top: -30px;
+    margin-bottom: -30px;
+}
+
 @media screen and (max-width: 700px) {
 
     .btn {
@@ -110,5 +128,21 @@ textarea {
 
     #replyForm {
         margin-left: 50px;
+    }
+
+    #content {
+        margin-top: -30px;
+    }
+
+    #timeago {
+        font-size: 10px !important;
+    }
+
+    #freespace {
+        width: 25% !important;
+    }
+
+    #buttons {
+        width: 25% !important;
     }
 }

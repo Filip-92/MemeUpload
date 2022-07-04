@@ -393,7 +393,8 @@ namespace API.Controllers
                 await _memeService.DeleteMemeAsync(comment.PublicId);
             }
 
-            _unitOfWork.MemeRepository.RemoveComment(comment);
+            //_unitOfWork.MemeRepository.RemoveComment(comment);
+            comment.Content = "[Komentarz został usunięty]";
 
             await _unitOfWork.Complete();
 
@@ -523,7 +524,8 @@ namespace API.Controllers
                 await _memeService.DeleteMemeAsync(reply.PublicId);
             }
 
-            _unitOfWork.MemeRepository.RemoveReply(reply);
+            //_unitOfWork.MemeRepository.RemoveReply(reply);
+            reply.Content = "[Komentarz został usunięty]";
 
             await _unitOfWork.Complete();
 
