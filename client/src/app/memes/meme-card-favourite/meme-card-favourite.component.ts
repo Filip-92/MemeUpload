@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Meme } from 'src/app/_models/meme';
 import { MemeService } from 'src/app/_services/meme.service';
 
 @Component({
@@ -9,6 +10,9 @@ import { MemeService } from 'src/app/_services/meme.service';
 export class MemeCardFavouriteComponent implements OnInit {
   @Input() meme: any;
   trustedUrl: any;
+  memes: Meme[];
+  favouriteMemes: Meme[];
+  favourite: boolean;
 
   constructor(private memeService: MemeService) { }
 
@@ -29,6 +33,24 @@ export class MemeCardFavouriteComponent implements OnInit {
     var id = url.split('v=')[1].split('&')[0]; //sGbxmsDFVnE
     url = "https://www.youtube-nocookie.com/embed/" + id;
     return url;
+  }
+
+  getFavouriteMemes(username: string) {
+    this.memeService.getFavouritesList(username).subscribe(response => {
+      this.memes = response;
+      console.log(this.memes);
+      if (this.favouriteMemes?.length > 0) {
+        for (var meme of this.favouriteMemes) {
+          this.checkIfMemeFavourite(meme.memeId);
+        }
+      }
+    });
+  }
+
+  checkIfMemeFavourite(id: number) {
+    if (id === this.meme.id) {
+      this.favourite = !this.favourite;
+    }
   }
 
 }

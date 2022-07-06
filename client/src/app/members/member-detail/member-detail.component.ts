@@ -16,6 +16,7 @@ import { DatePipe } from '@angular/common';
 import { Meme } from 'src/app/_models/meme';
 import { MemeService } from 'src/app/_services/meme.service';
 import { HttpClient } from '@angular/common/http';
+import { Reply } from 'src/app/_models/reply';
 
 @Component({
   selector: 'app-member-detail',
@@ -36,6 +37,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     lastActive: undefined,
     gender: '',
     photos: [],
+    comments: [],
     numberOflikes: 0
   };
   userWithLikes: User;
@@ -55,6 +57,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   memes: Meme[];
   userId: number;
   comments: Comment[];
+  replies: Reply[];
   numberOfLikes: number = 0;
   liked: boolean = false;
 
@@ -91,6 +94,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     this.galleryImages = this.getImages();
     this.getMemberMemes(this.member.username);
     this.getMemberComments(this.member.username);
+    this.getMemberReplies(this.member.username);
     this.getMemberNumberOfLikes(this.member.id);
   }
   getImages(): NgxGalleryImage[] {
@@ -187,6 +191,12 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   getMemberComments(username: string) {
     this.memeService.getMemberComments(username).subscribe(comments => {
       this.comments = comments;
+    });
+  }
+
+  getMemberReplies(username: string) {
+    this.memeService.getMemberReplies(username).subscribe(replies => {
+      this.replies = replies;
     });
   }
 

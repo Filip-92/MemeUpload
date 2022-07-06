@@ -418,6 +418,16 @@ namespace API.Controllers
             return BadRequest("Failed to update comment");
         }
 
+        [HttpGet("get-member-replies/{username}")]
+        public async Task<ActionResult<IEntityTypeConfiguration<CommentDto>>> GetMemberReplies(string username)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
+
+            var replies = await _unitOfWork.MemeRepository.GetMemberReplies(user.Id);
+
+            return Ok(replies);
+        }
+
         [HttpPut("edit-reply/{replyId}")]
         [AllowAnonymous]
         public async Task<ActionResult> UpdateReply(CommentUpdateDto commentUpdateDto, int replyId)
@@ -931,9 +941,21 @@ namespace API.Controllers
         {
             var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
 
-            var memes = await _unitOfWork.MemeLikesRepository.GetUserFavourites(user.Id);
+            var memes = await _unitOfWork.MemeLikesRepository.GetUserFavourites(memeParams, user.Id);
 
-            var fav = new List<int>();
+            Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
+                memes.TotalCount, memes.TotalPages);
+
+            return Ok(memes);
+        }
+
+        [HttpGet("get-user-favourites-list/{username}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<FavouriteDto>>> GetUserFavouritesList(string username)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
+
+            var memes = await _unitOfWork.MemeLikesRepository.GetUserFavourites(user.Id);
 
             return Ok(memes);
         }

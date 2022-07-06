@@ -1,0 +1,150 @@
+table {
+    background-color: rgb(83, 83, 83);
+    word-wrap:break-word !important;
+    border-top: none !important;
+}
+
+#content {
+    word-wrap:break-word !important;
+}
+
+#comment {
+    background-color: rgb(83, 83, 83);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+i {
+    cursor: pointer;
+}
+
+i:hover {
+    color: red;
+}
+
+#edit, #delete, #goTo {
+    font-size: 12px;
+    color: white;
+}
+
+#edit:hover {
+    color: rgb(12, 179, 12) !important;
+}
+
+#goTo:hover {
+    color: rgb(101, 101, 214);
+}
+
+#like {
+    background-color: black !important;
+}
+
+td img {
+    max-height: 50px;
+}
+
+img {
+    max-width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+span { 
+    display:block;
+    word-break:break-all;
+    white-space: normal;
+}
+
+#timeago {
+    color: gray;
+}
+
+@media screen and (max-width: 700px) {
+
+    #comment {
+        width: 100%;
+    }
+}
+
+#reply {
+    width: 80%;
+    margin-left: 100px;
+}
+
+@media screen and (max-width: 700px) {
+
+    #reply {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+textarea::placeholder {
+    color: white;
+}
+
+i {
+    padding-top: 7px;
+}
+
+.fa-paperclip {
+    border: 1px solid white;
+    background-color: orange;
+    font-size: 20px;
+    border-radius: 8px;
+    min-width: 50px;
+    min-height: 40px;
+    cursor: pointer;
+}
+
+input[type="file"] {
+    display: none;
+    margin-left: -50px !important;
+}
+
+textarea {
+    margin-bottom: -20px;
+    background-color: gray;
+    color: whitesmoke;
+}
+
+#content {
+    margin-top: -30px;
+    margin-bottom: -30px;
+}
+
+@media screen and (max-width: 700px) {
+
+    .btn {
+        max-height: 40px;
+        font-size: 10px;
+    }
+
+    button {
+        margin-top: -5px;
+    }
+
+    #comment {
+        font-size: 12px;
+    }
+
+    #replyForm {
+        margin-left: 50px;
+    }
+
+    #content {
+        margin-top: -30px;
+    }
+
+    #timeago {
+        font-size: 10px !important;
+    }
+
+    #freespace {
+        width: 25% !important;
+    }
+
+    #buttons {
+        width: 25% !important;
+    }
+}

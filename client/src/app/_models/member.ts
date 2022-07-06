@@ -12,6 +12,7 @@ export interface Member {
     gender: string;
     photos: Photo[];
     memes: Meme[];
+    comments: Comment[];
     numberOflikes: number;
   }
   

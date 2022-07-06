@@ -1,104 +1,103 @@
-<div class="row">
-    <div class="col-4">
-        <div class="card">
-            <div *ngFor="let photo of member.photos">
-                <img src="{{photo.url || '././assets/LogoImage.png'}}" alt="{{member.username}}" class="card-img-top img-thumbnail">
+<div class="row text-center" id="background" style="border: 3px solid rgb(209, 207, 207);">
+    <br />
+    <div class="col-12 text-center mt-2 mb-4"><h3>Profil użytkownika {{member.username}}</h3></div>
+    <div class="col-6 text-center mb-5" style="border-right: 1px solid white;">
+        <div *ngFor="let photo of member.photos">
+            <img src="{{photo.url || '././assets/LogoImage.png'}}" alt="{{member.username}}" class="card-img-top img-thumbnail">
+        </div>
+        <div *ngIf="member.photos.length === 0">
+            <img src="{{'././assets/LogoImage.png'}}" alt="{{member.username}}" class="card-img-top img-thumbnail">
+        </div>
+        <h3 style="color: rgb(170, 139, 37);">{{member.username}}</h3>
+        <button (click)="selectTab(1)" class="btn btn-success mt-3"><i class="fa fa-envelope mr-1"></i> Message</button>
+    </div>
+    <div class="col-6" style="margin-top: 50px;">
+        <div class="card-body text-left ml-5">
+            <div class="mb-3" *ngIf="(presence.onlineUsers$ | async).includes(member.username)" >
+                <i class="fa fa-user-circle text-success"></i> Online now
             </div>
-            <div *ngIf="member.photos.length === 0">
-                <img src="{{'././assets/LogoImage.png'}}" alt="{{member.username}}" class="card-img-top img-thumbnail">
+            <div class="mb-3">
+                <i class="fa fa-calendar mr-2"></i><strong> Wiek: </strong><span style="color: greenyellow">{{member.age}}</span>
             </div>
-            <div class="card-body">
-                <div class="mb-2" *ngIf="(presence.onlineUsers$ | async).includes(member.username)" >
-                    <i class="fa fa-user-circle text-success"></i> Online now
-                </div>
-                <div>
-                </div>
-                <div>
-                    <strong>Wiek:</strong>
-                    <p>{{member.age}}</p>
-                </div>
-                <div>
-                    <strong>Ostatnia aktywność:</strong>
-                    <p>{{member.lastActive | timeago}}</p>
-                </div>
-                <div>
-                    <strong>Dołączył:</strong>
-                    <p>{{member.created}}</p>
-                </div> 
+            <div class="mb-3">
+                <i *ngIf="member.gender === 'female'" class="fa fa-female mr-2"></i>
+                <i *ngIf="member.gender === 'male'" class="fa fa-male mr-2"></i>
+                <strong>Płeć: </strong><span style="color: greenyellow">{{member.gender}}</span>
             </div>
-            <div class="card-footer">
-                <div class="btn-group d-flex">
-                    <button (click)="addLike(member)" class="btn btn-primary">Like</button>
-                    <button (click)="selectTab(2)" class="btn btn-success">Message</button>
-                </div>
+            <div class="mb-3">
+                <i class="fa fa-history mr-2" aria-hidden="true"></i><strong>Ostatnia aktywność: </strong><span style="color: greenyellow">{{member.lastActive | timeago}}</span>
+            </div>
+            <div class="mb-3">
+                <i class="fa fa-user-plus mr-2" aria-hidden="true"></i><strong>Dołączył: </strong><span style="color: greenyellow">{{member.created}}</span>
+            </div>
+            <div class="mb-3">
+                <i class="fa fa-photo mr-2"></i>Ilość wrzut: <span style="color: greenyellow">{{ member.memes?.length || '0' }}</span>
+            </div>
+            <div class="mb-3">
+                <i class="fa fa-plus mr-2"></i>Ilość plusów: <span style="color: greenyellow">{{ numberOfLikes }}</span>
+                <button id="likeButton" (click)="addLike(member)" class="btn btn-success mb-3 ml-4" [ngStyle]="!liked ? { 'color': 'white' } : { 'background-color': 'green !important', 'color': 'green' }"><i class="fa fa-plus"></i></button>
+            </div>
+            <div class="mb-3">
+                <i class="fa fa-comment mr-2"></i>Ilość komentarzy: <span style="color: greenyellow">{{ comments?.length + replies?.length || '0' }}</span>
             </div>
         </div>
     </div>
-    <div id="background" class="col-8">
-        <tabset class="member-tabset" #memberTabs>
-            <tab heading='Profil {{member.username}}' (selectTab)="onTabActivated($event)" class="text-center">
-                <br>
-                <h2 style="color: red;">{{member.username}}</h2>
-                <button (click)="addLike(member)" class="btn btn-success mb-3" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'red' }"><i class="fa fa-plus"></i></button>
-                <div class="text-center">
-                    <span class="ml-3 col-6"><i class="fa fa-photo mr-2"></i>Ilość wrzut: {{ member.memes?.length || '0' }}</span>
-                    <span class="ml-3 col-6"><i class="fa fa-plus mr-2"></i>Ilość plusów: {{ numberOfLikes }}</span>   
+</div>
+<div class="row mb-3" id="background" style="border: 3px solid rgb(104, 95, 95);">
+    <tabset class="member-tabset mt-3" #memberTabs>
+        <tab heading='Komentarze' (selectTab)="onTabActivated($event)">
+            <div class="mt-3" *ngFor="let comment of comments">
+                <div>
+                    <app-member-comments [comment]="comment"></app-member-comments>
                 </div>
-            </tab>
-            <tab heading='Komentarze' (selectTab)="onTabActivated($event)">
-                <div *ngFor="let comment of comments">
-                    <div class="column">
-                        <div class="col-10" style="float: left;">
-                            <app-comment [comment]="comment"></app-comment>
-                        </div>
-                        <div class="col-2 mt-4" style="float: left;">
-                            <a id="customButton" routerLink='/memes/{{comment.memeId}}/..'>Idź do mema</a>
-                        </div>
-                    </div>
-                </div>
-                <div *ngIf="comments?.length <= 0" class="text-center mt-3">
-                    <h3>Brak komentarzy użytkownika</h3>
-                </div>
-            </tab>
-            <tab heading='Memy użytkownika {{member.username}}' (selectTab)="onTabActivated($event)"
-                #scrollMe
-                style="overflow-y: auto; height: 1000px;"
-                [scrollTop]="scrolltop"
-                *ngIf="memes?.length > 0"
-            >
-            <div *ngFor="let meme of memes" >
-                <app-meme-card [meme]="meme"></app-meme-card>
             </div>
-
-            <div class="d-flex justify-content-center" *ngIf="memes?.length !== 0 && pagination">
-                <pagination
-                    [boundaryLinks]="true" 
-                    [totalItems]="pagination.totalItems"
-                    [itemsPerPage]="pagination.itemsPerPage"
-                    [(ngModel)]="pagination.currentPage"
-                    (pageChanged)="pageChanged($event)"
-                    style="bottom: 0;"
-                    previousText="&lsaquo;" 
-                    nextText="&rsaquo;" 
-                    firstText="&laquo;" 
-                    lastText="&raquo;">
-                </pagination>
+            <div class="mt-3" *ngFor="let reply of replies">
+                <div>
+                    <app-member-replies [reply]="reply"></app-member-replies>
+                </div>
             </div>
-            </tab>
-            <tab heading='Memy użytkownika {{member.username}}' (selectTab)="onTabActivated($event)"
+            <div *ngIf="comments?.length <= 0" class="text-center mt-3">
+                <h3>Brak komentarzy użytkownika</h3>
+            </div>
+        </tab>
+        <tab heading='Memy {{member.username}}' (selectTab)="onTabActivated($event)"
             #scrollMe
-            style="overflow-y: auto; height: 500px;"
+            style="overflow-y: auto; height: 1000px;"
             [scrollTop]="scrolltop"
-            *ngIf="memes?.length === 0"
-            >
-            <div *ngIf="memes?.length === 0" class="text-center mt-3" valign="center">
-                <img src="https://c.tenor.com/j5YcO9slE7YAAAAC/leslie-nielsen-nothing-to-see-here.gif" class="card-img-top" style="max-width: 400px;">
-            </div>
-            </tab>
-            
-            <tab heading='Messages' (selectTab)="onTabActivated($event)">
-                <app-member-messages [username]="member.username"></app-member-messages>
-            </tab>
-        </tabset>
-    </div>
+            *ngIf="memes?.length > 0"
+        >
+        <div *ngFor="let meme of memes" >
+            <app-meme-card [meme]="meme"></app-meme-card>
+        </div>
+
+        <div class="d-flex justify-content-center" *ngIf="memes?.length !== 0 && pagination">
+            <pagination
+                [boundaryLinks]="true" 
+                [totalItems]="pagination.totalItems"
+                [itemsPerPage]="pagination.itemsPerPage"
+                [(ngModel)]="pagination.currentPage"
+                (pageChanged)="pageChanged($event)"
+                style="bottom: 0;"
+                previousText="&lsaquo;" 
+                nextText="&rsaquo;" 
+                firstText="&laquo;" 
+                lastText="&raquo;">
+            </pagination>
+        </div>
+        </tab>
+        <tab heading='Memy użytkownika {{member.username}}' (selectTab)="onTabActivated($event)"
+        #scrollMe
+        style="overflow-y: auto; height: 500px;"
+        [scrollTop]="scrolltop"
+        *ngIf="memes?.length === 0"
+        >
+        <div *ngIf="memes?.length === 0" class="text-center mt-3" valign="center">
+            <img src="https://c.tenor.com/j5YcO9slE7YAAAAC/leslie-nielsen-nothing-to-see-here.gif" class="card-img-top" style="max-width: 400px;">
+        </div>
+        </tab>
+        
+        <tab heading='Messages' (selectTab)="onTabActivated($event)">
+            <app-member-messages [username]="member.username"></app-member-messages>
+        </tab>
+    </tabset>
 </div>

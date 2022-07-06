@@ -73,6 +73,8 @@ import { NotificationsModalComponent } from './modals/notifications-modal/notifi
 import { FavouriteComponent } from './memes/favourite/favourite.component';
 import { MemeCardFavouriteComponent } from './memes/meme-card-favourite/meme-card-favourite.component';
 import { ChangePasswordComponent } from './members/change-password/change-password.component';
+import { MemberCommentsComponent } from './members/member-comments/member-comments.component';
+import { MemberRepliesComponent } from './members/member-replies/member-replies.component';
 
 @NgModule({
   declarations: [
@@ -129,6 +131,8 @@ import { ChangePasswordComponent } from './members/change-password/change-passwo
     FavouriteComponent,
     MemeCardFavouriteComponent,
     ChangePasswordComponent,
+    MemberCommentsComponent,
+    MemberRepliesComponent,
   ],
   imports: [
     BrowserModule,

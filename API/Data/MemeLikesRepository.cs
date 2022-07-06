@@ -98,6 +98,20 @@ namespace API.Data
             memeParams.PageNumber, memeParams.PageSize);
         }
 
+        public async Task<PagedList<FavouriteDto>> GetUserFavourites(MemeParams memeParams, int userId)
+        {
+            var query = _context.Favourites
+            .IgnoreQueryFilters()
+            .Where(m => m.SourceUserId == userId)
+            .Select(u => new FavouriteDto
+                {
+                    SourceUserId = u.SourceUserId,
+                    MemeId = u.MemeId,
+                }).AsNoTracking();
+            return await PagedList<FavouriteDto>.CreateAsync(query, 
+            memeParams.PageNumber, memeParams.PageSize);
+        }
+
         public async Task<IEnumerable<FavouriteDto>> GetUserFavourites(int userId)
         {
             return await _context.Favourites

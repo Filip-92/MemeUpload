@@ -390,6 +390,27 @@ namespace API.Data
                 }).ToListAsync();
         }
 
+        public async Task<IEnumerable<CommentResponseDto>> GetMemberReplies(int id)
+        {
+                return await _context.CommentResponses
+                .IgnoreQueryFilters()
+                .Where(m => m.AppUserId == id)
+                .Select(u => new CommentResponseDto
+                {
+                    Id = u.Id,
+                    Username = u.AppUser.UserName,
+                    Url = u.Url,
+                    Content = u.Content,
+                    Uploaded = u.Uploaded,
+                    MemeId = u.MemeId,
+                    NumberOfLikes = u.NumberOfLikes,
+                    Quote = u.Quote,
+                    ReplyingToReplyId = u.ReplyingToReplyId,
+                    ReplyingToUser = u.ReplyingToUser
+                }).OrderByDescending(u => u.Id)
+                .ToListAsync();
+        }
+
         public async Task<CommentResponses> GetReplyById(int id)
         {
             return await _context.CommentResponses

@@ -200,9 +200,27 @@ getMainMemes(page?: number, itemsPerPage?: number) {
     return this.http.post(this.baseUrl + 'memes/add-meme-to-favourite/' + memeId, {});
   }
 
-  getFavourites(username: string) {
-    return this.http.get<Partial<Meme[]>>(this.baseUrl + 'memes/get-user-favourites/' + username, {});
+  getFavouritesList(username: string) {
+    return this.http.get<Partial<Meme[]>>(this.baseUrl + 'memes/get-user-favourites-list/' + username, {});
   }
+
+  getFavourites(username: string, page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+  
+    if (page !== null && itemsPerPage !== null) {
+      params = params.append('pageNumber', page.toString());
+      params = params.append('pageSize', itemsPerPage.toString());
+    }
+    return this.http.get<Partial<Meme[]>>(this.baseUrl + 'memes/get-user-favourites/' + username, {observe: 'response', params}).pipe(
+      map(response => {
+        this.paginatedResult.result = response.body;
+        if (response.headers.get('Pagination') !== null) {
+          this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+        }
+        return this.paginatedResult;
+      })
+      );
+    }
 
   addCommentLike(commentId: number) {
     return this.http.post(this.baseUrl + 'memes/add-comment-like/' + commentId, {});
@@ -250,6 +268,10 @@ getMainMemes(page?: number, itemsPerPage?: number) {
 
   getMemberComments(username: string) {
       return this.http.get<Comment[]>(this.baseUrl + 'memes/get-member-comments/' + username);
+  }
+
+  getMemberReplies(username: string) {
+    return this.http.get<Reply[]>(this.baseUrl + 'memes/get-member-replies/' + username);
   }
 
   removeComment(commentId: number) {

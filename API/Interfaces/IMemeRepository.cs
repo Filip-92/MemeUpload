@@ -27,6 +27,7 @@ namespace API.Interfaces
          void Update(Comments comment);
          Task<IEnumerable<CommentResponseDto>> GetReplies(int id);
          Task<IEnumerable<CommentResponseDto>> GetMemeReplies(int id);
+         Task<IEnumerable<CommentResponseDto>> GetMemberReplies(int id);
          Task<CommentResponses> GetReplyById(int id);
          void RemoveReply(CommentResponses reply);
          Task<IEnumerable<DivisionDto>> GetDivisions();
