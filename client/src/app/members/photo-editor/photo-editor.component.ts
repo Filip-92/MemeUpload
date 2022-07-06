@@ -28,7 +28,9 @@ export class PhotoEditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeUploader();
-    this.deletePhotos();
+    if (this.member?.photos?.length > 0) {
+      this.deletePhotos();
+    }
   }
 
   fileOverBase(e: any) {
@@ -40,7 +42,7 @@ export class PhotoEditorComponent implements OnInit {
       this.user.photoUrl = photo.url;
       this.accountService.setCurrentUser(this.user);
       this.member.photoUrl = photo.url;
-      this.member.photos.forEach(p => {
+      this.member?.photos.forEach(p => {
         if (p.isMain) p.isMain = false;
         if (p.id === photo.id) p.isMain = true;
       })

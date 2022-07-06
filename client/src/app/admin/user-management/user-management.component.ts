@@ -15,18 +15,20 @@ import { AdminService } from 'src/app/_services/admin.service';
   styleUrls: ['./user-management.component.css']
 })
 export class UserManagementComponent implements OnInit {
-  users: Partial<User[]>;
+  users: any;
   bsModalRef: BsModalRef;
   banUserForm: FormGroup;
   validationErrors: string[] = [];
   photo: Photo;
   url: string;
+  userSearchForm: FormGroup;
 
   constructor(private adminService: AdminService, private modalService: BsModalService, 
-    private modalServ: NgbModal, private toastr: ToastrService) { }
+    private modalServ: NgbModal, private toastr: ToastrService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.getUsersWithRoles();
+    this.initializeUserForm();
   }
 
   getUsersWithRoles() {
@@ -54,6 +56,18 @@ export class UserManagementComponent implements OnInit {
         })
       }
     })
+  }
+
+  initializeUserForm() {
+    this.userSearchForm= this.fb.group({
+      searchString: ['']
+    })
+  }
+
+  searchForUser(searchString: string) {
+    this.adminService.searchForUser(searchString.toLowerCase()).subscribe(response => {
+      this.users = response;
+    });
   }
 
   private getRolesArray(user) {

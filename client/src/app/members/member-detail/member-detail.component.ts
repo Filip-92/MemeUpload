@@ -81,21 +81,11 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     this.route?.queryParams?.subscribe(params => {
       params?.tab ? this.selectTab(params?.tab) : this.selectTab(0);
     })
-    this.galleryOptions = [
-      {
-        width: '500px',
-        height: '500px',
-        imagePercent: 100,
-        thumbnailsColumns: 4,
-        imageAnimation: NgxGalleryAnimation.Slide,
-        preview: false
-      }
-    ]
     this.galleryImages = this.getImages();
     this.getMemberMemes(this.member.username);
     this.getMemberComments(this.member.username);
     this.getMemberReplies(this.member.username);
-    this.getMemberNumberOfLikes(this.member.id);
+    this.getMemberNumberOfLikes(this.member.username);
   }
   getImages(): NgxGalleryImage[] {
     const imageUrls = [];
@@ -200,9 +190,19 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  getMemberNumberOfLikes(userId: number) {
-    this.memberService.getAllUserLikesNumber(userId).subscribe(numberOfLikes => {
+  getMemberNumberOfLikes(username: string) {
+    this.memberService.getAllUserLikesNumber(username).subscribe(numberOfLikes => {
       this.numberOfLikes = numberOfLikes;
     })
+  }
+
+  genderToPolish(gender: string) {
+    if (gender === 'male') {
+      return 'Mężczyzna';
+    } else if (gender === 'female') {
+      return 'Kobieta';
+    } else {
+      return 'Helikopter bojowy';
+    }
   }
 }

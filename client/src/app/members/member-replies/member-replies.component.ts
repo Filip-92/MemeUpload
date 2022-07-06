@@ -46,8 +46,7 @@ export class MemberRepliesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUserPhoto(this.reply.username);
-    this.getReplies(this.comment.id);
+    this.getUserPhoto(this.reply?.username);
     if ("user" in localStorage) {
       this.loadLikes();
     }
@@ -82,8 +81,8 @@ export class MemberRepliesComponent implements OnInit {
     })
   }
 
-  getReplies(commentId: number) {
-    this.memeService.getReplies(commentId).subscribe(replies => {
+  getReplies(username: string) {
+    this.memeService.getMemberReplies(username).subscribe(replies => {
       this.replies = replies;
     });
   }

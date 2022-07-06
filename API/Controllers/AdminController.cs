@@ -52,6 +52,32 @@ namespace API.Controllers
         }
 
         [Authorize(Policy = "RequireAdminRole")]
+        [HttpGet("search-users/{searchString}")]
+        public async Task<ActionResult> SearchForUsers([FromQuery] UserParams userParams, string searchString)
+        {
+            var users = await _userManager.Users
+                .Include(r => r.UserRoles)
+                .ThenInclude(r => r.Role)
+                .Where(m => m.UserName.ToLower().Contains(searchString))
+                .OrderBy(u => u.UserName)
+                .Select(u => new
+                {
+                    u.Id,
+                    Username = u.UserName,
+                    Roles = u.UserRoles.Select(r => r.Role.Name).ToList(),
+                    IsBanned = u.IsBanned
+                })
+                .ToListAsync();
+
+            return Ok(users);
+
+            // Response.AddPaginationHeader(users.CurrentPage, users.PageSize, 
+            //     users.TotalCount, users.TotalPages);
+
+            // return Ok(users);
+        }
+
+        [Authorize(Policy = "RequireAdminRole")]
         [HttpPost("edit-roles/{username}")]
         public async Task<ActionResult> EditRoles(string username, [FromQuery] string roles)
         {

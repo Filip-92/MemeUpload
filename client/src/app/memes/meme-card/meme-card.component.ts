@@ -193,7 +193,6 @@ export class MemeCardComponent implements OnInit, PipeTransform {
       this.favouriteMemes = response;
       if (this.favouriteMemes?.length > 0) {
         for (var meme of this.favouriteMemes) {
-          console.log(meme);
           this.checkIfMemeFavourite(meme.memeId);
         }
       }

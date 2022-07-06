@@ -31,6 +31,10 @@ i:hover {
     color: rgb(12, 179, 12) !important;
 }
 
+#delete:hover {
+    color: red !important;
+}
+
 #goTo:hover {
     color: rgb(101, 101, 214);
 }

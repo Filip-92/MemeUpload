@@ -86,6 +86,10 @@ textarea {
     color: rgb(12, 179, 12) !important;
 }
 
+#delete:hover {
+    color: red !important;
+}
+
 #editForm {
     margin-left: 100px;
 }

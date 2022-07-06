@@ -1,22 +1,30 @@
-<!-- <div class="row">
-    <table class="table">
-        <tr>
-            <th style="width: 20%">Avatar</th>
-            <th style="width: 30%;">Użytkownik</th>
-            <th style="width: 30%;">Aktywne role</th>
-            <th style="width: 20%;"></th>
-        </tr>
-        <tr *ngFor="let user of users">
-            <app-user-card [user]="user"></app-user-card>
-            <td><a routerLink='/members/{{user.username}}'>{{user.username}}</a></td>
-            <td>{{user.roles}}</td>
-            <td><button (click)="openRolesModal(user)" class="btn btn-info">Edytuj Role</button></td>
-            <td><button (click)="openBanModal(user.username)" [attr.data-target]="'#'+user.username" class="btn btn-danger">Ban</button></td>
-            <td><button (click)="unbanUser(user.username)" class="btn btn-success" [disabled]="!user.isBanned">Odbanuj</button></td>
-            <td><button (click)="removeUser(user.id)" class="btn btn-warning">Usun uzytkownika</button></td>
-        </tr>
-    </table>
-</div> -->
+<div id="container" class="container text-center mt-5">
+    <div id="searchUser">
+        <div class="form-group">
+            <form class="text-center" [formGroup]='userSearchForm'>
+                <div class="row ml-3 text-center">
+                    <div class="column col-6 mt-1 mb-3">Liczba użytkowników: {{users?.length}}</div>
+                    <div class="column mr-3">
+                        <input type="text" placeholder="Wpisz nazwę wyszukiwanego użytkownika" [formControl]='userSearchForm.controls["searchString"]'>
+                    </div>
+                    <div class="column">
+                        <button 
+                        class="dropdown-item"
+                        class="btn btn-primary btn-lg" 
+                        style="align-items: center; font-size: 17px;"
+                        [disabled]="!this.userSearchForm.value.searchString"
+                        (click)="searchForUser(this.userSearchForm.value.searchString)"
+                        >
+                        <i class="fa fa-search"></i>
+                        Szukaj
+                        </button>
+                    </div>
+                  </div>
+            </form>
+        </div>
+    </div>
+</div>
+<br />
 
 <div class="row mb-3" style="border-bottom: 1px solid white;">
     <div class="col-sm-3 col-md-2">Avatar</div>

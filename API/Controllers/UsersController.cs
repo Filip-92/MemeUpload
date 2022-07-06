@@ -168,17 +168,15 @@ namespace API.Controllers
             return BadRequest("Problem sending message " + contactFormDto.SenderName + " " + contactFormDto.SenderEmail + " " + contactFormDto.Subject + " " + contactFormDto.Message);
         }
 
-        [HttpGet("get-user-likes-no/{userId}")]
-        [AllowAnonymous]
-        public async Task<ActionResult<IEntityTypeConfiguration<MemberDto>>> GetUserNumberOfLikes(int userId)
+        [HttpGet("get-user-likes-no/{username}")]
+        public async Task<ActionResult<IEntityTypeConfiguration<MemberDto>>> GetUserNumberOfLikes(string username)
         {
-            var member = await _unitOfWork.UserRepository.GetUserNumberOfLikes(userId);
+            var member = await _unitOfWork.UserRepository.GetUserNumberOfLikes(username);
 
             return Ok(member.NumberOfLikes);
         }
 
         [HttpGet("search-members/{searchString}")]
-        [AllowAnonymous]
         public async Task<ActionResult<IEntityTypeConfiguration<MemberDto>>> SearchForMembers([FromQuery] UserParams userParams, string searchString)
         {
             var members = await _unitOfWork.UserRepository.SearchForMembers(userParams, searchString);
@@ -190,7 +188,6 @@ namespace API.Controllers
         }
 
         [HttpGet("get-notifications/{username}")]
-        [AllowAnonymous]
         public async Task<ActionResult<IEntityTypeConfiguration<NotificationDto>>> GetNotifications(string username)
         {
             var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
@@ -200,7 +197,6 @@ namespace API.Controllers
         }
 
         [HttpPost("mark-notification-as-read/{notificationId}")]
-        [AllowAnonymous]
         public async Task<ActionResult> MarkNotificationAsRead(int notificationId)
         {
             var notification = await _unitOfWork.UserRepository.GetNotificationById(notificationId);
@@ -215,7 +211,6 @@ namespace API.Controllers
         }
 
         [HttpGet("get-unread-notifications/{username}")]
-        [AllowAnonymous]
         public async Task<ActionResult<IEntityTypeConfiguration<NotificationDto>>> GetUnreadNotifications(string username)
         {
             var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);

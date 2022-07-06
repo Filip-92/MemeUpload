@@ -134,11 +134,11 @@ namespace API.Data
             _context.Entry(user).State = EntityState.Modified;
         }
 
-        public async Task<UserDto> GetUserNumberOfLikes(int userId)
+        public async Task<UserDto> GetUserNumberOfLikes(string username)
         {
             return await _context.Users
                 .IgnoreQueryFilters()
-                .Where(u => u.Id == userId)
+                .Where(u => u.UserName == username)
                 .Select(u => new UserDto
                 {
                     NumberOfLikes = u.NumberOfLikes

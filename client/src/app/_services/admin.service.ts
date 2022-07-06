@@ -44,6 +44,10 @@ export class AdminService {
     );
   }
 
+  searchForUser(searchString: string) {
+    return this.http.get<Photo>(this.baseUrl + 'admin/search-users/' + searchString);
+  }
+
   approveMeme(memeId: number) {
     return this.http.post(this.baseUrl + 'admin/approve-meme/' + memeId, {});
   }

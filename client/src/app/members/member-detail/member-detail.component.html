@@ -22,7 +22,7 @@
             <div class="mb-3">
                 <i *ngIf="member.gender === 'female'" class="fa fa-female mr-2"></i>
                 <i *ngIf="member.gender === 'male'" class="fa fa-male mr-2"></i>
-                <strong>Płeć: </strong><span style="color: greenyellow">{{member.gender}}</span>
+                <strong>Płeć: </strong><span style="color: greenyellow">{{genderToPolish(member.gender)}}</span>
             </div>
             <div class="mb-3">
                 <i class="fa fa-history mr-2" aria-hidden="true"></i><strong>Ostatnia aktywność: </strong><span style="color: greenyellow">{{member.lastActive | timeago}}</span>
@@ -56,8 +56,8 @@
                     <app-member-replies [reply]="reply"></app-member-replies>
                 </div>
             </div>
-            <div *ngIf="comments?.length <= 0" class="text-center mt-3">
-                <h3>Brak komentarzy użytkownika</h3>
+            <div *ngIf="comments?.length <= 0" class="text-center mt-3" style="min-height: 200px;">
+                <h3 class="mt-5">Brak komentarzy użytkownika</h3>
             </div>
         </tab>
         <tab heading='Memy {{member.username}}' (selectTab)="onTabActivated($event)"

@@ -17,8 +17,10 @@
     <div class="text-center">
         <img src="{{comment.url}}" alt="">
     </div>
-    <i class="fa fa-reply ml-3 mb-1" *ngIf="!replyQuote" (click)="addReply(comment.id)"> Odpowiedz</i>
-    <i class="fa fa-quote-left ml-3 mb-1" *ngIf="!reply && comment.content !== '[Komentarz został usunięty]'" (click)="addQuotedReply(comment.id)"> Zacytuj</i>
+    <div class="text-left">
+        <i class="fa fa-reply ml-3 mb-1" *ngIf="!replyQuote" (click)="addReply(comment.id)"> Odpowiedz</i>
+        <i class="fa fa-quote-left ml-3 mb-1" *ngIf="!reply && comment.content !== '[Komentarz został usunięty]'" (click)="addQuotedReply(comment.id)"> Zacytuj</i>
+    </div>
 </div>
 
 <div *ngIf="commentUpdate">

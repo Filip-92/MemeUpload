@@ -95,8 +95,8 @@ export class MembersService {
     return this.http.get<Member[]>(this.baseUrl + 'likes/get-all-likes/' + userId);
   }
 
-  getAllUserLikesNumber(userId: number) {
-    return this.http.get<number>(this.baseUrl + 'users/get-user-likes-no/' + userId);
+  getAllUserLikesNumber(username: string) {
+    return this.http.get<number>(this.baseUrl + 'users/get-user-likes-no/' + username);
   }
 
   deleteMeme(memeId: number) {

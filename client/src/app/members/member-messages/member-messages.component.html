@@ -5,7 +5,7 @@
         [scrollTop]="scrollMe.scrollHeight"
     >
         <div *ngIf="(messageService.messageThread$ | async)?.length === 0">
-            No messages yet... say hi by using the message box below
+            Brak wiadomości... przywitaj się z użytkownikiem <span style="color: orange;">{{username}}</span>
         </div>
 
         <ul 

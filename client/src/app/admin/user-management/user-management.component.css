@@ -11,3 +11,12 @@ select {
     background-color: gray;
     color: whitesmoke;
 }
+
+input[type=text]::placeholder {
+    color: whitesmoke;
+}
+
+#searchUser input[type=text] {
+    width: 300px;
+    height: 40px;
+}

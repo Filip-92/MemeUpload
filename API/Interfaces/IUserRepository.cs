@@ -20,7 +20,7 @@ namespace API.Interfaces
         Task<AppUser> GetUserByReplyId(int replyId);
         Task<string> GetUserGender(string username);
         Task<AppUser> GetUserByEmailAsync(string email);
-        Task<UserDto> GetUserNumberOfLikes(int userId);
+        Task<UserDto> GetUserNumberOfLikes(string username);
         Task<PagedList<MemberDto>> SearchForMembers(UserParams userParams, string searchString);
         Task<IEnumerable<ContactFormDto>> GetContactFormMessages();
         Task<IEnumerable<NotificationDto>> GetNotifications(int id);

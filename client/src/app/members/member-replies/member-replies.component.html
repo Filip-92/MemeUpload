@@ -27,8 +27,10 @@
     <div id="image" class="text-center mb-3" *ngIf="reply.url !== null">
         <img src="{{reply.url}}" alt="">
     </div>
-    <i class="fa fa-reply ml-3 mb-1" (click)="addReply(reply.commentId)"> Odpowiedz</i>
-    <i class="fa fa-quote-left ml-3 mb-1" *ngIf="!ifReply" (click)="addQuotedReply(reply.commentId)"> Zacytuj</i>
+    <div class="text-left">
+        <i class="fa fa-reply ml-3 mb-1" (click)="addReply(reply.commentId)"> Odpowiedz</i>
+        <i class="fa fa-quote-left ml-3 mb-1" *ngIf="!ifReply" (click)="addQuotedReply(reply.commentId)"> Zacytuj</i>
+    </div>
 </div>
 
 <div *ngIf="commentUpdate">
