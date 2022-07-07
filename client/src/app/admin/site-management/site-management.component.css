@@ -37,3 +37,8 @@ input {
         font-size: 12px !important;
     }
 }
+
+i:hover {
+    color: red;
+    cursor: pointer;
+}

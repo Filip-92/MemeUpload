@@ -118,7 +118,11 @@ export class UserManagementComponent implements OnInit {
 
   getUserPhoto(id: number) {
     this.adminService.getUserPhoto(id).subscribe(photo => {
-      this.url = photo.url;
+      if (photo.url !== null) {
+        this.url = photo.url;
+      } else {
+        this.url = null;
+      }
     })
   }
 

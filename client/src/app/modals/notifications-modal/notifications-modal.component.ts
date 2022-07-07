@@ -13,7 +13,7 @@ export class NotificationsModalComponent implements OnInit {
 
   constructor(private accountService: AccountService) { }
 
-  notifications: Notification[];
+  notifications: any;
 
   getNotifications(username: string) {
     this.accountService.getNotifications(username).subscribe(notifications => {
@@ -26,7 +26,9 @@ export class NotificationsModalComponent implements OnInit {
   }
 
   markAsRead(notificationId: number) {
-    this.accountService.markAsRead(notificationId);
+    this.accountService.markAsRead(notificationId).subscribe(() => {
+      this.notifications.splice(this.notifications.findIndex(p => p.id === notificationId), 1);
+    });
     this.modalRef.close();
   }
 

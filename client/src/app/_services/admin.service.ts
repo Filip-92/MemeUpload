@@ -87,4 +87,8 @@ export class AdminService {
   addDivision(model: any) {
     return this.http.post(this.baseUrl + 'admin/add-division', model);
   }
+
+  removeDivision(divisionId: number) {
+    return this.http.post(this.baseUrl + 'admin/remove-division/' + divisionId, {});
+  }
 }

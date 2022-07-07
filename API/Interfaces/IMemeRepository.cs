@@ -34,5 +34,7 @@ namespace API.Interfaces
          Task<PagedList<MemeDto>> GetMemesByDivision(MemeParams memeParams, int divisionId);
          Task<DivisionDto> GetDivisionNameById(int id);
          Task<DivisionDto> GetDivisionIdByName(string name);
+         Task<Division> GetDivisionById(int id);
+         void RemoveDivision(Division division);
     }
 }

@@ -1,31 +1,8 @@
 
 <h3>Wiadomości od użytkowników</h3>
 <br>
-<p>Liczba wiadomości: {{messages?.length}}</p>
-<!-- <div class="row">
-    <table class="table"
-    #scrollMe
-    style="overflow-y: auto;"
-    [scrollTop]="scrolltop">
-        <tr>
-            <th style="width: 10%">Avatar</th>
-            <th style="width: 10%;">Użytkownik</th>
-            <th style="width: 10%;">E-mail</th>
-            <th style="width: 15%;">Temat</th>
-            <th id="message" style="width: 50%;">Wiadomość</th>
-            <th style="width: 5%;"></th>
-        </tr>
-        <tr *ngFor="let message of messages">
-            <app-user-card [user]="message.senderName"></app-user-card>
-            <td><a routerLink='/members/{{message.senderName}}'>{{message.senderName}}</a></td>
-            <td>{{message.senderEmail}}</td>
-            <td>{{getSubject(message.subject)}}</td>
-            <td id="message">{{message.message}}</td>
-            <td><button class="button btn btn-danger" (click)="removeMessage(message.id)">Usuń</button></td>
-        </tr>
-    </table>
-</div> -->
-<div class="row mb-2" style="border-bottom: 1px solid white;">
+<p class="mb-3">Liczba wiadomości: {{messages?.length}}</p>
+<div class="row mb-4" style="border-bottom: 1px solid white">
     <div class="col-sm-3 col-md-2">Avatar</div>
     <div class="col-sm-3 col-md-2">Użytkownik</div>
     <div class="col-sm-3 col-md-2">E-mail</div>
@@ -33,7 +10,7 @@
     <div id="message" class="col-sm-3 col-md-2">Wiadomość</div>
     <div class="col-sm-3 col-md-2"></div>
 </div>
-<div class="row mb-2"
+<div class="row mb-2 mt-3"
 #scrollMe
     style="overflow-y: auto; border-bottom: 1px solid white;"
     [scrollTop]="scrolltop"
@@ -54,9 +31,9 @@
         <h3>Dodaj dział</h3>
         <form [formGroup]='divisionForm' (ngSubmit)="divisionForm.valid && addDivision()" class="text-center column">
             <div class="mt-2">
-                <input type="radio" id="false" name="isCloseDivision" value="0" class="mr-1" formControlName="isCloseDivision" checked>
+                <input type="radio" id="false" name="isCloseDivision" value=0 class="mr-1" formControlName="isCloseDivision" checked>
                 <label for="0" class="mr-2">Otwarty</label>
-                <input type="radio" id="true" name="isCloseDivision" value="1" formControlName="isCloseDivision" class="mr-1">
+                <input type="radio" id="true" name="isCloseDivision" value=1 formControlName="isCloseDivision" class="mr-1">
                 <label for="1" class="mr-2">+18</label>
             </div>
             <div>
@@ -71,7 +48,7 @@
     <div class="col-sm-12 col-md-6 mb-3">
         <h3>Obecne działy</h3>
         <div *ngFor="let division of divisions">
-            {{division.name}} | <span *ngIf="division.isCloseDivision === true" style="color: red;">Zamknięty</span><span *ngIf="division.isCloseDivision !== true" style="color: rgb(28, 206, 28);">Otwarty</span>
+            {{division.name}} | <span *ngIf="division.isCloseDivision === true" style="color: red;">Zamknięty</span><span *ngIf="division.isCloseDivision !== true" style="color: rgb(28, 206, 28);">Otwarty</span><i class="fa fa-trash ml-3" (click)="removeDivision(division.id)"> Usuń</i>
         </div>
     </div>
 </div>

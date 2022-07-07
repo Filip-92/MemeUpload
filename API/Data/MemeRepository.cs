@@ -459,5 +459,17 @@ namespace API.Data
                     IsCloseDivision = u.IsCloseDivision
                 }).SingleOrDefaultAsync();
         }
+
+        public async Task<Division> GetDivisionById(int id)
+        {
+            return await _context.Divisions
+                .IgnoreQueryFilters()
+                .SingleOrDefaultAsync(x => x.Id == id);
+        }
+
+        public void RemoveDivision(Division division)
+        {
+            _context.Divisions.Remove(division);
+        }
     }
 }

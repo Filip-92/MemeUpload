@@ -359,5 +359,22 @@ namespace API.Controllers
             return BadRequest("Problem z dodawaniem działu");
         }
 
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpPost("remove-division/{divisionId}")]
+        public async Task<ActionResult<Division>> RemoveDivision(int divisionId)
+        {
+            var division = await _unitOfWork.MemeRepository.GetDivisionById(divisionId);
+
+            if (division == null) return NotFound("Nie znaleziono działu");
+
+            _unitOfWork.MemeRepository.RemoveDivision(division);
+
+            if (await _unitOfWork.Complete()) 
+            {
+                return Ok();
+            }
+
+            return BadRequest("Problem z usunięciem działu");
+        }
     }
 }

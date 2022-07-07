@@ -548,7 +548,14 @@ namespace API.Controllers
         {
             var photo = await _unitOfWork.PhotoRepository.GetUserPhoto(userId);
 
-            return Ok(photo);
+            if (photo != null)
+            {
+                return Ok(photo);
+            }
+            else 
+            {
+                return null;
+            }
         }
 
         [HttpGet("get-user-photo-by-username/{username}")]
@@ -559,7 +566,14 @@ namespace API.Controllers
 
             var photo = await _unitOfWork.PhotoRepository.GetUserPhoto(user.Id);
 
-            return Ok(photo);
+            if (photo != null)
+            {
+                return Ok(photo);
+            }
+            else 
+            {
+                return null;
+            }
         }
 
         [HttpGet("get-divisions")]

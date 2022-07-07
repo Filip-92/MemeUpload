@@ -61,9 +61,15 @@ export class SiteManagementComponent implements OnInit {
   }
 
   addDivision() {
+    if (this.divisionForm.value.isCloseDivision === '0') {
+      this.divisionForm.value.isCloseDivision = false;
+    } else {
+      this.divisionForm.value.isCloseDivision = true;
+    }
     this.adminService.addDivision(this.divisionForm.value).subscribe(response => {
       this.toastr.success('Pomyślnie dodano dział');
       this.divisionForm.reset();
+      this.getDivisions();
       }, error => {
       this.validationErrors = error;
     })
@@ -73,6 +79,13 @@ export class SiteManagementComponent implements OnInit {
     this.adminService.removeMessage(messageId).subscribe(() => {
       this.messages.splice(this.messages.findIndex(p => p.id === messageId), 1);
     })
+  }
+
+  removeDivision(divisionId: number) {
+    this.adminService.removeDivision(divisionId).subscribe(() => {
+      this.divisions.splice(this.divisions.findIndex(p => p.id === divisionId), 1);
+    })
+    this.getDivisions();
   }
 
 }
