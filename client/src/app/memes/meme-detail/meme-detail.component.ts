@@ -46,6 +46,7 @@ export class MemeDetailComponent implements OnInit {
   favourite: boolean;
   url: string[];
   division: any;
+  favouriteMemes: Meme[];
 
   constructor(private memeService: MemeService, private http: HttpClient,
     private route: ActivatedRoute, private toastr: ToastrService,
@@ -62,7 +63,7 @@ export class MemeDetailComponent implements OnInit {
       this.initializeUploader();
       this.initializeForm();
       this.loadLikes();
-      this.checkIfMemeFavourite(this.id);
+      this.getFavouriteMemes(this.user.username);
     }
     this.getMeme(this.id);
     this.getComments(this.id);
@@ -118,14 +119,11 @@ export class MemeDetailComponent implements OnInit {
     this.memeService.getLikes().subscribe(response => {
       this.likedMemes = response;
       for (var meme of this.likedMemes) {
-        if (this.likedMemes.find(temp=>temp.id === this.id) !== null) {
-          if (meme.disliked === true) {
-            this.checkIfMemeDisliked(this.id);
-          } else {
-            this.checkIfMemeLiked(this.id);
-          }
+        if (meme.disliked === true) {
+          this.checkIfMemeDisliked(meme.likedMemeId);
+        } else {
+          this.checkIfMemeLiked(meme.likedMemeId);
         }
-
       }
     })
   }
@@ -133,6 +131,7 @@ export class MemeDetailComponent implements OnInit {
   checkIfMemeLiked(id: number) {
     if (id === this.id) {
       this.liked = !this.liked;
+      console.log(id);
     }
   }
 
@@ -263,6 +262,17 @@ export class MemeDetailComponent implements OnInit {
       this.favourite = false;
     }
   })
+  }
+
+  getFavouriteMemes(username: string) {
+    this.memeService.getFavouritesList(username).subscribe(response => {
+      this.favouriteMemes = response;
+      if (this.favouriteMemes?.length > 0) {
+        for (var meme of this.favouriteMemes) {
+          this.checkIfMemeFavourite(meme.memeId);
+        }
+      }
+    });
   }
 
   checkIfMemeFavourite(id: number) {

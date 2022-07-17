@@ -45,7 +45,8 @@ namespace API.Data
                     IsApproved = u.IsApproved,
                     IsMain = u.IsMain,
                     NumberOfLikes = u.NumberOfLikes,
-                    NumberOfFlags = u.NumberOfSpamFlags
+                    NumberOfFlags = u.NumberOfSpamFlags,
+                    Division = u.Division
                 }).AsNoTracking()
                 .OrderByDescending(u => u.Id);
 

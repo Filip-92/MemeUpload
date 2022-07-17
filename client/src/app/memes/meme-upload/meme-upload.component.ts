@@ -200,7 +200,9 @@ export class MemeUploadComponent implements OnInit {
     this.memeService.addYoutubeLink(this.youtubeForm.value).subscribe(response => {
       this.memeToggle();
       this.toastr.success('Pomyślnie dodano link');
+      this.youtubeForm.reset();
       this.memeUploadForm.reset();
+      this.youtubeVideo = !this.youtubeVideo;
       }, error => {
       this.validationErrors = error;
     })
@@ -210,10 +212,6 @@ export class MemeUploadComponent implements OnInit {
   getDivisions() {
     this.memeService.getDivisions().subscribe(divisions => {
       this.divisions = divisions;
-      // for (let division of this.divisions) {
-      //   this.closedDivisions?.append(division.name);
-      //   console.log(this.closedDivisions);
-      // }
     });
   }
 

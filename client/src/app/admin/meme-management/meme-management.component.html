@@ -1,26 +1,6 @@
 <div class='row text'>
     <div class='col-10 col-lg-4 text-center' id="memeCard" *ngFor='let meme of memes'>
-        <a routerLink="../memes/{{meme.id}}/{{convertText(meme?.title) || convertText('Jakieś gówno')}}">
-            <h4 class="card-title text-center mb-4 mt-3"> 
-                {{meme.title || 'Jakieś gówno'}}
-            </h4>
-            </a>
-        <div *ngIf="meme?.url?.includes('youtube')">
-            <iframe width="250" height="200" [src]="formatYoutubeLink(meme?.url) | safe"></iframe>
-        </div>
-        <img src="{{meme.url ? meme.url : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme.url)" style="max-width: 400px;"/>
-        <video src="{{meme.url}}" class="card-img-top" *ngIf="!checkURL(meme?.url) && !meme?.url?.includes('https://www.youtube')" style="max-width: 400px;" controls></video>
-        <h4>{{meme.username}}</h4>
-        <div class="mb-2">
-            <span class="btn btn-primary mr-2"><i class="fa fa-plus" aria-hidden="true"></i> {{meme?.numberOfLikes}}</span>
-            <span class="btn btn-danger mr-2"><i class="fa fa-flag" aria-hidden="true"></i> {{meme?.numberOfFlags}}</span>
-        </div>
-        <div class='text-center mb-5'>
-            <button class='btn btn-sm btn-info mr-1' (click)="openMemeView(meme)"><i class="fa fa-search"></i></button>
-            <button class='btn btn-sm btn-success mr-1' (click)='approveMeme(meme.id)'>Approve</button>
-            <button class='btn btn-sm btn-success mr-1' (click)='pushMemeToMain(meme.id)'>Główna</button>
-            <button class='btn btn-sm btn-danger' (click)="openDeleteModal(meme.id)" [attr.data-target]="'#'+meme.id">Usuń</button>
-        </div>
+        <app-meme-for-approval-card [meme]="meme"></app-meme-for-approval-card>
     </div>
 </div>
 

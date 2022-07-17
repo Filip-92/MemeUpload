@@ -3,7 +3,7 @@ export interface Comment {
     id: number;
     url: string;
     content: string;
-    uploaded: string;
+    uploaded: Date;
     username?: string;
     numberOfLikes: number;
     memeId: number;

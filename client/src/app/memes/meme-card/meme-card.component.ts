@@ -14,6 +14,7 @@ import { HelperService } from 'src/app/_services/helper.service';
 import { AccountService } from 'src/app/_services/account.service';
 import { take } from 'rxjs/operators';
 import { Reply } from 'src/app/_models/reply';
+import { AdminService } from 'src/app/_services/admin.service';
 
 @Pipe({ name: 'safe' })
 export class SafePipe implements PipeTransform {
@@ -52,7 +53,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
 
   constructor(public presence: PresenceService, private memeService: MemeService, private http: HttpClient,
     public sanitizer: DomSanitizer, public helper: HelperService, public accountService: AccountService,
-    private toastr: ToastrService) { 
+    private toastr: ToastrService, private adminService: AdminService) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
     }
   transform(value: any, ...args: any[]) {
@@ -203,5 +204,11 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     if (id === this.meme.id) {
       this.favourite = !this.favourite;
     }
+  }
+
+  rejectMeme(memeId: number) {
+    this.adminService.rejectMeme(memeId).subscribe(() => {
+      this.memes.splice(this.memes.findIndex(p => p.id === memeId), 1);
+    })
   }
 }

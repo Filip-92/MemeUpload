@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NavComponent } from 'src/app/nav/nav.component';
 import { AccountService } from 'src/app/_services/account.service';
 
 @Component({
@@ -9,6 +10,7 @@ import { AccountService } from 'src/app/_services/account.service';
 export class NotificationsModalComponent implements OnInit {
   @Input() username: string;
   @Input() modalRef: any;
+  @Input() nav: NavComponent;
   scrolltop: number=null;
 
   constructor(private accountService: AccountService) { }
@@ -29,6 +31,7 @@ export class NotificationsModalComponent implements OnInit {
     this.accountService.markAsRead(notificationId).subscribe(() => {
       this.notifications.splice(this.notifications.findIndex(p => p.id === notificationId), 1);
     });
+    this.nav.notifications?.length - 1;
     this.modalRef.close();
   }
 

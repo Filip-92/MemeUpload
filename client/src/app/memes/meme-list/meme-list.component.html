@@ -17,7 +17,7 @@
         [itemsPerPage]="pagination.itemsPerPage"
         [(ngModel)]="pagination.currentPage"
         (pageChanged)="pageChanged($event)"
-        routerLink="/strona/{{pageNumber}}"
+        routerLink="/{{podstrona}}/strona/{{pageNumber}}"
         previousText="&lsaquo;"
         nextText="&rsaquo;" 
         firstText="&laquo;" 

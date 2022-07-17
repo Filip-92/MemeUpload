@@ -23,6 +23,7 @@ export class MemeListComponent implements OnInit {
   divisionName: string;
   division: Division;
   currentCategory: string;
+  podstrona: string;
 
   constructor(private memeService: MemeService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService) { }
 
@@ -105,9 +106,15 @@ export class MemeListComponent implements OnInit {
     window.scrollTo(0,0);
     this.loadMemes();
     if (this.router.url.includes('ostatnie24H')) {  
+      this.podstrona = 'ostatnie24H';
       this.loadMemesLast24H();
      } else if (this.router.url.includes('ostatnie48H')) {  
       this.loadMemesLast48H();
+     } else if (this.router.url.includes('poczekalnia')) {
+      this.podstrona = 'poczekalnia';
+      this.loadMemes();
+     } else {
+      this.loadMainMemes();
      }
   }
 

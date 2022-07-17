@@ -7,13 +7,14 @@ import { ContactFormMessages } from '../_models/contactFormMessages';
 import { PaginatedResult } from '../_models/pagination';
 import { Photo } from '../_models/photo';
 import { User } from '../_models/user';
+import { Division } from '../_models/division';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
   baseUrl = environment.apiUrl;
-  
+  divisions: any;
   paginatedResult: PaginatedResult<Meme[]> = new PaginatedResult<Meme[]>();
 
   constructor(private http: HttpClient) { }
@@ -90,5 +91,13 @@ export class AdminService {
 
   removeDivision(divisionId: number) {
     return this.http.post(this.baseUrl + 'admin/remove-division/' + divisionId, {});
+  }
+
+  getDivisionNameById(divisionId: number) {
+    return this.http.get<Division>(this.baseUrl + 'memes/get-division-name-by-id/' + divisionId);
+  }
+
+  switchDivisions(model: any, memeId: number) {
+    return this.http.put(this.baseUrl + 'admin/switch-divisions/' + memeId, model);
   }
 }

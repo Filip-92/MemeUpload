@@ -14,5 +14,6 @@ namespace API.DTOs
         public bool IsApproved { get; set; }
         public bool IsMain { get; set; }
         public int NumberOfFlags { get; set; }
+        public int Division { get; set; }
     }
 }

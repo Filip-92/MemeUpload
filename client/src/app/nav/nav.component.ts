@@ -129,6 +129,7 @@ export class NavComponent implements OnInit {
     const modalRef = this.modalServ.open(NotificationsModalComponent);
     modalRef.componentInstance.username = username;
     modalRef.componentInstance.modalRef = modalRef;
+    modalRef.componentInstance.nav = NavComponent;
   }
 
   getUnreadNotifications(username: string) {

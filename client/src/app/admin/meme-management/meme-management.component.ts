@@ -30,6 +30,7 @@ export class PhotoManagementComponent implements OnInit {
   pageSize = 10;
   trustedUrl: any;
   memeId: number;
+  division: any;
 
   constructor(private adminService: AdminService, private modalService: NgbModal) { }
   transform(value: any, ...args: any[]) {
@@ -48,55 +49,9 @@ export class PhotoManagementComponent implements OnInit {
       });
   }
 
-  approveMeme(memeId: number) {
-    this.adminService.approveMeme(memeId).subscribe(() => {
-      this.memes.splice(this.memes.findIndex(p => p.id === memeId), 1);
-    })
-  }
-
-  pushMemeToMain(memeId: number) {
-    this.adminService.pushMemeToMain(memeId).subscribe(() => {
-      this.memes.splice(this.memes.findIndex(p => p.id === memeId), 1);
-    })
-  }
-
-  openDeleteModal(memeId: number) {
-    const modalRef = this.modalService.open(AdminDeleteMemeComponent);
-    modalRef.componentInstance.memes = this.memes;
-    modalRef.componentInstance.memeId = memeId;
-    modalRef.componentInstance.modalRef = modalRef;
-  }
-
-  rejectMeme(memeId: number) {
-    this.adminService.rejectMeme(memeId).subscribe(() => {
-      this.memes.splice(this.memes.findIndex(p => p.id === memeId), 1);
-    })
-  }
-
   pageChanged(event: any) {
     this.pageNumber = event.page;
     this.getMemesForApproval();
-  }
-
-  convertText(title: string) {
-    var result = title?.toLowerCase().split(' ').join('-').normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-    return result;
-  }
-
-  checkURL(url) {
-    return(url?.match(/\.(jpeg|jpg|gif|png)$/) != null);
-  }
-
-  formatYoutubeLink(url) {
-    var id = url?.split('v=')[1]?.split('&')[0]; //sGbxmsDFVnE
-    url = "https://www.youtube-nocookie.com/embed/" + id;
-    return url;
-  }
-
-  openMemeView(meme: Meme) {
-    const modalRef = this.modalService.open(AdminMemeViewComponent);
-    modalRef.componentInstance.meme = meme;
-    modalRef.componentInstance.modalRef = modalRef;
   }
 
 }

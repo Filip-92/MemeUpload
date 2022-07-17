@@ -376,5 +376,20 @@ namespace API.Controllers
 
             return BadRequest("Problem z usunięciem działu");
         }
+
+        [Authorize(Policy = "ModerateMemeRole")]
+        [HttpPut("switch-divisions/{memeId}")]
+        public async Task<ActionResult> SwitchDivisions(DivisionUpdateDto divisionUpdateDto, int memeId)
+        {
+            var meme = await _unitOfWork.MemeRepository.GetMemeById(memeId);
+
+            if (meme == null) return NotFound("Nie znaleziono mema");
+
+            meme.Division = divisionUpdateDto.Id;
+
+            if (await _unitOfWork.Complete()) return Ok();
+
+            return BadRequest("Nie udało się zmienić działu.");
+        }
     }
 }

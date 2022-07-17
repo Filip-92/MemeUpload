@@ -75,6 +75,8 @@ import { MemeCardFavouriteComponent } from './memes/meme-card-favourite/meme-car
 import { ChangePasswordComponent } from './members/change-password/change-password.component';
 import { MemberCommentsComponent } from './members/member-comments/member-comments.component';
 import { MemberRepliesComponent } from './members/member-replies/member-replies.component';
+import { MemeForApprovalCardComponent } from './admin/meme-for-approval-card/meme-for-approval-card.component';
+import { SwitchDivisionComponent } from './modals/switch-division/switch-division.component';
 
 @NgModule({
   declarations: [
@@ -133,6 +135,8 @@ import { MemberRepliesComponent } from './members/member-replies/member-replies.
     ChangePasswordComponent,
     MemberCommentsComponent,
     MemberRepliesComponent,
+    MemeForApprovalCardComponent,
+    SwitchDivisionComponent,
   ],
   imports: [
     BrowserModule,

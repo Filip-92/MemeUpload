@@ -258,4 +258,8 @@ private formatBytes(bytes: number, decimals?: number) {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     }
 
+  canDeleteComment(comment: any) {
+    return Date.now() - comment.uploaded.getTime() < 5 * 60 * 1000;
+  }
+
 }
