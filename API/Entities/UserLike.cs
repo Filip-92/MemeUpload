@@ -1,5 +1,8 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace API.Entities
 {
+    [Table("Likes")]
     public class UserLike
     {
         public AppUser SourceUser { get; set; }
@@ -9,8 +12,5 @@ namespace API.Entities
         public AppUser LikedUser { get; set; }
 
         public int LikedUserId { get; set; }
-
-        public int NumberOfLikes { get; set; }
-        
     }
 }

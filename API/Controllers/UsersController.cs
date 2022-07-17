@@ -144,223 +144,88 @@ namespace API.Controllers
             return BadRequest("Failed to delete the photo");
         }
 
-        // Memes
-
-        [HttpPost("add-meme")]
-        public async Task<ActionResult<MemeDto>> AddMeme(IFormFile file)
+        [HttpPost("submit-contact-form")]
+        [AllowAnonymous]
+        public async Task<ActionResult<ContactFormDto>> SubmitMessage([FromBody] ContactFormDto contactFormDto)
         {
             var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
 
-            dynamic result = null;
-
-            if (file.ContentType.Contains("image"))
+            var contactForm = new ContactForm
             {
-                result = await _memeService.AddMemeAsync(file);
-            }
-            else if (file.ContentType.Contains("video"))
-            {
-                result = await _memeService.AddMemeVidAsync(file);
-            }
-
-            var title = file.FileName;
-
-            string[] splitTitleAndDesc = title.Split('^');
-
-            if (result.Error != null) return BadRequest(result.Error.Message);
-
-            var meme = new Memes
-            {
-                Url = result.SecureUrl.AbsoluteUri,
-                PublicId = result.PublicId,
-                Title = splitTitleAndDesc[0],
-                Description = splitTitleAndDesc[1]
+                SenderName = contactFormDto.SenderName,
+                SenderEmail = contactFormDto.SenderEmail,
+                Subject = contactFormDto.Subject,
+                Message = contactFormDto.Message
             };
 
-            user.Memes.Add(meme);
+            user.Messages.Add(contactForm);
 
             if (await _unitOfWork.Complete())
             {
-                return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<MemeDto>(meme));
+                return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<ContactFormDto>(contactForm));
             }
 
-            return BadRequest("Problem addding meme");
+            return BadRequest("Problem sending message " + contactFormDto.SenderName + " " + contactFormDto.SenderEmail + " " + contactFormDto.Subject + " " + contactFormDto.Message);
         }
 
-        [HttpPost("add-youtube-link")]
-        public async Task<ActionResult<MemeDto>> AddYoutubeVideo(MemeDto memeDto)
+        [HttpGet("get-user-likes-no/{username}")]
+        public async Task<ActionResult<IEntityTypeConfiguration<MemberDto>>> GetUserNumberOfLikes(string username)
         {
-            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+            var member = await _unitOfWork.UserRepository.GetUserNumberOfLikes(username);
 
-            var meme = new Memes
-            {
-                Url = memeDto.Url,
-                // PublicId = result.PublicId,
-                Title = memeDto.Title,
-                Description = memeDto.Description
-            };
-
-            user.Memes.Add(meme);
-
-            if (await _unitOfWork.Complete())
-            {
-                return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<MemeDto>(meme));
-            }
-
-            return BadRequest("Problem addding meme");
+            return Ok(member.NumberOfLikes);
         }
 
-        [HttpGet("memes-to-display")]
-        [AllowAnonymous]
-        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemes([FromQuery] MemeParams memeParams)
+        [HttpGet("search-members/{searchString}")]
+        public async Task<ActionResult<IEntityTypeConfiguration<MemberDto>>> SearchForMembers([FromQuery] UserParams userParams, string searchString)
         {
-            var memes = await _unitOfWork.MemeRepository.GetMemes(memeParams);
+            var members = await _unitOfWork.UserRepository.SearchForMembers(userParams, searchString);
 
-            Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
-                memes.TotalCount, memes.TotalPages);
+            Response.AddPaginationHeader(members.CurrentPage, members.PageSize, 
+                members.TotalCount, members.TotalPages);
 
-            return Ok(memes);
+            return Ok(members);
         }
 
-        [HttpGet("display-meme-detail/{memeId}")]
-        [AllowAnonymous]
-        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMeme(int memeId)
+        [HttpGet("get-notifications/{username}")]
+        public async Task<ActionResult<IEntityTypeConfiguration<NotificationDto>>> GetNotifications(string username)
         {
-            var meme = await _unitOfWork.MemeRepository.GetMeme(memeId);
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
+            var notifications = await _unitOfWork.UserRepository.GetNotifications(user.Id);
 
-            return Ok(meme);
+            return Ok(notifications);
         }
 
-        [HttpGet("search-memes/{searchString}")]
-        [AllowAnonymous]
-        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> SearchForMemes([FromQuery] MemeParams memeParams, string searchString)
+        [HttpPost("mark-notification-as-read/{notificationId}")]
+        public async Task<ActionResult> MarkNotificationAsRead(int notificationId)
         {
-            var memes = await _unitOfWork.MemeRepository.SearchForMemes(memeParams, searchString);
+            var notification = await _unitOfWork.UserRepository.GetNotificationById(notificationId);
 
-            Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
-                memes.TotalCount, memes.TotalPages);
+            if (notification == null) return NotFound("Could not find notification");
 
-            return Ok(memes);
-        }
-
-        [HttpGet("get-random-meme")]
-        [AllowAnonymous]
-        public async Task<ActionResult> GetRandomMeme()
-        {
-            Random random = new Random();
-
-            var meme = await _unitOfWork.MemeRepository.GetMemesList();
-
-            var array = meme.ToArray();
-
-            var index = random.Next(array.Count());
-  
-            return Ok(array[index]);
-        }
-
-        [HttpGet("get-member-memes/{username}")]
-        [AllowAnonymous]
-        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemberMemes([FromQuery] MemeParams memeParams, string username)
-        {
-            var memes = await _unitOfWork.MemeRepository.GetMemberMemes(memeParams, username);
-
-            Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
-                memes.TotalCount, memes.TotalPages);
-
-            return Ok(memes);
-        }
-
-        [HttpDelete("delete-meme/{memeId}")]
-        public async Task<ActionResult> DeleteMeme(int memeId)
-        {
-            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
-
-            var meme = user.Memes.FirstOrDefault(x => x.Id == memeId);
-
-            if (meme == null) return NotFound();
-
-            if (meme.PublicId != null)
-            {
-                var result = await _memeService.DeleteMemeAsync(meme.PublicId);
-                if (result.Error != null) return BadRequest(result.Error.Message);
-            }
-
-            user.Memes.Remove(meme);
+            notification.IsRead = true;
 
             if (await _unitOfWork.Complete()) return Ok();
 
-            return BadRequest("Failed to delete the meme");
+            return BadRequest("Nie można otworzyć notyfikacji");
         }
 
-        [HttpPost("{memeId}")]
-        public async Task<ActionResult> AddLike(int id)
+        [HttpGet("get-unread-notifications/{username}")]
+        public async Task<ActionResult<IEntityTypeConfiguration<NotificationDto>>> GetUnreadNotifications(string username)
         {
-            var sourceUserId = User.GetUserId();
-            var likedMeme = await _unitOfWork.MemeRepository.GetMemeById(id);
-            var sourceUser = await _unitOfWork.MemeLikesRepository.GetMemeWithLikes(sourceUserId);
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
+            var notifications = await _unitOfWork.UserRepository.GetUnreadNotifications(user.Id);
 
-            // if (likedMeme == null) return NotFound();
-
-            // if (sourceUser.UserName == username) return BadRequest("You cannot like yourself");
-
-            // var userLike = await _unitOfWork.LikesRepository.GetUserLike(sourceUserId, likedUser.Id);
-
-            // if (userLike != null)
-            // {
-            //     sourceUser.LikedUsers.Remove(userLike);
-            // }
-            // else if (userLike == null)
-            // {
-            //     userLike = new UserLike
-            //     {
-            //         SourceUserId = sourceUserId,
-            //         LikedUserId = likedUser.Id
-            //     };
-
-            //     sourceUser.LikedUsers.Add(userLike);
-            // }
-
-            if (await _unitOfWork.Complete()) return Ok();
-
-            return BadRequest("Failed to like user");
+            return Ok(notifications);
         }
 
-        [Authorize(Policy = "ModerateMemeRole")]
-        [HttpPost("remove-meme/{memeId}")]
-        public async Task<ActionResult> RejectMeme(int memeId)
-        {
-            var meme = await _unitOfWork.MemeRepository.GetMemeById(memeId);
-
-            if (meme == null) return NotFound("Could not find meme");
-
-            if (meme.PublicId != null)
-            {
-                var result = await _memeService.DeleteMemeAsync(meme.PublicId);
-
-                if (result.Result == "ok")
-                {
-                    _unitOfWork.MemeRepository.RemoveMeme(meme);
-                }
-            }
-            else
-            {
-                _unitOfWork.MemeRepository.RemoveMeme(meme);
-            }
-
-            await _unitOfWork.Complete();
-
-            return Ok();
-        }
-
+        [HttpGet("get-user-email-by-id/{userId}")]
         [AllowAnonymous]
-        [HttpGet("memes-to-moderate/last24H")]
-        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemesLast24H([FromQuery] MemeParams memeParams)
+        public async Task<IActionResult> GetEmailById(int userId)
         {
-            var memes = await _unitOfWork.MemeRepository.GetMemesLast24H(memeParams);
+            var user = await _unitOfWork.UserRepository.GetUserByIdAsync(userId);
 
-            Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
-                memes.TotalCount, memes.TotalPages);
-
-            return Ok(memes);
+            return Ok(user);
         }
     }
 }

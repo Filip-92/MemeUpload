@@ -47,23 +47,12 @@ export class AccountService {
     return;
   }
 
-  changePassword(userDetails: any) {
-    const resetPasswordViewModel = {
-      OldPassword: userDetails.oldPassword,
-      Password: userDetails.newPassword,
-      ConfirmPassword: userDetails.newPassword,
-      Email: userDetails.email
-    };
+  changePassword(email: string, model: any) {
+    return this.http.post(this.baseUrl + 'account/change-password/' + email, model);
+  }
 
-    return this.http  
-      .post<any>(this.baseUrlChangePassword, resetPasswordViewModel, {
-        headers: { Accept: 'multipart/form-data', 'X-XSRF-TOKEN': this.cookieService.get('XSRF-TOKEN')}
-      })
-      .pipe(
-        map((result) => {
-          return result;
-        })
-      );
+  forgotPassword(email: any) {
+    return this.http.post(this.baseUrl + 'account/forgot-password/' + email, {});
   }
 
   register(model: any) {
@@ -112,4 +101,17 @@ export class AccountService {
     localStorage.removeItem('codeSendSuccess');
     localStorage.removeItem('user_id');
   }
+
+  getNotifications(username: string) {
+    return this.http.get<Notification[]>(this.baseUrl + 'users/get-notifications/' + username);
+  }
+
+  markAsRead(notificationId: number) {
+    return this.http.post(this.baseUrl + 'users/mark-notification-as-read/' + notificationId, {});
+  }
+
+  getUnreadNotifications(username: string) {
+    return this.http.get<Notification[]>(this.baseUrl + 'users/get-unread-notifications/' + username);
+  }
+
 }

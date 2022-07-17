@@ -7,6 +7,7 @@ using API.Helpers;
 using API.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -36,6 +37,7 @@ namespace API.Controllers
             if (userLike != null)
             {
                 sourceUser.LikedUsers.Remove(userLike);
+                likedUser.NumberOfLikes--;
             }
             else if (userLike == null)
             {
@@ -46,6 +48,7 @@ namespace API.Controllers
                 };
 
                 sourceUser.LikedUsers.Add(userLike);
+                likedUser.NumberOfLikes++;
             }
 
             if (await _unitOfWork.Complete()) return Ok();
@@ -61,6 +64,24 @@ namespace API.Controllers
 
             Response.AddPaginationHeader(users.CurrentPage, 
                 users.PageSize, users.TotalCount, users.TotalPages);
+
+            return Ok(users);
+        }
+
+        [HttpGet("get-all-likes/{userId}")]
+        public async Task<ActionResult<IEntityTypeConfiguration<LikeDto>>> GetAllUserLikes(int userId)
+        {
+            var likes = await _unitOfWork.LikesRepository.GetAllUserLikes(userId);
+
+            return Ok(likes);
+        }
+
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<IEnumerable<LikeDto>>> GetOtherUserLikes([FromQuery]LikesParams likesParams, int userId)
+        {
+            userId = 7;
+            likesParams.UserId = userId;
+            var users = await _unitOfWork.LikesRepository.GetUserLikes(likesParams);
 
             return Ok(users);
         }

@@ -10,6 +10,7 @@ import { Pagination } from 'src/app/_models/pagination';
 import { Router } from '@angular/router';
 import { Meme } from 'src/app/_models/meme';
 import { MemeService } from 'src/app/_services/meme.service';
+import { Reply } from 'src/app/_models/reply';
 
 @Component({
   selector: 'app-member-edit',
@@ -30,12 +31,9 @@ export class MemberEditComponent implements OnInit {
   pageSize = 8;
   pagination: Pagination;
   memes: Meme[];
-  
-  @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) {
-    if (this.editForm.dirty) {
-      $event.returnValue = true;
-    }
-  }
+  comments: Comment[];
+  replies: Reply[];
+  numberOfLikes: number = 0;
 
   constructor(private accountService: AccountService, private memberService: MembersService, 
     private toastr: ToastrService, private router: Router, private memeService: MemeService) { 
@@ -43,9 +41,18 @@ export class MemberEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if ("user" in localStorage) {
     this.loadMember();
     this.loadLikes();
     this.getMemberMemes(this.user.username);
+    this.getMemberComments(this.user.username);
+    this.getMemberReplies(this.user.username);
+    this.getMemberNumberOfLikes(this.user.username);
+    console.log(this.user);
+    } else {
+      this.toastr.warning("Zaloguj się aby mieć dostęp");
+      this.router.navigateByUrl('/');
+    }
   }
 
   getMemberMemes(username: string) {
@@ -58,13 +65,6 @@ export class MemberEditComponent implements OnInit {
   deletePhoto(photoId: number) {
     this.memberService.deletePhoto(photoId).subscribe(() => {
       this.member.photos = this.member.photos.filter(x => x.id !== photoId);
-    })
-  }
-
-  changePassword() {
-    this.accountService.changePassword(this.model).subscribe(() => {
-      this.toastr.success('Password changed successfully');
-      this.changePasswordForm.reset(this.member);
     })
   }
 
@@ -97,20 +97,47 @@ export class MemberEditComponent implements OnInit {
     })
   }
 
+  changeDateFormat(date: string) {
+    var newDate = date.substring(0,10);
+    return newDate;
+  }
+
   removeMeme(memeId) {
     this.memeService.removeMeme(memeId).subscribe(() => {
       this.memes.splice(this.memes.findIndex(p => p.id === memeId), 1);
     })
   }
 
-  deleteMeme(memeId: number) {
-    this.memberService.deleteMeme(memeId).subscribe(() => {
-      this.member.memes = this.member.memes.filter(x => x.id !== memeId);
-    })
-  }
-
   pageChanged(event: any) {
     this.pageNumber = event.page;
     this.getMemberMemes(this.user.username);
+  }
+
+  getMemberComments(username: string) {
+    this.memeService.getMemberComments(username).subscribe(comments => {
+      this.comments = comments;
+    });
+  }
+
+  getMemberReplies(username: string) {
+    this.memeService.getMemberReplies(username).subscribe(replies => {
+      this.replies = replies;
+    });
+  }
+
+  getMemberNumberOfLikes(username: string) {
+    this.memberService.getAllUserLikesNumber(username).subscribe(numberOfLikes => {
+      this.numberOfLikes = numberOfLikes;
+    })
+  }
+
+  genderToPolish(gender: string) {
+    if (gender === 'male') {
+      return 'Mężczyzna';
+    } else if (gender === 'female') {
+      return 'Kobieta';
+    } else {
+      return 'Helikopter bojowy';
+    }
   }
 }

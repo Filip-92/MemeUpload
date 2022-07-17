@@ -7,6 +7,5 @@ namespace API.DTOs
         public int Age { get; set; }
         public string PhotoUrl { get; set; }
         public string MemeUrl { get; set; }
-
     }
 }

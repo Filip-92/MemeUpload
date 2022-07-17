@@ -1,0 +1,23 @@
+<div
+    #scrollMe
+    style="overflow-y: auto; height: 500px;"
+    [scrollTop]="scrolltop"
+    *ngIf="notifications?.length > 0"
+    >
+    <div *ngFor="let notification of notifications">
+        <a routerLink="/memes/{{notification.memeId}}" (click)="markAsRead(notification.id)" class="nav-link notification">
+            <div class="row" [ngStyle]="notification.isRead ? { 'color': 'yellow', 'opacity': '0.5' } : { 'opacity': '1' }">
+                <div class="col-2">
+                    <img src="././assets/LogoImage.png" alt="">
+                </div>
+                <div class="col-7 text-center" style="margin-top: auto; margin-bottom: auto">
+                    {{notification.content}}
+                </div>
+                <div class="col-3" style="margin-top: auto; margin-bottom: auto; font-size: 12px;">
+                    {{notification.sentTime.substring(0, 19).replace("T", " ")}}
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+

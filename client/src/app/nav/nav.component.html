@@ -15,12 +15,13 @@
             </div>
         </a>
 
-        <ng-container *ngIf="accountService.currentUser$ | async" class="min-width" style="float: right;">
+        <ng-container *ngIf="accountService.currentUser$ | async" style="float: right !important;">
             <ul class="nav">
                 <li style="width: 60px" title="Użytkownicy"><a class="nav-link" routerLink='/members' routerLinkActive='active'><i class="fa fa-user"></i></a></li>
-                <li style="width: 60px" title="Polubienia"><a class="nav-link" routerLink='/lists' routerLinkActive='active'><i class="fa fa-thumbs-up"></i></a></li>
-                <li style="width: 60px" title="Wiadomości"><a class="nav-link" routerLink='/messages'routerLinkActive='active'><i class="fa fa-envelope"></i></a></li>
-                <li style="width: 60px" *ngIf="(accountService.currentUser$ | async) || (accountService.currentUser$ | async) === null" title="Szukaj memów"><a class="nav-link" routerLink='/memes/szukaj' routerLinkActive='active'><i class="fa fa-search"></i></a></li>
+                <!-- <li style="width: 60px" title="Polubienia"><a class="nav-link" routerLink='/lists' routerLinkActive='active'><i class="fa fa-thumbs-up"></i></a></li> -->
+                <li style="width: 60px" *ngIf="(accountService.currentUser$ | async) || (accountService.currentUser$ | async) === null" title="Szukaj memów"><a class="nav-link" routerLink='szukaj/memes' routerLinkActive='active'><i class="fa fa-search"></i></a></li>
+                <li id="messages" style="width: 60px" title="Wiadomości"><a class="nav-link" routerLink='/messages'routerLinkActive='active'><i class="fa fa-envelope" [ngStyle]="unreadMessages > 0 ? { 'color': 'red' } : { 'color': 'white' }"><span class="ml-1" *ngIf="unreadMessages > 0" id="unread">{{unreadMessages}}</span></i></a></li>
+                <li id="messages" style="width: 60px" title="Powiadomienia"><a class="nav-link" style="cursor: pointer;" (click)="openNotificationsModal(user.username)" routerLinkActive='active'><i class="fa fa-bell" [ngStyle]="notifications?.length > 0 ? { 'color': 'red' } : { 'color': 'white' }"><span class="ml-1" *ngIf="notifications?.length > 0" id="unread">{{notifications?.length}}</span></i></a></li>
                 <li *appHasRole='["Admin", "Moderator"]' class="nav-item" style="width: 60px">
                     <a class="nav-link" routerLink='/admin' routerLinkActive='active'><i class="fa fa-lock"></i></a>
                 </li>
@@ -32,18 +33,18 @@
 
 
         <!-- </div> -->
-        <div>
+        <div id="toggle">
             <i class="navbar-toggler-icon mr-5 text-center" (click)="displayNavbar()" *ngIf="display"></i>
         </div>
 
-        <div class="sidebar text-center" [ngStyle]="!display ? {'animation': 'slideMe 0.7s ease-in', 'opacity': '0.8', 'cursor': 'pointer'} : {'animation': 'slideOut 0.7s ease-out', 'opacity': '0', 'cursor': 'default'}">
-            <div>
+        <div class="sidebar sidebar-mini text-center" [ngStyle]="!display ? {'animation': 'slideMe 0.7s ease-in', 'visibility': 'visible', 'opacity': '0.8','cursor': 'pointer'} : {'animation': 'slideOut 0.7s ease-out', 'opacity': '0', 'cursor': 'default'}">
+            <div id="toggle">
                 <i class="navbar-toggler-icon text-center mb-3" (click)="closeNavbar()"></i>
             </div>
             <section>
               <header>
                 <div *ngIf="(accountService.currentUser$ | async) as user">
-                    <img src="{{user.photoUrl || './assets/user.png'}}" alt="{{user.username}}" class="mr-2">
+                    <img src="{{user.photoUrl || '././assets/LogoImage.png'}}" alt="{{user.username}}" class="mr-2">
                     {{user.knownAs || user.username | titlecase}}
                 </div>
               </header>
@@ -57,7 +58,12 @@
                         </a>
                     </button>
                     <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">
-                        <a [routerLink]="display ? [''] : ['']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;">
+                        <a [routerLink]="display ? [''] : ['/poczekalnia']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;">
+                            <i class="fa fa-clock-o mr-2"></i>Poczekalnia
+                        </a>
+                    </button>
+                    <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">
+                        <a [routerLink]="display ? [''] : ['/ulubione']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;">
                             <i class="fa fa-star mr-2"></i>Ulubione
                         </a>
                     </button>
@@ -66,6 +72,21 @@
                             <i class="fa fa-sign-out mr-2"></i>Wyloguj
                         </a>
                     </button>
+                    <br />
+                    <br />
+                    <h2>Działy:</h2>
+                    <span style="color: rgb(49, 247, 49)" id="division">Otwarte</span>
+                    <div *ngFor="let division of divisions" class="text-center mt-1 division">
+                        <span *ngIf="division.isCloseDivision === false">
+                            <a routerLink="kategoria/{{replaceTitle(division.name)}}" (click)="reloadCurrentPage()" style="font-size: 14px !important;">{{division.name}}</a>
+                        </span>
+                    </div>
+                    <span style="color: rgb(255, 55, 55)" id="division">Zamknięte</span>
+                    <div *ngFor="let division of divisions" class="text-center mt-1 division">
+                        <span *ngIf="division.isCloseDivision === true">
+                            <a routerLink="kategoria/{{replaceTitle(division.name)}}" (click)="reloadCurrentPage()" style="font-size: 14px !important;">{{division.name}}</a>
+                        </span>
+                    </div>
                 </div>
             </div>
 
@@ -77,26 +98,41 @@
                         <p>Lub</p>
                     <div class="dropdown-divider"></div>
                     <p>Zaloguj się, jeśli posiadasz już konto</p>
-                    <form *ngIf="(accountService.currentUser$ | async) === null" #loginForm="ngForm" class="form-inline mt-2 mt-md-0 align-center" (ngSubmit)="login() && 
+                    <form *ngIf="(accountService.currentUser$ | async) === null" #loginForm="ngForm" class="mt-2 mt-md-0 align-center" (ngSubmit)="login() && 
                     cancelRegisterMode($event)"
                     autocomplete="off">
                     <input 
                         name="email"
                         [(ngModel)]="model.email"
-                        class="form-control mr-sm-2 col-9" 
+                        class="form-control mr-sm-2 col-sm-12 col-9" 
                         type="text" 
                         placeholder="Email">
                     <input 
                         name="password"
                         [(ngModel)]="model.password"
-                        class="form-control mr-sm-2 mt-2 mb-2 col-9" 
+                        class="form-control mr-sm-2 mt-2 mb-2 col-sm-12 col-9" 
                         type="password" 
                         placeholder="Password">
                     <button class="btn btn-success my-2 my-sm-0 mt-2 col-4" type="submit" style="display: block; margin-left: auto; margin-right: auto;">Zaloguj</button>
                     </form>
                     <br><br>
                     <div class="card-footer mt-3">        
-                        <a routerLink='/forgot-password' routerLinkActive='active' style="color: yellow;">Zapomniałem hasła</a>
+                        <a routerLink='/forgot-password' routerLinkActive='active' id="forgot" (click)="displayNavbar()" style="color: yellow;">Zapomniałem hasła</a>
+                    </div>
+                    <br />
+                    <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">
+                        <a [routerLink]="display ? [''] : ['/poczekalnia']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;">
+                            <i class="fa fa-clock-o mr-2"></i>Poczekalnia
+                        </a>
+                    </button>
+                    <br />
+                    <br />
+                    <h2>Działy:</h2>
+                    <span style="color: rgb(49, 247, 49)" id="division">Otwarte</span>
+                    <div *ngFor="let division of divisions" class="text-center mt-1 division">
+                        <span *ngIf="division.isCloseDivision === false">
+                            <a routerLink="kategoria/{{replaceTitle(division.name)}}" (click)="reloadCurrentPage()" style="font-size: 14px !important;">{{division.name}}</a>
+                        </span>
                     </div>
             </div>
 

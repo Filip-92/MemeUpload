@@ -52,6 +52,18 @@ namespace API.Data
                 likesParams.PageNumber, likesParams.PageSize);
         }
 
+        public async Task<IEnumerable<LikeDto>> GetAllUserLikes(int userId)
+        {
+                return await _context.Likes
+                .IgnoreQueryFilters()
+                .Where(u => u.SourceUserId == userId)
+                .Select(user => new LikeDto
+                {
+                    Id = user.LikedUserId
+
+                }).ToListAsync();
+        }
+
         public async Task<AppUser> GetUserWithLikes(int userId)
         {
             return await _context.Users

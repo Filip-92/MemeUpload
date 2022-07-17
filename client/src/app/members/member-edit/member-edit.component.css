@@ -24,6 +24,19 @@ input[type="password"] {
     color: whitesmoke;
 }
 
+.card-img-top {
+  max-height: 300px;
+  max-width: 220px;
+}
+
+#helicopter {
+  height: 15px;
+  color: white !important;
+  margin-right: 10px;
+  margin-left: -5px;
+  margin-bottom: 2px;
+}
+
   /* width */
 ::-webkit-scrollbar {
     width: 10px;
@@ -37,4 +50,16 @@ input[type="password"] {
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: #555;
+  }
+
+  @media screen and (max-width: 700px) {
+  
+    .card-body {
+      margin-left: -20px !important;
+      margin-top: -20px !important;
+    }
+
+    ::-webkit-scrollbar {
+      width: 2px;
+    }
   }

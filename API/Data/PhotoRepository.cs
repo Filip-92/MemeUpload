@@ -37,6 +37,17 @@ namespace API.Data
                 }).ToListAsync();
         }
 
+        public async Task<PhotoDto> GetUserPhoto(int id) 
+        {
+            return await _context.Photos
+                .IgnoreQueryFilters()
+                .Where(x => x.AppUserId == id)
+                .Select(u => new PhotoDto
+                {
+                    Url = u.Url
+                }).SingleOrDefaultAsync();
+        }
+
         public void RemovePhoto(Photo photo)
         {
             _context.Photos.Remove(photo);

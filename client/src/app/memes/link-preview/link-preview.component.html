@@ -1,78 +1,48 @@
-<!-- <div class="container">
-    <h1>Add a link</h1> -->
-  
-    <form>
-      <div>
-        <input type="url" class="column preview-text col-4" placeholder="http://www.example.com" [formControl]="link">
-        <span class="column col-1"></span>
-        <button type="submit"
-                [disabled]="!link.valid || preview.url"
-                class="btn btn-primary column preview-button col-2"
-                (click)="onPreview()">
-                Show Link Preview
-        </button>
-      </div>
-  
-      <br>
-  
-      <!-- You have complete control over how to display the JSON returned from linkpreview.net -->
-      <div *ngIf="preview.url" class="preview" style="float: left;">
-        <div [hidden]="!preview.image">
-          <img class="image" [hidden]="!preview.image" [src]="preview.image">
-        </div>
-        <div class="preview-text" style="float: left;">
-          <div [hidden]="!preview.url" class="url">
-            <span>{{preview.url}}</span>
-          </div>
-          <div [hidden]="!preview.title" class="title">
-            <span>{{preview.title}}</span>
-          </div>
-          <div [hidden]="!preview.description" class="description">
-            <span>{{preview.description}}</span>
-          </div>
-        </div>
-      </div>
-      <div style="clear: left;"></div>
-  
-      <br>
-  
-      <!-- <div>
-        <button type="submit"
-                [disabled]="!link.valid || preview.url"
-                class="preview-button"
-                (click)="onPreview()">
-                Show Link Preview
-        </button>
-        <button type="submit"
-                [disabled]="!preview.url"
-                class="preview-button"
-                (click)="onCancel()">
-                Cancel
-        </button>
-      </div>
-      <br> -->
-      <!-- <div>
-        <button type="submit"
-                [disabled]="!preview.url"
-                (click)="onSubmit()">
-                Save Link
-        </button>
-  
-      </div> -->
-  
-    <!-- </form>
-  
-    <br> -->
-  
-    <!-- Important Note: If your app is secured with https, you cannot launch a non-https link -->
-    <!-- <div>
-      <div *ngFor="let link of links">
-        <div class="link-row">
-          <a href="{{ link.url }}" class="hyperlink" target="_blank">
-            <span>{{ link.title }}</span>
-          </a>
-        </div>
-        <br>
+<!-- You have complete control over how to display the JSON returned from linkpreview.net -->
+<!-- <div *ngIf="preview.url" class="row col-11 mb-3">
+  <div class="row col-12" style="height: 150px;">
+    <div class="col-3" style="height: 150px; float: left;">
+      <div [hidden]="!preview.image">
+        <img class="image" [hidden]="!preview.image" [src]="preview.image">
       </div>
     </div>
-  </div> -->
+    <div class="col-sm-6 col-8 preview-field" style="border: 1px solid white;">
+      <div class="preview-text row">
+        <div [hidden]="!preview.url" class="url">
+          <span><strong>Adres URL:</strong> {{preview.url}}</span>
+        </div>
+        <div [hidden]="!preview.title" class="title">
+          <span>Tytuł: {{preview.title}}</span>
+        </div>
+        <div [hidden]="!preview.description" class="description">
+          <span><strong>Opis:</strong> {{preview.description}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br> -->
+
+<div id="linkPreview" class="row">
+  <div *ngIf="preview.url" class="col-6">
+    <div [hidden]="!preview.image">
+      <img class="image" [hidden]="!preview.image" [src]="preview.image">
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="preview-field">
+      <div class="preview-text">
+        <div [hidden]="!preview.url" class="url">
+          <span><strong>Adres URL:</strong> {{preview.url}}</span>
+        </div>
+        <div [hidden]="!preview.title" class="title">
+          <span>Tytuł: {{preview.title}}</span>
+        </div>
+        <div [hidden]="!preview.description" class="description">
+          <span><strong>Opis:</strong> {{preview.description}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

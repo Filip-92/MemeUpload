@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
+import { BanModalComponent } from 'src/app/modals/ban-modal/ban-modal.component';
 import { RolesModalComponent } from 'src/app/modals/roles-modal/roles-modal.component';
+import { Photo } from 'src/app/_models/photo';
 import { User } from 'src/app/_models/user';
 import { AdminService } from 'src/app/_services/admin.service';
 
@@ -10,13 +15,20 @@ import { AdminService } from 'src/app/_services/admin.service';
   styleUrls: ['./user-management.component.css']
 })
 export class UserManagementComponent implements OnInit {
-  users: Partial<User[]>;
+  users: any;
   bsModalRef: BsModalRef;
+  banUserForm: FormGroup;
+  validationErrors: string[] = [];
+  photo: Photo;
+  url: string;
+  userSearchForm: FormGroup;
 
-  constructor(private adminService: AdminService, private modalService: BsModalService) { }
+  constructor(private adminService: AdminService, private modalService: BsModalService, 
+    private modalServ: NgbModal, private toastr: ToastrService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.getUsersWithRoles();
+    this.initializeUserForm();
   }
 
   getUsersWithRoles() {
@@ -44,6 +56,18 @@ export class UserManagementComponent implements OnInit {
         })
       }
     })
+  }
+
+  initializeUserForm() {
+    this.userSearchForm= this.fb.group({
+      searchString: ['']
+    })
+  }
+
+  searchForUser(searchString: string) {
+    this.adminService.searchForUser(searchString.toLowerCase()).subscribe(response => {
+      this.users = response;
+    });
   }
 
   private getRolesArray(user) {
@@ -76,6 +100,29 @@ export class UserManagementComponent implements OnInit {
   removeUser(userId) {
     this.adminService.removeUser(userId).subscribe(() => {
       this.users.splice(this.users.findIndex(p => p.id === userId), 1);
+    })
+  }
+
+  openBanModal(username: string) {
+    const modalRef = this.modalServ.open(BanModalComponent);
+    modalRef.componentInstance.username = username;
+    modalRef.componentInstance.modalRef = modalRef;
+  }
+
+  unbanUser(username: string) {
+    this.adminService.unbanUser(username).subscribe(() => {
+      this.users.splice(this.users.findIndex(p => p.username === username), 1);
+      this.toastr.success('Pomyślnie zdjęto bana z użytkownika ' + username);
+    })
+  }
+
+  getUserPhoto(id: number) {
+    this.adminService.getUserPhoto(id).subscribe(photo => {
+      if (photo.url !== null) {
+        this.url = photo.url;
+      } else {
+        this.url = null;
+      }
     })
   }
 

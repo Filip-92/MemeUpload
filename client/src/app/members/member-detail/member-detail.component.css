@@ -8,16 +8,58 @@
     padding: 0 25px;
 }
 
+.card-img-top {
+  max-height: 300px;
+  max-width: 220px;
+}
+
+#likeButton {
+  border-radius: 50%;
+  background-color: red !important;
+  margin-bottom: 0px !important;
+  border: 2px solid white;
+}
+
+#likeButton:hover {
+  background-color: rgb(47, 221, 24) !important;
+  color: red !important;
+}
+
 .text-center {
-  background-color: #555 !important;
+  background-color: rgb(56, 56, 56) !important;
 }
 
 .member-tabset > .tab-content {
-  background-color: #555 !important;
+  background-color: rgb(56, 56, 56) !important;
+  padding: 0 0 !important;
+}
+
+tab {
+  min-width: 300px !important;
+}
+
+tabset {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
 
 #background {
-  background-color: #555 !important;
+  background-color: rgb(56, 56, 56) !important;
+}
+
+#customButton {
+  color: white;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  min-width: 70px;
+  border: 1px solid yellow;
+  border-radius: 5px;
+}
+
+#customButton:hover {
+  color: red;
+  text-decoration: none;
 }
 
 .card-footer {
@@ -39,4 +81,16 @@
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: #555;
+  }
+
+  @media screen and (max-width: 700px) {
+  
+    .card-body {
+      margin-left: -20px !important;
+      margin-top: -20px !important;
+    }
+
+    ::-webkit-scrollbar {
+      width: 2px;
+    }
   }

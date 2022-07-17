@@ -49,16 +49,34 @@ import { ResetPasswordComponent } from './authentication/reset-password/reset-pa
 import { MemeCardComponent, SafePipe } from './memes/meme-card/meme-card.component';
 import { MemeDetailComponent } from './memes/meme-detail/meme-detail.component';
 import { TimeagoModule, TimeagoIntl, TimeagoFormatter, TimeagoCustomFormatter } from 'ngx-timeago';
-import { DatePipe } from '@angular/common';
+import { DatePipe, registerLocaleData } from '@angular/common';
 import { MemeSearchComponent } from './memes/meme-search/meme-search.component';
 import { MemeRandomComponent } from './memes/meme-random/meme-random.component';
 import { MemeListComponent } from './memes/meme-list/meme-list.component';
 import { MemeTitleInputComponent } from './_forms/meme-title-input/meme-title-input.component';
-import { MemesLast24HComponent } from './memes/memes-last24-h/memes-last24-h.component';
 import { IsMobileDirective } from './_directives/is-mobile.directive';
 import { TopButtonsComponent } from './memes/top-buttons/top-buttons.component';
 import { NgxLinkPreviewModule } from 'ngx-link-preview';
 import { LinkPreviewComponent } from './memes/link-preview/link-preview.component';
+import localePl from '@angular/common/locales/global/pl';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { BanModalComponent } from './modals/ban-modal/ban-modal.component';
+import { UserCardComponent } from './admin/user-card/user-card.component';
+import { CommentComponent } from './memes/comment/comment.component';
+import { AdminDeleteMemeComponent } from './modals/admin-delete-meme/admin-delete-meme.component';
+import { MemeListByDivisionComponent } from './memes/meme-list-by-division/meme-list-by-division.component';
+import { DivisionViewComponent } from './memes/division-view/division-view.component';
+import { AdminMemeViewComponent } from './modals/admin-meme-view/admin-meme-view.component';
+import { ReplyComponent } from './memes/reply/reply.component';
+import { SiteManagementComponent } from './admin/site-management/site-management.component';
+import { NotificationsModalComponent } from './modals/notifications-modal/notifications-modal.component';
+import { FavouriteComponent } from './memes/favourite/favourite.component';
+import { MemeCardFavouriteComponent } from './memes/meme-card-favourite/meme-card-favourite.component';
+import { ChangePasswordComponent } from './members/change-password/change-password.component';
+import { MemberCommentsComponent } from './members/member-comments/member-comments.component';
+import { MemberRepliesComponent } from './members/member-replies/member-replies.component';
+import { MemeForApprovalCardComponent } from './admin/meme-for-approval-card/meme-for-approval-card.component';
+import { SwitchDivisionComponent } from './modals/switch-division/switch-division.component';
 
 @NgModule({
   declarations: [
@@ -98,11 +116,27 @@ import { LinkPreviewComponent } from './memes/link-preview/link-preview.componen
     MemeRandomComponent,
     MemeListComponent,
     MemeTitleInputComponent,
-    MemesLast24HComponent,
     IsMobileDirective,
     TopButtonsComponent,
     LinkPreviewComponent,
-    SafePipe
+    SafePipe,
+    BanModalComponent,
+    UserCardComponent,
+    CommentComponent,
+    AdminDeleteMemeComponent,
+    MemeListByDivisionComponent,
+    DivisionViewComponent,
+    AdminMemeViewComponent,
+    ReplyComponent,
+    SiteManagementComponent,
+    NotificationsModalComponent,
+    FavouriteComponent,
+    MemeCardFavouriteComponent,
+    ChangePasswordComponent,
+    MemberCommentsComponent,
+    MemberRepliesComponent,
+    MemeForApprovalCardComponent,
+    SwitchDivisionComponent,
   ],
   imports: [
     BrowserModule,
@@ -115,6 +149,7 @@ import { LinkPreviewComponent } from './memes/link-preview/link-preview.componen
     NgxSpinnerModule,
     NgbModule,
     NgxLinkPreviewModule,
+    ImageCropperModule,
     TimeagoModule.forRoot({formatter: { provide: 
       TimeagoFormatter, useClass: TimeagoCustomFormatter },}),
     RouterModule.forRoot([
@@ -132,7 +167,7 @@ import { LinkPreviewComponent } from './memes/link-preview/link-preview.componen
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
-    {provide: LOCALE_ID, useValue: "p-PL", useFactory: (sessionService) => sessionService.getLocale()},
+    {provide: LOCALE_ID, useValue: "pl", useFactory: (sessionService) => sessionService.getLocale()},
     [TimeagoIntl],
     [DatePipe],
     AuthGuard,

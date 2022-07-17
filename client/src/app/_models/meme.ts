@@ -7,5 +7,7 @@ export interface Meme {
     uploaded: string;
     isApproved: boolean;
     username?: string;
-    likes: number;
+    numberOfLikes: number;
+    comments: Comment[];
+    division: number;
 }

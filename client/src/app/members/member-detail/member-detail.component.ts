@@ -15,6 +15,8 @@ import { Pagination } from 'src/app/_models/pagination';
 import { DatePipe } from '@angular/common';
 import { Meme } from 'src/app/_models/meme';
 import { MemeService } from 'src/app/_services/meme.service';
+import { HttpClient } from '@angular/common/http';
+import { Reply } from 'src/app/_models/reply';
 
 @Component({
   selector: 'app-member-detail',
@@ -24,24 +26,44 @@ import { MemeService } from 'src/app/_services/meme.service';
 
 export class MemberDetailComponent implements OnInit, OnDestroy {
   @ViewChild('memberTabs', {static: true}) memberTabs: TabsetComponent;
-  member: Member;
+  member: Member = {
+    memes: [],
+    memeUrl: '',
+    id: 0,
+    username: '',
+    photoUrl: '',
+    age: 0,
+    created: undefined,
+    lastActive: undefined,
+    gender: '',
+    photos: [],
+    comments: [],
+    numberOflikes: 0
+  };
+  userWithLikes: User;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
   activeTab: TabDirective;
   messages: Message[] = [];
   user: User;
+  users: any;
   members: Partial<Member[]>;
-  predicate = 'likedBy';
+  predicate = 'liked';
   pageNumber = 1;
   pageSize = 5;
   pagination: Pagination;
   @ViewChild('scrollMe') meme : ElementRef;
-  scrolltop:number=null;
+  scrolltop: number=null;
   memes: Meme[];
+  userId: number;
+  comments: Comment[];
+  replies: Reply[];
+  numberOfLikes: number = 0;
+  liked: boolean = false;
 
   constructor(public presence: PresenceService, private route: ActivatedRoute, 
     private messageService: MessageService, private accountService: AccountService,
-    private router: Router, private memberService: MembersService, 
+    private router: Router, private memberService: MembersService, private http: HttpClient, 
     private toastr: ToastrService, public datepipe: DatePipe, private memeService: MemeService) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -50,25 +72,20 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.data.subscribe(data => {
       this.member = data.member;
-    })
-    this.route.queryParams.subscribe(params => {
-      params.tab ? this.selectTab(params.tab) : this.selectTab(0);
-    })
-    this.galleryOptions = [
-      {
-        width: '500px',
-        height: '500px',
-        imagePercent: 100,
-        thumbnailsColumns: 4,
-        imageAnimation: NgxGalleryAnimation.Slide,
-        preview: false
+      if (this.member.username === this.user.username) {
+        window.location.replace('member/edit');
       }
-    ]
-    this.galleryImages = this.getImages();
+    })
+    this.getUsers();
     this.loadLikes();
+    this.route?.queryParams?.subscribe(params => {
+      params?.tab ? this.selectTab(params?.tab) : this.selectTab(0);
+    })
+    this.galleryImages = this.getImages();
     this.getMemberMemes(this.member.username);
-    console.log(this.member.username)
-    // this.member.likes = this.getLikes(this.member);
+    this.getMemberComments(this.member.username);
+    this.getMemberReplies(this.member.username);
+    this.getMemberNumberOfLikes(this.member.username);
   }
   getImages(): NgxGalleryImage[] {
     const imageUrls = [];
@@ -91,11 +108,16 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   }
   onTabActivated(data: TabDirective) {
     this.activeTab = data;
-    if (this.activeTab.heading === 'Messages' && this.messages.length === 0) {
-      this.messageService.createHubConnection(this.user, this.member.username);
+    if (this.activeTab?.heading === 'Messages' && this.messages?.length === 0) {
+      this.messageService.createHubConnection(this.user, this.member?.username);
     } else {
       this.messageService.stopHubConnection();
     }
+  }
+
+  changeDateFormat(date: string) {
+    var newDate = date.substring(0,10);
+    return newDate;
   }
 
   ngOnDestroy(): void {
@@ -104,21 +126,29 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
 
   addLike(member: Member) {
     this.memberService.addLike(member.username).subscribe(() => {
-      this.toastr.success('You have liked ' + member.username);
-      // this.member.likes++;
+      this.liked = !this.liked;
+      if(this.liked) {
+        this.numberOfLikes++;
+        this.liked = true;
+      } else {
+        this.numberOfLikes--;
+        this.liked = false;
+      }
     })
   }
 
-  // removeLike(member: Member) {
-  //   this.memberService.removeLike(member.username).subscribe(() => {
-  //     this.toastr.success('You have disliked ' + member.username);
-  //     this.member.likes--;
-  //   })
-  // }
+  checkIfUserLiked(members: Partial<Member[]>) {
+    for (var user of members) {
+      if (user.id === this.member.id) {
+        this.liked = true;
+      }
+    }
+  }
 
   loadLikes() {
     this.memberService.getLikes(this.predicate, this.pageNumber, this.pageSize).subscribe(response => {
       this.members = response.result;
+      this.checkIfUserLiked(this.members);
       this.pagination = response.pagination;
     })
   }
@@ -128,5 +158,51 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
       this.memes = response.result;
       this.pagination = response.pagination;
     });
+  }
+
+  pageChanged(event: any) {
+    this.pageNumber = event.page;
+    this.getMemberMemes(this.user.username);
+  }
+
+  getUsers() {
+    this.http.get('https://localhost:5001/api/users').subscribe(response => {
+      this.users = response;
+      for(let user of this.users){
+      if (user.username == this.member.username) {
+        this.userId = user.id;
+      }
+    }
+    }, error => {
+      console.log(error);
+    })
+  }
+
+  getMemberComments(username: string) {
+    this.memeService.getMemberComments(username).subscribe(comments => {
+      this.comments = comments;
+    });
+  }
+
+  getMemberReplies(username: string) {
+    this.memeService.getMemberReplies(username).subscribe(replies => {
+      this.replies = replies;
+    });
+  }
+
+  getMemberNumberOfLikes(username: string) {
+    this.memberService.getAllUserLikesNumber(username).subscribe(numberOfLikes => {
+      this.numberOfLikes = numberOfLikes;
+    })
+  }
+
+  genderToPolish(gender: string) {
+    if (gender === 'male') {
+      return 'Mężczyzna';
+    } else if (gender === 'female') {
+      return 'Kobieta';
+    } else {
+      return 'Helikopter bojowy';
+    }
   }
 }

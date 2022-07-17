@@ -18,9 +18,18 @@ namespace API.Data
         }
 
         public DbSet<UserLike> Likes { get; set; }
+        public DbSet<MemeLike> MemeLikes { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Memes> Memes {get; set; }
+        public DbSet<Comments> Comments { get; set; }
+        public DbSet<CommentResponses> CommentResponses { get; set; }
+        public DbSet<ContactForm> ContactForm { get; set; }
+        public DbSet<Division> Divisions { get; set; }
+        public DbSet<Notifications> Notifications { get; set; }
+        public DbSet<CommentLike> CommentLikes { get; set;}
+        public DbSet<ReplyLike> ReplyLikes { get; set; }
+        public DbSet<Favourite> Favourites { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Connection> Connections { get; set; }
 
@@ -71,6 +80,48 @@ namespace API.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Memes>().HasQueryFilter(m => m.IsApproved);
+
+            builder.Entity<Comments>();
+
+            builder.Entity<CommentResponses>();
+
+            builder.Entity<MemeLike>()
+                .HasKey(k => new { k.SourceUserId, k.LikedMemeId });
+
+            builder.Entity<MemeLike>()
+                .HasOne(s => s.SourceUser)
+                .WithMany(l => l.LikedMemes)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ContactForm>();
+            
+            builder.Entity<Division>();
+
+            builder.Entity<Notifications>();
+
+            builder.Entity<CommentLike>()
+                .HasKey(k => new { k.SourceUserId, k.LikedCommentId });
+
+            builder.Entity<CommentLike>()
+                .HasOne(s => s.SourceUser)
+                .WithMany(l => l.LikedComments)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ReplyLike>()
+                .HasKey(k => new { k.SourceUserId, k.LikedReplyId });
+
+            builder.Entity<ReplyLike>()
+                .HasOne(s => s.SourceUser)
+                .WithMany(l => l.LikedReplies)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Favourite>()
+                .HasKey(k => new { k.SourceUserId, k.MemeId });
+
+            builder.Entity<Favourite>()
+                .HasOne(s => s.SourceUser)
+                .WithMany(l => l.Favourites)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.ApplyUtcDateTimeConverter();
         }

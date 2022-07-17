@@ -2,6 +2,62 @@ img {
     min-width: 600px;
 }
 
-.card {
-    min-height: 600px !important;
-  }
+table {
+    background-color: rgb(95, 94, 94);
+}
+
+#warning {
+    color: white; 
+    border: 1px solid white;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media screen and (max-width: 700px) {
+
+    img {
+        min-width: 400px !important;
+    }
+}
+
+i {
+    padding-top: 7px;
+}
+
+.fa-paperclip {
+    border: 1px solid white;
+    background-color: orange;
+    font-size: 20px;
+    border-radius: 8px;
+    min-width: 50px;
+    min-height: 40px;
+    cursor: pointer;
+}
+
+input[type="file"] {
+    display: none;
+    margin-left: -50px !important;
+}
+
+textarea {
+    margin-bottom: -20px;
+    background-color: gray;
+    color: whitesmoke;
+}
+
+::placeholder {
+    color: whitesmoke;
+}
+
+@media screen and (max-width: 700px) {
+
+    .btn {
+        max-height: 40px;
+        font-size: 10px;
+    }
+
+    button {
+        margin-top: -5px;
+    }
+}

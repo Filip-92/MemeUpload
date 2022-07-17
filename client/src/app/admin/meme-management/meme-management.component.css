@@ -1,5 +1,17 @@
 img.img-thumbnail {
-    height: 150px;
+    max-height: 150px;
     min-width: 150px !important;
     margin-bottom: 2px;
+}
+
+video {
+    height: 200px;
+}
+
+@media screen and (max-width: 700px) {
+
+    #memeCard {
+        margin-left: auto;
+        margin-right: auto;
+    }
 }

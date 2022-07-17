@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
@@ -5,6 +6,7 @@ using API.Entities;
 using API.Extensions;
 using API.Helpers;
 using API.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,18 +16,19 @@ namespace API.Controllers
 {
     public class AdminController : BaseApiController
     {
+        private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPhotoService _photoService;
         private readonly IMemeService _memeService;
-    
         public AdminController(UserManager<AppUser> userManager, IUnitOfWork unitOfWork, 
-            IPhotoService photoService, IMemeService memeService)
+            IPhotoService photoService, IMemeService memeService, IMapper mapper)
         {
             _photoService = photoService;
             _memeService = memeService;
             _unitOfWork = unitOfWork;
             _userManager = userManager;
+            _mapper = mapper;
         }
 
         [Authorize(Policy = "RequireAdminRole")]
@@ -40,11 +43,38 @@ namespace API.Controllers
                 {
                     u.Id,
                     Username = u.UserName,
-                    Roles = u.UserRoles.Select(r => r.Role.Name).ToList()
+                    Roles = u.UserRoles.Select(r => r.Role.Name).ToList(),
+                    IsBanned = u.IsBanned
                 })
                 .ToListAsync();
 
             return Ok(users);
+        }
+
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpGet("search-users/{searchString}")]
+        public async Task<ActionResult> SearchForUsers([FromQuery] UserParams userParams, string searchString)
+        {
+            var users = await _userManager.Users
+                .Include(r => r.UserRoles)
+                .ThenInclude(r => r.Role)
+                .Where(m => m.UserName.ToLower().Contains(searchString))
+                .OrderBy(u => u.UserName)
+                .Select(u => new
+                {
+                    u.Id,
+                    Username = u.UserName,
+                    Roles = u.UserRoles.Select(r => r.Role.Name).ToList(),
+                    IsBanned = u.IsBanned
+                })
+                .ToListAsync();
+
+            return Ok(users);
+
+            // Response.AddPaginationHeader(users.CurrentPage, users.PageSize, 
+            //     users.TotalCount, users.TotalPages);
+
+            // return Ok(users);
         }
 
         [Authorize(Policy = "RequireAdminRole")]
@@ -125,15 +155,6 @@ namespace API.Controllers
             return Ok();
         }
 
-        // [Authorize(Policy = "ModerateMemeRole")]
-        // [HttpGet("memes-to-moderate")]
-        // public async Task<ActionResult> GetMemesForModeration()
-        // {
-        //     var memes = await _unitOfWork.MemeRepository.GetUnapprovedMemes();
-
-        //     return Ok(memes);
-        // }
-
         [Authorize(Policy = "ModerateMemeRole")]
         [HttpGet("memes-to-moderate")]
         public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemesForModeration([FromQuery] MemeParams memeParams)
@@ -173,6 +194,45 @@ namespace API.Controllers
         }
 
         [Authorize(Policy = "ModerateMemeRole")]
+        [HttpPost("push-meme-to-main/{memeId}")]
+        public async Task<ActionResult> PushMemeToMain(int memeId)
+        {
+            var meme = await _unitOfWork.MemeRepository.GetMemeById(memeId);
+
+            if (meme == null) return NotFound("Could not find meme");
+
+            meme.IsMain = true;
+            meme.IsApproved = true;
+
+            var user = await _unitOfWork.UserRepository.GetUserByMemeId(memeId);
+
+            await _unitOfWork.Complete();
+
+            await SendNotification(meme.Id, user);
+
+            return Ok();
+        }
+
+        public async Task<ActionResult<NotificationDto>> SendNotification(int memeId, AppUser user)
+        {
+            var notification = new Notifications
+            {
+                Content = "Twój mem został dodany na stronę główną",
+                MemeId = memeId,
+                AppUserId = user.Id
+            };
+
+            user.Notifications.Add(notification);
+
+            if (await _unitOfWork.Complete())
+            {
+                return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<NotificationDto>(notification));
+            }
+
+            return BadRequest("Problem adding meme");
+        }
+
+        [Authorize(Policy = "ModerateMemeRole")]
         [HttpPost("reject-meme/{memeId}")]
         public async Task<ActionResult> RejectMeme(int memeId)
         {
@@ -200,6 +260,21 @@ namespace API.Controllers
         }
 
         [Authorize(Policy = "RequireAdminRole")]
+        [HttpPost("remove-message/{messageId}")]
+        public async Task<ActionResult> RemoveMeme(int messageId)
+        {
+            var message = await _unitOfWork.UserRepository.GetMessageById(messageId);
+
+            if (message == null) return NotFound("Could not find message");
+
+            _unitOfWork.UserRepository.RemoveMessage(message);
+
+            await _unitOfWork.Complete();
+
+            return Ok();
+        }
+
+        [Authorize(Policy = "RequireAdminRole")]
         [HttpDelete("/remove-user/{userId}"), ActionName("Delete")]
         public async Task<ActionResult> RemoveUser(int userId)
         {
@@ -217,5 +292,104 @@ namespace API.Controllers
             return Ok();
         }
 
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpPost("ban-user/{username}/{days}")]
+        public async Task<ActionResult> BanUser(string username, int days, MemberDto memberDto)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user == null) return NotFound("Could not find user");
+
+            user.IsBanned = true;
+            user.BanExpiration = DateTime.Now;
+            user.BanExpiration = user.BanExpiration.AddDays(days);
+            user.BanReason = memberDto.BanReason;
+
+            await _unitOfWork.Complete();
+
+            return Ok();
+        }
+
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpPost("unban-user/{username}")]
+        public async Task<ActionResult> UnbanUser(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user == null) return NotFound("Could not find meme");
+
+            user.IsBanned = false;
+            user.BanExpiration = DateTime.Now;
+            user.BanReason = null;
+
+            await _unitOfWork.Complete();
+
+            return Ok();
+        }
+
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpGet("contact-form-messages")]
+        public async Task<ActionResult> GetContactFormMessages()
+        {
+            var messages = await _unitOfWork.UserRepository.GetContactFormMessages();
+
+            return Ok(messages);
+        }
+
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpPost("add-division")]
+        public async Task<ActionResult<DivisionDto>> AddDivision(DivisionDto divisionDto)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+
+            var division = new Division
+            {
+                Id = divisionDto.Id,
+                Name = divisionDto.Name,
+                IsCloseDivision = divisionDto.IsCloseDivision
+            };
+
+            user.Divisions.Add(division);
+
+            if (await _unitOfWork.Complete())
+            {
+                return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<DivisionDto>(division));
+            }
+
+            return BadRequest("Problem z dodawaniem działu");
+        }
+
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpPost("remove-division/{divisionId}")]
+        public async Task<ActionResult<Division>> RemoveDivision(int divisionId)
+        {
+            var division = await _unitOfWork.MemeRepository.GetDivisionById(divisionId);
+
+            if (division == null) return NotFound("Nie znaleziono działu");
+
+            _unitOfWork.MemeRepository.RemoveDivision(division);
+
+            if (await _unitOfWork.Complete()) 
+            {
+                return Ok();
+            }
+
+            return BadRequest("Problem z usunięciem działu");
+        }
+
+        [Authorize(Policy = "ModerateMemeRole")]
+        [HttpPut("switch-divisions/{memeId}")]
+        public async Task<ActionResult> SwitchDivisions(DivisionUpdateDto divisionUpdateDto, int memeId)
+        {
+            var meme = await _unitOfWork.MemeRepository.GetMemeById(memeId);
+
+            if (meme == null) return NotFound("Nie znaleziono mema");
+
+            meme.Division = divisionUpdateDto.Id;
+
+            if (await _unitOfWork.Complete()) return Ok();
+
+            return BadRequest("Nie udało się zmienić działu.");
+        }
     }
 }

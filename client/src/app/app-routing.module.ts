@@ -21,8 +21,9 @@ import { ForgotPasswordComponent } from './authentication/forgot-password/forgot
 import { MemeDetailComponent } from './memes/meme-detail/meme-detail.component';
 import { MemeRandomComponent } from './memes/meme-random/meme-random.component';
 import { MemeListComponent } from './memes/meme-list/meme-list.component';
-import { MemesLast24HComponent } from './memes/memes-last24-h/memes-last24-h.component';
 import { MemeSearchComponent } from './memes/meme-search/meme-search.component';
+import { DivisionViewComponent } from './memes/division-view/division-view.component';
+import { FavouriteComponent } from './memes/favourite/favourite.component'
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -31,13 +32,22 @@ const routes: Routes = [
     runGuardsAndResolvers: 'always',
     canActivate: [AuthGuard],
     children: [
+      {path: 'ulubione', component: FavouriteComponent},
       {path: 'memes/szukaj/:search', component: MemeSearchComponent},
-      {path: 'memes/szukaj', component: MemeSearchComponent},
+      {path: 'szukaj/uzytkownicy', component: MemeSearchComponent},
+      {path: 'szukaj/memes', component: MemeSearchComponent},
       {path: 'memes/losowe/:id', component: MemeRandomComponent},
       {path: 'memes/:id/:title', component: MemeDetailComponent},
+      {path: 'memes/:id', component: MemeDetailComponent},
       {path: 'members', component: MemberListComponent},
       {path: 'strona/:pageNumber', component: HomeComponent},
-      {path: 'ostatnie24H', component: MemesLast24HComponent},
+      {path: 'kategoria/:divisionName', component: HomeComponent},
+      {path: 'ostatnie24H/strona/:pageNumber', component: HomeComponent},
+      {path: 'ostatnie24H', component: HomeComponent},
+      {path: 'ostatnie48H', component: HomeComponent},
+      {path: 'poczekalnia/:id', component: MemeDetailComponent},
+      {path: 'poczekalnia/strona/:pageNumber', component: HomeComponent},
+      {path: 'poczekalnia', component: HomeComponent},
       {path: 'members/:username', component: MemberDetailComponent, resolve: {member: MemberDetailedResolver}},
       {path: 'member/edit', component: MemberEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},
       {path: 'lists', component: ListsComponent},

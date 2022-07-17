@@ -8,19 +8,25 @@
 
 input, select {
     background-color: gray;
-    color: whitesmoke;
+    color: whitesmoke !important;
 }
 
 textarea {
     background-color: gray;
     vertical-align: top !important;
     display: flex;
+    color: white !important;
 }
 
 ::placeholder {
+    background-color: gray;
     color: whitesmoke;
 }
 
 .border-light {
     border-radius: 8px 8px 8px 8px;
+}
+
+.form-control {
+    background-color: gray;
 }

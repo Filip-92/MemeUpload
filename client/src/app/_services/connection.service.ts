@@ -1,16 +1,20 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
 providedIn: 'root'
 })
 export class ConnectionService {
-url: string = 'http://localhost:3000/send';
+  
+  baseUrl = environment.apiUrl;
+
 constructor(private http: HttpClient) { }
 
-sendMessage(messageContent: any) {
-  return this.http.post(this.url,
-  JSON.stringify(messageContent),
-  { headers: new HttpHeaders({ 'Content-Type': 'application/json' }), responseType: 'text' });
-}
+  sendMessage(model: any) {
+    return this.http.post(this.baseUrl + 'users/submit-contact-form', 
+    JSON.stringify(model),
+    { headers: new HttpHeaders({ 'Content-Type': 'application/json'}), responseType: 'text'});
+  }
+
 }

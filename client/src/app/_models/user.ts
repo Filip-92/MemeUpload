@@ -1,3 +1,5 @@
+import { Photo } from "./photo";
+
 export interface User {
     id: number;
     username: string;
@@ -6,4 +8,10 @@ export interface User {
     memeUrl: string;
     gender: string;
     roles: string[];
+    numberOflikes: number;
+    isBanned: boolean;
+    banExpiration: Date;
+    banReason: string;
+    photos: Photo[];
+    email: string;
 }

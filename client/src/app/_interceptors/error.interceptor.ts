@@ -37,7 +37,11 @@ export class ErrorInterceptor implements HttpInterceptor {
               }
               break;
             case 401:
-              this.toastr.error(error.statusText, error.status);
+              if(error.error === "OK") {
+                this.toastr.error("Zaloguj się aby mieć dostęp", error.status);
+              } else {
+                this.toastr.error(error.error, error.status);
+              }
               break;
             case 404:
               this.router.navigateByUrl('/not-found');

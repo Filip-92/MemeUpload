@@ -1,12 +1,6 @@
-<div class='row'>
-    <div class='col-10 col-lg-4 text-center' *ngFor='let meme of memes'>
-        <h4>{{meme.username}}</h4>
-        <img src='{{meme.url}}' class='img-thumbnail p-1' alt='{{meme.username}}'>
-
-        <div class='text-center mb-5'>
-            <button class='btn btn-sm btn-success mr-1' (click)='approveMeme(meme.id)'>Approve</button>
-            <button class='btn btn-sm btn-danger' (click)='rejectMeme(meme.id)'>Reject</button>
-        </div>
+<div class='row text'>
+    <div class='col-10 col-lg-4 text-center' id="memeCard" *ngFor='let meme of memes'>
+        <app-meme-for-approval-card [meme]="meme"></app-meme-for-approval-card>
     </div>
 </div>
 

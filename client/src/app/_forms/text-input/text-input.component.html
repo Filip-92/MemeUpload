@@ -6,15 +6,24 @@
         [formControl]="ngControl.control"
         placeholder={{label}}>
     <div *ngIf="ngControl.control.errors?.required" class="invalid-feedback">Wpisz {{label}}</div>
-    <div *ngIf="ngControl.control.errors?.pattern" class="invalid-feedback">Zachowaj odpowiednie formatowanie</div>
-    <!-- <div *ngIf="ngControl.control.errors?.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')" class="invalid-feedback">Zachowaj odpowiednie formatowanie hasla</div> -->
+    <div *ngIf="ngControl.control.errors?.pattern && [type]=='password'" class="invalid-feedback text-left">
+        Zachowaj odpowiednie formatowanie<br>
+        Hasło musi zawierać co najmniej:
+        <ul>
+            <li>8 znaków</li>
+            <li>1 cyfrę</li>
+            <li>zarówno małe i duże litery</li>
+            <li>1 znak specjalny</li>
+        </ul>
+    </div>
+    <div *ngIf="ngControl.control.errors?.pattern && [type]!='password'" class="invalid-feedback">Podaj właściwy adres email</div>
     <div *ngIf="ngControl.control.errors?.minlength" class="invalid-feedback">
-        {{label}} must be at least {{ngControl.control.errors.minlength['requiredLength']}} characters
+        {{label}} musi zawierać co najmniej {{ngControl.control.errors.minlength['requiredLength']}} znaków
     </div>
     <div *ngIf="ngControl.control.errors?.maxlength" class="invalid-feedback">
-        {{label}} must be at most {{ngControl.control.errors.maxlength['requiredLength']}} characters
+        {{label}} musi zawierać co najwyżej {{ngControl.control.errors.maxlength['requiredLength']}} znaków
     </div>
     <div *ngIf="ngControl.control.errors?.isMatching" class="invalid-feedback">
-        Passwords do not match
+        Hasła nie pasują
     </div>
 </div>

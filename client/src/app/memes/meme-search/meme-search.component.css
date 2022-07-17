@@ -4,7 +4,26 @@ input[type=text] {
     margin-top: 25px !important;
     min-width: 600px;
     color: whitesmoke;
+    margin-left: 200px;
 }
+
+/* input[type="radio"] ~ label:before {
+	font-family: FontAwesome;
+	content: '\f096';
+	font-size: 22px;
+} */
+
+input[type="radio"] {
+    background-color: black;
+}
+
+input[type="radio"]:checked {
+    background-color: black;
+}
+
+/* input[type="radio"]:checked ~ label:before {
+	content: '\f046';
+} */
 
 button {
     margin-top: 25px !important;
@@ -18,10 +37,60 @@ button {
 
 #container {
     background-color: rgb(49, 49, 49) !important;
-    height: 100px;
+    height: 110px;
     margin: auto;
 }
 
 .card {
     min-height: 600px !important;
+}
+
+.frb-group {
+	margin: 15px 0;
+}
+
+.frb ~ .frb {
+	margin-top: 15px;
+}
+
+.frb input[type="radio"]:empty {
+	display: none;
+}
+
+.frb input[type="radio"] ~ label:before {
+	font-family: FontAwesome;
+	content: '\f096';
+	position: absolute;
+	top: 50%;
+	margin-top: -11px;
+	left: 15px;
+	font-size: 22px;
+}
+
+.frb input[type="radio"]:checked ~ label:before {
+	content: '\f046';
+}
+
+#search {
+    margin-left: -50px;
+}
+
+#searchUser {
+    margin-left: -250px;
+}
+
+@media screen and (max-width: 700px) {
+    input[type=text] {
+        min-width: 320px;
+        margin-left: 0px;
+    }
+
+    #search {
+        margin-left: 0px !important;
+    }
+
+    #searchUser {
+        margin-left: -75px !important;
+    }
+
 }

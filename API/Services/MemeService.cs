@@ -33,7 +33,6 @@ namespace API.Services
                 var uploadParams = new ImageUploadParams
                 {
                     File = new FileDescription(file.FileName, stream)
-                    // Transformation = new Transformation().Height(1500).Width(1500).Crop("fill").Gravity("face")
                 };
                 uploadResult = await _cloudinary.UploadAsync(uploadParams);
             }
@@ -66,5 +65,14 @@ namespace API.Services
 
             return result;
         }
+
+        // public async Task<DeletionResult> DeleteCommentAsync(string id)
+        // {
+        //     var deleteParams = new DeletionParams(id);
+
+        //     var result = await _cloudinary.DestroyAsync(deleteParams);
+
+        //     return result;
+        // }
     }
 }

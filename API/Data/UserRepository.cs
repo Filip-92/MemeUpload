@@ -88,6 +88,24 @@ namespace API.Data
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<AppUser> GetUserByCommentId(int commentId)
+        {
+            return await _context.Users
+                .Include(m => m.Comments)
+                .IgnoreQueryFilters()
+                .Where(m => m.Comments.Any(m => m.Id == commentId))
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<AppUser> GetUserByReplyId(int replyId)
+        {
+            return await _context.Users
+                .Include(m => m.Responses)
+                .IgnoreQueryFilters()
+                .Where(m => m.Responses.Any(m => m.Id == replyId))
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<AppUser> GetUserByUsernameAsync(string username)
         {
             return await _context.Users
@@ -114,6 +132,103 @@ namespace API.Data
         public void Update(AppUser user)
         {
             _context.Entry(user).State = EntityState.Modified;
+        }
+
+        public async Task<UserDto> GetUserNumberOfLikes(string username)
+        {
+            return await _context.Users
+                .IgnoreQueryFilters()
+                .Where(u => u.UserName == username)
+                .Select(u => new UserDto
+                {
+                    NumberOfLikes = u.NumberOfLikes
+                }).SingleOrDefaultAsync();
+        }
+
+        public async Task<PagedList<MemberDto>> SearchForMembers(UserParams userParams, string searchString)
+        {
+            var query = _context.Users
+                .IgnoreQueryFilters()
+                .Where(m => m.UserName.ToLower().Contains(searchString))
+                .Select(u => new MemberDto
+                {
+                    Id = u.Id,
+                    Username = u.UserName,
+                    Gender = u.Gender,
+                    NumberOfLikes = u.NumberOfLikes,
+                    LastActive = u.LastActive,
+                    IsBanned = u.IsBanned 
+                }).AsNoTracking()
+                .OrderByDescending(u => u.Id);
+
+            return await PagedList<MemberDto>.CreateAsync(query, 
+            userParams.PageNumber, userParams.PageSize);
+        }
+
+        public async Task<IEnumerable<ContactFormDto>> GetContactFormMessages()
+        {
+                return await _context.ContactForm
+                .IgnoreQueryFilters()
+                .Select(u => new ContactFormDto
+                {
+                    Id = u.Id,
+                    SenderName = u.SenderName,
+                    SenderEmail = u.SenderEmail,
+                    Subject = u.Subject,
+                    Message = u.Message
+                }).OrderByDescending(u => u.Id)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<NotificationDto>> GetNotifications(int id)
+        {
+                return await _context.Notifications
+                .IgnoreQueryFilters()
+                .Where(m => m.AppUserId == id)
+                .Select(u => new NotificationDto
+                {
+                    Id = u.Id,
+                    Content = u.Content,
+                    MemeId = u.MemeId,
+                    SentTime = u.SentTime,
+                    IsRead = u.IsRead
+                }).OrderByDescending(u => u.Id)
+                .ToListAsync();
+        }
+
+        public async Task<Notifications> GetNotificationById(int id)
+        {
+            return await _context.Notifications
+            .IgnoreQueryFilters()
+            .SingleOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<IEnumerable<NotificationDto>> GetUnreadNotifications(int id)
+        {
+                return await _context.Notifications
+                .IgnoreQueryFilters()
+                .Where(m => m.AppUserId == id && m.IsRead == false)
+                .Select(u => new NotificationDto
+                {
+                    Id = u.Id,
+                    Content = u.Content,
+                    MemeId = u.MemeId,
+                    SentTime = u.SentTime,
+                    IsRead = u.IsRead
+                }).OrderByDescending(u => u.Id)
+                .ToListAsync();
+        }
+
+        public async Task<ContactForm> GetMessageById(int id)
+        {
+            return await _context.ContactForm
+                .IgnoreQueryFilters()
+                .SingleOrDefaultAsync(x => x.Id == id);
+        }
+
+        public void RemoveMessage(ContactForm message)
+        {
+            _context.ContactForm.Remove(message);
         }
     }
 }

@@ -1,22 +1,19 @@
 import { Component, OnInit, Input, Output, EventEmitter, Self } from '@angular/core';
 import { Member } from 'src/app/_models/member';
-import { FileUploader } from 'ng2-file-upload';
+import { FileItem, FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
 import { AccountService } from 'src/app/_services/account.service';
 import { User } from 'src/app/_models/user';
 import { take } from 'rxjs/operators';
-import { MembersService } from 'src/app/_services/members.service';
-import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Meme } from 'src/app/_models/meme';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { clear } from 'console';
 import { MemeService } from 'src/app/_services/meme.service';
 import { HttpClient, HttpEventType, HttpHeaders, HttpParams } from '@angular/common/http';
-import { isNgTemplate } from '@angular/compiler';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { url } from 'inspector';
+import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
+import { Division } from 'src/app/_models/division';
 
 @Component({
   selector: 'app-meme-upload',
@@ -24,7 +21,6 @@ import { url } from 'inspector';
   styleUrls: ['./meme-upload.component.css']
 })
 export class MemeUploadComponent implements OnInit {
-  // @Output() public onUploadFinished = new EventEmitter();
   @Input() member: Member = {
     memes: [],
     memeUrl: '',
@@ -36,12 +32,14 @@ export class MemeUploadComponent implements OnInit {
     lastActive: undefined,
     gender: '',
     photos: [],
-    likes: 0
+    comments: [],
+    numberOflikes: 0
   };
   public progress: number;
   public message: string;
   memeUploadForm: FormGroup;
   youtubeForm: FormGroup;
+  divisionForm: FormGroup;
   members: Member[];
   meme: Meme = {
     x: '',
@@ -51,9 +49,12 @@ export class MemeUploadComponent implements OnInit {
     uploaded: undefined,
     description: '',
     isApproved: false,
-    likes: 0
+    numberOfLikes: 0,
+    comments: undefined,
+    division: 0
   };
-  model: any = {}
+  model: any = {};
+  divisions: Division[];
   uploader: FileUploader;
   hasBaseDropzoneOver = false;
   baseUrl = environment.apiUrl;
@@ -63,14 +64,16 @@ export class MemeUploadComponent implements OnInit {
   isLoggedIn = false;
   validationErrors: string[] = [];
   previewImg: SafeUrl;
-  format;
+  format: string;
   normalMeme: boolean;
   youtubeVideo: boolean;
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  openDivision: boolean = false;
 
-  constructor(public accountService: AccountService, private memberService: MembersService,
-    private router: Router, private toastr: ToastrService, private sanitizer: DomSanitizer,
-    private fb: FormBuilder, private memeService: MemeService, private http: HttpClient,
-    private modalService: NgbModal) { 
+  constructor(public accountService: AccountService, private toastr: ToastrService, 
+    private sanitizer: DomSanitizer, private fb: FormBuilder, private memeService: MemeService, 
+    private http: HttpClient, private modalService: NgbModal) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
@@ -79,6 +82,8 @@ export class MemeUploadComponent implements OnInit {
       this.initializeUploader();
     }
     this.initializeForm();
+    this.getDivisions();
+    this.initializeDivisionForm();
   }
 
   initializeForm() {
@@ -86,16 +91,28 @@ export class MemeUploadComponent implements OnInit {
       title: ['', 
               [Validators.required, 
               Validators.minLength(8), 
-              Validators.maxLength(32)]],
+              Validators.maxLength(32),
+              Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]],
       description: ['', [Validators.maxLength(400)]]
     })
   }
 
+  initializeDivisionForm() {
+    this.divisionForm = this.fb.group({
+      division: ['0']
+    })
+  }
+
+  // Validators.pattern("^(?!\s*$)[-a-zA-Z0-9_:,.' ']{1,100}$")
+
+  private regExHyperlink = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
+
   initializeYoutubeForm() {
     this.youtubeForm = this.fb.group({
       title: [this.memeUploadForm.value.title],
-      url: ['', [Validators.required]],
-      description: ['', [Validators.maxLength(400)]]
+      url: ['', [Validators.required, Validators.pattern(this.regExHyperlink)]],
+      description: ['', [Validators.maxLength(400)]],
+      division: [this.divisionForm.value.division]
     })
   }
 
@@ -106,7 +123,7 @@ export class MemeUploadComponent implements OnInit {
   initializeUploader() {
     let maxFileSize = 10 * 1024 * 1024;
     this.uploader = new FileUploader({
-      url: this.baseUrl + 'users/add-meme',
+      url: this.baseUrl + 'memes/add-meme',
       authToken: 'Bearer ' + this.user.token,
       allowedFileType: ['image', 'video'],
       isHTML5: true,
@@ -125,7 +142,6 @@ export class MemeUploadComponent implements OnInit {
           message = 'Wystąpił błąd';
           break;
       }
-    
       this.toastr.warning(message);
     };
 
@@ -135,29 +151,30 @@ export class MemeUploadComponent implements OnInit {
         this.format = 'image';
       } else if (file._file.type.indexOf('video') > -1) {
         this.format = 'video';
-      }
+      } 
       this.previewImg = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(file._file)));
-      file.file.name = this.memeUploadForm.value.title + '^' + this.memeUploadForm.value.description;
+      file.file.name = this.memeUploadForm.value.title + '^' + this.divisionForm.value.division + '^' + this.memeUploadForm.value.description;
+      file.file.rawFile = this.croppedImage;
     }
 
-    this.uploader.onSuccessItem = (item, response, status, headers) => {
+    this.uploader.onSuccessItem = (item, response) => {
       if (response) {
         const meme: Meme = JSON.parse(response);
            this.accountService.setCurrentUser(this.user);
            this.previewImg = null;
            this.toastr.success('Pomyślnie dodano mema');
-           this.memeUploadForm.value.title = null;
+           this.memeUploadForm.reset();
            this.memeUploadForm.value.description = null;
            this.memeToggle();
       }
     }
   }
 
-  open(content) {
+  open(content: any) {
     this.modalService.open(content);
   }
 
-  private formatBytes(bytes, decimals?) {
+  private formatBytes(bytes: number, decimals?: number) {
     if (bytes == 0) return '0 Bytes';
     const k = 1024,
       dm = decimals || 2,
@@ -183,9 +200,49 @@ export class MemeUploadComponent implements OnInit {
     this.memeService.addYoutubeLink(this.youtubeForm.value).subscribe(response => {
       this.memeToggle();
       this.toastr.success('Pomyślnie dodano link');
+      this.youtubeForm.reset();
+      this.memeUploadForm.reset();
+      this.youtubeVideo = !this.youtubeVideo;
       }, error => {
       this.validationErrors = error;
     })
   }
+  closedDivisions: any;
 
+  getDivisions() {
+    this.memeService.getDivisions().subscribe(divisions => {
+      this.divisions = divisions;
+    });
+  }
+
+  writeValue(obj: any): void {
+  }
+  registerOnChange(fn: any): void {
+  }
+  registerOnTouched(fn: any): void {
+  }
+
+  fileChangeEvent(event: any): void {
+    this.imageChangedEvent = event;
+  }
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64;
+  }
+  public save() {
+    const date: number = new Date().getTime();
+    // Put the blob into the fileBits array of the File constructor
+    const file = new File(this.croppedImage.blob, 'photo', {type: 'image/png', lastModified: date});
+    const fileItem = new FileItem(this.uploader, file, {});
+    this.uploader.queue.push(fileItem);
+    fileItem.upload();
+  }
+  imageLoaded(image: LoadedImage) {
+      // show cropper
+  }
+  cropperReady() {
+      // cropper ready
+  }
+  loadImageFailed() {
+      // show message
+  }
 }

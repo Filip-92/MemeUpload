@@ -13,6 +13,10 @@ using System.Web;
 using EmailService;
 using Message = EmailService.Message;
 using API.Extensions;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Text;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -23,7 +27,7 @@ namespace API.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IUnitOfWork _unitOfWork;
-        //private readonly IEmailSender _emailSender;
+        private readonly IEmailSender _emailSender;
         private readonly IConfiguration _config;
         public AccountController(
             UserManager<AppUser> userManager, 
@@ -31,8 +35,8 @@ namespace API.Controllers
             ITokenService tokenService, 
             IMapper mapper,
             IConfiguration config,
-            IUnitOfWork unitOfWork
-            //IEmailSender emailSender
+            IUnitOfWork unitOfWork,
+            IEmailSender emailSender
             )
         {
             _signInManager = signInManager;
@@ -41,7 +45,7 @@ namespace API.Controllers
             _tokenService = tokenService;
             _config = config;
             _unitOfWork = unitOfWork;
-            //_emailSender = emailSender;
+            _emailSender = emailSender;
         }
 
         [HttpPost("register")]
@@ -77,7 +81,6 @@ namespace API.Controllers
         {
             var user = await _userManager.Users
                 .Include(p => p.Photos)
-                // .Include(p => p.Memes) // moze zepsuc
                 .SingleOrDefaultAsync(x => x.Email == loginDto.Email.ToLower());
 
             if (user == null) return Unauthorized("Invalid email");
@@ -87,42 +90,51 @@ namespace API.Controllers
 
             if (!result.Succeeded) return Unauthorized("Wrong Password");
 
+            if (user.BanExpiration < DateTime.Now) user.IsBanned = false;
+
+            if (result.Succeeded && user.IsBanned && DateTime.Now < user.BanExpiration) return BadRequest("Zostałeś zbanowany. Termin upływu bana to " + user.BanExpiration);
+
             return new UserDto
             {
                 Email = user.Email,
                 Username = user.UserName,
                 Token = await _tokenService.CreateToken(user),
                 PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
-                // MemeUrl = user.Memes.FirstOrDefault(x => x.IsApproved)?.Url, // moze zepsuc
-                Gender = user.Gender
+                Gender = user.Gender,
+                NumberOfLikes = user.NumberOfLikes
             };
         }
 
-        [HttpPut]
-        [Route("api/user/changepassword/{ident}")]
-        public async Task<bool> ChangePassword(int ident, [FromBody]ChangePasswordDto model)
+        [HttpPost("change-password/{email}")]
+        [Authorize]
+        public async Task<ActionResult> ChangeOldPassword(ChangePasswordDto changePasswordDto, string email)
         {
-            if (!ModelState.IsValid)
-                return false;
+            var user = await _userManager.FindByEmailAsync(email);
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+            var result = await _userManager.ChangePasswordAsync(user, changePasswordDto.CurrentPassword, changePasswordDto.NewPassword);
 
-            AppUser appUser;
-
-            if ((appUser = await _userManager.FindByIdAsync(ident.ToString())) == null)
-                return false;
-
-            IdentityResult identityResult = await _userManager.ChangePasswordAsync(appUser, model.CurrentPassword, model.NewPassword);
-            return identityResult.Succeeded;
+            if (!result.Succeeded) 
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(error.Code, error.Description);
+                    return BadRequest(ModelState);
+                }
+            }
+            return Ok();
         }
 
-        [HttpPost("forgot-password")]
-        public async Task<ActionResult> ForgotPassword(ForgotPasswordDto forgotPassword)
+        [HttpPost("forgot-password/{email}")]
+        [AllowAnonymous]
+        public async Task<ActionResult> ForgotPassword(string email)
         {
             var user = await _userManager.Users
                         .IgnoreQueryFilters()
-                        .Where(e => e.Email.ToLower() == forgotPassword.Email.ToLower())
+                        .Where(e => e.Email.ToLower() == email.ToLower())
                         .FirstOrDefaultAsync();
 
-            if (user == null) return Unauthorized("Username not Found");
+            if (user == null) return Unauthorized("Nie ma takiego użytkownika");
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var uriBuilder = new UriBuilder(_config["returnPaths:PasswordChange"]);
@@ -130,10 +142,14 @@ namespace API.Controllers
             query["token"] = token;
             query["userid"] = user.Id.ToString();
             uriBuilder.Query = query.ToString();
-            var changePasswordLink = uriBuilder.ToString();
+            var changePasswordLink = "<a style='margin-top: 10px' href=\"" + uriBuilder.ToString() + "\">Link do zmiany hasła</a><br />";
 
-            var message = new Message(new string[] { user.Email }, "Change Password link", changePasswordLink, null);
-            //await _emailSender.SendEmailAsync(message);
+            var subject = "Resetowanie hasła";
+            var content = "<div style='font-size: 20px'>Aby zresetować swoje hasło, kliknij na poniższy link: </div><br />";
+            var footer = "<br /><hr style='width: 100%'><br /><div style='font-size: 16px'>Wszystkie prawa zastrzeżone &#169 2022  <span style='font-size: 22px; color: red; padding: 5px; border-radius: 3px; border: 1px solid black;'>Daily Dose of Memes</span></div><br>";
+
+            var message = new Message(new string[] { user.Email }, subject, content + changePasswordLink + footer, null);
+            await _emailSender.SendEmailAsync(message);
 
             return Ok();
         }
@@ -143,7 +159,8 @@ namespace API.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest();
-            var user = await _userManager.FindByEmailAsync(resetPasswordDto.Email);
+
+            var user = await _userManager.FindByIdAsync(resetPasswordDto.UserId);
             if (user == null)
                 return BadRequest("Invalid Request");
             var resetPassResult = await _userManager.ResetPasswordAsync(user, resetPasswordDto.Token, resetPasswordDto.Password);

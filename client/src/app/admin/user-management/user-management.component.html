@@ -1,17 +1,45 @@
-<div class="row">
-    <table class="table">
-        <tr>
-            <th style="width: 20%">Avatar</th>
-            <th style="width: 30%;">Username</th>
-            <th style="width: 30%;">Active roles</th>
-            <th style="width: 20%;"></th>
-        </tr>
-        <tr *ngFor="let user of users">
-            <td><img src="{{user.photoUrl || 'https://memegenerator.net/img/images/14687350.jpg'}}" alt=""></td>
-            <td>{{user.username}}</td>
-            <td>{{user.roles}}</td>
-            <td><button (click)="openRolesModal(user)" class="btn btn-info">Edit Roles</button></td>
-            <td><button (click)="removeUser(user.id)" class="btn btn-warning">Usun uzytkownika</button></td>
-        </tr>
-    </table>
+<div id="container" class="container text-center mt-5">
+    <div id="searchUser">
+        <div class="form-group">
+            <form class="text-center" [formGroup]='userSearchForm'>
+                <div class="row ml-3 text-center">
+                    <div class="column col-6 mt-1 mb-3">Liczba użytkowników: {{users?.length}}</div>
+                    <div class="column mr-3">
+                        <input type="text" placeholder="Wpisz nazwę wyszukiwanego użytkownika" [formControl]='userSearchForm.controls["searchString"]'>
+                    </div>
+                    <div class="column">
+                        <button 
+                        class="dropdown-item"
+                        class="btn btn-primary btn-lg" 
+                        style="align-items: center; font-size: 17px;"
+                        [disabled]="!this.userSearchForm.value.searchString"
+                        (click)="searchForUser(this.userSearchForm.value.searchString)"
+                        >
+                        <i class="fa fa-search"></i>
+                        Szukaj
+                        </button>
+                    </div>
+                  </div>
+            </form>
+        </div>
+    </div>
+</div>
+<br />
+
+<div class="row mb-3" style="border-bottom: 1px solid white;">
+    <div class="col-sm-3 col-md-2">Avatar</div>
+    <div class="col-sm-4 col-md-2">Użytkownik</div>
+    <div class="col-sm-5 col-md-">Aktywne role</div>
+    <div class="col-md-5 text-center"></div>
+</div>
+<div *ngFor="let user of users" class="row mt-2" style="border-bottom: 1px solid white;">
+    <div class="col-sm-3 col-md-2 mb-2"><app-user-card [user]="user"></app-user-card></div>
+    <div class="col-sm-4 col-md-2"><a routerLink='/members/{{user.username}}'>{{user.username}}</a></div>
+    <div class="col-sm-5 col-md-2">{{user.roles}}</div>
+    <div class="col-md-5 mr-1 text-center mb-2">
+        <td><button (click)="openRolesModal(user)" class="btn btn-info mr-1">Edytuj Role</button></td>
+        <td><button (click)="openBanModal(user.username)" [attr.data-target]="'#'+user.username" class="btn btn-danger mr-1">Ban</button></td>
+        <td><button (click)="unbanUser(user.username)" class="btn btn-success mr-1" [disabled]="!user.isBanned">Odbanuj</button></td>
+        <td><button (click)="removeUser(user.id)" class="btn btn-warning mr-1">Usun uzytkownika</button></td>
+    </div>
 </div>

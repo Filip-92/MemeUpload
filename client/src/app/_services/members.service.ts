@@ -8,6 +8,8 @@ import { UserParams } from '../_models/userParams';
 import { AccountService } from './account.service';
 import { User } from '../_models/user';
 import { getPaginatedResult, getPaginationHeaders } from './paginationHelper';
+import { PaginatedResult } from '../_models/pagination';
+import { Photo } from '../_models/photo';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +20,8 @@ export class MembersService {
   memberCache = new Map();
   user: User;
   userParams: UserParams;
+  paginatedResult: PaginatedResult<Member[]> = new PaginatedResult<Member[]>();
+
   constructor(private http: HttpClient, private accountService: AccountService) {
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => {
       this.user = user;
@@ -76,7 +80,7 @@ export class MembersService {
   }
   addLike(username: string) {
     for (let member of this.members) {
-      member.likes++;
+      member.numberOflikes++;
     }
     return this.http.post(this.baseUrl + 'likes/' + username, {})
   }
@@ -86,8 +90,39 @@ export class MembersService {
     params = params.append('predicate', predicate);
     return getPaginatedResult<Partial<Member[]>>(this.baseUrl + 'likes', params, this.http);
   }
+
+  getAllUserLikes(userId: number) {
+    return this.http.get<Member[]>(this.baseUrl + 'likes/get-all-likes/' + userId);
+  }
+
+  getAllUserLikesNumber(username: string) {
+    return this.http.get<number>(this.baseUrl + 'users/get-user-likes-no/' + username);
+  }
+
   deleteMeme(memeId: number) {
     return this.http.delete(this.baseUrl + 'users/delete-meme/' + memeId);
+  }
+
+  getUserPhoto(id: number) {
+    return this.http.get<Photo>(this.baseUrl + 'memes/get-user-photo/' + id);
+  }
+
+  searchForMember(searchString: string, page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+
+  if (page !== null && itemsPerPage !== null) {
+    params = params.append('pageNumber', page.toString());
+    params = params.append('pageSize', itemsPerPage.toString());
+  }
+  return this.http.get<Member[]>(this.baseUrl + 'users/search-members/' + searchString, {observe: 'response', params}).pipe(
+    map(response => {
+      this.paginatedResult.result = response.body;
+      if (response.headers.get('Pagination') !== null) {
+        this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+      }
+      return this.paginatedResult;
+    })
+  );
   }
 
 }

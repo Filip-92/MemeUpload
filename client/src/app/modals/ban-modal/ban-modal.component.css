@@ -1,0 +1,9 @@
+input[type=text] {
+    background-color: gray;
+    color: whitesmoke;
+}
+
+select {
+    background-color: gray;
+    color: whitesmoke;
+}

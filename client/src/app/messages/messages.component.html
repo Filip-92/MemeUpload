@@ -2,21 +2,21 @@
     <div class="btn-group" name='container'>
         <button class="btn btn-primary" btnRadio='Unread' [(ngModel)]="container" 
             (click)="loadMessages()">
-            <i class="fa fa-envelope"></i> Unread
+            <i class="fa fa-envelope mr-1"></i> Nieprzeczytane
         </button>
         <button class="btn btn-primary" btnRadio='Inbox' [(ngModel)]="container" 
             (click)="loadMessages()">
-            <i class="fa fa-envelope-open"></i> Inbox
+            <i class="fa fa-envelope-open mr-1"></i> Skrzynka odbiorcza
         </button>
         <button class="btn btn-primary" btnRadio='Outbox' [(ngModel)]="container" 
             (click)="loadMessages()">
-            <i class="fa fa-paper-plane"></i> Outbox
+            <i class="fa fa-paper-plane mr-1"></i> Skrzynka nadawcza
         </button>
     </div>
 </div>
 
-<div class="row" *ngIf="messages?.length === 0">
-    <h3>No messages</h3>
+<div class="row text-center mt-2" *ngIf="messages?.length === 0">
+    <h3>Brak wiadomości</h3>
 </div>
 
 <div class="row" *ngIf="messages?.length > 0">

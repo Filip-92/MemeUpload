@@ -6,6 +6,7 @@
         [formControl]="ngControl.control"
         placeholder={{label}}>
     <div *ngIf="ngControl?.control?.errors?.required" class="invalid-feedback">Wpisz tytuł</div>
+    <div *ngIf="ngControl?.control?.errors?.pattern" class="invalid-feedback">Tytuł nie może składać się z samych spacji</div>
     <div *ngIf="ngControl?.control?.errors?.minlength" class="invalid-feedback">
         Tytuł musi mieć co najmniej {{ngControl.control.errors.minlength['requiredLength']}} znaków
     </div>

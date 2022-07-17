@@ -1,0 +1,37 @@
+<div *ngIf="memes?.length > 0">
+    <div *ngFor="let meme of memes">
+        <app-meme-card-favourite [meme]="meme"></app-meme-card-favourite>
+    </div>
+</div>
+
+<div *ngIf="memes?.length <= 0" class="text-center mt-3">
+    Brak ulubionych memów
+</div>
+
+<div class="d-flex justify-content-center" *ngIf="pagination">
+    <pagination
+        [boundaryLinks]="true" 
+        [totalItems]="pagination.totalItems"
+        [itemsPerPage]="pagination.itemsPerPage"
+        [(ngModel)]="pagination.currentPage"
+        (pageChanged)="pageChanged($event)"
+        routerLink="/strona/{{pageNumber}}"
+        previousText="&lsaquo;"
+        nextText="&rsaquo;" 
+        firstText="&laquo;" 
+        lastText="&raquo;">
+    </pagination>
+</div>
+
+<!-- https://res.cloudinary.com/duj1ftjtp/image/upload/l_logo_gimp_-_new_ucilaf,o_50,w_200,c_scale,x_850,y_500/hcq1ymvalfdscq1m1i32.jpg -->
+
+<div class="col-md-3 mt-2 justify-content-right" style="text-align: right;" *ngIf="pagination && memes?.length >= pageSize">
+    <span class="mr-2">Page Size</span>
+
+    <select (change)="updatePageSize($any($event.target).value)">
+        <option selected="true">8</option>
+        <option>16</option>
+        <option>24</option>
+    </select>
+</div>
+

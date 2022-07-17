@@ -22,7 +22,17 @@ namespace API.Helpers
                 .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.DateOfBirth.CalculateAge()));
             CreateMap<Photo, PhotoDto>();
             CreateMap<Memes, MemeDto>();
+            CreateMap<Comments, CommentDto>();
+            CreateMap<CommentResponses, CommentResponseDto>();
+            CreateMap<ContactForm, ContactFormDto>();
+            CreateMap<Division, DivisionDto>();
+            CreateMap<Notifications, NotificationDto>();
+            CreateMap<CommentLike, CommentLikeDto>();
+            CreateMap<ReplyLike, ReplyLikeDto>();
+            CreateMap<Favourite, FavouriteDto>();
             CreateMap<MemberUpdateDto, AppUser>();
+            CreateMap<CommentUpdateDto, AppUser>();
+            CreateMap<DivisionUpdateDto, MemeDto>();
             CreateMap<RegisterDto, AppUser>();
             CreateMap<Message, MessageDto>()
                 .ForMember(dest => dest.SenderPhotoUrl, opt => opt.MapFrom(src => 

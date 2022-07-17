@@ -17,5 +17,8 @@ namespace API.DTOs
         public ICollection<PhotoDto> Photos { get; set; }
         public ICollection<MemeDto> Memes { get; set; }
         public int NumberOfLikes { get; set; }
+        public bool IsBanned { get; set; }
+        public DateTime BanExpiration { get; set; }
+        public string BanReason { get; set; }
     }
 }
