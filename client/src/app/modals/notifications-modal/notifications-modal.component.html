@@ -5,19 +5,26 @@
     *ngIf="notifications?.length > 0"
     >
     <div *ngFor="let notification of notifications">
-        <a routerLink="/memes/{{notification.memeId}}" (click)="markAsRead(notification.id)" class="nav-link notification">
-            <div class="row" [ngStyle]="notification.isRead ? { 'color': 'yellow', 'opacity': '0.5' } : { 'opacity': '1' }">
-                <div class="col-2">
-                    <img src="././assets/LogoImage.png" alt="">
-                </div>
-                <div class="col-7 text-center" style="margin-top: auto; margin-bottom: auto">
-                    {{notification.content}}
-                </div>
-                <div class="col-3" style="margin-top: auto; margin-bottom: auto; font-size: 12px;">
-                    {{notification.sentTime.substring(0, 19).replace("T", " ")}}
+            <div class="row notification" [ngStyle]="notification.isRead ? { 'color': 'yellow', 'opacity': '0.5' } : { 'opacity': '1' }">
+                    <div class="col-2">
+                        <a routerLink="/memes/{{notification.memeId}}" (click)="markAsRead(notification.id)">
+                            <img src="././assets/LogoImage.png" alt="">
+                        </a>
+                    </div>
+                    <div class="col-6 text-center" style="margin-top: auto; margin-bottom: auto">
+                        <a routerLink="/memes/{{notification.memeId}}" (click)="markAsRead(notification.id)">
+                        {{notification.content}}
+                    </a>
+                    </div>
+                    <div class="col-3" style="margin-top: auto; margin-bottom: auto; font-size: 12px;">
+                        <a routerLink="/memes/{{notification.memeId}}" (click)="markAsRead(notification.id)">
+                        {{notification.sentTime.substring(0, 19).replace("T", " ")}}
+                        </a>
+                    </div>
+                <div class="col-1" style="margin-top: auto; margin-bottom: auto;" title="Usuń powiadomienie">
+                    <i class="fa fa-trash" (click)="removeNotification(notification.id)"></i>
                 </div>
             </div>
-        </a>
     </div>
 </div>
 

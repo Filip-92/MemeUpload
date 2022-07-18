@@ -105,9 +105,9 @@
                 <div class="col-3" style="max-width: 200px; display: inline-block;">
                     <label class="custom-file-upload" style="min-width: 150px !important;">
                         <input type="file" ng2FileSelect [uploader]="uploader" (change)="fileChangeEvent($event)" class="text-center mt-3 mb-3" title="Wybierz"/>
-                        Dodaj plik
+                        <i class="fa fa-photo mr-1"></i>/<i class="fa fa-video-camera ml-1 mr-2"></i> Dodaj plik
                     </label>
-                    <button type="button" class="btn btn-info mb-2 text-center" *ngIf="previewImg && uploader?.queue?.length" (click)="open(content)" style="min-width: 150px !important; margin-left: 0 !important;">Podgląd</button>
+                    <button type="button" class="btn btn-info mb-2 text-center" *ngIf="previewImg && uploader?.queue?.length" (click)="open(content)" style="min-width: 150px !important; margin-left: 0 !important;"><i class="fa fa-search mr-2"></i>Podgląd</button>
                 </div>
             </div>
     

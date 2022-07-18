@@ -32,3 +32,8 @@ a:hover {
     color: red;
     text-decoration: none !important;
 }
+
+#ok {
+    max-height: 20px !important;
+    max-width: 15px !important;
+}

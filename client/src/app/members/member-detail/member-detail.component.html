@@ -9,12 +9,12 @@
             <img src="{{'././assets/LogoImage.png'}}" alt="{{member.username}}" class="card-img-top img-thumbnail">
         </div>
         <h3 style="color: rgb(170, 139, 37);">{{member.username}}</h3>
-        <button (click)="selectTab(1)" class="btn btn-success mt-3"><i class="fa fa-envelope mr-1"></i> Message</button>
+        <button (click)="selectTab(1)" class="btn btn-success mt-3"><i class="fa fa-envelope mr-1"></i> Wiadomość</button>
     </div>
     <div class="col-6" style="margin-top: 50px;">
         <div class="card-body text-left ml-5">
             <div class="mb-3" *ngIf="(presence.onlineUsers$ | async).includes(member.username)" >
-                <i class="fa fa-user-circle text-success"></i> Online now
+                <i class="fa fa-user-circle text-success"></i> Teraz Online
             </div>
             <div class="mb-3">
                 <i class="fa fa-calendar mr-2"></i><strong> Wiek: </strong><span style="color: greenyellow">{{member.age}}</span>

@@ -13,7 +13,7 @@
             <a routerLink='/memes/{{reply?.memeId}}/..'><i id="goTo" class="fa fa-share" aria-hidden="true"> Idź do</i></a>
         </td>
     </table>
-    <div class="text-center" id="content" style="padding: 10px;">                    
+    <div class="text-left" id="content" style="padding: 10px; margin-left: 50px !important;">                    
         <span class="mb-3" *ngIf="reply.content !== '[Komentarz został usunięty]'" style="color: black;">
         @{{reply.replyingToUser}}
         </span>
@@ -28,8 +28,8 @@
         <img src="{{reply.url}}" alt="">
     </div>
     <div class="text-left">
-        <i class="fa fa-reply ml-3 mb-1" (click)="addReply(reply.commentId)"> Odpowiedz</i>
-        <i class="fa fa-quote-left ml-3 mb-1" *ngIf="!ifReply" (click)="addQuotedReply(reply.commentId)"> Zacytuj</i>
+        <i class="fa fa-reply ml-3 mb-1" *ngIf="!replyQuote" (click)="addReply()"> Odpowiedz</i>
+        <i class="fa fa-quote-left ml-3 mb-1" *ngIf="!ifReply" (click)="addQuotedReply()"> Zacytuj</i>
     </div>
 </div>
 
@@ -40,4 +40,32 @@
             <button class="btn btn-success ml-2 col-2" type="submit" [disabled]="!editForm?.dirty">Edytuj komentarz</button>
         </form>
     </div>
+</div>
+
+<div *ngIf="ifReply">
+    <form [formGroup]='replyForm' (ngSubmit)="replyForm?.valid && replyComment()" id="replyForm" class="text-center column mb-2">
+        <div>
+            <textarea type="text" [formControl]='replyForm?.controls["content"]' placeholder="Wpisz treść komentarza" class="col-7 mr-1"></textarea>
+            <label class="custom-file-upload">
+                <input type="file" ng2FileSelect [uploader]="uploader" (change)="fileChangeEvent($event)" class="text-center" title="Wybierz"/>
+                <i class="fa fa-paperclip"></i>
+            </label>
+            <button class="btn btn-success ml-2 col-2" type="submit" [disabled]="!replyForm?.valid">Dodaj komentarz</button>
+        </div>
+        <div *ngIf="replyForm?.controls['content']?.errors?.maxlength" class="text-danger">
+            Komentarz zbyt długi
+        </div>
+    </form>
+</div>
+
+<div *ngIf="replyQuote">
+    <form [formGroup]='replyForm' (ngSubmit)="replyForm?.valid && replyComment()" class="text-center column mb-3 ml-5">
+        <div>
+            <textarea type="text" [formControl]='replyForm?.controls["content"]' placeholder="Wpisz treść komentarza" class="col-7"></textarea>
+            <button class="btn btn-success ml-2 col-2" type="submit" [disabled]="!replyForm?.valid">Dodaj komentarz</button>
+        </div>
+        <div *ngIf="replyForm?.controls['content']?.errors?.maxlength" class="text-danger">
+            Komentarz zbyt długi
+        </div>
+    </form>
 </div>

@@ -15,6 +15,9 @@ import { AccountService } from 'src/app/_services/account.service';
 import { take } from 'rxjs/operators';
 import { Reply } from 'src/app/_models/reply';
 import { AdminService } from 'src/app/_services/admin.service';
+import { SwitchDivisionComponent } from 'src/app/modals/switch-division/switch-division.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Division } from 'src/app/_models/division';
 
 @Pipe({ name: 'safe' })
 export class SafePipe implements PipeTransform {
@@ -50,10 +53,11 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   favouriteMemes: Meme[];
   comments: number;
   replies: Reply[];
+  division: Division;
 
   constructor(public presence: PresenceService, private memeService: MemeService, private http: HttpClient,
     public sanitizer: DomSanitizer, public helper: HelperService, public accountService: AccountService,
-    private toastr: ToastrService, private adminService: AdminService) { 
+    private toastr: ToastrService, private adminService: AdminService, private modalService: NgbModal) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
     }
   transform(value: any, ...args: any[]) {
@@ -72,6 +76,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     if ("user" in localStorage) {
       this.getFavouriteMemes(this.user.username);
       this.loadLikes();
+      this.getDivisionNameById(this.meme.division);
     } else {
       this.liked = false;
       this.disliked = false;
@@ -210,5 +215,17 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     this.adminService.rejectMeme(memeId).subscribe(() => {
       this.memes.splice(this.memes.findIndex(p => p.id === memeId), 1);
     })
+  }
+
+  getDivisionNameById(divisionId: number) {
+    this.adminService.getDivisionNameById(divisionId).subscribe(division => {
+      this.division = division;
+      });
+    }
+
+  openDivisionModal(meme: Meme) {
+    const modalRef = this.modalService.open(SwitchDivisionComponent);
+    modalRef.componentInstance.meme = meme;
+    modalRef.componentInstance.modalRef = modalRef;
   }
 }

@@ -14,7 +14,7 @@
                 <span (click)="removeReply(reply.id) && reloadComments(comment)"><i id="delete" class="fa fa-trash" aria-hidden="true"> Usuń</i></span>
             </td>
         </table>
-        <div class="text-center" id="content" style="padding: 10px;">                    
+        <div class="text-left" id="content" style="padding: 10px; margin-left: 50px !important;">                    
             <span class="mb-3" *ngIf="reply.content !== '[Komentarz został usunięty]'" style="color: black;">
             @{{reply.replyingToUser}}
             </span>

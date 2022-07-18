@@ -24,15 +24,15 @@ input[type="file"] {
 }
 
 .custom-file-upload {
+    margin-top: 40px;
     border: 1px solid #ccc;
     display: inline-block;
     padding: 6px 12px;
     cursor: pointer;
+    border-radius: 2px;
 }
 
 .custom-file-upload:hover {
-    margin-top: auto;
-    margin-bottom: auto;
     border: 1px solid red;
     color: red;
 }
@@ -93,6 +93,10 @@ select {
     input[type=text] {
         margin-left: 20px;
         min-width: 300px !important;
+    }
+
+    .custom-file-upload {
+        margin-top: 10px !important;
     }
 
     textarea {

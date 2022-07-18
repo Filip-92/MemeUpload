@@ -287,6 +287,7 @@ getMainMemes(page?: number, itemsPerPage?: number) {
   }
 
   addReplyToReply(model: any) {
+    console.log(model);
     return this.http.post(this.baseUrl + 'memes/add-reply-to-reply', model);
   }
 

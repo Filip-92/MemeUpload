@@ -25,6 +25,7 @@ namespace API.Interfaces
         Task<IEnumerable<ContactFormDto>> GetContactFormMessages();
         Task<IEnumerable<NotificationDto>> GetNotifications(int id);
         Task<Notifications> GetNotificationById(int id);
+        void RemoveNotification(Notifications notification);
         Task<IEnumerable<NotificationDto>> GetUnreadNotifications(int id);
         Task<ContactForm> GetMessageById(int id);
         void RemoveMessage(ContactForm message);

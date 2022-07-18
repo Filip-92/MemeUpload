@@ -65,17 +65,17 @@ export class MemberRepliesComponent implements OnInit {
     this.reply.content = "[Komentarz został usunięty]";
   }
 
-  addReply(commentId) {
+  addReply() {
     this.ifReply = !this.ifReply;
     this.replyField = !this.replyField;
-    this.initializeForm(commentId)
+    this.initializeForm()
   }
 
-  initializeForm(commentId) {
+  initializeForm() {
     this.replyForm = this.fb.group({
       content: ['', [Validators.required, Validators.maxLength(2000)]],
       memeId: [this.reply.memeId],
-      commentId: [commentId],
+      commentId: [this.reply.commentId],
       replyingToUser: [this.reply.username],
       replyingToReplyId: [this.reply.id]
     })
@@ -212,17 +212,17 @@ private formatBytes(bytes: number, decimals?: number) {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     }
 
-  addQuotedReply(commentId) {
+  addQuotedReply() {
     this.replyQuote = !this.replyQuote;
-    this.initializeQuoteForm(commentId);
+    this.initializeQuoteForm();
   }
 
-  initializeQuoteForm(commentId) {
+  initializeQuoteForm() {
     this.replyForm = this.fb.group({
       content: ['', [Validators.required, Validators.maxLength(2000)]],
-      memeId: [this.comment.memeId],
+      memeId: [this.reply.memeId],
       quote: [this.reply.content],
-      commentId: [commentId],
+      commentId: [this.reply.commentId],
       replyingToUser: [this.reply.replyingToUser],
       replyingToReplyId: [this.reply.id]
     })

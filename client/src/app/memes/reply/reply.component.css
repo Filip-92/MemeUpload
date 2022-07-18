@@ -39,9 +39,8 @@ i:hover {
     background-color: rgb(34, 31, 31);
     padding-top: 5px;
     padding-bottom: 5px;
-    margin-left: auto;
-    margin-right: auto;
     border-radius: 8px;
+    width: 200px !important;
 }
 
 i {

@@ -1,0 +1,34 @@
+<div class="mt-2">
+    <span class="chat-img float-right">
+        <img class="rounded-circle" src="{{message.senderPhotoUrl || './assets/user.png'}}" 
+            alt="{{message.senderUsername}}">
+    </span>
+    <div class="chat-body" style="border-bottom: 1px solid;">
+        <div class="header">
+            <small class="text-muted">
+                <span class="fa fa-clock-o"> {{message.messageSent | timeago}}</span>
+                <span class="text-danger" *ngIf="!message.dateRead 
+                    && message.senderUsername !== username">
+                    (nieprzeczytane)
+                </span>
+                <span class="text-success" *ngIf="message.dateRead 
+                    && message.senderUsername !== username">
+                    (przeczytano {{message.dateRead | timeago}})
+                </span>
+            </small>
+        </div>
+        <p>{{message.content}}</p>
+        <div *ngIf="message.senderUsername !== username" class="text-right mb-2">
+            <button class="btn btn-success mr-2" (click)="editMessage(message?.id)">Edytuj</button>
+            <button class="btn btn-danger" (click)="removeMessage(message?.id)"><i class="fa fa-trash mr-2"></i>Usuń</button>
+        </div>
+        <div class="card-footer" *ngIf="editToggle">
+            <form #editForm="ngForm" (ngSubmit)="updateMessage()">
+                <div class="input-group">
+                    <input type="text" name="messageContent" class="form-control input-sm" [(ngModel)]="message.content" placeholder="{{message.content}}">
+                    <button class="btn btn-primary" type="submit" [disabled]="!editForm?.dirty">Edytuj komentarz</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -77,6 +77,7 @@ import { MemberCommentsComponent } from './members/member-comments/member-commen
 import { MemberRepliesComponent } from './members/member-replies/member-replies.component';
 import { MemeForApprovalCardComponent } from './admin/meme-for-approval-card/meme-for-approval-card.component';
 import { SwitchDivisionComponent } from './modals/switch-division/switch-division.component';
+import { MessageComponent } from './members/message/message.component';
 
 @NgModule({
   declarations: [
@@ -137,6 +138,7 @@ import { SwitchDivisionComponent } from './modals/switch-division/switch-divisio
     MemberRepliesComponent,
     MemeForApprovalCardComponent,
     SwitchDivisionComponent,
+    MessageComponent,
   ],
   imports: [
     BrowserModule,

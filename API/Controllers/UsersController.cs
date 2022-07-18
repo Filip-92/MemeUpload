@@ -203,6 +203,8 @@ namespace API.Controllers
 
             if (notification == null) return NotFound("Could not find notification");
 
+            if (notification.IsRead) return Ok();
+
             notification.IsRead = true;
 
             if (await _unitOfWork.Complete()) return Ok();
@@ -217,6 +219,20 @@ namespace API.Controllers
             var notifications = await _unitOfWork.UserRepository.GetUnreadNotifications(user.Id);
 
             return Ok(notifications);
+        }
+
+        [HttpPost("remove-notification/{notificationId}")]
+        public async Task<ActionResult> RemoveNotification(int notificationId)
+        {
+            var notification = await _unitOfWork.UserRepository.GetNotificationById(notificationId);
+
+            if (notification == null) return NotFound("Nie można znaleźć powiadomienia");
+
+            _unitOfWork.UserRepository.RemoveNotification(notification);
+
+            await _unitOfWork.Complete();
+
+            return Ok();
         }
 
         [HttpGet("get-user-email-by-id/{userId}")]

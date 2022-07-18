@@ -114,4 +114,8 @@ export class AccountService {
     return this.http.get<Notification[]>(this.baseUrl + 'users/get-unread-notifications/' + username);
   }
 
+  removeNotification(notificationId: number) {
+    return this.http.post(this.baseUrl + 'users/remove-notification/' + notificationId, {});
+  }
+
 }

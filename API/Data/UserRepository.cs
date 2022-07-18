@@ -203,6 +203,11 @@ namespace API.Data
             .SingleOrDefaultAsync(x => x.Id == id);
         }
 
+        public void RemoveNotification(Notifications notification)
+        {
+            _context.Notifications.Remove(notification);
+        }
+
         public async Task<IEnumerable<NotificationDto>> GetUnreadNotifications(int id)
         {
                 return await _context.Notifications

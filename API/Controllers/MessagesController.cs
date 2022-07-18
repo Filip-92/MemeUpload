@@ -57,5 +57,39 @@ namespace API.Controllers
 
             return BadRequest("Problem deleting the message");
         }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> EditMessage(MessageUpdateDto messageUpdateDto, int id)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+            var message = await _unitOfWork.MessageRepository.GetMessage(id);
+
+            _mapper.Map(messageUpdateDto, user);
+
+            message.Content = messageUpdateDto.Content;
+
+            if (await _unitOfWork.Complete()) return NoContent();
+
+            return BadRequest("Nie udało się edytować wiadomości");
+        }
+
+        [HttpPost("remove-message/{id}")]
+        public async Task<ActionResult> RemoveMessage(int id)
+        {
+            var message = await _unitOfWork.MessageRepository.GetMessage(id);
+
+            if (message == null) return NotFound("Nie można znaleźć wiadomości");
+
+            // if (reply.PublicId != null) 
+            // {
+            //     await _memeService.DeleteMemeAsync(reply.PublicId);
+            // }
+
+            _unitOfWork.MessageRepository.DeleteMessage(message);
+
+            await _unitOfWork.Complete();
+
+            return Ok();
+        }
     }
 }
