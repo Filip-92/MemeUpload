@@ -27,6 +27,8 @@ export class MemberCardComponent implements OnInit {
   comments: Comment[];
   replies: Reply[];
   numberOfLikes: number;
+  mainMemes: number;
+  memes: any;
 
   constructor(private memberService: MembersService, private toastr: ToastrService, 
     public presence: PresenceService, private memeService: MemeService) { }
@@ -37,6 +39,8 @@ export class MemberCardComponent implements OnInit {
     this.getMemberReplies(this.member.username);
     this.getMemberComments(this.member.username);
     this.getMemberNumberOfLikes(this.member.username);
+    this.getMemberMemes(this.member.username);
+    this.getMemberMainMemes(this.member.username);
   }
 
   addLike(member: Member) {
@@ -74,6 +78,19 @@ export class MemberCardComponent implements OnInit {
   changeDateFormat(date) {
     var newDate = date.substring(0,10);
     return newDate;
+  }
+
+  getMemberMainMemes(username: string) {
+    this.memeService.getMemberMainMemes(username).subscribe(memes => {
+      this.mainMemes = memes;
+    })
+  }
+
+  getMemberMemes(username: string) {
+    this.memeService.getMemberMemes(username, this.pageNumber, this.pageSize).subscribe(response => {
+      this.memes = response.result;
+      this.pagination = response.pagination;
+    });
   }
 
   getMemberComments(username: string) {

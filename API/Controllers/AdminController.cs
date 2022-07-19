@@ -275,17 +275,14 @@ namespace API.Controllers
         }
 
         [Authorize(Policy = "RequireAdminRole")]
-        [HttpDelete("/remove-user/{userId}"), ActionName("Delete")]
-        public async Task<ActionResult> RemoveUser(int userId)
+        [HttpPost("remove-user/{username}")]
+        public async Task<ActionResult> RemoveUser(string username)
         {
-            var user = await _unitOfWork.UserRepository.GetUserByIdAsync(userId);
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
 
-            if (user == null) return NotFound("Could not find user");
+            if (user == null) return NotFound("Nie znaleziono użytkownika");
 
-            // if (userId != null)
-            {
-                var result = _userManager.DeleteAsync(user);
-            }
+            var result = _userManager.DeleteAsync(user);
 
             await _unitOfWork.Complete();
 

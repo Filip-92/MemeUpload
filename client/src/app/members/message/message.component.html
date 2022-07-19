@@ -20,7 +20,7 @@
         <p>{{message.content}}</p>
         <div *ngIf="message.senderUsername !== username" class="text-right mb-2">
             <button class="btn btn-success mr-2" *ngIf="!checkIfOlderThan15Mins(message.messageSent)" (click)="editMessage(message?.id)">Edytuj</button>
-            <button class="btn btn-danger" (click)="removeMessage(message?.id)"><i class="fa fa-trash mr-2"></i>Usuń</button>
+            <button class="btn btn-danger" *ngIf="!checkIfOlderThan1Hour(message.messageSent)" (click)="removeMessage(message?.id)"><i class="fa fa-trash mr-2"></i>Usuń</button>
         </div>
         <div class="card-footer" *ngIf="editToggle">
             <form #editForm="ngForm" (ngSubmit)="updateMessage()">

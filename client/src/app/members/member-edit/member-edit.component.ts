@@ -64,9 +64,9 @@ export class MemberEditComponent implements OnInit {
     });
   }
 
-  deletePhoto(photoId: number) {
-    this.memberService.deletePhoto(photoId).subscribe(() => {
-      this.member.photos = this.member.photos.filter(x => x.id !== photoId);
+  getMemberMainMemes(username: string) {
+    this.memeService.getMemberMainMemes(username).subscribe(memes => {
+      this.mainMemes = memes;
     })
   }
 
@@ -113,12 +113,6 @@ export class MemberEditComponent implements OnInit {
   pageChanged(event: any) {
     this.pageNumber = event.page;
     this.getMemberMemes(this.user.username);
-  }
-
-  getMemberMainMemes(username: string) {
-    this.memeService.getMemberMainMemes(username).subscribe(memes => {
-      this.mainMemes = memes;
-    })
   }
 
   getMemberComments(username: string) {

@@ -41,6 +41,7 @@ export class CommentComponent implements OnInit {
   uploader: FileUploader;
   baseUrl = environment.apiUrl;
   imageChangedEvent: any = '';
+  mainMemes: number;
 
   constructor(private memeService: MemeService, public accountService: AccountService,
     private toastr: ToastrService, private fb: FormBuilder) { 
@@ -53,6 +54,7 @@ export class CommentComponent implements OnInit {
     this.getReplies(this.comment.id);
     if ("user" in localStorage) {
       this.loadLikes();
+      this.getMemberMainMemes(this.user.username);
     }
   }
 
@@ -122,14 +124,6 @@ export class CommentComponent implements OnInit {
     })
   }
 
-  // initializeEditForm(commentId) {
-  //   this.editForm = this.fb.group({
-  //     content: ['', [Validators.required, Validators.maxLength(2000)]],
-  //     memeId: [this.comment.memeId],
-  //     id: [commentId]
-  //   })
-  // }
-
   getReplies(commentId: number) {
     this.memeService.getReplies(commentId).subscribe(replies => {
       this.replies = replies;
@@ -173,6 +167,12 @@ loadLikes() {
         this.checkIfCommentLiked(comment.likedCommentId);
       }
     }
+  })
+}
+
+getMemberMainMemes(username: string) {
+  this.memeService.getMemberMainMemes(username).subscribe(memes => {
+    this.mainMemes = memes;
   })
 }
 

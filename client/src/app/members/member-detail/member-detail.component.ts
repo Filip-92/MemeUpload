@@ -60,6 +60,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   replies: Reply[];
   numberOfLikes: number = 0;
   liked: boolean = false;
+  mainMemes: number = 0;
 
   constructor(public presence: PresenceService, private route: ActivatedRoute, 
     private messageService: MessageService, private accountService: AccountService,
@@ -76,17 +77,24 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
         window.location.replace('member/edit');
       }
     })
-    this.getUsers();
-    this.loadLikes();
-    this.route?.queryParams?.subscribe(params => {
-      params?.tab ? this.selectTab(params?.tab) : this.selectTab(0);
-    })
-    this.galleryImages = this.getImages();
-    this.getMemberMemes(this.member.username);
-    this.getMemberComments(this.member.username);
-    this.getMemberReplies(this.member.username);
-    this.getMemberNumberOfLikes(this.member.username);
+    if ("user" in localStorage) {
+      this.getUsers();
+      this.loadLikes();
+      this.route?.queryParams?.subscribe(params => {
+        params?.tab ? this.selectTab(params?.tab) : this.selectTab(0);
+      })
+      this.galleryImages = this.getImages();
+      this.getMemberMemes(this.member.username);
+      this.getMemberComments(this.member.username);
+      this.getMemberReplies(this.member.username);
+      this.getMemberNumberOfLikes(this.member.username);
+      this.getMemberMainMemes(this.member.username);
+    } else {
+      this.toastr.warning("Zaloguj się aby mieć dostęp");
+      this.router.navigateByUrl('/');
+    }
   }
+
   getImages(): NgxGalleryImage[] {
     const imageUrls = [];
     for (const photo of this.member.photos) {
@@ -158,6 +166,12 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
       this.memes = response.result;
       this.pagination = response.pagination;
     });
+  }
+
+  getMemberMainMemes(username: string) {
+    this.memeService.getMemberMainMemes(username).subscribe(memes => {
+      this.mainMemes = memes;
+    })
   }
 
   pageChanged(event: any) {

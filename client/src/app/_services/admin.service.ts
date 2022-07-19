@@ -65,8 +65,8 @@ export class AdminService {
     return this.http.post(this.baseUrl + 'admin/remove-message/' + messageId, {});
   }
 
-  removeUser(userId: number) {
-    return this.http.delete(this.baseUrl + 'admin/remove-user/' + userId, {});
+  removeUser(username: string) {
+    return this.http.post(this.baseUrl + 'admin/remove-user/' + username, {});
   }
 
   banUser(username: string, model: any, days: number) {

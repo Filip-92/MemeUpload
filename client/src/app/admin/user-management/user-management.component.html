@@ -34,12 +34,12 @@
 </div>
 <div *ngFor="let user of users" class="row mt-2" style="border-bottom: 1px solid white;">
     <div class="col-sm-3 col-md-2 mb-2"><app-user-card [user]="user"></app-user-card></div>
-    <div class="col-sm-4 col-md-2"><a routerLink='/members/{{user.username}}'>{{user.username}}</a></div>
+    <div class="col-sm-4 col-md-2"><a routerLink='/uzytkownicy/{{user.username}}'>{{user.username}}</a></div>
     <div class="col-sm-5 col-md-2">{{user.roles}}</div>
     <div class="col-md-5 mr-1 text-center mb-2">
         <td><button (click)="openRolesModal(user)" class="btn btn-info mr-1">Edytuj Role</button></td>
         <td><button (click)="openBanModal(user.username)" [attr.data-target]="'#'+user.username" class="btn btn-danger mr-1">Ban</button></td>
         <td><button (click)="unbanUser(user.username)" class="btn btn-success mr-1" [disabled]="!user.isBanned">Odbanuj</button></td>
-        <td><button (click)="removeUser(user.id)" class="btn btn-warning mr-1">Usun uzytkownika</button></td>
+        <td><button (click)="openRemoveUserModal(user.username)" class="btn btn-warning mr-1">Usuń uzytkownika</button></td>
     </div>
 </div>

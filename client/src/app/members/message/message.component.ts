@@ -1,6 +1,8 @@
-import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { take } from 'rxjs/operators';
 import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { User } from 'src/app/_models/user';
+import { AccountService } from 'src/app/_services/account.service';
 import { MessageService } from 'src/app/_services/message.service';
 
 @Component({
@@ -22,10 +24,14 @@ export class MessageComponent implements OnInit {
       $event.returnValue = true;
     }
   }
+  user: User;
 
-  constructor(public messageService: MessageService) { }
+  constructor(public messageService: MessageService, private accountService: AccountService) {
+    this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
+   }
 
   ngOnInit(): void {
+    console.log(this.user.roles);
   }
 
   editMessage() {
@@ -46,15 +52,30 @@ export class MessageComponent implements OnInit {
   }
 
   checkIfOlderThan15Mins(date: any) {
-    var currentDate = new Date()?.getTime();
-    console.log(currentDate);
-    console.log(date.getTime());
-    console.log((currentDate - date) < 15 * 60 * 1000);
-    if ((currentDate - date) > 15 * 60 * 1000) {
-      return true;
+    var currentDate = new Date().getTime();
+    var newDate = new Date(Number(Date.parse(date))).getTime();
+    if (this.user.roles[0] !== 'Admin' || this.user.roles[1] !== 'Moderator') {
+      if ((currentDate - newDate) > 15 * 60 * 1000 && this.user.roles !== ['Admin', 'Moderator']) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       return false;
     }
   }
 
+  checkIfOlderThan1Hour(date: any) {
+    var currentDate = new Date().getTime();
+    var newDate = new Date(Number(Date.parse(date))).getTime();
+    if (this.user.roles[0] !== 'Admin' || this.user.roles[1] !== 'Moderator') {
+      if ((currentDate - newDate) > 60 * 60 * 1000) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
 }

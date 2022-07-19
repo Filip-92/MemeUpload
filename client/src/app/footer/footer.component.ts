@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AboutModalComponent } from '../modals/about-modal/about-modal.component';
+import { StatuteComponent } from '../modals/statute/statute.component';
 
 @Component({
   selector: 'app-footer',
@@ -11,7 +13,7 @@ export class FooterComponent implements OnInit {
   bsModalRef: BsModalRef;
   contactFormMode: boolean = false;
 
-  constructor(private modalService: BsModalService) { }
+  constructor(private modalService: BsModalService, private modalServ: NgbModal) { }
 
   ngOnInit(): void {
   }
@@ -30,6 +32,11 @@ export class FooterComponent implements OnInit {
 
   goToBottom(){
     window.scrollTo(0,document.body.scrollHeight);
+  }
+
+  openStatuteModal() {
+    const modalRef = this.modalServ.open(StatuteComponent);
+    modalRef.componentInstance.modalRef = modalRef;
   }
 
 }

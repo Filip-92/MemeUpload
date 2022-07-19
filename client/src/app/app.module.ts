@@ -78,6 +78,9 @@ import { MemberRepliesComponent } from './members/member-replies/member-replies.
 import { MemeForApprovalCardComponent } from './admin/meme-for-approval-card/meme-for-approval-card.component';
 import { SwitchDivisionComponent } from './modals/switch-division/switch-division.component';
 import { MessageComponent } from './members/message/message.component';
+import { RemoveUserComponent } from './modals/remove-user/remove-user.component';
+import { RemoveAccountComponent } from './modals/remove-account/remove-account.component';
+import { StatuteComponent } from './modals/statute/statute.component';
 
 @NgModule({
   declarations: [
@@ -139,6 +142,9 @@ import { MessageComponent } from './members/message/message.component';
     MemeForApprovalCardComponent,
     SwitchDivisionComponent,
     MessageComponent,
+    RemoveUserComponent,
+    RemoveAccountComponent,
+    StatuteComponent,
   ],
   imports: [
     BrowserModule,

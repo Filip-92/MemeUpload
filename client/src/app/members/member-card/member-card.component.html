@@ -3,13 +3,13 @@
         <div class="card-img-wrapper">
             <img src="{{url || '././assets/LogoImage.png'}}" alt="{{member.username}}" class="card-img-top">
             <ul class="list-inline member-icons animate text-center">
-                <li class="list-inline-item"><button routerLink='/members/{{member?.username}}' class="btn btn-primary">
+                <li class="list-inline-item"><button routerLink='/uzytkownicy/{{member?.username}}' class="btn btn-primary">
                     <i class="fa fa-user"></i></button></li>
                 <li class="list-inline-item"><button (click)="addLike(member)" class="btn btn-primary" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'red' }">
                     <i class="fa fa-thumbs-up"></i></button></li>
                 <li class="list-inline-item">
                     <button 
-                    routerLink='/members/{{member?.username}}' 
+                    routerLink='/uzytkownicy/{{member?.username}}' 
                     [queryParams]='{tab:1}'
                     class="btn btn-primary">
                     <i class="fa fa-envelope"></i></button></li>
@@ -28,15 +28,22 @@
             <i class="fa fa-thumbs-up mr-2 mb-2"></i>Ilość plusów: <span style="color: greenyellow">{{ numberOfLikes }}</span>
         </div>
         <div>
-            <i class="fa fa-photo mr-2 mb-2"></i>Ilość wrzut: {{member?.memes?.length}}
+            <i class="fa fa-photo mr-2 mb-2"></i>Ilość wrzut: {{ memes?.length }} / {{ mainMemes || '0' }}
         </div>
         <div>
             <i class="fa fa-comment mr-2"></i>Ilość komentarzy: <span style="color: greenyellow">{{ comments?.length + replies?.length || '0' }}</span>
         </div>
     </div>
-    <div class="col-1"></div>
     <div class="col-3" style="margin-top: auto; margin-bottom: auto;">
         <i class="fa fa-user-plus mr-2" aria-hidden="true"></i><strong>Dołączył: </strong><span style="color: greenyellow">{{changeDateFormat(member.created)}}</span>
+    </div>
+    <div class="col-2 mt-4" style="margin-top: auto; margin-bottom: auto;">
+        <span  *ngIf="mainMemes > 5" class="mr-3">
+            <img src="./assets/silver-pepe.png" alt="silver badge" style="max-height: 50px;" title="Srebrny pepe">
+        </span>
+        <span *ngIf="comments?.length + replies?.length > 10" class="mr-3">
+            <img src="./assets/golden-pepe.png" alt="golden badge" style="max-height: 50px;" title="Złoty pepe">
+        </span>
     </div>
 </div>
 

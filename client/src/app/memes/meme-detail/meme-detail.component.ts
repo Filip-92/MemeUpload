@@ -47,6 +47,7 @@ export class MemeDetailComponent implements OnInit {
   url: string[];
   division: any;
   favouriteMemes: Meme[];
+  mainMemes: number;
 
   constructor(private memeService: MemeService, private http: HttpClient,
     private route: ActivatedRoute, private toastr: ToastrService,
@@ -64,6 +65,7 @@ export class MemeDetailComponent implements OnInit {
       this.initializeForm();
       this.loadLikes();
       this.getFavouriteMemes(this.user.username);
+      this.getMemberMainMemes(this.user.username);
     }
     this.getMeme(this.id);
     this.getComments(this.id);
@@ -127,6 +129,12 @@ export class MemeDetailComponent implements OnInit {
       }
     })
   }
+
+  getMemberMainMemes(username: string) {
+    this.memeService.getMemberMainMemes(username).subscribe(memes => {
+      this.mainMemes = memes;
+    })
+  }  
 
   checkIfMemeLiked(id: number) {
     if (id === this.id) {

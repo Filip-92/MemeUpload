@@ -148,6 +148,7 @@ namespace API.Data
         public async Task<PagedList<MemberDto>> SearchForMembers(UserParams userParams, string searchString)
         {
             var query = _context.Users
+                .Include(m => m.Memes)
                 .IgnoreQueryFilters()
                 .Where(m => m.UserName.ToLower().Contains(searchString))
                 .Select(u => new MemberDto
@@ -157,11 +158,12 @@ namespace API.Data
                     Gender = u.Gender,
                     NumberOfLikes = u.NumberOfLikes,
                     LastActive = u.LastActive,
+                    Created = u.Created,
                     IsBanned = u.IsBanned 
                 }).AsNoTracking()
                 .OrderByDescending(u => u.Id);
 
-            return await PagedList<MemberDto>.CreateAsync(query, 
+            return await PagedList<MemberDto>.CreateAsync(query,
             userParams.PageNumber, userParams.PageSize);
         }
 

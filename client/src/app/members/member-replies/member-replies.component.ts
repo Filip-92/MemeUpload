@@ -39,6 +39,7 @@ export class MemberRepliesComponent implements OnInit {
   replyQuote: boolean;
   ifReply: boolean;
   commentUpdate: boolean;
+  mainMemes: number;
 
   constructor(public accountService: AccountService, private memeService: MemeService,
     private fb: FormBuilder, private toastr: ToastrService) { 
@@ -49,6 +50,7 @@ export class MemberRepliesComponent implements OnInit {
     this.getUserPhoto(this.reply?.username);
     if ("user" in localStorage) {
       this.loadLikes();
+      this.getMemberMainMemes(this.user.username);
     }
   }
 
@@ -238,5 +240,11 @@ private formatBytes(bytes: number, decimals?: number) {
       this.commentUpdate = !this.commentUpdate;
     })
   }
+
+  getMemberMainMemes(username: string) {
+    this.memeService.getMemberMainMemes(username).subscribe(memes => {
+      this.mainMemes = memes;
+    })
+  }  
 
 }

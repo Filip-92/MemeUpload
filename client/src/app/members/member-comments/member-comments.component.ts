@@ -39,6 +39,7 @@ export class MemberCommentsComponent implements OnInit {
   uploader: FileUploader;
   baseUrl = environment.apiUrl;
   imageChangedEvent: any = '';
+  mainMemes: number;
 
   constructor(private memeService: MemeService, public accountService: AccountService,
     private toastr: ToastrService, private fb: FormBuilder) { 
@@ -51,6 +52,7 @@ export class MemberCommentsComponent implements OnInit {
     this.getReplies(this.comment.id);
     if ("user" in localStorage) {
       this.loadLikes();
+      this.getMemberMainMemes(this.user.username)
     }
   }
 
@@ -88,6 +90,12 @@ export class MemberCommentsComponent implements OnInit {
       })
     }
   }
+
+  getMemberMainMemes(username: string) {
+    this.memeService.getMemberMainMemes(username).subscribe(memes => {
+      this.mainMemes = memes;
+    })
+  }  
 
   addReply(commentId) {
     this.reply = !this.reply;

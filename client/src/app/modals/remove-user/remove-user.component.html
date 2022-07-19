@@ -1,0 +1,12 @@
+<div class="modal-header">
+    <h4>Usuń użytkownika</h4>
+</div>
+<div class="modal-header">
+    Jesteś pewien, że chcesz usunąc użytkownika {{username}}? <br> Ta operacja jest nieodwracalna.
+</div>
+<div class="modal-body text-center">
+    <div class="text-center">
+        <button class="btn btn-success mr-2" (click)="removeUser(username)">OK</button>
+        <button type="button" class="btn btn-warning" aria-label="Close" (click)="close()">Wyjdź</button>
+    </div>
+</div>

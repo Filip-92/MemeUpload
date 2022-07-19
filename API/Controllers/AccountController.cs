@@ -172,6 +172,22 @@ namespace API.Controllers
             return Ok();
         }
 
+        [Authorize]
+        [HttpPost("remove-account/{username}")]
+        public async Task<ActionResult> RemoveAccount(string username)
+        {
+            // var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
+
+            if (user == null) return NotFound("Nie znaleziono użytkownika");
+
+            var result = _userManager.DeleteAsync(user);
+
+            await _unitOfWork.Complete();
+
+            return Ok();
+        }
+
         private async Task<bool> UserExists(string username)
         {
             return await _userManager.Users.AnyAsync(x => x.UserName == username.ToLower());

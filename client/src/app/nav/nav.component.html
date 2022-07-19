@@ -17,10 +17,10 @@
 
         <ng-container *ngIf="accountService.currentUser$ | async" style="float: right !important;">
             <ul class="nav">
-                <li style="width: 60px" title="Użytkownicy"><a class="nav-link" routerLink='/members' routerLinkActive='active'><i class="fa fa-user"></i></a></li>
+                <li style="width: 60px" title="Użytkownicy"><a class="nav-link" routerLink='/uzytkownicy' routerLinkActive='active'><i class="fa fa-user"></i></a></li>
                 <!-- <li style="width: 60px" title="Polubienia"><a class="nav-link" routerLink='/lists' routerLinkActive='active'><i class="fa fa-thumbs-up"></i></a></li> -->
                 <li style="width: 60px" *ngIf="(accountService.currentUser$ | async) || (accountService.currentUser$ | async) === null" title="Szukaj memów"><a class="nav-link" routerLink='szukaj/memes' routerLinkActive='active'><i class="fa fa-search"></i></a></li>
-                <li id="messages" style="width: 60px" title="Wiadomości"><a class="nav-link" routerLink='/messages'routerLinkActive='active'><i class="fa fa-envelope" [ngStyle]="unreadMessages > 0 ? { 'color': 'red' } : { 'color': 'white' }"><span class="ml-1" *ngIf="unreadMessages > 0" id="unread">{{unreadMessages}}</span></i></a></li>
+                <li id="messages" style="width: 60px" title="Wiadomości"><a class="nav-link" routerLink='/wiadomosci'routerLinkActive='active'><i class="fa fa-envelope" [ngStyle]="unreadMessages > 0 ? { 'color': 'red' } : { 'color': 'white' }"><span class="ml-1" *ngIf="unreadMessages > 0" id="unread">{{unreadMessages}}</span></i></a></li>
                 <li id="messages" style="width: 60px" title="Powiadomienia"><a class="nav-link" style="cursor: pointer;" (click)="openNotificationsModal(user.username)" routerLinkActive='active'><i class="fa fa-bell" [ngStyle]="notifications?.length > 0 ? { 'color': 'red' } : { 'color': 'white' }"><span class="ml-1" *ngIf="notifications?.length > 0" id="unread">{{notifications?.length}}</span></i></a></li>
                 <li *appHasRole='["Admin", "Moderator"]' class="nav-item" style="width: 60px">
                     <a class="nav-link" routerLink='/admin' routerLinkActive='active'><i class="fa fa-lock"></i></a>
@@ -53,7 +53,7 @@
 
                 <div class="mt-3">
                     <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">
-                        <a [routerLink]="display ? [''] : ['/member/edit']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;" >
+                        <a [routerLink]="display ? [''] : ['/uzytkownik/edycja']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;" >
                             <i class="fa fa-user mr-2"></i>Mój Profil
                         </a>
                     </button>
@@ -117,7 +117,7 @@
                     </form>
                     <br><br>
                     <div class="card-footer mt-3">        
-                        <a routerLink='/forgot-password' routerLinkActive='active' id="forgot" (click)="displayNavbar()" style="color: yellow;">Zapomniałem hasła</a>
+                        <a routerLink='/zapomnialem-hasla' routerLinkActive='active' id="forgot" (click)="displayNavbar()" style="color: yellow;">Zapomniałem hasła</a>
                     </div>
                     <br />
                     <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">

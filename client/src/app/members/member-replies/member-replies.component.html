@@ -29,7 +29,7 @@
     </div>
     <div class="text-left">
         <i class="fa fa-reply ml-3 mb-1" *ngIf="!replyQuote" (click)="addReply()"> Odpowiedz</i>
-        <i class="fa fa-quote-left ml-3 mb-1" *ngIf="!ifReply" (click)="addQuotedReply()"> Zacytuj</i>
+        <i class="fa fa-quote-left ml-3 mb-1" *ngIf="!ifReply && reply.content !== '[Komentarz został usunięty]'" (click)="addQuotedReply()"> Zacytuj</i>
     </div>
 </div>
 
@@ -46,7 +46,7 @@
     <form [formGroup]='replyForm' (ngSubmit)="replyForm?.valid && replyComment()" id="replyForm" class="text-center column mb-2">
         <div>
             <textarea type="text" [formControl]='replyForm?.controls["content"]' placeholder="Wpisz treść komentarza" class="col-7 mr-1"></textarea>
-            <label class="custom-file-upload">
+            <label class="custom-file-upload" *ngIf="mainMemes > 5">
                 <input type="file" ng2FileSelect [uploader]="uploader" (change)="fileChangeEvent($event)" class="text-center" title="Wybierz"/>
                 <i class="fa fa-paperclip"></i>
             </label>

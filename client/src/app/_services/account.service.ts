@@ -118,4 +118,8 @@ export class AccountService {
     return this.http.post(this.baseUrl + 'users/remove-notification/' + notificationId, {});
   }
 
+  removeAccount(username: string) {
+    return this.http.post(this.baseUrl + 'account/remove-account/' + username, {});
+  }
+
 }

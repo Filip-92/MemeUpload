@@ -39,6 +39,7 @@ export class ReplyComponent implements OnInit {
   replyQuote: boolean;
   ifReply: boolean;
   commentUpdate: boolean;
+  mainMemes: number;
 
   constructor(public accountService: AccountService, private memeService: MemeService,
     private fb: FormBuilder, private toastr: ToastrService) { 
@@ -50,6 +51,7 @@ export class ReplyComponent implements OnInit {
     this.getReplies(this.comment.id);
     if ("user" in localStorage) {
       this.loadLikes();
+      this.getMemberMainMemes(this.user.username);
     }
   }
 
@@ -139,6 +141,12 @@ loadLikes() {
     }
   })
 }
+
+getMemberMainMemes(username: string) {
+  this.memeService.getMemberMainMemes(username).subscribe(memes => {
+    this.mainMemes = memes;
+  })
+}  
 
 checkIfReplyLiked(id: number) {
   if (id === this.reply.id) {
