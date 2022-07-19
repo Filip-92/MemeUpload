@@ -8,6 +8,7 @@ import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
 import { MemeService } from 'src/app/_services/meme.service';
 import { environment } from 'src/environments/environment';
+import { HelperService } from 'src/app/_services/helper.service';
 
 @Component({
   selector: 'app-member-replies',
@@ -42,7 +43,7 @@ export class MemberRepliesComponent implements OnInit {
   mainMemes: number;
 
   constructor(public accountService: AccountService, private memeService: MemeService,
-    private fb: FormBuilder, private toastr: ToastrService) { 
+    private fb: FormBuilder, private toastr: ToastrService, private helperService: HelperService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
@@ -246,5 +247,9 @@ private formatBytes(bytes: number, decimals?: number) {
       this.mainMemes = memes;
     })
   }  
+
+  checkIfUserWorthy(mainMemes: number) {
+    return this.helperService.checkIfUserWorthy(mainMemes);
+  }
 
 }

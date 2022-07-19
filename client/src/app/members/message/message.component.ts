@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
 import { MessageService } from 'src/app/_services/message.service';
+import { HelperService } from 'src/app/_services/helper.service';
 
 @Component({
   selector: 'app-message',
@@ -26,7 +27,8 @@ export class MessageComponent implements OnInit {
   }
   user: User;
 
-  constructor(public messageService: MessageService, private accountService: AccountService) {
+  constructor(public messageService: MessageService, private accountService: AccountService,
+    private helperService: HelperService) {
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
    }
 
@@ -52,30 +54,10 @@ export class MessageComponent implements OnInit {
   }
 
   checkIfOlderThan15Mins(date: any) {
-    var currentDate = new Date().getTime();
-    var newDate = new Date(Number(Date.parse(date))).getTime();
-    if (this.user.roles[0] !== 'Admin' || this.user.roles[1] !== 'Moderator') {
-      if ((currentDate - newDate) > 15 * 60 * 1000 && this.user.roles !== ['Admin', 'Moderator']) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
+    return this.helperService.checkIfOlderThan15Mins(date, this.user)
   }
 
   checkIfOlderThan1Hour(date: any) {
-    var currentDate = new Date().getTime();
-    var newDate = new Date(Number(Date.parse(date))).getTime();
-    if (this.user.roles[0] !== 'Admin' || this.user.roles[1] !== 'Moderator') {
-      if ((currentDate - newDate) > 60 * 60 * 1000) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
+    return this.helperService.checkIfOlderThan1Hour(date, this.user)
   }
 }

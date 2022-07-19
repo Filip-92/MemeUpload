@@ -185,7 +185,7 @@ namespace API.Controllers
 
             await _unitOfWork.Complete();
 
-            return Ok();
+            return NoContent();
         }
 
         private async Task<bool> UserExists(string username)

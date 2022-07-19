@@ -7,6 +7,7 @@ import { Comment } from 'src/app/_models/comments';
 import { Reply } from 'src/app/_models/reply';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
+import { HelperService } from 'src/app/_services/helper.service';
 import { MemeService } from 'src/app/_services/meme.service';
 import { environment } from 'src/environments/environment';
 import { MemeDetailComponent } from '../meme-detail/meme-detail.component';
@@ -44,7 +45,7 @@ export class CommentComponent implements OnInit {
   mainMemes: number;
 
   constructor(private memeService: MemeService, public accountService: AccountService,
-    private toastr: ToastrService, private fb: FormBuilder) { 
+    private toastr: ToastrService, private fb: FormBuilder, private helperService: HelperService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
     this.logged = true;
   }
@@ -258,8 +259,8 @@ private formatBytes(bytes: number, decimals?: number) {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     }
 
-  canDeleteComment(comment: any) {
-    return Date.now() - comment.uploaded.getTime() < 5 * 60 * 1000;
+  checkIfUserWorthy(mainMemes: number) {
+    return this.helperService.checkIfUserWorthy(mainMemes);
   }
 
 }

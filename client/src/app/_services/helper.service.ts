@@ -74,4 +74,40 @@ export class HelperService {
     }
     return day;
   }
+
+  checkIfOlderThan15Mins(date: any, user: any) {
+    var currentDate = new Date().getTime();
+    var newDate = new Date(Number(Date.parse(date))).getTime();
+    if (user.roles[0] !== 'Admin' || user.roles[1] !== 'Moderator') {
+      if ((currentDate - newDate) > 15 * 60 * 1000) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  checkIfOlderThan1Hour(date: any, user: any) {
+    var currentDate = new Date().getTime();
+    var newDate = new Date(Number(Date.parse(date))).getTime();
+    if (user.roles[0] !== 'Admin' || user.roles[1] !== 'Moderator') {
+      if ((currentDate - newDate) > 60 * 60 * 1000) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  checkIfUserWorthy(mainMemes: number) {
+    if (mainMemes > 5) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

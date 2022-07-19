@@ -49,10 +49,10 @@ export class MemeDetailComponent implements OnInit {
   favouriteMemes: Meme[];
   mainMemes: number;
 
-  constructor(private memeService: MemeService, private http: HttpClient,
-    private route: ActivatedRoute, private toastr: ToastrService,
-    private helper: HelperService, private fb: FormBuilder, private router: Router,
-    private location: Location, public accountService: AccountService) {
+  constructor(private memeService: MemeService,
+    private route: ActivatedRoute, private toastr: ToastrService, private helper: HelperService, 
+    private fb: FormBuilder, private router: Router,public accountService: AccountService, 
+    private helperService: HelperService) {
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
      }
 
@@ -303,4 +303,7 @@ export class MemeDetailComponent implements OnInit {
     })
   }
 
+  checkIfUserWorthy(mainMemes: number) {
+    return this.helperService.checkIfUserWorthy(mainMemes);
+  }
 }

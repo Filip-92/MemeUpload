@@ -9,6 +9,7 @@ import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
 import { MemeService } from 'src/app/_services/meme.service';
 import { environment } from 'src/environments/environment';
+import { HelperService } from 'src/app/_services/helper.service';
 
 @Component({
   selector: 'app-member-comments',
@@ -42,7 +43,7 @@ export class MemberCommentsComponent implements OnInit {
   mainMemes: number;
 
   constructor(private memeService: MemeService, public accountService: AccountService,
-    private toastr: ToastrService, private fb: FormBuilder) { 
+    private toastr: ToastrService, private fb: FormBuilder, private helperService: HelperService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
     this.logged = true;
   }
@@ -127,14 +128,6 @@ export class MemberCommentsComponent implements OnInit {
       replyingToUser: [this.comment.username]
     })
   }
-
-  // initializeEditForm(commentId) {
-  //   this.editForm = this.fb.group({
-  //     content: ['', [Validators.required, Validators.maxLength(2000)]],
-  //     memeId: [this.comment.memeId],
-  //     id: [commentId]
-  //   })
-  // }
 
   getReplies(commentId: number) {
     this.memeService.getReplies(commentId).subscribe(replies => {
@@ -263,4 +256,8 @@ private formatBytes(bytes: number, decimals?: number) {
     i = Math.floor(Math.log(bytes) / Math.log(k));
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     }
+
+  checkIfUserWorthy(mainMemes: number) {
+    return this.helperService.checkIfUserWorthy(mainMemes);
+  }
 }

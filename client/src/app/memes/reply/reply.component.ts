@@ -6,6 +6,7 @@ import { take } from 'rxjs/operators';
 import { Reply } from 'src/app/_models/reply';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
+import { HelperService } from 'src/app/_services/helper.service';
 import { MemeService } from 'src/app/_services/meme.service';
 import { environment } from 'src/environments/environment';
 
@@ -42,7 +43,7 @@ export class ReplyComponent implements OnInit {
   mainMemes: number;
 
   constructor(public accountService: AccountService, private memeService: MemeService,
-    private fb: FormBuilder, private toastr: ToastrService) { 
+    private fb: FormBuilder, private toastr: ToastrService, private helperService: HelperService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
@@ -246,5 +247,9 @@ private formatBytes(bytes: number, decimals?: number) {
       this.editForm.reset(this.editForm.value);
       this.commentUpdate = !this.commentUpdate;
     })
+  }
+
+  checkIfUserWorthy(mainMemes: number) {
+    return this.helperService.checkIfUserWorthy(mainMemes);
   }
 }
