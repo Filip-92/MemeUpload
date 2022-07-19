@@ -252,6 +252,22 @@ namespace API.Data
             memeParams.PageNumber, memeParams.PageSize);
         }
 
+        public async Task<IEnumerable<MemeDto>> GetMemberMainMemes(string username)
+        {
+            return await _context.Memes
+                .IgnoreQueryFilters()
+                .Where(m => m.AppUser.UserName == username && m.IsMain == true)
+                .Select(u => new MemeDto
+                {
+                    Id = u.Id,
+                    Username = u.AppUser.UserName,
+                    Url = u.Url,
+                    Title = u.Title,
+                    Description = u.Description,
+                    Uploaded = u.Uploaded, 
+                }).ToListAsync();
+        }
+
         public async Task<PagedList<MemeDto>> GetMemesLast24H(MemeParams memeParams)
         {
             var query = _context.Memes

@@ -1,25 +1,42 @@
-<div class="card mb-4">
-    <div class="card-img-wrapper">
-        <img src="{{url || '././assets/LogoImage.png'}}" alt="{{member.username}}" class="card-img-top">
-        <ul class="list-inline member-icons animate text-center">
-            <li class="list-inline-item"><button routerLink='/members/{{member?.username}}' class="btn btn-primary">
-                <i class="fa fa-user"></i></button></li>
-            <li class="list-inline-item"><button (click)="addLike(member)" class="btn btn-primary" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'red' }">
-                <i class="fa fa-heart"></i></button></li>
-            <li class="list-inline-item">
-                <button 
-                routerLink='/members/{{member?.username}}' 
-                [queryParams]='{tab:1}'
-                class="btn btn-primary">
-                <i class="fa fa-envelope"></i></button></li>
-        </ul>
+<div class="row mb-2">
+    <div class="mb-4 mt-4 col-3">
+        <div class="card-img-wrapper">
+            <img src="{{url || '././assets/LogoImage.png'}}" alt="{{member.username}}" class="card-img-top">
+            <ul class="list-inline member-icons animate text-center">
+                <li class="list-inline-item"><button routerLink='/members/{{member?.username}}' class="btn btn-primary">
+                    <i class="fa fa-user"></i></button></li>
+                <li class="list-inline-item"><button (click)="addLike(member)" class="btn btn-primary" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'red' }">
+                    <i class="fa fa-thumbs-up"></i></button></li>
+                <li class="list-inline-item">
+                    <button 
+                    routerLink='/members/{{member?.username}}' 
+                    [queryParams]='{tab:1}'
+                    class="btn btn-primary">
+                    <i class="fa fa-envelope"></i></button></li>
+            </ul>
+        </div>
     </div>
-    <div class="card-body p-1">
-        <h6 class="card-title text-center mb-1">
+    <div class="col-2" style="margin-top: auto; margin-bottom: auto;">
+        <h3>{{member?.username}}
             <span [class.is-online]="(presence?.onlineUsers$ | async).includes(member?.username)">
-                <i class="fa fa-user mr-2"></i>
+                <i class="fa fa-user ml-2 mr-2"></i>
             </span>  
-            {{member?.username}}, {{member?.age}}
-        </h6>
+        </h3>
+    </div>
+    <div class="col-2" style="margin-top: auto; margin-bottom: auto;">
+        <div>
+            <i class="fa fa-thumbs-up mr-2 mb-2"></i>Ilość plusów: <span style="color: greenyellow">{{ numberOfLikes }}</span>
+        </div>
+        <div>
+            <i class="fa fa-photo mr-2 mb-2"></i>Ilość wrzut: {{member?.memes?.length}}
+        </div>
+        <div>
+            <i class="fa fa-comment mr-2"></i>Ilość komentarzy: <span style="color: greenyellow">{{ comments?.length + replies?.length || '0' }}</span>
+        </div>
+    </div>
+    <div class="col-1"></div>
+    <div class="col-3" style="margin-top: auto; margin-bottom: auto;">
+        <i class="fa fa-user-plus mr-2" aria-hidden="true"></i><strong>Dołączył: </strong><span style="color: greenyellow">{{changeDateFormat(member.created)}}</span>
     </div>
 </div>
+

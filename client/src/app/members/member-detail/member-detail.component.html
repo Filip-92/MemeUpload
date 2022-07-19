@@ -28,7 +28,7 @@
                 <i class="fa fa-history mr-2" aria-hidden="true"></i><strong>Ostatnia aktywność: </strong><span style="color: greenyellow">{{member.lastActive | timeago}}</span>
             </div>
             <div class="mb-3">
-                <i class="fa fa-user-plus mr-2" aria-hidden="true"></i><strong>Dołączył: </strong><span style="color: greenyellow">{{member.created}}</span>
+                <i class="fa fa-user-plus mr-2" aria-hidden="true"></i><strong>Dołączył: </strong><span style="color: greenyellow">{{changeDateFormat(member.created)}}</span>
             </div>
             <div class="mb-3">
                 <i class="fa fa-photo mr-2"></i>Ilość wrzut: <span style="color: greenyellow">{{ member.memes?.length || '0' }}</span>

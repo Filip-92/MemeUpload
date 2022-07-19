@@ -19,6 +19,8 @@
 .card-img-wrapper {
     overflow: hidden;
     position: relative;
+    max-height: 200px;
+    max-width: 160px;
 }
 
 .member-icons {
@@ -48,4 +50,20 @@
 .is-online {
     animation: fa-blink 1.5s linear infinite;
     color: rgb(1, 189, 42);
+}
+
+.row {
+    background-color: rgb(69, 66, 66);
+    padding-bottom: 10px;
+    border: 1px solid white;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+h3 {
+    color: greenyellow;
+}
+
+span {
+    color: white !important;
 }

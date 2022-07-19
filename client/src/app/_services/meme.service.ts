@@ -172,6 +172,10 @@ getMainMemes(page?: number, itemsPerPage?: number) {
     );
   }
 
+  getMemberMainMemes(username: string) {
+    return this.http.get<number>(this.baseUrl + 'memes/get-member-main-memes/' + username);
+  }
+
   getAllMemes() {
     return this.http.get<Meme[]>(this.baseUrl + 'admin/memes-to-moderate');
   }

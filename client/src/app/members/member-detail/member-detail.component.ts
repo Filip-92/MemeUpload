@@ -115,7 +115,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  changeDateFormat(date: string) {
+  changeDateFormat(date) {
     var newDate = date.substring(0,10);
     return newDate;
   }

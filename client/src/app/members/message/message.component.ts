@@ -45,4 +45,16 @@ export class MessageComponent implements OnInit {
     });
   }
 
+  checkIfOlderThan15Mins(date: any) {
+    var currentDate = new Date()?.getTime();
+    console.log(currentDate);
+    console.log(date.getTime());
+    console.log((currentDate - date) < 15 * 60 * 1000);
+    if ((currentDate - date) > 15 * 60 * 1000) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }

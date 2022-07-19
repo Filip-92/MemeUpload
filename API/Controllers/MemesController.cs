@@ -168,6 +168,15 @@ namespace API.Controllers
             return Ok(memes);
         }
 
+        [HttpGet("get-member-main-memes/{username}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<MemeDto>> GetMemberMemes(string username)
+        {
+            var memes = await _unitOfWork.MemeRepository.GetMemberMainMemes(username);
+
+            return Ok(memes.Count());
+        }
+
         [HttpPost("remove-meme/{memeId}")]
         public async Task<ActionResult> RemoveMeme(int memeId)
         {

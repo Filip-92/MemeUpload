@@ -22,7 +22,7 @@ export class MemberListComponent implements OnInit {
   userParams: UserParams;
   user: User;
   loggedIn: boolean;
-  genderList = [{ value: 'male', display: 'Males' }, { value: 'female', display: 'Females' }];
+  genderList = [{ value: 'male', display: 'Mężczyźni' }, { value: 'female', display: 'Kobiety' }];
   account: AccountService;
 
   constructor(private memberService: MembersService, private authService: AuthenticationService, private accountService: AccountService, private router: Router, private toastr: ToastrService) {
