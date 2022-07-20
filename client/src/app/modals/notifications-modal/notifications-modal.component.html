@@ -7,17 +7,17 @@
     <div *ngFor="let notification of notifications">
             <div class="row notification" [ngStyle]="notification.isRead ? { 'color': 'yellow', 'opacity': '0.5' } : { 'opacity': '1' }">
                     <div class="col-2">
-                        <a routerLink="/memes/{{notification.memeId}}" (click)="markAsRead(notification.id)">
-                            <img src="././assets/LogoImage.png" alt="">
+                        <a routerLink="/meme/{{notification.memeId}}" (click)="markAsRead(notification.id)">
+                            <img src="././assets/LogoImage.png" alt="" style="padding: 10px;">
                         </a>
                     </div>
                     <div class="col-6 text-center" style="margin-top: auto; margin-bottom: auto">
-                        <a routerLink="/memes/{{notification.memeId}}" (click)="markAsRead(notification.id)">
+                        <a routerLink="/meme/{{notification.memeId}}" (click)="markAsRead(notification.id)">
                         {{notification.content}}
                     </a>
                     </div>
                     <div class="col-3" style="margin-top: auto; margin-bottom: auto; font-size: 12px;">
-                        <a routerLink="/memes/{{notification.memeId}}" (click)="markAsRead(notification.id)">
+                        <a routerLink="/meme/{{notification.memeId}}" (click)="markAsRead(notification.id)">
                         {{notification.sentTime.substring(0, 19).replace("T", " ")}}
                         </a>
                     </div>

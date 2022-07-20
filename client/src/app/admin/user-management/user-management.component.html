@@ -40,6 +40,6 @@
         <td><button (click)="openRolesModal(user)" class="btn btn-info mr-1">Edytuj Role</button></td>
         <td><button (click)="openBanModal(user.username)" [attr.data-target]="'#'+user.username" class="btn btn-danger mr-1">Ban</button></td>
         <td><button (click)="unbanUser(user.username)" class="btn btn-success mr-1" [disabled]="!user.isBanned">Odbanuj</button></td>
-        <td><button (click)="openRemoveUserModal(user.username)" class="btn btn-warning mr-1">Usuń uzytkownika</button></td>
+        <td><button (click)="openRemoveUserModal(user.username)" class="btn btn-warning mr-1">Usuń <i class="fa fa-user ml-2"></i></button></td>
     </div>
 </div>
