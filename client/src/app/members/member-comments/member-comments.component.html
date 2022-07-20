@@ -7,9 +7,9 @@
         <td style="width: 3%;"><button id="like" [disabled]="disliked || comment.content !== '[Komentarz został usunięty]'" (click)="addLike(comment)"><i class="fa fa-plus" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'green' }"></i></button></td>
         <td style="width: 3%;">{{comment.numberOfLikes}}</td>
         <td style="width: 3%;"><button id="like" [disabled]="liked || comment.content !== '[Komentarz został usunięty]'" (click)="addDislike(comment)"><i class="fa fa-minus" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red' }"></i></button></td>
-        <td id="buttons" style="width: 10%">
-            <span *ngIf="comment.username === user.username && comment.content !== '[Komentarz został usunięty]'" (click)="editCommentToggle(comment.id) && reloadComments(comment)" style="display: inline-block"><i id="edit" class="fa fa-pencil-square-o" aria-hidden="true"> Edytuj</i></span>
-            <span *ngIf="comment.username === user.username && comment.content !== '[Komentarz został usunięty]'" (click)="removeComment(comment.id)"><i id="delete" class="fa fa-trash" aria-hidden="true"> Usuń</i></span>
+        <td id="buttons" *ngIf="comment.username === user.username || user.roles[0] === 'Admin' || user.roles[1] === 'Moderator' && comment.content !== '[Komentarz został usunięty]'" style="width: 10%">
+            <span (click)="editCommentToggle(comment.id) && reloadComments(comment)" style="display: inline-block"><i id="edit" class="fa fa-pencil-square-o" aria-hidden="true"> Edytuj</i></span>
+            <span (click)="removeComment(comment.id)"><i id="delete" class="fa fa-trash" aria-hidden="true"> Usuń</i></span>
             <a routerLink='/memes/{{comment.memeId}}/..'><i id="goTo" class="fa fa-share" aria-hidden="true"> Idź do</i></a>
         </td>
     </table>

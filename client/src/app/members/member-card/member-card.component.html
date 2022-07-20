@@ -38,11 +38,11 @@
         <i class="fa fa-user-plus mr-2" aria-hidden="true"></i><strong>Dołączył: </strong><span style="color: greenyellow">{{changeDateFormat(member.created)}}</span>
     </div>
     <div class="col-2 mt-4" style="margin-top: auto; margin-bottom: auto;">
-        <span  *ngIf="mainMemes > 5" class="mr-3">
-            <img src="./assets/silver-pepe.png" alt="silver badge" style="max-height: 50px;" title="Srebrny pepe">
-        </span>
         <span *ngIf="comments?.length + replies?.length > 10" class="mr-3">
-            <img src="./assets/golden-pepe.png" alt="golden badge" style="max-height: 50px;" title="Złoty pepe">
+            <img src="./assets/silver-pepe.png" alt="golden badge" style="max-height: 50px;" title="Złoty pepe">
+        </span>
+        <span  *ngIf="mainMemes > 5" class="mr-3">
+            <img src="./assets/golden-pepe.png" alt="silver badge" style="max-height: 50px;" title="Srebrny pepe">
         </span>
     </div>
 </div>
