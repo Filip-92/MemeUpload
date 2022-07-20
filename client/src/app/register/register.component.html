@@ -21,8 +21,8 @@
         [label]='"Hasło"' [type]='"password"' autocomplete="off"></app-text-input>
     <app-text-input [formControl]='registerForm.controls["confirmPassword"]' 
         [label]='"Potwierdź hasło"' [type]='"password"' autocomplete="off"></app-text-input>
-    <input type="checkbox" [formControl]='registerForm.controls["statute"]' id="statute" name="statute" value="true">
-    <label for="statute"> Zapoznałem się z <a (click)="openStatuteModal()" id="statuteLink" style="color: rgb(5, 95, 174);">Regulaminem</a></label><br>
+    <input type="checkbox" [formControl]='registerForm.controls["statute"]' id="statute" name="statute" value="true" class="mr-2">
+    <label for="statute" style="float: left !important;"> Zapoznałem się z <a (click)="openStatuteModal()" id="statuteLink" style="color: rgb(5, 95, 174);">Regulaminem</a></label><br>
 
         <div class="row" *ngIf="validationErrors.length > 0">
             <ul class="text-danger">

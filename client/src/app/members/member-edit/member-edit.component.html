@@ -29,7 +29,7 @@
             <div class="mb-3">
                 <i *ngIf="member.gender === 'female'" class="fa fa-female mr-2"></i>
                 <i *ngIf="member.gender === 'male'" class="fa fa-male mr-2"></i>
-                <img *ngIf="member.gender !== 'male' || member.gender !== 'female'" id="helicopter" src="././assets/helicopter-solid.svg">
+                <img *ngIf="member.gender !== 'male' && member.gender !== 'female'" id="helicopter" src="././assets/helicopter-solid.svg">
                 <strong>Płeć: </strong><span style="color: greenyellow">{{genderToPolish(member.gender)}}</span>
             </div>
             <div class="mb-3">
@@ -68,6 +68,9 @@
                     <div class='text-center mb-5'>
                         <button class='btn btn-sm btn-danger' (click)='removeMeme(meme.id)'><i class="fa fa-trash"></i> Usuń</button>
                     </div>
+                </div>
+                <div *ngIf="memes?.length === 0" class="text-center mt-3" valign="center">
+                    <img src="https://c.tenor.com/j5YcO9slE7YAAAAC/leslie-nielsen-nothing-to-see-here.gif" class="card-img-top" style="max-width: 400px;">
                 </div>
 
                 <div class="d-flex justify-content-center" *ngIf="memes?.length !== 0 && pagination">
