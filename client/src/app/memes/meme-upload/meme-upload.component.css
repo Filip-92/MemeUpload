@@ -115,4 +115,8 @@ select {
     #youtubeButton {
         font-size: 12px;
     }
+
+    #drag {
+        display: none;
+    }
 }

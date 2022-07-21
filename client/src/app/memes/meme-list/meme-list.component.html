@@ -1,5 +1,5 @@
-<div *ngIf="pageNumber !== 0">
-    Strona {{pageNumber}}
+<div class="mt-4" style="margin-bottom: -20px !important;">
+    {{divisionName | titlecase}} <span  *ngIf="pageNumber !== 0"> > Strona {{pageNumber}}</span>
 </div>
 
 <div *ngFor="let meme of memes">

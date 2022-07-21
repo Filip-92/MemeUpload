@@ -28,20 +28,7 @@ export class MemeListComponent implements OnInit {
   constructor(private memeService: MemeService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit(): void { 
-    if (this.router.url.includes('ostatnie24H')) {
-      this.loadMemesLast24H();
-    } else if (this.router.url.includes('ostatnie48H')) {
-      this.loadMemesLast48H();
-    } else if (this.router.url.includes('poczekalnia')) {
-      this.loadMemes(); 
-    } else if (this.router.url.includes('kategoria')) {
-        var category = this.router.url.split("/");
-        this.currentCategory = category[2];
-        this.currentCategory = this.currentCategory.replace("-", " ");
-        this.getDivisionIdByName(this.currentCategory);
-    } else {
-      this.loadMainMemes();
-    }
+    this.determineDivision();
   }
 
   loadMemes() {
@@ -65,8 +52,36 @@ export class MemeListComponent implements OnInit {
     });
   }
 
+  loadMemesLast24HMain() {
+    this.memeService.getMemesLast24HMain(this.pageNumber, this.pageSize).subscribe(response => {
+      this.memes = response.result;
+      this.pagination = response.pagination;
+    });
+  }
+
+  loadMemesLast24HDivision(divisionId: number) {
+    this.memeService.getMemesLast24HDivision(divisionId, this.pageNumber, this.pageSize).subscribe(response => {
+      this.memes = response.result;
+      this.pagination = response.pagination;
+    });
+  }
+
   loadMemesLast48H() {
     this.memeService.getMemesLast48H(this.pageNumber, this.pageSize).subscribe(response => {
+      this.memes = response.result;
+      this.pagination = response.pagination;
+    });
+  }
+
+  loadMemesLast48HMain() {
+    this.memeService.getMemesLast48HMain(this.pageNumber, this.pageSize).subscribe(response => {
+      this.memes = response.result;
+      this.pagination = response.pagination;
+    });
+  }
+
+  loadMemesLast48HDivision(divisionId: number) {
+    this.memeService.getMemesLast48HDivision(divisionId, this.pageNumber, this.pageSize).subscribe(response => {
       this.memes = response.result;
       this.pagination = response.pagination;
     });
@@ -78,6 +93,47 @@ export class MemeListComponent implements OnInit {
       this.pagination = response.pagination;
     });
   }
+
+  determineDivision() {
+    if (this.router.url.includes('ostatnie24H') && !this.router.url.includes('kategoria') && !this.router.url.includes('poczekalnia')) {
+      this.divisionName = 'Ostatnie24H';
+      this.loadMemesLast24HMain();
+    } else if (this.router.url.includes('poczekalnia/ostatnie24H')) {
+      this.divisionName = 'Poczekalnia > Ostatnie24H';
+      this.loadMemesLast24H();
+    } else if (this.router.url.includes('kategoria') && this.router.url.includes('ostatnie24H')) {
+      var category = this.router.url.split("/");
+      this.currentCategory = category[2];
+      this.currentCategory = this.currentCategory.replace("-", " ");
+      this.divisionName = this.currentCategory + ' > Ostatnie24H';
+      this.getDivisionIdByNameLast24H(this.currentCategory)
+    } else if (this.router.url.includes('ostatnie48H') && !this.router.url.includes('kategoria') && !this.router.url.includes('poczekalnia')) {
+      this.divisionName = 'Ostatnie48H';
+      this.loadMemesLast48HMain();
+    } else if (this.router.url.includes('poczekalnia/ostatnie48H')) {
+      this.divisionName = 'Poczekalnia > Ostatnie48H';
+      this.loadMemesLast48H();
+    } else if (this.router.url.includes('kategoria') && this.router.url.includes('ostatnie48H')) {
+      var category = this.router.url.split("/");
+      this.currentCategory = category[2];
+      this.currentCategory = this.currentCategory.replace("-", " ");
+      this.divisionName = this.currentCategory + ' > Ostatnie48H';
+      this.getDivisionIdByNameLast48H(this.currentCategory)
+    } else if (this.router.url.includes('poczekalnia')) {
+      this.divisionName = 'Poczekalnia';
+      this.loadMemes(); 
+    } else if (this.router.url.includes('kategoria')) {
+        var category = this.router.url.split("/");
+        this.currentCategory = category[2];
+        this.currentCategory = this.currentCategory.replace("-", " ");
+        this.getDivisionIdByName(this.currentCategory);
+        this.divisionName = this.currentCategory;
+    } else {
+      this.loadMainMemes();
+      this.divisionName = 'Główna';
+    }
+  }
+
 
   getDivisions() {
     this.memeService.getDivisions().subscribe(divisions => {
@@ -100,6 +156,40 @@ export class MemeListComponent implements OnInit {
       }
     });
   }
+
+  getDivisionIdByNameLast24H(divisionName: string) {
+    this.memeService.getDivisionIdByName(divisionName).subscribe(division => {
+      this.division = division;
+      if(this.division.isCloseDivision) {
+        if ("user" in localStorage) {
+          this.loadMemesLast24HDivision(this.division.id);
+        } else {
+          this.toastr.warning("Zaloguj się aby mieć dostęp do działu zamkniętego");
+          this.router.navigateByUrl('/');
+        }
+      } else {
+        this.loadMemesLast24HDivision(this.division.id);
+      }
+    });
+  }
+
+  getDivisionIdByNameLast48H(divisionName: string) {
+    this.memeService.getDivisionIdByName(divisionName).subscribe(division => {
+      this.division = division;
+      if(this.division.isCloseDivision) {
+        if ("user" in localStorage) {
+          this.loadMemesLast48HDivision(this.division.id);
+        } else {
+          this.toastr.warning("Zaloguj się aby mieć dostęp do działu zamkniętego");
+          this.router.navigateByUrl('/');
+        }
+      } else {
+        this.loadMemesLast48HDivision(this.division.id);
+      }
+    });
+  }
+
+  
 
   pageChanged(event: any) {
     this.pageNumber = event.page;

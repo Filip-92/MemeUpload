@@ -36,7 +36,7 @@
                 </span>
                 <button class="btn btn-success mr-2" (click)="addFavourite(meme.id)" [ngStyle]="!favourite ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-thumb-tack" aria-hidden="true"></i></button>
                 <button (click)="addLike(meme)" [disabled]="disliked" class="btn btn-success mr-2" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-thumbs-up"></i></button>
-                <span class="btn btn-primary mr-2" style="min-width: 100px;">{{meme.numberOfLikes}}</span>
+                <span class="btn btn-primary mr-2" id="likes" style="min-width: 100px;">{{meme.numberOfLikes}}</span>
                 <button (click)="addDislike(meme)" [disabled]="liked" class="btn btn-danger" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-thumbs-down"></i></button>
                 <button class="btn btn-warning ml-2" (click)="flagAsSpam(meme.id)"><i class="fa fa-flag" aria-hidden="true"></i></button>
                 <button *appHasRole='["Admin", "Moderator"]' class="btn btn-danger ml-1" (click)='rejectMeme(meme.id)'><i class="fa fa-trash"></i> Usuń</button>

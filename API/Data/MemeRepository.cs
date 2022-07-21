@@ -272,7 +272,49 @@ namespace API.Data
         {
             var query = _context.Memes
                 .IgnoreQueryFilters()
-                .Where(m => m.Uploaded > (DateTime.Now.AddDays(-1)))
+                .Where(m => m.IsMain == false && m.Division == 0 && m.Uploaded > (DateTime.Now.AddDays(-1)))
+                .Select(u => new MemeDto
+                {
+                    Id = u.Id,
+                    Username = u.AppUser.UserName,
+                    Url = u.Url,
+                    Title = u.Title,
+                    Description = u.Description,
+                    Uploaded = u.Uploaded,
+                    NumberOfLikes = u.NumberOfLikes 
+                }).AsNoTracking()
+                .OrderByDescending(u => u.NumberOfLikes);
+
+            return await PagedList<MemeDto>.CreateAsync(query, 
+            memeParams.PageNumber, memeParams.PageSize);
+        }
+
+        public async Task<PagedList<MemeDto>> GetMemesLast24HMain(MemeParams memeParams)
+        {
+            var query = _context.Memes
+                .IgnoreQueryFilters()
+                .Where(m => m.IsMain == true && m.Uploaded > (DateTime.Now.AddDays(-1)))
+                .Select(u => new MemeDto
+                {
+                    Id = u.Id,
+                    Username = u.AppUser.UserName,
+                    Url = u.Url,
+                    Title = u.Title,
+                    Description = u.Description,
+                    Uploaded = u.Uploaded,
+                    NumberOfLikes = u.NumberOfLikes 
+                }).AsNoTracking()
+                .OrderByDescending(u => u.NumberOfLikes);
+
+            return await PagedList<MemeDto>.CreateAsync(query, 
+            memeParams.PageNumber, memeParams.PageSize);
+        }
+
+        public async Task<PagedList<MemeDto>> GetMemesLast24HDivision(MemeParams memeParams, int division)
+        {
+            var query = _context.Memes
+                .IgnoreQueryFilters()
+                .Where(m => m.Division == division && m.Uploaded > (DateTime.Now.AddDays(-1)))
                 .Select(u => new MemeDto
                 {
                     Id = u.Id,
@@ -293,7 +335,49 @@ namespace API.Data
         {
             var query = _context.Memes
                 .IgnoreQueryFilters()
-                .Where(m => m.Uploaded > (DateTime.Now.AddDays(-2)))
+                .Where(m => m.IsMain == false && m.Division == 0 && m.Uploaded > (DateTime.Now.AddDays(-2)))
+                .Select(u => new MemeDto
+                {
+                    Id = u.Id,
+                    Username = u.AppUser.UserName,
+                    Url = u.Url,
+                    Title = u.Title,
+                    Description = u.Description,
+                    Uploaded = u.Uploaded,
+                    NumberOfLikes = u.NumberOfLikes 
+                }).AsNoTracking()
+                .OrderByDescending(u => u.NumberOfLikes);
+
+            return await PagedList<MemeDto>.CreateAsync(query, 
+            memeParams.PageNumber, memeParams.PageSize);
+        }
+
+        public async Task<PagedList<MemeDto>> GetMemesLast48HMain(MemeParams memeParams)
+        {
+            var query = _context.Memes
+                .IgnoreQueryFilters()
+                .Where(m => m.IsMain == true && m.Uploaded > (DateTime.Now.AddDays(-2)))
+                .Select(u => new MemeDto
+                {
+                    Id = u.Id,
+                    Username = u.AppUser.UserName,
+                    Url = u.Url,
+                    Title = u.Title,
+                    Description = u.Description,
+                    Uploaded = u.Uploaded,
+                    NumberOfLikes = u.NumberOfLikes 
+                }).AsNoTracking()
+                .OrderByDescending(u => u.NumberOfLikes);
+
+            return await PagedList<MemeDto>.CreateAsync(query, 
+            memeParams.PageNumber, memeParams.PageSize);
+        }
+
+        public async Task<PagedList<MemeDto>> GetMemesLast48HDivision(MemeParams memeParams, int division)
+        {
+            var query = _context.Memes
+                .IgnoreQueryFilters()
+                .Where(m => m.Division == division && m.Uploaded > (DateTime.Now.AddDays(-2)))
                 .Select(u => new MemeDto
                 {
                     Id = u.Id,

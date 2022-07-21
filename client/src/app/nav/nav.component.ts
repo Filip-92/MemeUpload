@@ -88,6 +88,13 @@ export class NavComponent implements OnInit {
 
   registerToggle() {
     this.registerMode = !this.registerMode;
+    if (this.registerMode) {
+      this.goToTop();
+    }
+  }
+
+  goToTop(){
+    window.scrollTo(0,0);
   }
 
   cancelRegisterMode(event: boolean) {

@@ -9,6 +9,8 @@ import { MemeService } from 'src/app/_services/meme.service';
   styleUrls: ['./top-buttons.component.css']
 })
 export class TopButtonsComponent implements OnInit {
+  link24H: string = "/ostatnie24H";
+  link48H: string = "/ostatnie48H";
 
   constructor(private memeService: MemeService, public router: Router) { }
 
@@ -28,6 +30,7 @@ export class TopButtonsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getRandomMeme();
+    this.checkForDivision();
   }
 
   getRandomMeme() {
@@ -36,5 +39,21 @@ export class TopButtonsComponent implements OnInit {
       this.id = this.meme.id;
     })
   }
+
+  checkForDivision() {
+    var url = this.router.url.split('/');
+    if (url[1] === "" || url[1] === "strona" || url[1] === "ostatnie24H" || url[1] === "ostatnie48H") {
+      this.link24H = "/ostatnie24H";
+      this.link48H = "/ostatnie48H";
+    } else {
+      if (url[1] === "kategoria") {
+        this.link24H = "/kategoria/" + url[2] + "/ostatnie24H";
+        this.link48H = "/kategoria/" + url[2] + "/ostatnie48H";
+      } else {
+        this.link24H = "/" + url[1] + "/ostatnie24H";
+        this.link48H = "/" + url[1] + "/ostatnie48H";
+      }
+  }
+}
 
 }

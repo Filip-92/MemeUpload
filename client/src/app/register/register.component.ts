@@ -17,6 +17,8 @@ export class RegisterComponent implements OnInit {
   maxDate: Date;
   validationErrors: string[] = [];
   registrationComplete: boolean = false;
+  type: string = "password";
+  togglePassword: boolean = false;
 
   constructor(public accountService: AccountService, private toastr: ToastrService, 
     private fb: FormBuilder, private router: Router, private modalServ: NgbModal) { }
@@ -69,6 +71,15 @@ export class RegisterComponent implements OnInit {
   openStatuteModal() {
     const modalRef = this.modalServ.open(StatuteComponent);
     modalRef.componentInstance.modalRef = modalRef;
+  }
+
+  showPassword() {
+    this.togglePassword = !this.togglePassword;
+    if (this.togglePassword) {
+      this.type = "text";
+    } else {
+      this.type = "password"; 
+    }
   }
 
 }

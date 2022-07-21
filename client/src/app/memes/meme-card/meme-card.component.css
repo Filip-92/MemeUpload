@@ -37,3 +37,14 @@ a:hover {
     max-height: 20px !important;
     max-width: 15px !important;
 }
+
+#likes {
+    background-color: rgb(10, 92, 130) !important;
+}
+
+#likes:hover {
+    cursor: default;
+    background-color: rgb(10, 92, 130);
+    transition: none !important;
+    transform: none !important;
+}

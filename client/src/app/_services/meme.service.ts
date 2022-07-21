@@ -110,6 +110,42 @@ getMainMemes(page?: number, itemsPerPage?: number) {
     );
   }
 
+  getMemesLast24HMain(page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+
+    if (page !== null && itemsPerPage !== null) {
+      params = params.append('pageNumber', page.toString());
+      params = params.append('pageSize', itemsPerPage.toString());
+    }
+    return this.http.get<Meme[]>(this.baseUrl + 'memes/memes-to-display/last24HMain', {observe: 'response', params}).pipe(
+      map(response => {
+        this.paginatedResult.result = response.body;
+        if (response.headers.get('Pagination') !== null) {
+          this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+        }
+        return this.paginatedResult;
+      })
+    );
+  }
+
+  getMemesLast24HDivision(divisionId: number, page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+
+    if (page !== null && itemsPerPage !== null) {
+      params = params.append('pageNumber', page.toString());
+      params = params.append('pageSize', itemsPerPage.toString());
+    }
+    return this.http.get<Meme[]>(this.baseUrl + 'memes/memes-to-display/last24HDivision/' + divisionId, {observe: 'response', params}).pipe(
+      map(response => {
+        this.paginatedResult.result = response.body;
+        if (response.headers.get('Pagination') !== null) {
+          this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+        }
+        return this.paginatedResult;
+      })
+    );
+  }
+
   getMemesLast48H(page?: number, itemsPerPage?: number) {
     let params = new HttpParams();
 
@@ -118,6 +154,42 @@ getMainMemes(page?: number, itemsPerPage?: number) {
       params = params.append('pageSize', itemsPerPage.toString());
     }
     return this.http.get<Meme[]>(this.baseUrl + 'memes/memes-to-display/last48H', {observe: 'response', params}).pipe(
+      map(response => {
+        this.paginatedResult.result = response.body;
+        if (response.headers.get('Pagination') !== null) {
+          this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+        }
+        return this.paginatedResult;
+      })
+    );
+  }
+
+  getMemesLast48HMain(page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+
+    if (page !== null && itemsPerPage !== null) {
+      params = params.append('pageNumber', page.toString());
+      params = params.append('pageSize', itemsPerPage.toString());
+    }
+    return this.http.get<Meme[]>(this.baseUrl + 'memes/memes-to-display/last48HMain', {observe: 'response', params}).pipe(
+      map(response => {
+        this.paginatedResult.result = response.body;
+        if (response.headers.get('Pagination') !== null) {
+          this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+        }
+        return this.paginatedResult;
+      })
+    );
+  }
+
+  getMemesLast48HDivision(divisionId: number, page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+
+    if (page !== null && itemsPerPage !== null) {
+      params = params.append('pageNumber', page.toString());
+      params = params.append('pageSize', itemsPerPage.toString());
+    }
+    return this.http.get<Meme[]>(this.baseUrl + 'memes/memes-to-display/last48HDivision/' + divisionId, {observe: 'response', params}).pipe(
       map(response => {
         this.paginatedResult.result = response.body;
         if (response.headers.get('Pagination') !== null) {

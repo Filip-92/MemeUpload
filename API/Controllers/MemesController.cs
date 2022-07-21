@@ -246,10 +246,59 @@ namespace API.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("memes-to-display/last24HMain")]
+        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemesLast24HMain([FromQuery] MemeParams memeParams)
+        {
+            var memes = await _unitOfWork.MemeRepository.GetMemesLast24HMain(memeParams);
+
+            Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
+                memes.TotalCount, memes.TotalPages);
+
+            return Ok(memes);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("memes-to-display/last24HDivision/{divisionId}")]
+        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemesLast24HDivision([FromQuery] MemeParams memeParams, int divisionId)
+        {
+            var memes = await _unitOfWork.MemeRepository.GetMemesLast24HDivision(memeParams, divisionId);
+
+            Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
+                memes.TotalCount, memes.TotalPages);
+
+            return Ok(memes);
+        }
+
+        [AllowAnonymous]
         [HttpGet("memes-to-display/last48H")]
         public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemesLast48H([FromQuery] MemeParams memeParams)
         {
             var memes = await _unitOfWork.MemeRepository.GetMemesLast48H(memeParams);
+
+            Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
+                memes.TotalCount, memes.TotalPages);
+
+            return Ok(memes);
+        }
+
+        
+        [AllowAnonymous]
+        [HttpGet("memes-to-display/last48HMain")]
+        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemesLast48HMain([FromQuery] MemeParams memeParams)
+        {
+            var memes = await _unitOfWork.MemeRepository.GetMemesLast48HMain(memeParams);
+
+            Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
+                memes.TotalCount, memes.TotalPages);
+
+            return Ok(memes);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("memes-to-display/last48HDivision/{divisionId}")]
+        public async Task<ActionResult<IEntityTypeConfiguration<MemeDto>>> GetMemesLast48HDivision([FromQuery] MemeParams memeParams, int divisionId)
+        {
+            var memes = await _unitOfWork.MemeRepository.GetMemesLast48HDivision(memeParams, divisionId);
 
             Response.AddPaginationHeader(memes.CurrentPage, memes.PageSize, 
                 memes.TotalCount, memes.TotalPages);

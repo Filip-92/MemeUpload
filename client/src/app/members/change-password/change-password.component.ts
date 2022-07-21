@@ -17,6 +17,10 @@ import { RemoveAccountComponent } from "src/app/modals/remove-account/remove-acc
 export class ChangePasswordComponent implements OnInit {
   updatePasswordForm: FormGroup;
   user: User;
+  typeOld: string = "password";
+  typeNew: string = "password";
+  toggleOld: boolean;
+  toggleNew: boolean;
 
   constructor(private formBuilder: FormBuilder, private accountService: AccountService, 
       private validatorService: ValidatorService, private toastr: ToastrService, private modalServ: NgbModal) {
@@ -64,5 +68,23 @@ export class ChangePasswordComponent implements OnInit {
     const modalRef = this.modalServ.open(RemoveAccountComponent);
     modalRef.componentInstance.user = user;
     modalRef.componentInstance.modalRef = modalRef;
+  }
+
+  showOldPassword() {
+    this.toggleOld = !this.toggleOld;
+    if (this.toggleOld) {
+      this.typeOld = "text";
+    } else {
+      this.typeOld = "password";
+    }
+  }
+
+  showNewPassword() {
+    this.toggleNew = !this.toggleNew;
+    if (this.toggleNew) {
+      this.typeNew = "text";
+    } else {
+      this.typeNew = "password";
+    }
   }
 }

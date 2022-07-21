@@ -107,9 +107,23 @@
                         <input type="file" ng2FileSelect [uploader]="uploader" (change)="fileChangeEvent($event)" class="text-center mt-3 mb-3" title="Wybierz"/>
                         <i class="fa fa-photo mr-1"></i>/<i class="fa fa-video-camera ml-1 mr-2"></i> Dodaj plik
                     </label>
+                    <div ng2FileDrop
+                    [ngClass]="{'nv-file-over': hasBaseDropzoneOver}"
+                    (fileOver)="fileOverBase($event)"
+                    [uploader]="uploader"
+                    *ngIf="!uploader?.queue?.length"
+                    id="drag"
+                    class="card bg-faded p-3 text-center mb-3 ml-2 my-drop-zone"
+                    style="max-width: 200px; margin-left: auto; margin-right: auto;"
+                    >
+                        <i class="fa fa-upload fa-3x"></i>
+                    Upuść zdjęcie tutaj
+                    </div>
                     <button type="button" class="btn btn-info mb-2 text-center" *ngIf="previewImg && uploader?.queue?.length" (click)="open(content)" style="min-width: 150px !important; margin-left: 0 !important;"><i class="fa fa-search mr-2"></i>Podgląd</button>
                 </div>
             </div>
+
+
     
             <div class="col-9 text-center" style="margin-bottom: 20px; margin-left: auto; margin-right: auto;" *ngIf="uploader?.queue?.length">
     

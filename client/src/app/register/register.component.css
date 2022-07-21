@@ -14,6 +14,16 @@ hr {
     text-decoration: underline;
 }
 
+.fa-eye:hover {
+  color: red;
+  cursor: pointer;
+}
+
+.fa-eye-slash:hover {
+  color: red;
+  cursor: pointer;
+}
+
 input[type="checkbox"] {
     /* Add if not using autoprefixer */
     -webkit-appearance: none;
