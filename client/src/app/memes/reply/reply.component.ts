@@ -186,6 +186,9 @@ initializeUploader() {
       case 'fileSize':
         message = 'Plik jest za duży. Rozmiar pliku to ' + this.formatBytes(item.size) + ', podczas gdy maksymalny dopuszczalny rozmiar to ' + this.formatBytes(maxFileSize);
         break;
+      case 'fileType':
+        message = 'Nieobsługiwany format pliku.'
+        break;
       default:
         message = 'Wystąpił błąd';
         break;

@@ -121,7 +121,7 @@ export class MemeUploadComponent implements OnInit {
   } 
 
   initializeUploader() {
-    let maxFileSize = 10 * 1024 * 1024;
+    let maxFileSize = 25 * 1024 * 1024;
     this.uploader = new FileUploader({
       url: this.baseUrl + 'memes/add-meme',
       authToken: 'Bearer ' + this.user.token,
@@ -134,9 +134,13 @@ export class MemeUploadComponent implements OnInit {
 
     this.uploader.onWhenAddingFileFailed = (item, filter) => {
       let message = '';
+      console.log(filter.name);
       switch (filter.name) {
         case 'fileSize':
           message = 'Plik jest za duży. Rozmiar pliku to ' + this.formatBytes(item.size) + ', podczas gdy maksymalny dopuszczalny rozmiar to ' + this.formatBytes(maxFileSize);
+          break;
+        case 'fileType':
+          message = 'Nieobsługiwany format pliku.'
           break;
         default:
           message = 'Wystąpił błąd';
