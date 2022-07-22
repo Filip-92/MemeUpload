@@ -43,9 +43,11 @@ export class CommentComponent implements OnInit {
   baseUrl = environment.apiUrl;
   imageChangedEvent: any = '';
   mainMemes: number;
+  comments: any;
 
   constructor(private memeService: MemeService, public accountService: AccountService,
-    private toastr: ToastrService, private fb: FormBuilder, private helperService: HelperService) { 
+    private toastr: ToastrService, private fb: FormBuilder, private helperService: HelperService,
+    private detail: MemeDetailComponent) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
     this.logged = true;
   }
@@ -65,11 +67,10 @@ export class CommentComponent implements OnInit {
     })
   }
 
-  removeComment(comment: any) {
-    this.memeService.removeComment(comment.id).subscribe(comment => {
-      this.comment.id = comment
+  removeComment(commentId: number) {
+    this.memeService.removeComment(commentId).subscribe(() => {
+      this.comments?.splice(this.comments.findIndex(p => p.id === commentId), 1);
     });
-    this.memeDetail.getComments(comment.memeId);
     this.comment.content = "[Komentarz został usunięty]";
   }
 
