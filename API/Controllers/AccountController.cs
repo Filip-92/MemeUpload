@@ -29,6 +29,7 @@ namespace API.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEmailSender _emailSender;
         private readonly IConfiguration _config;
+        private readonly IMemeService _memeService;
         public AccountController(
             UserManager<AppUser> userManager, 
             SignInManager<AppUser> signInManager, 
@@ -36,7 +37,8 @@ namespace API.Controllers
             IMapper mapper,
             IConfiguration config,
             IUnitOfWork unitOfWork,
-            IEmailSender emailSender
+            IEmailSender emailSender,
+            IMemeService memeService
             )
         {
             _signInManager = signInManager;
@@ -46,14 +48,15 @@ namespace API.Controllers
             _config = config;
             _unitOfWork = unitOfWork;
             _emailSender = emailSender;
+            _memeService = memeService;
         }
 
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
-            if (await UserExists(registerDto.Username)) return BadRequest("Username is taken");
+            if (await UserExists(registerDto.Username)) return BadRequest("Nazwa użytkownika jest zajęta");
 
-            if (await EmailExists(registerDto.Email)) return BadRequest("Email is taken");
+            if (await EmailExists(registerDto.Email)) return BadRequest("Istnieje już konto z takim adresem Email");
 
             var user = _mapper.Map<AppUser>(registerDto);
 
@@ -178,6 +181,51 @@ namespace API.Controllers
         {
             // var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
             var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
+
+            //var memes = await _unitOfWork.MemeRepository.GetMemberMemes(null, user.UserName);
+
+            // foreach (var meme in memes)
+            // {
+            //     var memeForRemoval = await _unitOfWork.MemeRepository.GetMemeById(meme.Id);
+
+            //     if (memeForRemoval.PublicId != null)
+            //     {
+            //         await _memeService.DeleteMemeAsync(memeForRemoval.PublicId);
+            //         _unitOfWork.MemeRepository.RemoveMeme(memeForRemoval);
+            //     }
+            // }
+
+            // var comments = await _unitOfWork.MemeRepository.GetMemberComments(user.Id);
+
+            // foreach (var comment in comments)
+            // {
+            //     var commentForRemoval = await _unitOfWork.MemeRepository.GetCommentById(comment.Id);
+
+            //     if (commentForRemoval.PublicId != null)
+            //     {
+            //         await _memeService.DeleteMemeAsync(commentForRemoval.PublicId);
+            //         _unitOfWork.MemeRepository.RemoveComment(commentForRemoval);
+            //     }
+            // }
+
+            // var replies = await _unitOfWork.MemeRepository.GetMemberReplies(user.Id);
+
+            // foreach (var reply in replies)
+            // {
+            //     var replyForRemoval = await _unitOfWork.MemeRepository.GetReplyById(reply.Id);
+
+            //     if (replyForRemoval.PublicId != null)
+            //     {
+            //         await _memeService.DeleteMemeAsync(replyForRemoval.PublicId);
+            //         _unitOfWork.MemeRepository.RemoveReply(replyForRemoval);
+            //     }
+            // }
+
+            // var photo = await _unitOfWork.PhotoRepository.GetUserPhoto(user.Id);
+
+            // var photoForRemoval = await _unitOfWork.PhotoRepository.GetPhotoById(photo.Id);
+
+            // _unitOfWork.PhotoRepository.RemovePhoto(photoForRemoval);
 
             if (user == null) return NotFound("Nie znaleziono użytkownika");
 

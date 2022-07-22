@@ -11,7 +11,7 @@
             <div *ngIf="comment.username === user.username && comment.content !== '[Komentarz został usunięty]'" (click)="editCommentToggle(comment.id) && reloadComments(comment)" style="display: inline-block">
                 <i id="edit" class="fa fa-pencil-square-o" aria-hidden="true"> Edytuj</i>
             </div>
-            <div *ngIf="comment.username === user.username || user.roles[0] === 'Admin' || user.roles[1] === 'Moderator' && comment.content !== '[Komentarz został usunięty]'" (click)="removeComment(comment.id)">
+            <div *ngIf="comment.content !== '[Komentarz został usunięty]' && comment.username === user.username || user.roles[0] === 'Admin' || user.roles[1] === 'Moderator'" (click)="removeComment(comment.id)">
                 <i id="delete" class="fa fa-trash" aria-hidden="true"> Usuń</i>
             </div>
             <a routerLink='/memes/{{comment.memeId}}/..'><i id="goTo" class="fa fa-share" aria-hidden="true"> Idź do</i></a>

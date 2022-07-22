@@ -37,7 +37,7 @@ input[type="file"] {
 }
 
 .custom-file-upload:hover {
-    border: red;
+    border: 1px solid red !important;
     color: red;
 }
 

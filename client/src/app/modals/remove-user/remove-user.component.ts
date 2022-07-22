@@ -21,6 +21,7 @@ export class RemoveUserComponent implements OnInit {
     this.adminService.removeUser(username).subscribe(() => {
       this.users?.splice(this.users?.findIndex(p => p.username === username), 1);
     })
+    this.close();
   }
 
   close() {

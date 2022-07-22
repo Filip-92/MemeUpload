@@ -50,7 +50,6 @@ export class MemberEditComponent implements OnInit {
     this.getMemberReplies(this.user.username);
     this.getMemberNumberOfLikes(this.user.username);
     this.getMemberMainMemes(this.user.username);
-    console.log(this.user);
     } else {
       this.toastr.warning("Zaloguj się aby mieć dostęp");
       this.router.navigateByUrl('/');
