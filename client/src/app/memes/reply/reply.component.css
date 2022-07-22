@@ -135,3 +135,9 @@ textarea {
         width: 30% !important;
     }
 }
+
+@media screen and (max-width: 600px) {
+    #reply {
+        min-width: 400px;
+    }
+}

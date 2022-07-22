@@ -17,6 +17,7 @@ import { Meme } from 'src/app/_models/meme';
 import { MemeService } from 'src/app/_services/meme.service';
 import { HttpClient } from '@angular/common/http';
 import { Reply } from 'src/app/_models/reply';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-member-detail',
@@ -74,7 +75,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     this.route.data.subscribe(data => {
       this.member = data.member;
       if (this.member.username === this.user.username) {
-        window.location.replace('member/edit');
+        window.location.replace('uzytkownik/edycja');
       }
     })
     if ("user" in localStorage) {
@@ -180,7 +181,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   }
 
   getUsers() {
-    this.http.get('https://localhost:5001/api/users').subscribe(response => {
+    this.http.get(environment.apiUrl + 'users').subscribe(response => {
       this.users = response;
       for(let user of this.users){
       if (user.username == this.member.username) {

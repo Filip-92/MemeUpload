@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import * as watermark from 'watermarkjs';
 import { Message } from '../_models/message';
 import { MessageService } from '../_services/message.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -28,6 +29,7 @@ export class HomeComponent implements OnInit {
   memeUploadMode = false;
   isLoggedIn = false;
 
+
   blobImage = null;
 
   constructor(public accountService: AccountService, private http: HttpClient, public router: Router) { 
@@ -35,15 +37,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUsers();
-  }
-
-  getUsers() {
-    this.http.get('https://localhost:5001/api/users').subscribe(response => {
-      this.users = response;
-    }, error => {
-      console.log(error);
-    })
   }
 
   formatYoutubeLink(url) {

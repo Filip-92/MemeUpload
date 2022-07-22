@@ -45,7 +45,6 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   format;
   trustedUrl: any;
   waterMarkImage: ElementRef;
-  baseUrl = 'https://localhost:4200/';
   liked: boolean;
   disliked: boolean;
   favourite: boolean;
@@ -65,7 +64,6 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   }
 
   ngOnInit(): void {
-    this.getUsers();
     // temporary solution for incorrect timezone
     var newTime = Number(this.meme?.uploaded?.substring(11,13)) - 2;
     this.meme.uploaded = this.meme?.uploaded?.replace((this.meme?.uploaded?.substring(11,14)), newTime.toString() + ":");
@@ -150,14 +148,6 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     }
   })
 }
-
-  getUsers() {
-    this.http.get('https://localhost:5001/api/users').subscribe(response => {
-      this.users = response;
-    }, error => {
-      console.log(error);
-    })
-  }
 
   replaceTitle(title: string) {
     title.replace(" ", "-");
