@@ -32,7 +32,8 @@ button {
   }
 
   @media screen and (max-width: 800px) {
-    .btn {
+    button {
       font-size: 14px !important;
+      max-height: 50px !important;
     }
   }

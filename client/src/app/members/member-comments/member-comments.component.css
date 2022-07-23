@@ -117,6 +117,10 @@ textarea {
     margin-bottom: -30px;
 }
 
+#hide {
+    float: right;
+}
+
 @media screen and (max-width: 700px) {
 
     .btn {
@@ -150,5 +154,11 @@ textarea {
 
     #buttons {
         width: 25% !important;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    #hide {
+        display: none;
     }
 }

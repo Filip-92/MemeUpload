@@ -66,11 +66,6 @@ span {
     }
 }
 
-#reply {
-    width: 80%;
-    margin-left: 100px;
-}
-
 @media screen and (max-width: 700px) {
 
     #reply {
@@ -95,6 +90,10 @@ i {
     min-width: 50px;
     min-height: 40px;
     cursor: pointer;
+}
+
+#hide {
+    float: right;
 }
 
 input[type="file"] {
@@ -128,10 +127,6 @@ textarea {
         font-size: 12px;
     }
 
-    #replyForm {
-        margin-left: 50px;
-    }
-
     #content {
         margin-top: -30px;
     }
@@ -146,5 +141,11 @@ textarea {
 
     #buttons {
         width: 25% !important;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    #hide {
+        display: none;
     }
 }
