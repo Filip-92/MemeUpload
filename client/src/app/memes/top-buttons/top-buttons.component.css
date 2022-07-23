@@ -25,6 +25,10 @@ button {
     max-height: 20px;
   } 
 
+  #show {
+    visibility: none;
+  }
+
   @media screen and (max-width: 700px) {
     .btn {
       font-size: 12px !important;
@@ -35,5 +39,13 @@ button {
     button {
       font-size: 14px !important;
       max-height: 50px !important;
+    }
+
+    #hide {
+      display: none;
+    }
+
+    #show {
+      visibility: visible;
     }
   }

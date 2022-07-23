@@ -324,7 +324,6 @@ form {
     .nav i {
       font-size: 20px;
       margin-top: 5px;
-      margin-left: 50px;
     }
 
     #division {
@@ -351,7 +350,7 @@ form {
   @media screen and (max-width: 800px) {
     .nav i {
       margin-top: 20px !important;
-      margin-left: 30px !important;
+      margin-left: 10px !important;
     }
 
     #toggle {
