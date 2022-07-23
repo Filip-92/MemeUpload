@@ -175,6 +175,55 @@ namespace API.Controllers
             return Ok();
         }
 
+        public async Task<ActionResult> RemoveFromCloudinary(string username)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
+
+            var memes = await _unitOfWork.MemeRepository.GetMemberMemes(null, user.UserName);
+
+            foreach (var meme in memes)
+            {
+                var memeForRemoval = await _unitOfWork.MemeRepository.GetMemeById(meme.Id);
+
+                if (memeForRemoval.PublicId != null)
+                {
+                    await _memeService.DeleteMemeAsync(memeForRemoval.PublicId);
+                }
+            }
+
+            var comments = await _unitOfWork.MemeRepository.GetMemberComments(user.Id);
+
+            foreach (var comment in comments)
+            {
+                var commentForRemoval = await _unitOfWork.MemeRepository.GetCommentById(comment.Id);
+
+                if (commentForRemoval.PublicId != null)
+                {
+                    await _memeService.DeleteMemeAsync(commentForRemoval.PublicId);
+                }
+            }
+
+            var replies = await _unitOfWork.MemeRepository.GetMemberReplies(user.Id);
+
+            foreach (var reply in replies)
+            {
+                var replyForRemoval = await _unitOfWork.MemeRepository.GetReplyById(reply.Id);
+
+                if (replyForRemoval.PublicId != null)
+                {
+                    await _memeService.DeleteMemeAsync(replyForRemoval.PublicId);
+                }
+            }
+
+            var photo = await _unitOfWork.PhotoRepository.GetUserPhoto(user.Id);
+
+            var photoForRemoval = await _unitOfWork.PhotoRepository.GetPhotoById(photo.Id);
+
+            _unitOfWork.PhotoRepository.RemovePhoto(photoForRemoval);
+
+            return NoContent();
+        }
+
         [Authorize]
         [HttpPost("remove-account/{username}")]
         public async Task<ActionResult> RemoveAccount(string username)
@@ -182,50 +231,7 @@ namespace API.Controllers
             // var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
             var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
 
-            //var memes = await _unitOfWork.MemeRepository.GetMemberMemes(null, user.UserName);
-
-            // foreach (var meme in memes)
-            // {
-            //     var memeForRemoval = await _unitOfWork.MemeRepository.GetMemeById(meme.Id);
-
-            //     if (memeForRemoval.PublicId != null)
-            //     {
-            //         await _memeService.DeleteMemeAsync(memeForRemoval.PublicId);
-            //         _unitOfWork.MemeRepository.RemoveMeme(memeForRemoval);
-            //     }
-            // }
-
-            // var comments = await _unitOfWork.MemeRepository.GetMemberComments(user.Id);
-
-            // foreach (var comment in comments)
-            // {
-            //     var commentForRemoval = await _unitOfWork.MemeRepository.GetCommentById(comment.Id);
-
-            //     if (commentForRemoval.PublicId != null)
-            //     {
-            //         await _memeService.DeleteMemeAsync(commentForRemoval.PublicId);
-            //         _unitOfWork.MemeRepository.RemoveComment(commentForRemoval);
-            //     }
-            // }
-
-            // var replies = await _unitOfWork.MemeRepository.GetMemberReplies(user.Id);
-
-            // foreach (var reply in replies)
-            // {
-            //     var replyForRemoval = await _unitOfWork.MemeRepository.GetReplyById(reply.Id);
-
-            //     if (replyForRemoval.PublicId != null)
-            //     {
-            //         await _memeService.DeleteMemeAsync(replyForRemoval.PublicId);
-            //         _unitOfWork.MemeRepository.RemoveReply(replyForRemoval);
-            //     }
-            // }
-
-            // var photo = await _unitOfWork.PhotoRepository.GetUserPhoto(user.Id);
-
-            // var photoForRemoval = await _unitOfWork.PhotoRepository.GetPhotoById(photo.Id);
-
-            // _unitOfWork.PhotoRepository.RemovePhoto(photoForRemoval);
+            // await RemoveFromCloudinary(username);
 
             if (user == null) return NotFound("Nie znaleziono użytkownika");
 

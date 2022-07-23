@@ -34,7 +34,7 @@
 
         <!-- </div> -->
         <div id="toggle">
-            <i class="navbar-toggler-icon mr-5 text-center" (click)="displayNavbar()" *ngIf="display"></i>
+            <i class="navbar-toggler-icon text-center mr-5" (click)="displayNavbar()" *ngIf="display" style="width: 50px !important;"></i>
         </div>
 
         <div class="sidebar sidebar-mini text-center" [ngStyle]="!display ? {'animation': 'slideMe 0.7s ease-in', 'visibility': 'visible', 'opacity': '0.8','cursor': 'pointer'} : {'animation': 'slideOut 0.7s ease-out', 'opacity': '0', 'cursor': 'default'}">

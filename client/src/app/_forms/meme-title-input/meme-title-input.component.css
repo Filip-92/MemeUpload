@@ -20,6 +20,22 @@ input {
     color: whitesmoke;
 }
 
+@media screen and (max-width: 1200px) {
+    input[type=text] {
+        min-width: 600px;
+        left: 0;
+        margin-left: -80px;
+    }
+}
+
+@media screen and (max-width: 990px) {
+    input[type=text] {
+        min-width: 400px;
+        left: 0;
+        margin-left: -80px;
+    }
+}
+
 @media screen and (max-width: 700px) {
     input[type=text] {
         min-width: 300px;

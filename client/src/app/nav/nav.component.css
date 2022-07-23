@@ -2,6 +2,10 @@
     cursor: pointer;
 }
 
+.navbar-toggler-icon {
+  width: 50px;
+}
+
 .navbar {
     max-height: 90px !important;
     border-bottom: 1px solid black;
@@ -26,6 +30,9 @@ ul.nav {
     margin-bottom: auto;
 }
 
+.fa-search:hover {
+  cursor: pointer;
+}
 #forgot:hover {
   color: red !important;
 }
@@ -274,6 +281,34 @@ form {
     font: sans-serif;
   }
 
+  @media screen and (max-width: 1200px) {
+    #toggle {
+      font-size: 22px;
+    }
+
+    .navbar-toggler-icon {
+      margin-left: 50px !important;
+    }
+  }
+
+  @media screen and (max-width: 1100px) {
+    .navbar-toggler-icon {
+      margin-left: 50px !important;
+    }
+  }
+
+  @media screen and (max-width: 1000px) {
+    .navbar-toggler-icon {
+      margin-left: -30px !important;
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+    .navbar-toggler-icon {
+      margin-left: 100px !important;
+    }
+  }
+
   @media screen and (max-width: 700px) {
     #toggle {
       font-size: 25px;
@@ -282,7 +317,7 @@ form {
     .nav i {
       font-size: 20px;
       margin-top: 5px;
-      /* margin-left: 50px; */
+      margin-left: 50px;
     }
 
     #division {
