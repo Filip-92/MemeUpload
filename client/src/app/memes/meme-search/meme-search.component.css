@@ -7,6 +7,11 @@ input[type=text] {
     margin-left: 200px;
 }
 
+#meme {
+    margin-left: 50px !important;
+    margin-right: 50px !important;
+}
+
 /* input[type="radio"] ~ label:before {
 	font-family: FontAwesome;
 	content: '\f096';
@@ -79,10 +84,59 @@ button {
     margin-left: -250px;
 }
 
+@media screen and (max-width: 1000px) {
+    #meme {
+        margin-left: -50px !important;
+        min-width: 400px !important;
+    }
+
+    #user {
+        min-width: 400px !important;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    #meme {
+        min-width: 300px !important;
+    }
+
+    #user {
+        min-width: 300px !important;
+    }
+}
+
 @media screen and (max-width: 700px) {
     input[type=text] {
         min-width: 320px;
         margin-left: 0px;
+    }
+
+    #meme {
+        margin-left: -50px !important;
+        min-width: 320px;
+        margin-right: 0px !important;
+    }
+
+    #search {
+        margin-left: 0px !important;
+    }
+
+    #searchUser {
+        margin-left: -75px !important;
+    }
+
+}
+
+@media screen and (max-width: 600px) {
+    #meme {
+        margin-left: -50px !important;
+        min-width: 250px;
+        margin-right: 0px !important;
+    }
+
+    #user {
+        margin-left: 20px;
+        min-width: 250px;
     }
 
     #search {

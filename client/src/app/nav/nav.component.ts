@@ -90,6 +90,7 @@ export class NavComponent implements OnInit {
     this.registerMode = !this.registerMode;
     if (this.registerMode) {
       this.goToTop();
+      this.closeNavbar();
     }
   }
 

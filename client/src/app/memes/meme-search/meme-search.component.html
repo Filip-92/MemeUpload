@@ -7,11 +7,11 @@
                 <div class="form-group">
                     <form class="text-center" [formGroup]='memeSearchForm'>
                         <div class="row ml-3 text-center">
-                            <div class="col-sm-5 mr-3">
-                                <input type="text" placeholder="Wpisz tytuł wyszukiwanego mema" [formControl]='memeSearchForm.controls["searchString"]'>
+                            <div class="column col-2"></div>
+                            <div class="column mr-3">
+                                <input id="meme" type="text" placeholder="Wpisz tytuł wyszukiwanego mema" [formControl]='memeSearchForm.controls["searchString"]'>
                             </div>
-                            <div class="col-sm-3 col-1"></div>
-                            <div class="col-sm-3">
+                            <div class="column">
                                 <button 
                                 class="dropdown-item"
                                 class="btn btn-primary btn-lg"
@@ -87,7 +87,7 @@
                         <div class="row ml-3 text-center">
                             <div class="column col-2"></div>
                             <div class="column mr-3">
-                                <input type="text" placeholder="Wpisz nazwę wyszukiwanego użytkownika" [formControl]='memberSearchForm.controls["searchString"]'>
+                                <input id="user" type="text" placeholder="Wpisz nazwę wyszukiwanego użytkownika" [formControl]='memberSearchForm.controls["searchString"]'>
                             </div>
                             <div class="column">
                                 <button 

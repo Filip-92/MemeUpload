@@ -384,6 +384,10 @@ form {
     #toggle {
       margin-left: -100px !important;
     }
+
+    #profile {
+      margin-left: 40px !important;
+    }
   }
 
 
