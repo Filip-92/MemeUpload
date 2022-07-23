@@ -1,5 +1,5 @@
 img {
-    min-width: 600px;
+    min-width: 450px !important;
 }
 
 table {
@@ -27,13 +27,6 @@ table {
     background-color: rgb(10, 92, 130);
     transition: none !important;
     transform: none !important;
-}
-
-@media screen and (max-width: 700px) {
-
-    img {
-        min-width: 400px !important;
-    }
 }
 
 i {
@@ -78,15 +71,6 @@ textarea {
 }
 
 @media screen and (max-width: 600px) {
-
-    img {
-        min-width: 490px !important;
-        margin-left: -20px !important;
-    }
-
-    iframe {
-        max-width: 380px !important;
-    }
 
     .card {
         width: 100%;

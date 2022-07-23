@@ -44,6 +44,7 @@
                         class="dropdown-item"
                         [disabled]="!memeUploadForm?.valid"
                         (click)="memeToggle()"
+                        id="import"
                         *ngIf="(accountService?.currentUser$ | async) !== null"
                         class="btn btn-primary btn-lg" 
                         style="align-items: center; font-size: 17px;"

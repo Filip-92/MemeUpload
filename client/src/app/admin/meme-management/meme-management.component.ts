@@ -26,7 +26,7 @@ export class PhotoManagementComponent implements OnInit {
   photos: Photo[];
   meme: Meme;
   pagination: Pagination;
-  pageNumber = 1;
+  pageNumber = 0;
   pageSize = 10;
   trustedUrl: any;
   memeId: number;

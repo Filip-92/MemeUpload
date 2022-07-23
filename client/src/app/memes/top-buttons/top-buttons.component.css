@@ -30,3 +30,9 @@ button {
       font-size: 12px !important;
     }
   }
+
+  @media screen and (max-width: 800px) {
+    .btn {
+      font-size: 14px !important;
+    }
+  }

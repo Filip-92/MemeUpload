@@ -11,7 +11,7 @@ input[type=text] {
 
 button {
     margin-top: 30px;
-    margin-left: 20px;
+    margin-left: 50px;
     height: 50px;
 }
 
@@ -88,12 +88,27 @@ select {
     color: whitesmoke;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
 
-    input[type=text] {
-        margin-left: 20px;
-        min-width: 300px !important;
+    #link {
+        margin-left: 10px;
+        min-width: 350px !important;
     }
+
+    #youtubeButton {
+        font-size: 12px;
+    }
+
+    #drag {
+        display: none;
+    }
+
+    #import {
+        margin-left: 10px !important;
+    }
+}
+
+@media screen and (max-width: 700px) {
 
     .custom-file-upload {
         margin-top: 10px !important;
@@ -119,4 +134,5 @@ select {
     #drag {
         display: none;
     }
+
 }

@@ -43,3 +43,9 @@ input {
         margin-left: -80px;
     }
 }
+
+@media screen and (max-width: 800px) {
+    input[type=text] {
+        min-width: 320px;
+    }
+}

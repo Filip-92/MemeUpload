@@ -1,15 +1,19 @@
 <div class="card mb-4 text-center mt-5">
     <div class="card-img-wrapper">
         <div class="card-body p-1" style="text-align: center;">
-            <h4 class="card-title text-center mb-4 mt-3"> 
-                {{meme?.title || 'Jakieś gówno'}}
-            </h4>
-            <p>{{changeTimeZone(meme?.uploaded) | timeago}}</p>
-            <div *ngIf="meme?.url?.includes('youtube')">
-                <iframe width="600" height="400" [src]="trustedUrl | safe"></iframe>
+            <div class="row">
+                <div class="col-12">
+                    <h4 class="card-title text-center mb-4 mt-3"> 
+                        {{meme?.title || 'Jakieś gówno'}}
+                    </h4>
+                    <p>{{changeTimeZone(meme?.uploaded) | timeago}}</p>
+                    <div *ngIf="meme?.url?.includes('youtube')">
+                        <iframe width="600" height="400" [src]="trustedUrl | safe"></iframe>
+                    </div>
+                    <img src="{{addImageWatermark(meme.url) ? addImageWatermark(meme.url) : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme?.url)"/>
+                    <video src="{{meme?.url}}" class="card-img-top" *ngIf="!checkURL(meme?.url) && !meme?.url?.includes('https://www.youtube')" style="max-width: 400px;" controls></video>
+                </div>
             </div>
-            <img src="{{addImageWatermark(meme.url) ? addImageWatermark(meme.url) : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme?.url)" style="max-width: 400px;"/>
-            <video src="{{meme?.url}}" class="card-img-top" *ngIf="!checkURL(meme?.url) && !meme?.url?.includes('https://www.youtube')" style="max-width: 400px;" controls></video>
         </div>
         <div class="mb-3">
             <span class="inline-block">autor: <a class="nav-link" routerLink='/members/{{meme?.username}}'>{{meme?.username}}</a></span>

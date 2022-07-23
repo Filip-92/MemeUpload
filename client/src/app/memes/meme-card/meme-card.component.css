@@ -1,5 +1,5 @@
 img {
-    min-width: 700px;
+    min-width: 450px !important;
 }
 
 a {
@@ -15,10 +15,6 @@ a:hover {
 }
 
 @media screen and (max-width: 700px) {
-
-    img {
-        min-width: 500px !important;
-    }
 
     iframe {
         max-width: 480px !important;
