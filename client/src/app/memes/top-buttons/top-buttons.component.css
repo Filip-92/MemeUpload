@@ -35,17 +35,19 @@ button {
     }
   }
 
-  @media screen and (max-width: 800px) {
-    button {
-      font-size: 14px !important;
-      max-height: 50px !important;
-    }
-
+  @media screen and (max-width: 1000px) {
     #hide {
       display: none;
     }
 
     #show {
       visibility: visible;
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+    button {
+      font-size: 14px !important;
+      max-height: 50px !important;
     }
   }
