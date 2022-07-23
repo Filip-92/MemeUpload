@@ -10,6 +10,10 @@ a:hover {
     text-decoration: none !important;
 }
 
+.btn {
+    max-height: 50px !important;
+}
+
 @media screen and (max-width: 700px) {
 
     img {
@@ -47,4 +51,20 @@ a:hover {
     background-color: rgb(10, 92, 130);
     transition: none !important;
     transform: none !important;
+}
+
+@media screen and (max-width: 600px) {
+
+    img {
+        min-width: 490px !important;
+        margin-left: -20px !important;
+    }
+
+    iframe {
+        max-width: 380px !important;
+    }
+
+    .card {
+        width: 100%;
+    }
 }

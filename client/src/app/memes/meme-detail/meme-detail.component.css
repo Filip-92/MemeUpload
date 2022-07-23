@@ -6,6 +6,10 @@ table {
     background-color: rgb(95, 94, 94);
 }
 
+.btn {
+    max-height: 50px !important;
+}
+
 #warning {
     color: white; 
     border: 1px solid white;
@@ -70,5 +74,21 @@ textarea {
 
     button {
         margin-top: -5px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+
+    img {
+        min-width: 490px !important;
+        margin-left: -20px !important;
+    }
+
+    iframe {
+        max-width: 380px !important;
+    }
+
+    .card {
+        width: 100%;
     }
 }

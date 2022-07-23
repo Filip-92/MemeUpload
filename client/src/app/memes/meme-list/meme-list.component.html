@@ -27,7 +27,7 @@
 
 <!-- https://res.cloudinary.com/duj1ftjtp/image/upload/l_logo_gimp_-_new_ucilaf,o_50,w_200,c_scale,x_850,y_500/hcq1ymvalfdscq1m1i32.jpg -->
 
-<div class="col-md-3 mt-2 justify-content-right" style="text-align: right;" *ngIf="pagination">
+<div class="col-md-3 mt-2 justify-content-right" style="text-align: right;" *ngIf="pagination && memes?.length !== 0">
     <span class="mr-2">Page Size</span>
 
     <select (change)="updatePageSize($any($event.target).value)">

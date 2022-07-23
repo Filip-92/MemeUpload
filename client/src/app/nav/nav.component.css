@@ -286,6 +286,10 @@ form {
       font-size: 22px;
     }
 
+    #toggleClose {
+      font-size: 22px;
+    }
+
     .navbar-toggler-icon {
       margin-left: 50px !important;
     }
@@ -314,6 +318,11 @@ form {
       font-size: 25px;
     }
 
+    #toggleClose {
+      font-size: 25px;
+      margin-left: -100px !important;
+    }
+
     .nav i {
       font-size: 20px;
       margin-top: 5px;
@@ -324,6 +333,14 @@ form {
       font-size: 15px !important;
     }
 
+    input {
+      min-width: 200px;
+    }
+
+    .btn {
+      min-width: 80px;
+    }
+
     /* li {
       width: 40px !important;
     }
@@ -331,6 +348,42 @@ form {
     #messages {
       width: 50px !important;
     } */
+  }
+
+  @media screen and (max-width: 600px) {
+    .fa-user {
+      margin-left: -50px !important;
+      font-size: 16px !important;
+    }
+
+    .fa-search {
+      margin-left: -50px !important;
+      font-size: 16px !important;
+    }
+
+    .fa-envelope {
+      margin-left: -50px !important;
+      font-size: 16px !important;
+    }
+
+    .fa-bell {
+      margin-left: -50px !important;
+      font-size: 16px !important;
+    }
+
+    .fa-lock {
+      margin-left: -50px !important;
+      font-size: 16px !important;
+    }
+
+    .fa-exclamation-triangle {
+      margin-left: -50px !important;
+      font-size: 16px !important;
+    }
+
+    #toggle {
+      margin-left: -100px !important;
+    }
   }
 
 

@@ -19,7 +19,7 @@ export class MemeSearchComponent implements OnInit {
     private memberService: MembersService) { }
 
   pagination: Pagination;
-  pageNumber = +this.route.snapshot.paramMap.get('pageNumber');
+  pageNumber = 0;
   pageSize = 8;
   memes: Meme[];
   members: Member[];
@@ -32,6 +32,9 @@ export class MemeSearchComponent implements OnInit {
   ngOnInit(): void {
     this.initializeMemeForm();
     this.initializeMemberForm();
+    // if (this.pageNumber > 1) {
+    //   this.pageNumber = +this?.route?.snapshot?.paramMap?.get('pageNumber');
+    // }
   }
 
   initializeMemeForm() {
