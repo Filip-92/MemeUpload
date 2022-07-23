@@ -197,11 +197,15 @@ export class MemeListComponent implements OnInit {
     });
   }
 
-  
+  refresh(): void {
+    window.setTimeout(function(){location.reload()},200);
+  }
 
   pageChanged(event: any) {
     this.pageNumber = event.page;
-    console.log(this.pageNumber);
+    if (this.pageNumber === 1) {
+      this.pageNumber = 0;
+    }
     window.scrollTo(0,0);
     this.determineDivision();
   }
