@@ -87,6 +87,12 @@ select {
     color: whitesmoke;
 }
 
+@media screen and (max-width: 1000px) {
+    #import {
+        font-size: 12px !important;
+    }
+}
+
 @media screen and (max-width: 800px) {
 
     #link {
