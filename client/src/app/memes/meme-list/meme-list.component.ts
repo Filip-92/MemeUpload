@@ -14,7 +14,8 @@ import { MemeService } from 'src/app/_services/meme.service';
 export class MemeListComponent implements OnInit {
 
   pagination: Pagination;
-  pageNumber = +this.route.snapshot.paramMap.get('pageNumber');
+  pageNumber = 1;
+  // pageNumber = +this?.route?.snapshot?.paramMap?.get('pageNumber');
   pageSize = 8;
   memes: Meme[];
   trustedUrl: any;
@@ -28,6 +29,9 @@ export class MemeListComponent implements OnInit {
   constructor(private memeService: MemeService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit(): void { 
+    if (this.pageNumber > 1) {
+      this.pageNumber = +this?.route?.snapshot?.paramMap?.get('pageNumber');
+    }
     this.determineDivision();
   }
 
