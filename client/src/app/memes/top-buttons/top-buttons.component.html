@@ -5,7 +5,7 @@
     </button>
     <button class="btn col-4" routerLink={{link24H}} [ngStyle]="router.url.includes('/ostatnie24H')  ? { 'color': 'black', 'background-color': 'red', 'box-shadow': '3px 2px 22px 1px rgba(0, 0, 0, 0.24)' } : 
         { 'color': 'white', 'background-color': 'rgb(121, 56, 56)' }">        
-        Ostatnie 24
+        Ostatnie 24<span id="hide"> godziny</span><span id="show">H</span>
     </button>
     <button class="btn col-4" routerLink={{link48H}} [ngStyle]="router.url.includes('/ostatnie48H') ? { 'color': 'black', 'background-color': 'red', 'box-shadow': '3px 2px 22px 1px rgba(0, 0, 0, 0.24)' } : 
     { 'color': 'white', 'background-color': 'rgb(121, 56, 56)' }">
