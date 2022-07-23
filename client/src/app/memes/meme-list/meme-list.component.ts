@@ -15,7 +15,7 @@ export class MemeListComponent implements OnInit {
 
   pagination: Pagination;
   pageNumber = 0;
-  pageSize = 2;
+  pageSize = 8;
   memes: Meme[];
   trustedUrl: any;
   divisionId: number;
