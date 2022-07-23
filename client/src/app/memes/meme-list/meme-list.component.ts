@@ -14,8 +14,8 @@ import { MemeService } from 'src/app/_services/meme.service';
 export class MemeListComponent implements OnInit {
 
   pagination: Pagination;
-  pageNumber = 0;
-  pageSize = 8;
+  pageNumber = +this.route.snapshot.paramMap.get('pageNumber');
+  pageSize = 2;
   memes: Meme[];
   trustedUrl: any;
   divisionId: number;
