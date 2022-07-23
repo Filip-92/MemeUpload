@@ -51,11 +51,6 @@ a:hover {
 
 @media screen and (max-width: 600px) {
 
-    img {
-        min-width: 490px !important;
-        margin-left: -20px !important;
-    }
-
     iframe {
         max-width: 380px !important;
     }

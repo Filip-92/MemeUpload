@@ -52,6 +52,10 @@
     color: rgb(1, 189, 42);
 }
 
+#user:hover {
+    cursor: default;
+}
+
 .row {
     background-color: rgb(69, 66, 66);
     padding-bottom: 10px;
@@ -66,4 +70,24 @@ h3 {
 
 span {
     color: white !important;
+}
+
+@media screen and (max-width: 1000px) {
+    li {
+        display: none;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+    h3:hover {
+        color: red !important;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    
+    .fa-user {
+        font-size: 12px !important;
+    }
 }

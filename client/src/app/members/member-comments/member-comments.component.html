@@ -1,20 +1,20 @@
 <div id="comment" class="mb-3" *ngIf="(accountService.currentUser$ | async) !== null">
     <table class="table">
         <td style="width: 10%"><img src="{{url || '././assets/LogoImage.png'}}" alt=""></td>
-        <td style="width: 5%;"><a routerLink='/members/{{comment.username}}'>{{comment.username}}</a></td>
-        <td id="timeago" style="width: 20%;">{{comment.uploaded | timeago}}</td>
-        <td id="freespace" style="width: 45%;"></td>
+        <td style="width: 5%;"><a routerLink='/uzytkownicy/{{comment.username}}'>{{comment.username}}</a></td>
+        <td id="timeago" style="width: 30%;">{{comment.uploaded | timeago}}</td>
+        <td id="freespace" style="width: 30%;"></td>
         <td style="width: 3%;"><button id="like" [disabled]="disliked || comment.content !== '[Komentarz został usunięty]'" (click)="addLike(comment)"><i class="fa fa-plus" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'green' }"></i></button></td>
         <td style="width: 3%;">{{comment.numberOfLikes}}</td>
         <td style="width: 3%;"><button id="like" [disabled]="liked || comment.content !== '[Komentarz został usunięty]'" (click)="addDislike(comment)"><i class="fa fa-minus" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red' }"></i></button></td>
-        <td id="buttons" style="width: 10%">
+        <td id="buttons" style="width: 15%">
             <div *ngIf="comment.username === user.username && comment.content !== '[Komentarz został usunięty]'" (click)="editCommentToggle(comment.id) && reloadComments(comment)" style="display: inline-block">
                 <i id="edit" class="fa fa-pencil-square-o" aria-hidden="true"> Edytuj</i>
             </div>
             <div *ngIf="comment.content !== '[Komentarz został usunięty]' && comment.username === user.username || user.roles[0] === 'Admin' || user.roles[1] === 'Moderator'" (click)="removeComment(comment.id)">
                 <i id="delete" class="fa fa-trash" aria-hidden="true"> Usuń</i>
             </div>
-            <a routerLink='/memes/{{comment.memeId}}/..'><i id="goTo" class="fa fa-share" aria-hidden="true"> Idź do</i></a>
+            <a routerLink='/meme/{{comment.memeId}}/..'><i id="goTo" class="fa fa-share" aria-hidden="true"> Idź do</i></a>
         </td>
     </table>
     <div class="text-left" id="content" style="padding: 10px; margin-left: 50px !important;">{{comment.content}}</div>

@@ -16,14 +16,14 @@
             </ul>
         </div>
     </div>
-    <div class="col-2" style="margin-top: auto; margin-bottom: auto; margin-right: 20px;">
-        <h3>{{member?.username}}
+    <div class="col-3 col-lg-2" style="margin-top: auto; margin-bottom: auto;">
+        <a id="user" href="/uzytkownicy/{{member?.username}}"><h3>{{member?.username}}
             <span [class.is-online]="(presence?.onlineUsers$ | async).includes(member?.username)">
                 <i class="fa fa-user ml-2 mr-2"></i>
             </span>  
-        </h3>
+        </h3></a>
     </div>
-    <div class="col-6 col-md-2" style="margin-top: auto; margin-bottom: auto;">
+    <div class="col-5 col-lg-2" style="margin-top: auto; margin-bottom: auto;">
         <div>
             <i class="fa fa-thumbs-up mr-2 mb-2"></i>Ilość plusów: <span style="color: greenyellow">{{ numberOfLikes }}</span>
         </div>
@@ -34,7 +34,7 @@
             <i class="fa fa-comment mr-2"></i>Ilość komentarzy: <span style="color: greenyellow">{{ comments?.length + replies?.length || '0' }}</span>
         </div>
     </div>
-    <div class="col-6 col-md-3" style="margin-top: auto; margin-bottom: auto;">
+    <div class="col-6 col-lg-3" style="margin-top: auto; margin-bottom: auto;">
         <i class="fa fa-user-plus mr-2" aria-hidden="true"></i><strong>Dołączył: </strong><span style="color: greenyellow">{{changeDateFormat(member.created)}}</span>
     </div>
     <div class="col-2 mt-4" style="margin-top: auto; margin-bottom: auto;">
