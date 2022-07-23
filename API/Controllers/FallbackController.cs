@@ -8,7 +8,7 @@ namespace API.Controllers
         public ActionResult Index()
         {
             return PhysicalFile(Path.Combine(Directory.GetCurrentDirectory(), 
-            "dist", "index.html"), "text/HTML");
+            "wwwroot", "index.html"), "text/HTML");
         }
     }
 }
