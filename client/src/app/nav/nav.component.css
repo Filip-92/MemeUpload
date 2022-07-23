@@ -56,6 +56,16 @@ img {
     position: relative;
 }
 
+.nav i {
+  margin-top: 30px !important;
+  margin-left: 80px !important;
+}
+
+#toggle {
+  margin-top: 30px !important;
+  margin-left: 150px !important;
+}
+
 .sidemenu-item {
     border: white 1px solid;
     background-color: rgb(48, 47, 47);
@@ -290,20 +300,8 @@ form {
       font-size: 22px;
     }
 
-    .navbar-toggler-icon {
-      margin-left: 50px !important;
-    }
-  }
-
-  @media screen and (max-width: 1100px) {
-    .navbar-toggler-icon {
-      margin-left: 50px !important;
-    }
-  }
-
-  @media screen and (max-width: 1000px) {
-    .navbar-toggler-icon {
-      margin-left: -30px !important;
+    #toggle {
+      margin-left: -20px !important;
     }
   }
 
@@ -350,38 +348,14 @@ form {
     } */
   }
 
-  @media screen and (max-width: 600px) {
-    .fa-user {
-      margin-left: -50px !important;
-      font-size: 16px !important;
-    }
-
-    .fa-search {
-      margin-left: -50px !important;
-      font-size: 16px !important;
-    }
-
-    .fa-envelope {
-      margin-left: -50px !important;
-      font-size: 16px !important;
-    }
-
-    .fa-bell {
-      margin-left: -50px !important;
-      font-size: 16px !important;
-    }
-
-    .fa-lock {
-      margin-left: -50px !important;
-      font-size: 16px !important;
-    }
-
-    .fa-exclamation-triangle {
-      margin-left: -50px !important;
-      font-size: 16px !important;
+  @media screen and (max-width: 800px) {
+    .nav i {
+      margin-top: 20px !important;
+      margin-left: 30px !important;
     }
 
     #toggle {
+      margin-top: 20px !important;
       margin-left: -100px !important;
     }
 

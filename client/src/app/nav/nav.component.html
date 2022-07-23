@@ -3,39 +3,47 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-primary">
     <div class="container">
-        <a class="navbar-brand" routerLink='/' routerLinkActive='active' (click)="registerMode = false" style="float: left !important;">
-            <!-- <img src="https://memegenerator.net/img/images/14687350.jpg" class="mr-3">Memesy -->
-            <div *ngIf="innerWidth >= 768">
-                <source media="(max-width: 799px)" srcset="././assets/LogoImage.png">
-                <source media="(min-width: 800px)" srcset="././assets/logo (gimp - new).png">
-                <img src="././assets/logo (gimp - new).png" alt="Main logo">
+        <div class="row">
+            <div class="col-2 col-lg-3">
+                <a class="navbar-brand" routerLink='/' routerLinkActive='active' (click)="registerMode = false" style="float: left !important;">
+                    <!-- <img src="https://memegenerator.net/img/images/14687350.jpg" class="mr-3">Memesy -->
+                    <div *ngIf="innerWidth >= 768">
+                        <source media="(max-width: 799px)" srcset="././assets/LogoImage.png">
+                        <source media="(min-width: 800px)" srcset="././assets/logo (gimp - new).png">
+                        <img src="././assets/logo (gimp - new).png" alt="Main logo">
+                    </div>
+                    <div *ngIf="innerWidth < 768">
+                        <img src="././assets/LogoImage.png" alt="Main logo">
+                    </div>
+                </a>
             </div>
-            <div *ngIf="innerWidth < 768">
-                <img src="././assets/LogoImage.png" alt="Main logo">
+            
+            <div class="col-8">
+                <ng-container *ngIf="accountService.currentUser$ | async">
+                    <ul class="nav">
+                        <li style="width: 60px" title="Użytkownicy"><a class="nav-link" routerLink='/uzytkownicy' routerLinkActive='active'><i class="fa fa-user"></i></a></li>
+                        <!-- <li style="width: 60px" title="Polubienia"><a class="nav-link" routerLink='/lists' routerLinkActive='active'><i class="fa fa-thumbs-up"></i></a></li> -->
+                        <li style="width: 60px" *ngIf="(accountService.currentUser$ | async) || (accountService.currentUser$ | async) === null" title="Szukaj memów"><a class="nav-link" routerLink='szukaj/memes' routerLinkActive='active'><i class="fa fa-search"></i></a></li>
+                        <li id="messages" style="width: 60px" title="Wiadomości"><a class="nav-link" routerLink='/wiadomosci'routerLinkActive='active'><i class="fa fa-envelope" [ngStyle]="unreadMessages > 0 ? { 'color': 'red' } : { 'color': 'white' }"><span class="ml-1" *ngIf="unreadMessages > 0" id="unread">{{unreadMessages}}</span></i></a></li>
+                        <li id="messages" style="width: 60px" title="Powiadomienia"><a class="nav-link" style="cursor: pointer;" (click)="openNotificationsModal(user.username)" routerLinkActive='active'><i class="fa fa-bell" [ngStyle]="notifications?.length > 0 ? { 'color': 'red' } : { 'color': 'white' }"><span class="ml-1" *ngIf="notifications?.length > 0" id="unread">{{notifications?.length}}</span></i></a></li>
+                        <li *appHasRole='["Admin", "Moderator"]' class="nav-item" style="width: 60px">
+                            <a class="nav-link" routerLink='/admin' routerLinkActive='active'><i class="fa fa-lock"></i></a>
+                        </li>
+                        <li *appHasRole='["Admin", "Moderator"]' class="nav-item" style="width: 60px">
+                            <a class="nav-link" routerLink='/errors' routerLinkActive='active' ><i class="fa fa-exclamation-triangle"></i></a>
+                        </li>
+                    </ul>
+                </ng-container>
             </div>
-        </a>
 
-        <ng-container *ngIf="accountService.currentUser$ | async" style="float: left !important;">
-            <ul class="nav">
-                <li style="width: 60px" title="Użytkownicy"><a class="nav-link" routerLink='/uzytkownicy' routerLinkActive='active'><i class="fa fa-user"></i></a></li>
-                <!-- <li style="width: 60px" title="Polubienia"><a class="nav-link" routerLink='/lists' routerLinkActive='active'><i class="fa fa-thumbs-up"></i></a></li> -->
-                <li style="width: 60px" *ngIf="(accountService.currentUser$ | async) || (accountService.currentUser$ | async) === null" title="Szukaj memów"><a class="nav-link" routerLink='szukaj/memes' routerLinkActive='active'><i class="fa fa-search"></i></a></li>
-                <li id="messages" style="width: 60px" title="Wiadomości"><a class="nav-link" routerLink='/wiadomosci'routerLinkActive='active'><i class="fa fa-envelope" [ngStyle]="unreadMessages > 0 ? { 'color': 'red' } : { 'color': 'white' }"><span class="ml-1" *ngIf="unreadMessages > 0" id="unread">{{unreadMessages}}</span></i></a></li>
-                <li id="messages" style="width: 60px" title="Powiadomienia"><a class="nav-link" style="cursor: pointer;" (click)="openNotificationsModal(user.username)" routerLinkActive='active'><i class="fa fa-bell" [ngStyle]="notifications?.length > 0 ? { 'color': 'red' } : { 'color': 'white' }"><span class="ml-1" *ngIf="notifications?.length > 0" id="unread">{{notifications?.length}}</span></i></a></li>
-                <li *appHasRole='["Admin", "Moderator"]' class="nav-item" style="width: 60px">
-                    <a class="nav-link" routerLink='/admin' routerLinkActive='active'><i class="fa fa-lock"></i></a>
-                </li>
-                <li *appHasRole='["Admin", "Moderator"]' class="nav-item" style="width: 60px">
-                    <a class="nav-link" routerLink='/errors' routerLinkActive='active' ><i class="fa fa-exclamation-triangle"></i></a>
-                </li>
-            </ul>
-        </ng-container>
+            <div class="col-2 col-lg-1">
+                <div id="toggle">
+                    <i class="navbar-toggler-icon text-center mr-5" (click)="displayNavbar()" *ngIf="display" style="width: 50px !important;"></i>
+                </div>
+            </div>
 
-
-        <!-- </div> -->
-        <div id="toggle">
-            <i class="navbar-toggler-icon text-center mr-5" (click)="displayNavbar()" *ngIf="display" style="width: 50px !important;"></i>
         </div>
+
 
         <div class="sidebar sidebar-mini text-center" [ngStyle]="!display ? {'animation': 'slideMe 0.7s ease-in', 'visibility': 'visible', 'opacity': '0.8','cursor': 'pointer'} : {'animation': 'slideOut 0.7s ease-out', 'opacity': '0', 'cursor': 'default'}">
             <div id="toggleClose">
