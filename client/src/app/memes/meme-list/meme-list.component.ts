@@ -15,7 +15,7 @@ export class MemeListComponent implements OnInit {
 
   pagination: Pagination;
   pageNumber = +this.route.snapshot.paramMap.get('pageNumber');
-  pageSize = 2;
+  pageSize = 8;
   memes: Meme[];
   trustedUrl: any;
   divisionId: number;
@@ -212,7 +212,7 @@ export class MemeListComponent implements OnInit {
 
   updatePageSize(pageSize: number) {
     this.pageSize = pageSize;
-    this.pageNumber = 1;
-    this.loadMemes();
+    this.pageNumber = 0;
+    this.determineDivision();
   }
 }
