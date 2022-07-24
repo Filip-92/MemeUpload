@@ -12,47 +12,47 @@
     </div>
 
     <div class="row" id="inputs">
-        <div class="col-1" style="margin-top: 5px;">
+        <div class="col-1 col-md-1" style="margin-top: 5px;">
             <i class="fa fa-envelope"></i>
         </div>
-        <div class="col-11">
+        <div class="col-11 col-md-11">
             <app-text-input [formControl]='registerForm.controls["email"]' 
             [label]='"Email użytkownika"' autocomplete="off"></app-text-input>
         </div>
     </div>
     <div class="row">
-        <div class="col-1" style="margin-top: 5px;">
+        <div class="col-1 col-md-1" style="margin-top: 5px;">
             <i class="fa fa-user"></i>
         </div>
-        <div class="col-11">
+        <div class="col-11 col-md-11">
             <app-text-input [formControl]='registerForm.controls["username"]' 
             [label]='"Nazwa użytkownika"' autocomplete="off"></app-text-input>
         </div>
     </div>
     <div class="row">
-        <div class="col-1" style="margin-top: 5px;">
+        <div class="col-1 col-md-1" style="margin-top: 5px;">
             <i class="fa fa-calendar"></i>
         </div>
-        <div class="col-11">
+        <div class="col-11 col-md-11">
             <app-date-input [formControl]='registerForm.controls["dateOfBirth"]' 
             [label]='"Data urodzenia"' [maxDate]='maxDate' autocomplete="off"></app-date-input>
         </div>
     </div>
     <div class="row">
-        <div class="col-1" style="margin-top: 5px;">
+        <div class="col-1 col-md-1" style="margin-top: 5px;">
             <i class="fa fa-eye" (click)="showPassword()" *ngIf="!togglePassword"></i>
             <i class="fa fa-eye-slash" (click)="showPassword()" *ngIf="togglePassword"></i>
         </div>
-        <div class="col-11">
+        <div class="col-11 col-md-11">
             <div style="display: inline;"><app-text-input [formControl]='registerForm.controls["password"]' 
             [label]='"Hasło"' type={{type}} autocomplete="off"></app-text-input></div>
         </div>
     </div>
     <div class="row">
-        <div class="col-1" style="margin-top: 5px;">
+        <div class="col-1 col-md-1" style="margin-top: 5px;">
             <i class="fa fa-key"></i>
         </div>
-        <div class="col-11">
+        <div class="col-11 col-md-11">
             <app-text-input [formControl]='registerForm.controls["confirmPassword"]' 
             [label]='"Potwierdź hasło"' [type]='"password"' autocomplete="off"></app-text-input>
         </div>
