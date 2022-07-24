@@ -8,10 +8,6 @@ input[type=text] {
     min-width: 40% !important;
 }
 
-#youtubeButton {
-    min-width: 80px !important;
-}
-
 button {
     margin-top: 30px;
     height: 50px;
@@ -139,7 +135,7 @@ select {
 
     #link {
         margin-left: 20px !important;
-        min-width: 280px !important;
+        min-width: 250px !important;
     }
 
     #youtubeButton {
