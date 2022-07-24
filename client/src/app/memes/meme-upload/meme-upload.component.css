@@ -100,7 +100,7 @@ select {
 
     #link {
         margin-left: 10px !important;
-        min-width: 350px !important;
+        min-width: 300px !important;
     }
 }
 
@@ -108,7 +108,7 @@ select {
 
     #link {
         margin-left: 10px !important;
-        min-width: 350px !important;
+        min-width: 300px !important;
     }
 
     #youtubeButton {
@@ -135,7 +135,7 @@ select {
 
     #link {
         margin-left: 30px !important;
-        min-width: 300px !important;
+        min-width: 250px !important;
     }
 
     #youtubeButton {
