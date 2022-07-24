@@ -59,8 +59,8 @@
     <div class="container text-center" *ngIf="memeUploadMode" style="max-height: 1200px !important;">
 
         <div style="margin-top: -20px;">
-            <div class="row">
-                <div class="col-sm-4 col-9 text-right">
+            <div class="row text-center">
+                <div class="col-4 col-sm-4 text-right">
                     Wybierz dział: 
                 </div>
                 <div class="col-sm-3 col-3 text-center" style="margin-top: -5px;">
@@ -101,7 +101,7 @@
 
         <div *ngIf="normalMeme" class="mb-2">
             <div class="column col-10" style="margin-left: auto; margin-right: auto;"> 
-                <textarea class="col-8" placeholder="Wpisz opis (opcjonalnie)" name="description" [formControl]='memeUploadForm.controls["description"]' style="display: inline-block;"></textarea>
+                <textarea class="col-11 col-lg-8" placeholder="Wpisz opis (opcjonalnie)" name="description" [formControl]='memeUploadForm.controls["description"]' style="display: inline-block;"></textarea>
                 <div class="col-3" style="max-width: 200px; display: inline-block;">
                     <label class="custom-file-upload" style="min-width: 150px !important;">
                         <input type="file" ng2FileSelect [uploader]="uploader" (change)="fileChangeEvent($event)" class="text-center mt-3 mb-3" title="Wybierz"/>
@@ -147,9 +147,10 @@
         <div *ngIf="youtubeVideo" class="column">
             <form [formGroup]='youtubeForm' (ngSubmit)="youtubeForm.valid && addYoutubeLink()" class="text-center column">
                 <div>
-                    <div>
-                        <input id="link" type="text" [formControl]='youtubeForm.controls["url"]' placeholder="Wstaw link z youtube" class="col-7">
-                        <button id="youtubeButton" class="btn btn-success ml-2 col-2" type="submit" style="margin-top: 0 !important;">Dodaj link</button>
+                    <div class="row mt-3">
+                        <input id="link" type="text" [formControl]='youtubeForm.controls["url"]' placeholder="Wstaw link z youtube" class="col-7 mr-2">
+                        <button id="youtubeButton" class="btn btn-success col-2 tex-left" type="submit" style="margin-top: 0 !important;">Dodaj link</button>
+                        <div class="col-1"></div>
                     </div>
                     <div *ngIf="youtubeForm.dirty && !youtubeForm.controls['url'].errors?.pattern && !youtubeForm.controls['url'].errors?.required && youtubeForm.controls['url'].touched">
                         <app-link-preview [link1]="youtubeForm.value.url"></app-link-preview>

@@ -1,7 +1,6 @@
 input[type=text] {
     height: 50px;
     background-color: gray;
-    margin-top: 30px;
     color: whitesmoke;
 }
 
@@ -20,6 +19,10 @@ label {
 
 input[type="file"] {
     display: none;
+}  
+
+#youtubeButton {
+    max-width: 40% !important; 
 }
 
 .custom-file-upload {
@@ -63,7 +66,6 @@ textarea {
 input[type=text] {
     height: 50px;
     background-color: gray;
-    margin-top: 30px;
     margin-bottom: 30px;
     margin-left: auto;
     margin-right: auto;
@@ -107,10 +109,6 @@ select {
     #drag {
         display: none;
     }
-
-    button {
-        margin-left: -20px !important;
-    }
 }
 
 @media screen and (max-width: 700px) {
@@ -122,9 +120,8 @@ select {
     textarea {
         margin-top: 10px;
         margin-bottom: 10px;
-        margin-left: -50px;
-        min-width: 450px;
         height: 120px;
+        width: 100%;
     }
 
     #link {
