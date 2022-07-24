@@ -5,6 +5,7 @@ button {
     cursor: pointer;
     outline: none;
     transition: 0.2s all;
+    min-height: 34px !important;
   }
   
   button:hover {
@@ -26,8 +27,9 @@ button {
   } 
 
   #show {
-    visibility: none;
+    display: none;
   }
+  
 
   @media screen and (max-width: 700px) {
     .btn {
@@ -41,7 +43,7 @@ button {
     }
 
     #show {
-      visibility: visible;
+      display: inline !important;
     }
   }
 

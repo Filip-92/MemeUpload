@@ -243,9 +243,57 @@ form {
     margin-top: auto;
     margin-bottom: auto;
   }
+
+  .fa-bell {
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    width: auto !important;
+  }
+
+  .fa-bell:hover {
+    cursor: pointer;
+  }
 }
 
 @media screen and (max-width: 700px) {
+
+    .navbar {
+        min-height: 100px !important;
+        max-height: 100px !important;
+        font-size: 10px;
+    }
+
+    .sidebar {
+      width: 100%;
+      min-width: 300px;
+      height: 100%;
+      z-index: 1; /* Stay on top */
+      top: 0;
+      right: 0;
+      opacity: 1 !important;
+      background-color: #111; /* Black*/
+      overflow-x: hidden; /* Disable horizontal scroll */
+      padding-top: 20px; /* Place content 60px from the top */
+      transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+      box-shadow: 2px 2px 5px #999;
+      transition: 0.5s;
+    }
+
+    .sidebar-mini {
+      visibility: hidden;
+    }
+
+    .nav-item {
+        text-align: left !important;
+        display: inline-block !important;
+    }
+
+    li {
+      display: inline !important;
+    }
+  }
+
+  @media screen and (max-width: 1000px) {
 
     .navbar {
         min-height: 100px !important;

@@ -69,7 +69,7 @@ input[type=text] {
     margin-bottom: 30px;
     margin-left: auto;
     margin-right: auto;
-    min-width: 600px;
+    min-width: 400px;
 }
 
 ::placeholder {
@@ -96,6 +96,11 @@ select {
 @media screen and (max-width: 1000px) {
     #import {
         font-size: 12px !important;
+    }
+
+    #link {
+        margin-left: 10px !important;
+        min-width: 350px !important;
     }
 }
 
@@ -129,8 +134,8 @@ select {
     }
 
     #link {
-        margin-left: 10px !important;
-        min-width: 350px !important;
+        margin-left: 30px !important;
+        min-width: 300px !important;
     }
 
     #youtubeButton {
