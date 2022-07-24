@@ -33,6 +33,7 @@ ul.nav {
 .fa-search:hover {
   cursor: pointer;
 }
+
 #forgot:hover {
   color: red !important;
 }
@@ -347,6 +348,10 @@ form {
     } */
   }
 
+  .loggedOut {
+    margin-left: 160px !important;
+  }
+
   @media screen and (max-width: 800px) {
     .nav i {
       margin-top: 20px !important;
@@ -360,6 +365,10 @@ form {
 
     #profile {
       margin-left: 40px !important;
+    }
+
+    .loggedOut {
+      margin-left: 200px !important;
     }
   }
 
