@@ -6,12 +6,11 @@
             <div id="search">
                 <div class="form-group">
                     <form class="text-center" [formGroup]='memeSearchForm'>
-                        <div class="row ml-3 text-center">
-                            <div class="column col-2"></div>
-                            <div class="column mr-3">
+                        <div class="row text-center">
+                            <div class="col-8 col-lg-9 text-right">
                                 <input id="meme" type="text" placeholder="Wpisz tytuł wyszukiwanego mema" [formControl]='memeSearchForm.controls["searchString"]'>
                             </div>
-                            <div class="column">
+                            <div class="col-4 col-lg-3 text-left">
                                 <button 
                                 class="dropdown-item"
                                 class="btn btn-primary btn-lg"
@@ -20,7 +19,7 @@
                                 [disabled]="!this.memeSearchForm.value.searchString"
                                 (click)="searchForMeme(this.memeSearchForm.value.searchString)"
                                 >
-                                <i class="fa fa-file-import"></i>
+                                <i class="fa fa-search"></i>
                                 Szukaj
                                 </button>
                             </div>
@@ -84,12 +83,11 @@
             <div id="searchUser">
                 <div class="form-group">
                     <form class="text-center" [formGroup]='memberSearchForm'>
-                        <div class="row ml-3 text-center">
-                            <div class="column col-2"></div>
-                            <div class="column mr-3">
+                        <div class="row text-center">
+                            <div class="col-8 col-lg-9 text-right">
                                 <input id="user" type="text" placeholder="Wpisz nazwę wyszukiwanego użytkownika" [formControl]='memberSearchForm.controls["searchString"]'>
                             </div>
-                            <div class="column">
+                            <div class="col-4 col-lg-3 text-left">
                                 <button 
                                 class="dropdown-item"
                                 class="btn btn-primary btn-lg" 
@@ -97,7 +95,7 @@
                                 [disabled]="!this.memberSearchForm.value.searchString"
                                 (click)="searchForMember(this.memberSearchForm.value.searchString)"
                                 >
-                                <i class="fas fa-file-import"></i>
+                                <i class="fa fa-search"></i>
                                 Szukaj
                                 </button>
                             </div>
