@@ -28,6 +28,7 @@ button {
     margin-top: 25px !important;
     height: 50px;
     transition: background-color 1s !important;
+    margin-left: -20px !important;
 }
 
 ::placeholder {
@@ -68,4 +69,19 @@ button {
 
 .frb input[type="radio"]:checked ~ label:before {
 	content: '\f046';
+}
+
+select {
+    background-color: gray;
+    color: whitesmoke;
+}
+
+@media screen and (max-width: 1000px) {
+    button {
+        font-size: 14px !important;
+    }
+
+    input[type=text] {
+        width: 100% !important;
+    }
 }

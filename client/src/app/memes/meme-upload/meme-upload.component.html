@@ -37,7 +37,7 @@
                 <div class="column col-lg-1"></div>
                 <div class="column col-9 col-lg-8">
                     <app-meme-title-input [formControl]='memeUploadForm.controls["title"]' id="memeTitle"
-                        [label]='"Wpisz tytuł"' name="title" autocomplete="off"></app-meme-title-input>
+                        [label]='"Wpisz tytuł"' name="title" autocomplete="off" style="margin-right: -20px !important;"></app-meme-title-input>
                 </div>
                 <div class="column col-3 col-lg-3">
                     <button 
@@ -46,7 +46,7 @@
                         id="import"
                         *ngIf="(accountService?.currentUser$ | async) !== null"
                         class="btn btn-primary btn-lg" 
-                        style="align-items: center; font-size: 17px; float: left;"
+                        style="align-items: center; font-size: 17px; float: left; margin-left: -20px !important;"
                     >
                     <i class="fa fa-paper-plane mr-1"></i>
                     Dodaj
@@ -150,7 +150,7 @@
                     <div class="row mt-3">
                         <div class="col-lg-1"></div>
                         <input id="link" type="text" [formControl]='youtubeForm.controls["url"]' placeholder="Wstaw link z youtube" class="col-7 col-lg-5 mr-2 text-left">
-                        <button id="youtubeButton" class="btn btn-success col-2 tex-left" type="submit" style="margin-top: 0 !important;">Dodaj link</button>
+                        <button id="youtubeButton" class="btn btn-success col-2 tex-left" type="submit" style="margin-top: 0 !important;"><i class="fa fa-youtube mr-2"></i>Dodaj</button>
                     </div>
                     <div *ngIf="youtubeForm.dirty && !youtubeForm.controls['url'].errors?.pattern && !youtubeForm.controls['url'].errors?.required && youtubeForm.controls['url'].touched">
                         <app-link-preview [link1]="youtubeForm.value.url"></app-link-preview>
