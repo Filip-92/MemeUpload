@@ -95,7 +95,7 @@
             </div> -->
         </div>
 
-        <button (click)="normalMemeToggle()" [disabled]="youtubeVideo" class="btn btn-danger mb-2" style="width: 80%; margin-top: 10px !important;">
+        <button (click)="normalMemeToggle()" [disabled]="youtubeVideo" class="btn btn-danger mb-2 col-12 col-lg-8" style="margin-top: 10px !important;">
             Dodaj klasycznego mema
         </button>
 
@@ -140,17 +140,16 @@
             </div>
         </div>
 
-        <button (click)="youtubeVideoToggle()" [disabled]="normalMeme" [hidden]="uploader?.queue?.length !== 0" class="btn btn-danger mb-2" style="width: 80%; margin-top: 10px !important;">
+        <button (click)="youtubeVideoToggle()" [disabled]="normalMeme" [hidden]="uploader?.queue?.length !== 0" class="btn btn-danger mb-2 col-12 col-lg-8" style="margin-top: 10px !important;">
             Dodaj filmik z youtube
         </button>
 
         <div *ngIf="youtubeVideo" class="column">
-            <form [formGroup]='youtubeForm' (ngSubmit)="youtubeForm.valid && addYoutubeLink()" class="text-center column">
+            <form [formGroup]='youtubeForm' (ngSubmit)="youtubeForm.valid && addYoutubeLink()" class="text-center">
                 <div>
                     <div class="row mt-3">
-                        <input id="link" type="text" [formControl]='youtubeForm.controls["url"]' placeholder="Wstaw link z youtube" class="col-7 mr-2">
+                        <input id="link" type="text" [formControl]='youtubeForm.controls["url"]' placeholder="Wstaw link z youtube" class="col-7 mr-2 text-left">
                         <button id="youtubeButton" class="btn btn-success col-2 tex-left" type="submit" style="margin-top: 0 !important;">Dodaj link</button>
-                        <div class="col-1"></div>
                     </div>
                     <div *ngIf="youtubeForm.dirty && !youtubeForm.controls['url'].errors?.pattern && !youtubeForm.controls['url'].errors?.required && youtubeForm.controls['url'].touched">
                         <app-link-preview [link1]="youtubeForm.value.url"></app-link-preview>

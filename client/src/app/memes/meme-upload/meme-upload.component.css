@@ -89,6 +89,10 @@ select {
     color: whitesmoke;
 }
 
+#link {
+    margin-left: 120px !important;
+}
+
 @media screen and (max-width: 1000px) {
     #import {
         font-size: 12px !important;
@@ -98,7 +102,7 @@ select {
 @media screen and (max-width: 800px) {
 
     #link {
-        margin-left: 10px;
+        margin-left: 10px !important;
         min-width: 350px !important;
     }
 
@@ -125,7 +129,7 @@ select {
     }
 
     #link {
-        margin-left: 10px;
+        margin-left: 10px !important;
         min-width: 350px !important;
     }
 
