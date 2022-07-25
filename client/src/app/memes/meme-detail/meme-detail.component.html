@@ -8,7 +8,7 @@
                     </h4>
                     <p>{{changeTimeZone(meme?.uploaded) | timeago}}</p>
                     <div *ngIf="meme?.url?.includes('youtube')">
-                        <iframe width="600" height="400" [src]="trustedUrl | safe"></iframe>
+                        <iframe height="400" [src]="trustedUrl | safe"></iframe>
                     </div>
                     <img src="{{addImageWatermark(meme.url) ? addImageWatermark(meme.url) : onErrorFunction()}}" class="card-img-top" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme?.url)"/>
                     <video src="{{meme?.url}}" class="card-img-top" *ngIf="!checkURL(meme?.url) && !meme?.url?.includes('https://www.youtube')" controls></video>
@@ -37,7 +37,7 @@
                 <div class="col-9 col-lg-7 text-right">
                     <textarea type="text" [formControl]='commentForm.controls["content"]' placeholder="Wpisz treść komentarza"></textarea>
                 </div>
-                <div class="col-1 mt-1" *ngIf="ifUserWorthy()">
+                <div class="col-1 mt-1" *ngIf="checkIfUserWorthy(meme.id)">
                     <label class="custom-file-upload">
                         <input type="file" ng2FileSelect [uploader]="uploader" (change)="fileChangeEvent($event)" class="text-center" title="Wybierz"/>
                         <i class="fa fa-paperclip"></i>
