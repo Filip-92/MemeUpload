@@ -164,7 +164,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
 
   formatYoutubeLink(url) {
     var id = url.split('v=')[1].split('&')[0]; //sGbxmsDFVnE
-    url = "https://www.youtube-nocookie.com/embed/" + id;
+    url = "https://www.youtube.com/embed/" + id;
     return url;
   }
   
