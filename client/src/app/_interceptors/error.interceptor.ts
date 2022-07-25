@@ -40,7 +40,7 @@ export class ErrorInterceptor implements HttpInterceptor {
               if(error.error === "OK") {
                 this.toastr.error("Zaloguj się aby mieć dostęp", error.status);
               } else {
-                this.toastr.error(error.error, error.status);
+                this.toastr.error("Funkcja tylko dla zalogowanych użytkowników");
               }
               break;
             case 404:
