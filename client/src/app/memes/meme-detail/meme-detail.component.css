@@ -11,7 +11,14 @@ table {
 }
 
 .btn {
-    max-height: 50px !important;
+    max-height: 40px !important;
+}
+
+@media screen and (max-width: 700px) {
+
+    iframe {
+        max-width: 480px !important;
+    }
 }
 
 #warning {
@@ -63,11 +70,6 @@ textarea {
 }
 
 @media screen and (max-width: 700px) {
-
-    .btn {
-        max-height: 40px;
-        font-size: 10px;
-    }
 
     button {
         margin-top: -5px;
