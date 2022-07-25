@@ -25,7 +25,7 @@ export class MemeForApprovalCardComponent implements OnInit {
 
   approveMeme(memeId: number) {
     this.adminService.approveMeme(memeId).subscribe(() => {
-      this.memes.splice(this.memes.findIndex(p => p.id === memeId), 1);
+      this.memes?.splice(this.memes?.findIndex(p => p.id === memeId), 1);
     })
   }
 
@@ -44,7 +44,7 @@ export class MemeForApprovalCardComponent implements OnInit {
 
   rejectMeme(memeId: number) {
     this.adminService.rejectMeme(memeId).subscribe(() => {
-      this.memes.splice(this.memes.findIndex(p => p.id === memeId), 1);
+      this.memes?.splice(this.memes?.findIndex(p => p.id === memeId), 1);
     })
   }
 

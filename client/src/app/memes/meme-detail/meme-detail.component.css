@@ -2,6 +2,10 @@ img {
     max-width: 600px !important;
 }
 
+video {
+    max-width: 600px !important;
+}
+
 table {
     background-color: rgb(95, 94, 94);
 }
