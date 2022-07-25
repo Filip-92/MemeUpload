@@ -126,6 +126,8 @@ namespace API.Controllers
         {
             var meme = await _unitOfWork.MemeRepository.GetMeme(memeId);
 
+            if (meme == null) return NotFound();
+
             return Ok(meme);
         }
 
