@@ -148,24 +148,16 @@ namespace API.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<ContactFormDto>> SubmitMessage([FromBody] ContactFormDto contactFormDto)
         {
-            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+            var user = _mapper.Map<ContactFormDto>(contactFormDto);
 
-            var contactForm = new ContactForm
+            return new ContactFormDto
             {
                 SenderName = contactFormDto.SenderName,
                 SenderEmail = contactFormDto.SenderEmail,
                 Subject = contactFormDto.Subject,
                 Message = contactFormDto.Message
-            };
-
-            user.Messages.Add(contactForm);
-
-            if (await _unitOfWork.Complete())
-            {
-                return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<ContactFormDto>(contactForm));
-            }
-
-            return BadRequest("Problem sending message " + contactFormDto.SenderName + " " + contactFormDto.SenderEmail + " " + contactFormDto.Subject + " " + contactFormDto.Message);
+            }; 
+            // return BadRequest("Problem z wysyłaniem wiadomości");
         }
 
         [HttpGet("get-user-likes-no/{username}")]
