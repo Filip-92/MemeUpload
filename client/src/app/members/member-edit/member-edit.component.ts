@@ -27,7 +27,7 @@ export class MemberEditComponent implements OnInit {
   user: User;
   members: Partial<Member[]>;
   predicate = 'likedBy';
-  pageNumber = 1;
+  pageNumber = 0;
   pageSize = 8;
   pagination: Pagination;
   memes: Meme[];

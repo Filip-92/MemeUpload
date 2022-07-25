@@ -50,7 +50,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   users: any;
   members: Partial<Member[]>;
   predicate = 'liked';
-  pageNumber = 1;
+  pageNumber = 0;
   pageSize = 5;
   pagination: Pagination;
   @ViewChild('scrollMe') meme : ElementRef;

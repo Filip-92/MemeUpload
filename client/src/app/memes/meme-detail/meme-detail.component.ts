@@ -30,7 +30,7 @@ export class MemeDetailComponent implements OnInit {
   likes: number = 0;
   numberOfComments: number;
   pagination: Pagination;
-  pageNumber = 1;
+  pageNumber = 0;
   pageSize = 5;
   trustedUrl: any;
   commentForm: FormGroup;
