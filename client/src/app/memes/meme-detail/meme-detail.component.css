@@ -15,7 +15,7 @@ table {
 }
 
 iframe {
-    max-width: 500px !important;
+    max-width: 550px !important;
 }
 
 @media screen and (max-width: 700px) {
