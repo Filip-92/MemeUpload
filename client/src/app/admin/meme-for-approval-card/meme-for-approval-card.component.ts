@@ -35,17 +35,17 @@ export class MemeForApprovalCardComponent implements OnInit {
     })
   }
 
+  rejectMeme(memeId: number) {
+    this.adminService.rejectMeme(memeId).subscribe(() => {
+      this.memes?.splice(this.memes?.findIndex(p => p.id === memeId), 1);
+    })
+  }
+
   openDeleteModal(memeId: number) {
     const modalRef = this.modalService.open(AdminDeleteMemeComponent);
     modalRef.componentInstance.memes = this.memes;
     modalRef.componentInstance.memeId = memeId;
     modalRef.componentInstance.modalRef = modalRef;
-  }
-
-  rejectMeme(memeId: number) {
-    this.adminService.rejectMeme(memeId).subscribe(() => {
-      this.memes?.splice(this.memes?.findIndex(p => p.id === memeId), 1);
-    })
   }
 
   convertText(title: string) {
