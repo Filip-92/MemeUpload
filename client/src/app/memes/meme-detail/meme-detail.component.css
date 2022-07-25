@@ -14,14 +14,17 @@ table {
     max-height: 40px !important;
 }
 
-iframe {
-    max-width: 550px !important;
-}
-
 @media screen and (max-width: 700px) {
 
     iframe {
-        max-width: 520px !important;
+        max-width: 480px !important;
+    }
+}
+
+@media screen and (max-width: 600px) {
+
+    iframe {
+        max-width: 380px !important;
     }
 }
 
