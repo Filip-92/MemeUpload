@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="mb-3">
-            <span class="inline-block">autor: <a class="nav-link" routerLink='/members/{{meme?.username}}'>{{meme?.username}}</a></span>
+            <span class="inline-block">autor: <a class="nav-link" routerLink='/uzytkownicy/{{meme?.username}}'>{{meme?.username}}</a></span>
             <button class="btn btn-success mr-2" (click)="addFavourite(meme.id)" [ngStyle]="!favourite ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-thumb-tack" style="margin-top: -5px !important;" aria-hidden="true"></i></button>
             <button (click)="addLike(meme)" [disabled]="disliked" class="btn btn-success mr-2" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-thumbs-up" style="margin-top: -5px !important;"></i></button>
             <span class="btn btn-primary mr-2" id="likes" style="min-width: 100px;">{{meme?.numberOfLikes}}</span>

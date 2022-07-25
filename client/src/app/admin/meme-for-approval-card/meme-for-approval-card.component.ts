@@ -31,7 +31,7 @@ export class MemeForApprovalCardComponent implements OnInit {
 
   pushMemeToMain(memeId: number) {
     this.adminService.pushMemeToMain(memeId).subscribe(() => {
-      this.memes.splice(this.memes.findIndex(p => p.id === memeId), 1);
+      this.memes?.splice(this.memes?.findIndex(p => p.id === memeId), 1);
     })
   }
 

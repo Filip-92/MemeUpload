@@ -2,6 +2,10 @@ img {
     max-width: 600px !important;
 }
 
+video {
+    max-width: 600px !important;
+}
+
 a {
     color: white !important;
 }
