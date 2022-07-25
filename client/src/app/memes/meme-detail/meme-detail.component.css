@@ -14,11 +14,19 @@ table {
     max-height: 40px !important;
 }
 
+iframe {
+    max-width: 600px !important;
+}
+
 @media screen and (max-width: 700px) {
 
     iframe {
         max-width: 480px !important;
     }
+}
+
+.row {
+    width: 100%;
 }
 
 #warning {
@@ -27,6 +35,32 @@ table {
     width: 80%;
     margin-left: auto;
     margin-right: auto;
+}
+
+#addComment {
+    min-height: 51px !important;
+    margin-left: -50px !important;
+}
+
+@media screen and (max-width: 1000px) {
+
+    .row {
+        width: 100% !important;
+    }
+
+    #addComment {
+        font-size: 12px;
+        min-width: 80px !important;
+        margin-left: 0 !important;
+    }
+
+    textarea {
+        margin-left: 20px !important;
+    }
+
+    .fa-paperclip {
+        margin-left: 20px !important;
+    }
 }
 
 #likes {
@@ -52,28 +86,21 @@ i {
     min-width: 50px;
     min-height: 40px;
     cursor: pointer;
+    margin-left: -50px !important;
 }
 
 input[type="file"] {
     display: none;
-    margin-left: -50px !important;
 }
 
 textarea {
-    margin-bottom: -20px;
+    width: 100% !important;
     background-color: gray;
     color: whitesmoke;
 }
 
 ::placeholder {
     color: whitesmoke;
-}
-
-@media screen and (max-width: 700px) {
-
-    button {
-        margin-top: -5px;
-    }
 }
 
 @media screen and (max-width: 600px) {
