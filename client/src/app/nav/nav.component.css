@@ -59,11 +59,12 @@ img {
 
 .nav i {
   margin-top: 30px !important;
+  margin-left: 50px !important;
 }
 
 #toggle {
   margin-top: 30px !important;
-  margin-left: 150px !important;
+  margin-left: 200px !important;
 }
 
 .sidemenu-item {

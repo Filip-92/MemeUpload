@@ -2,7 +2,7 @@
  
     <div class="text-center">
 
-        <h3>Zmiana avatara</h3>
+        <h3 class="mb-5">Zmiana avatara</h3>
 
         <img ngf-thumbnail="'user.photoUrl'">
         <img id="preview" [src]="user.photoUrl" *ngIf="!previewImg"/>
@@ -13,16 +13,16 @@
              (fileOver)="fileOverBase($event)"
              [uploader]="uploader"
              id="drag"
-             class="card bg-faded p-3 text-center mb-3 my-drop-zone"
+             class="card bg-faded p-3 text-center mb-3 my-drop-zone mr-3"
              style="max-width: 200px; margin-left: auto; margin-right: auto;"
              >
              <i class="fa fa-upload fa-3x"></i>
             Upuść zdjęcie tutaj
         </div>
 
-        <label class="custom-file-upload" style="max-width: 200px;">
+        <label class="custom-file-upload ml-3" style="max-width: 200px;">
             <input type="file" ng2FileSelect [uploader]="uploader" class="text-center col-4 mt-3 mb-3" title="Wybierz"/>
-            <i class="fa fa-photo mr-2"></i>Dodaj zdjęcie
+            <i class="fa fa-photo mr-2"></i>Zmień zdjęcie
         </label>
     </div>
 
