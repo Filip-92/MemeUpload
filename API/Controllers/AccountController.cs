@@ -141,6 +141,8 @@ namespace API.Controllers
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var uriBuilder = new UriBuilder(_config["returnPaths:PasswordChange"]);
+            if (uriBuilder != null) return BadRequest(uriBuilder);
+
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
             query["token"] = token;
             query["userid"] = user.Id.ToString();
