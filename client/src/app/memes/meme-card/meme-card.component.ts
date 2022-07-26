@@ -68,7 +68,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     var newTime = Number(this.meme?.uploaded?.substring(11,13)) - 2;
     this.meme.uploaded = this.meme?.uploaded?.replace((this.meme?.uploaded?.substring(11,14)), newTime.toString() + ":");
     this.getNumberOfComments(this.meme.id);
-    if(this.meme?.url?.includes("youtube")) {
+    if(this.meme?.url?.includes("youtube") || this.meme?.url?.includes("youtu.be")) {
       this.trustedUrl = this.formatYoutubeLink(this.meme?.url);
     }
     if ("user" in localStorage) {
@@ -82,16 +82,20 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   }
   
   addLike(meme: Meme) {
-      this.memeService.addLike(meme.id).subscribe(() => {
-        this.liked = !this.liked;
-      if(this.liked) {
-        this.meme.numberOfLikes++;
-        this.liked = true;
-      } else {
-        this.meme.numberOfLikes--;
-        this.liked = false;
-      }
-    })
+    if ("user" in localStorage) {
+        this.memeService.addLike(meme.id).subscribe(() => {
+          this.liked = !this.liked;
+        if(this.liked) {
+          this.meme.numberOfLikes++;
+          this.liked = true;
+        } else {
+          this.meme.numberOfLikes--;
+          this.liked = false;
+        }
+      }) 
+    } else {
+      this.toastr.error("Funkcja tylko dla zalogowanych użytkowników");
+    }
   }
 
   flagAsSpam(memeId: number) {
@@ -100,17 +104,21 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   }
 
   addDislike(meme: Meme) {
-      this.memeService.addDislike(meme.id).subscribe(() => {
-        this.disliked = !this.disliked;
-      if(this.disliked) {
-        this.meme.numberOfLikes--;
-        this.disliked = true;
-        this.liked = false;
-      } else {
-        this.meme.numberOfLikes++;
-        this.disliked = false;
-      }
-    })
+    if ("user" in localStorage) {
+        this.memeService.addDislike(meme.id).subscribe(() => {
+          this.disliked = !this.disliked;
+        if(this.disliked) {
+          this.meme.numberOfLikes--;
+          this.disliked = true;
+          this.liked = false;
+        } else {
+          this.meme.numberOfLikes++;
+          this.disliked = false;
+        }
+      })
+    } else {
+      this.toastr.error("Funkcja tylko dla zalogowanych użytkowników");
+    }
   }
 
   loadLikes() {
@@ -139,14 +147,18 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   }
 
   addFavourite(memeId: number) {
-    this.memeService.addFavourite(memeId).subscribe(() => {
-      this.favourite = !this.favourite;
-    if(this.favourite) {
-      this.favourite = true;
-    } else {
-      this.favourite = false;
-    }
-  })
+    if ("user" in localStorage) {
+      this.memeService.addFavourite(memeId).subscribe(() => {
+        this.favourite = !this.favourite;
+      if(this.favourite) {
+        this.favourite = true;
+      } else {
+        this.favourite = false;
+      }
+    })
+   } else {
+    this.toastr.error("Funkcja tylko dla zalogowanych użytkowników");
+  }
 }
 
   replaceTitle(title: string) {
@@ -162,12 +174,19 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     return(url?.match(/\.(jpeg|jpg|gif|png)$/) != null);
   }
 
-  formatYoutubeLink(url) {
-    var id = url.split('v=')[1].split('&')[0]; //sGbxmsDFVnE
-    url = "https://www.youtube.com/embed/" + id;
+  formatYoutubeLink(url: string) {
+    console.log(url);
+    var id = '';
+    if (url.includes('youtube')) {
+      id = url?.split('v=')[1]?.split('&')[0];
+    } else if (url.includes('youtu.be')) {
+      id = url?.split('be/')[1];
+    }
+    url = "https://www.youtube-nocookie.com/embed/" + id;
+    console.log(url);
     return url;
   }
-  
+
   changeTimeZone(uploadedDate: string) {
     uploadedDate = this.helper.changeTimeZone(uploadedDate);
     return uploadedDate;

@@ -17,7 +17,7 @@ table {
 @media screen and (max-width: 700px) {
 
     iframe {
-        max-width: 480px !important;
+        max-width: 550px !important;
     }
 }
 
@@ -62,7 +62,8 @@ table {
     }
 
     .fa-paperclip {
-        margin-left: 20px !important;
+        margin-right: -60px !important;
+        min-width: 30px !important;
     }
 }
 
@@ -89,7 +90,8 @@ i {
     min-width: 50px;
     min-height: 40px;
     cursor: pointer;
-    margin-left: -50px !important;
+    margin-left: -40px !important;
+    margin-right: -10px !important;
 }
 
 input[type="file"] {

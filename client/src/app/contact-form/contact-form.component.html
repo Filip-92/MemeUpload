@@ -32,7 +32,7 @@
       <input type="email" [formControl]='contactForm.controls["senderEmail"]' id="defaultContactFormEmail"
         class="form-control mb-4 contact" style="width: 300px; margin-left: auto; margin-right: auto;" placeholder="E-mail">
       </span>
-      <div *ngIf="contactForm.controls['senderEmail'].errors?.pattern" class="text-danger mb-2">
+      <div *ngIf="contactForm.controls['senderEmail'].errors?.pattern && contactForm.controls['senderEmail'].touched" class="text-danger mb-2">
         Podaj prawidłowy adres email
       </div>
       <div *ngIf="contactForm.controls['senderEmail'].errors?.required && contactForm.controls['senderEmail'].touched" class="text-danger mb-2">

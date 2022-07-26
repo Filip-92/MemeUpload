@@ -28,13 +28,14 @@ export class SiteManagementComponent implements OnInit {
   }
 
   getSubject(id: number) {
-    if(id === 1) {
+    console.log(id);
+    if(id.toString() === '1') {
       return "Feedback";
-    } else if (id === 2) {
+    } else if (id.toString() === '2') {
       return "Zgłoś błąd";
-    } else if (id === 3) {
+    } else if (id.toString() === '3') {
       return "Propozycje usprawnień";
-    } else if (id === 4) {
+    } else if (id.toString() === '4') {
       return "Zgłoś użytkownika";
     } else {
       return "Inny problem"

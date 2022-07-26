@@ -155,7 +155,7 @@
                     <div *ngIf="youtubeForm.dirty && !youtubeForm.controls['url'].errors?.pattern && !youtubeForm.controls['url'].errors?.required && youtubeForm.controls['url'].touched">
                         <app-link-preview [link1]="youtubeForm.value.url"></app-link-preview>
                     </div>
-                    <div *ngIf="youtubeForm.controls['url'].errors?.pattern" class="text-danger" style="margin-top: 0 !important;">
+                    <div *ngIf="youtubeForm.controls['url'].errors?.pattern" class="text-danger mb-2" style="margin-top: 0 !important;">
                         Link musi mieć odpowiedni format
                     </div>
                     <div *ngIf="youtubeForm.controls['url'].errors?.required && youtubeForm.controls['url'].touched" class="text-danger mb-3">

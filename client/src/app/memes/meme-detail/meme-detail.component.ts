@@ -79,7 +79,7 @@ export class MemeDetailComponent implements OnInit {
         this.getDivisionNameById(this.meme.division);
       }
       this.id = meme.id;
-      if (this.meme.url.includes("youtube")) {
+      if (this.meme.url.includes("youtube") || this.meme.url.includes("youtu.be")) {
         this.trustedUrl = this.formatYoutubeLink(this.meme.url)
       }
     })
@@ -91,30 +91,38 @@ export class MemeDetailComponent implements OnInit {
   }
 
   addLike(meme: Meme) {
-      this.memeService.addLike(meme.id).subscribe(() => {
-        this.liked = !this.liked;
-      if(this.liked) {
-        this.meme.numberOfLikes++;
-        this.liked = true;
-      } else {
-        this.meme.numberOfLikes--;
-        this.liked = false;
-      }
-    })
+    if ("user" in localStorage) {
+        this.memeService.addLike(meme.id).subscribe(() => {
+          this.liked = !this.liked;
+        if(this.liked) {
+          this.meme.numberOfLikes++;
+          this.liked = true;
+        } else {
+          this.meme.numberOfLikes--;
+          this.liked = false;
+        }
+      })
+    } else {
+      this.toastr.error("Funkcja tylko dla zalogowanych użytkowników");
+    }
   }
 
   addDislike(meme: Meme) {
-      this.memeService.addDislike(meme.id).subscribe(() => {
-        this.disliked = !this.disliked;
-      if(this.disliked) {
-        this.meme.numberOfLikes--;
-        this.disliked = true;
-        this.liked = false;
-      } else {
-        this.meme.numberOfLikes++;
-        this.disliked = false;
-      }
-    })
+    if ("user" in localStorage) {
+        this.memeService.addDislike(meme.id).subscribe(() => {
+          this.disliked = !this.disliked;
+        if(this.disliked) {
+          this.meme.numberOfLikes--;
+          this.disliked = true;
+          this.liked = false;
+        } else {
+          this.meme.numberOfLikes++;
+          this.disliked = false;
+        }
+      })
+    } else {
+      this.toastr.error("Funkcja tylko dla zalogowanych użytkowników");
+    }
   }
 
   loadLikes() {
@@ -157,8 +165,13 @@ export class MemeDetailComponent implements OnInit {
     this.toastr.error("Adres url jest zjebany!")
   }
 
-  formatYoutubeLink(url) {
-    var id = url.split('v=')[1].split('&')[0]; //sGbxmsDFVnE
+  formatYoutubeLink(url: string) {
+    var id = '';
+    if (url.includes('youtube')) {
+      id = url?.split('v=')[1]?.split('&')[0];
+    } else if (url.includes('youtu.be')) {
+      id = url?.split('be/')[1];
+    }
     url = "https://www.youtube-nocookie.com/embed/" + id;
     return url;
   }
@@ -265,14 +278,18 @@ export class MemeDetailComponent implements OnInit {
   }
 
   addFavourite(memeId: number) {
-    this.memeService.addFavourite(memeId).subscribe(() => {
-      this.favourite = !this.favourite;
-    if(this.favourite) {
-      this.favourite = true;
+    if ("user" in localStorage) {
+        this.memeService.addFavourite(memeId).subscribe(() => {
+          this.favourite = !this.favourite;
+        if(this.favourite) {
+          this.favourite = true;
+        } else {
+          this.favourite = false;
+        }
+      })
     } else {
-      this.favourite = false;
+      this.toastr.error("Funkcja tylko dla zalogowanych użytkowników");
     }
-  })
   }
 
   getFavouriteMemes(username: string) {
