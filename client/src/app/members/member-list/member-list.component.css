@@ -2,3 +2,13 @@ select, select:focus {
     background-color: gray;
     color: whitesmoke;
 }
+
+@media screen and (max-width: 1000px) {
+    #filterButton {
+        margin-top: 15px !important;
+    }
+
+    #activityButtons {
+        margin-left: -50px !important;
+    }
+}

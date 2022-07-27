@@ -30,7 +30,6 @@
             </h4>
             <h5 *ngIf="member?.username?.length > 16">{{member?.username}}
                 <span [class.is-online]="(presence?.onlineUsers$ | async).includes(member?.username)">
-                    <i class="fa fa-user ml-2 mr-2"></i>
                 </span>  
             </h5>
         </a>

@@ -64,7 +64,7 @@
     margin-bottom: auto;
 }
 
-h3 {
+h3, h4, h5 {
     color: greenyellow;
 }
 
@@ -77,11 +77,12 @@ span {
         display: none;
     }
 
-    h3 {
+    h3, h4, h5 {
         font-size: 18px;
+        word-break: break-all;
     }
 
-    h3:hover {
+    h3:hover, h4:hover, h5:hover {
         color: red !important;
         cursor: pointer;
         text-decoration: none;
