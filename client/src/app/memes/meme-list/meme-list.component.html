@@ -1,8 +1,8 @@
-<div class="mt-4" style="margin-bottom: -20px !important;">
+<div class="mt-3">
     {{divisionName | titlecase}} <span  *ngIf="pageNumber !== 0"> > Strona {{pageNumber}}</span>
 </div>
 
-<div *ngFor="let meme of memes">
+<div *ngFor="let meme of memes" class="mb-2">
     <app-meme-card [meme]="meme"></app-meme-card>
 </div>
 

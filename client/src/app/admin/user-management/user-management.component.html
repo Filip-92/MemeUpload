@@ -4,21 +4,21 @@
             <form class="text-center" [formGroup]='userSearchForm'>
                 <div class="row ml-3 text-center">
                     <div class="column col-6 mt-1 mb-3">Liczba użytkowników: {{users?.length}}</div>
-                    <div class="column mr-3">
-                        <input type="text" placeholder="Wpisz nazwę wyszukiwanego użytkownika" [formControl]='userSearchForm.controls["searchString"]'>
-                    </div>
-                    <div class="column">
-                        <button 
-                        class="dropdown-item"
-                        class="btn btn-primary btn-lg" 
-                        style="align-items: center; font-size: 17px;"
-                        [disabled]="!this.userSearchForm.value.searchString"
-                        (click)="searchForUser(this.userSearchForm.value.searchString)"
-                        >
-                        <i class="fa fa-search"></i>
-                        Szukaj
-                        </button>
-                    </div>
+                        <div class="column mr-3 mb-2">
+                            <input type="text" placeholder="Wpisz nazwę wyszukiwanego użytkownika" [formControl]='userSearchForm.controls["searchString"]'>
+                        </div>
+                        <div class="column">
+                            <button 
+                            class="dropdown-item"
+                            class="btn btn-primary btn-lg" 
+                            style="align-items: center; font-size: 17px;"
+                            [disabled]="!this.userSearchForm.value.searchString"
+                            (click)="searchForUser(this.userSearchForm.value.searchString)"
+                            >
+                            <i class="fa fa-search"></i>
+                            Szukaj
+                            </button>
+                        </div>
                   </div>
             </form>
         </div>

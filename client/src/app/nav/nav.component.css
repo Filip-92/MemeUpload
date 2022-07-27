@@ -446,12 +446,20 @@ form {
       margin-right: auto !important;
     }
 
-    #profile {
-      margin-left: 20px !important;
-    }
-
     .loggedOut {
       margin-left: 150px !important;
+    }
+
+    .navbar-brand img {
+      max-height: 50px;
+    }
+
+    .navbar {
+      min-height: 50px !important;
+    }
+
+    ::-webkit-scrollbar {
+      display: none;
     }
   }
 

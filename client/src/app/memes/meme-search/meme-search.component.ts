@@ -7,6 +7,9 @@ import { MemeService } from 'src/app/_services/meme.service';
 import { Location } from '@angular/common';
 import { Member } from 'src/app/_models/member';
 import { MembersService } from 'src/app/_services/members.service';
+import { AccountService } from 'src/app/_services/account.service';
+import { User } from 'src/app/_models/user';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-meme-search',
@@ -15,8 +18,10 @@ import { MembersService } from 'src/app/_services/members.service';
 })
 export class MemeSearchComponent implements OnInit {
 
-  constructor(private memeService: MemeService, private route: ActivatedRoute, private fb: FormBuilder, private location: Location,
-    private memberService: MembersService) { }
+  constructor(private memeService: MemeService, private fb: FormBuilder, private location: Location,
+    private memberService: MembersService, public accountService: AccountService) {
+      this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
+     }
 
   pagination: Pagination;
   pageNumber = 0;
@@ -28,6 +33,7 @@ export class MemeSearchComponent implements OnInit {
   searchString: string;
   searchActive: boolean;
   trustedUrl: any;
+  user: User;
 
   ngOnInit(): void {
     this.initializeMemeForm();

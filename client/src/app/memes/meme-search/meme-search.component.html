@@ -78,7 +78,7 @@
             </select>
         </div>
     </tab>
-    <tab heading='Szukaj użytkowników' class="text-center">
+    <tab heading='Szukaj użytkowników' class="text-center" *ngIf="(accountService.currentUser$ | async) as user">
         <div id="container" class="container text-center mt-5">
             <div id="searchUser">
                 <div class="form-group">

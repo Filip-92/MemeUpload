@@ -23,17 +23,17 @@
             <div class="col-8 col-lg-6 text-right" id="icons">
                 <ng-container *ngIf="accountService.currentUser$ | async" style="margin-top: 50px !important;">
                     <ul class="nav text-right">
+                        <li *appHasRole='["Admin", "Moderator"]' class="nav-item" style="width: 60px">
+                            <a class="nav-link" routerLink='/admin' routerLinkActive='active'><i class="fa fa-lock"></i></a>
+                        </li>
+                        <li *appHasRole='["Admin", "Moderator"]' class="nav-item" style="width: 60px;">
+                            <a class="nav-link" routerLink='/errors' routerLinkActive='active' ><i class="fa fa-exclamation-triangle mr-3"></i></a>
+                        </li>
                         <li style="width: 60px" title="Użytkownicy"><a class="nav-link" routerLink='/uzytkownicy' routerLinkActive='active'><i class="fa fa-user" [ngStyle]="router.url.includes('uzytkownicy') ? { 'color': 'yellow' } : { 'color': 'white' }"></i></a></li>
                         <!-- <li style="width: 60px" title="Polubienia"><a class="nav-link" routerLink='/lists' routerLinkActive='active'><i class="fa fa-thumbs-up"></i></a></li> -->
                         <li style="width: 60px" *ngIf="(accountService.currentUser$ | async) || (accountService.currentUser$ | async) === null" title="Szukaj memów"><a class="nav-link" routerLink='szukaj/memes' routerLinkActive='active'><i class="fa fa-search" [ngStyle]="router.url.includes('szukaj') ? { 'color': 'yellow' } : { 'color': 'white' }"></i></a></li>
                         <li id="messages" style="width: 60px" title="Wiadomości"><a class="nav-link" routerLink='/wiadomosci'routerLinkActive='active'><i class="fa fa-envelope" [ngStyle]="unreadMessages > 0 ? { 'color': 'red' } : { 'color': 'white' } && router.url.includes('wiadomosci') ? { 'color': 'yellow' } : { 'color': 'white' }"><span class="ml-1" *ngIf="unreadMessages > 0" id="unread">{{unreadMessages}}</span></i></a></li>
                         <li id="messages" style="width: 60px" title="Powiadomienia"><a class="nav-link" style="cursor: pointer;" (click)="openNotificationsModal(user.username)" routerLinkActive='active'><i class="fa fa-bell" [ngStyle]="notifications?.length > 0 ? { 'color': 'red' } : { 'color': 'white' }"><span class="ml-1" *ngIf="notifications?.length > 0" id="unread">{{notifications?.length}}</span></i></a></li>
-                        <li *appHasRole='["Admin", "Moderator"]' class="nav-item" style="width: 60px ">
-                            <a class="nav-link" routerLink='/admin' routerLinkActive='active'><i class="fa fa-lock"></i></a>
-                        </li>
-                        <li *appHasRole='["Admin", "Moderator"]' class="nav-item" style="width: 60px; margin-right: -50px !important;">
-                            <a class="nav-link" routerLink='/errors' routerLinkActive='active' ><i class="fa fa-exclamation-triangle mr-3"></i></a>
-                        </li>
                     </ul>
                 </ng-container>
             </div>
@@ -43,7 +43,6 @@
                     <i class="navbar-toggler-icon text-center" (click)="displayNavbar()" *ngIf="display" style="width: 50px !important;"></i>
                 </div>
             </div>
-
         </div>
 
 
@@ -133,6 +132,11 @@
                     <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">
                         <a [routerLink]="display ? [''] : ['/poczekalnia']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;">
                             <i class="fa fa-clock-o mr-2"></i>Poczekalnia
+                        </a>
+                    </button>
+                    <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">
+                        <a [routerLink]="display ? [''] : ['/szukaj/memes']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;">
+                            <i class="fa fa-search mr-2"></i>Szukaj
                         </a>
                     </button>
                     <br />
