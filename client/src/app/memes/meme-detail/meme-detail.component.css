@@ -65,11 +65,14 @@ table {
         margin-right: -60px !important;
         min-width: 30px !important;
     }
+}
 
+@media screen and (max-width: 800px) {
     .card {
         margin-top: -20px !important;
     }
 }
+
 
 #likes {
     background-color: rgb(10, 92, 130) !important;

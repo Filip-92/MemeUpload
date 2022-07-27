@@ -3,7 +3,7 @@ select, select:focus {
     color: whitesmoke;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 800px) {
     #filterButton {
         margin-top: 15px !important;
     }
@@ -11,5 +11,9 @@ select, select:focus {
     h2 {
         margin-top: -40px !important;
     }
+
+}
+
+@media screen and (max-width: 1000px) {
 
 }

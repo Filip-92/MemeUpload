@@ -75,3 +75,13 @@ input[type="checkbox"] {
     color: var(--form-control-disabled);
     cursor: not-allowed;
   }
+
+  @media screen and (max-width: 800px) {
+    hr {
+      margin-bottom: 40px !important;
+    }
+
+    form {
+      min-width: 400px !important;
+    }
+  }
