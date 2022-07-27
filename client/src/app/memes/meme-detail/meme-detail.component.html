@@ -4,7 +4,10 @@
             <h4 class="card-title text-center mb-4 mt-3"> 
                 {{meme?.title || 'Jakieś gówno'}}
             </h4>
-            <p>{{meme?.uploaded | timeago}}</p>
+            <div class="row">
+                <div class="col-1 col-lg-3"></div>
+                <p>{{changeTimeZone(meme?.uploaded) | timeago}}</p>
+            </div>
             <span *ngIf="meme?.description?.length > 0">
                 <br>         
                 <div id="description" class="text-center" style="padding-top: 10px; padding-bottom: 5px;">
@@ -28,7 +31,7 @@
         </div>
     </div>
     <div class="text-left mt-3 mb-2 ml-3">
-        Komentarze: {{ numberOfComments || '0' }}
+        <i class="fa fa-comment mr-2" aria-hidden="true"></i>Komentarze: {{ numberOfComments || '0' }}
     </div>
 </div>
 
