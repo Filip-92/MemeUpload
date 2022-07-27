@@ -7,8 +7,4 @@ select, select:focus {
     #filterButton {
         margin-top: 15px !important;
     }
-
-    #activityButtons {
-        margin-left: -50px !important;
-    }
 }
