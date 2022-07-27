@@ -33,7 +33,6 @@ export class MessageComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    console.log(this.user.roles);
   }
 
   editMessage() {

@@ -407,6 +407,10 @@ form {
       max-height: 50px !important;
     }
 
+    .navbar-toggler-icon {
+      margin-left: 40px !important;
+    }
+
     .nav i {
       margin-top: 20px !important;
       font-size: 14px !important;
@@ -422,6 +426,11 @@ form {
     #toggle {
       margin-top: 15px !important;
       margin-left: -60px !important;
+    }
+
+    #toggleClose {
+      margin-left: auto !important;
+      margin-right: auto !important;
     }
 
     #profile {

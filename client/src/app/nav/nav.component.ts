@@ -27,7 +27,7 @@ export class NavComponent implements OnInit {
   divisions: Division[];
   pagination: Pagination;
   container = 'Unread';
-  pageNumber = 1;
+  pageNumber = 0;
   pageSize = 5;
   loading = false;
   open: boolean;
