@@ -8,7 +8,9 @@
         <div *ngIf="member.photos.length === 0">
             <img src="{{'././assets/LogoImage.png'}}" alt="{{member.username}}" class="card-img-top img-thumbnail">
         </div>
-        <h3 style="color: rgb(170, 139, 37);">{{member.username}}</h3>
+        <h3 style="color: rgb(170, 139, 37);" *ngIf="member?.username?.length < 8">{{member.username}}</h3>
+        <h4 style="color: rgb(170, 139, 37);" *ngIf="member?.username?.length > 8 && member?.username?.length < 16">{{member.username}}</h4>
+        <h5 style="color: rgb(170, 139, 37);" *ngIf="member?.username?.length > 16">{{member.username}}</h5>
         <hr>
         <h4 class="mt-2">Odznaki</h4>
         <div class="mt-4">
@@ -96,7 +98,7 @@
         </tab>
         <tab heading='Memy użytkownika {{member.username}}' (selectTab)="onTabActivated($event)"
         #scrollMe
-        style="overflow-y: auto; height: 500px;"
+        style="overflow-y: auto; height: 300px;"
         [scrollTop]="scrolltop"
         *ngIf="memes?.length === 0"
         >

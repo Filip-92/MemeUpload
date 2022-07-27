@@ -1,14 +1,16 @@
 <div class="row text-center" id="background" style="border: 3px solid rgb(209, 207, 207);" *ngIf="member">
     <br />
     <div class="col-12 text-center mt-2 mb-4"><h3>Twój profil</h3></div>
-    <div class="col-6 text-center mb-5" style="border-right: 1px solid white;">
-        <div *ngFor="let photo of member.photos">
+    <div class="col-6 text-center mb-5" style="border-right: 1px solid white; margin-left: auto; margin-right: auto;">
+        <div *ngFor="let photo of member.photos" style="margin-left: auto; margin-right: auto;">
             <img src="{{photo.url || '././assets/LogoImage.png'}}" alt="{{member.username}}" class="card-img-top img-thumbnail">
         </div>
         <div *ngIf="member.photos.length === 0">
             <img src="{{'././assets/LogoImage.png'}}" alt="{{member.username}}" class="card-img-top img-thumbnail">
         </div>
-        <h3 style="color: rgb(170, 139, 37);">{{member.username}}</h3>
+        <h3 style="color: rgb(170, 139, 37);" *ngIf="member?.username?.length < 8">{{member.username}}</h3>
+        <h4 style="color: rgb(170, 139, 37);" *ngIf="member?.username?.length > 8 && member?.username?.length < 16">{{member.username}}</h4>
+        <h5 style="color: rgb(170, 139, 37);" *ngIf="member?.username?.length > 16">{{member.username}}</h5>
         <hr>
         <h4 class="mt-2">Odznaki</h4>
         <div class="mt-4">
@@ -53,42 +55,44 @@
 
 <div class="text-center">
     <tabset class="member-tabset text-center" class="col-12">
-        <tab heading='Moje memy'>
-            <br>
-            <br>
-            <hr>
-            <h4 class="mb-5 strong">Moje memy</h4>
-            <div class="text-center"
-                #scrollMe
-                style="overflow-y: auto; height: 1000px;"
-                [scrollTop]="scrolltop"
-            >
-                <div *ngFor="let meme of memes" >
-                    <app-meme-card [meme]="meme"></app-meme-card>
-                    <div class='text-center mb-5'>
-                        <button class='btn btn-sm btn-danger' (click)='removeMeme(meme.id)'><i class="fa fa-trash"></i> Usuń</button>
-                    </div>
+        <tab heading='Moje memy' class="text-center"
+            #scrollMe
+            style="overflow-y: auto; height: 1000px;"
+            [scrollTop]="scrolltop"
+            *ngIf="memes?.length > 0"
+        >
+            <div *ngFor="let meme of memes" >
+                <app-meme-card [meme]="meme"></app-meme-card>
+                <div class='text-center mb-5'>
+                    <button class='btn btn-sm btn-danger' (click)='removeMeme(meme.id)'><i class="fa fa-trash"></i> Usuń</button>
                 </div>
-                <div *ngIf="memes?.length === 0" class="text-center mt-3" valign="center">
-                    <img src="https://c.tenor.com/j5YcO9slE7YAAAAC/leslie-nielsen-nothing-to-see-here.gif" class="card-img-top" style="max-width: 400px;">
-                </div>
-
-                <div class="d-flex justify-content-center" *ngIf="memes?.length !== 0 && pagination">
-                    <pagination
-                        [boundaryLinks]="true" 
-                        [totalItems]="pagination.totalItems"
-                        [itemsPerPage]="pagination.itemsPerPage"
-                        [(ngModel)]="pagination.currentPage"
-                        (pageChanged)="pageChanged($event)"
-                        style="bottom: 0;"
-                        previousText="&lsaquo;" 
-                        nextText="&rsaquo;" 
-                        firstText="&laquo;" 
-                        lastText="&raquo;">
-                    </pagination>
-                </div>
-                
             </div>
+
+            <div class="d-flex justify-content-center" *ngIf="memes?.length !== 0 && pagination">
+                <pagination
+                    [boundaryLinks]="true" 
+                    [totalItems]="pagination.totalItems"
+                    [itemsPerPage]="pagination.itemsPerPage"
+                    [(ngModel)]="pagination.currentPage"
+                    (pageChanged)="pageChanged($event)"
+                    style="bottom: 0;"
+                    previousText="&lsaquo;" 
+                    nextText="&rsaquo;" 
+                    firstText="&laquo;" 
+                    lastText="&raquo;">
+                </pagination>
+            </div>
+        </tab>
+
+        <tab heading='Memy użytkownika {{member.username}}' (selectTab)="onTabActivated($event)"
+        #scrollMe
+        style="overflow-y: auto; height: 300px;"
+        [scrollTop]="scrolltop"
+        *ngIf="memes?.length === 0"
+        >
+        <div *ngIf="memes?.length === 0" class="text-center mt-3" valign="center">
+            <img src="https://c.tenor.com/j5YcO9slE7YAAAAC/leslie-nielsen-nothing-to-see-here.gif" class="card-img-top mt-3" style="max-width: 400px;">
+        </div>
         </tab>
         <tab heading='Komentarze'>
             <div class="mt-3" *ngFor="let comment of comments">

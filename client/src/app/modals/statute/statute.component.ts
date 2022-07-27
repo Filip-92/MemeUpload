@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-statute',
@@ -7,10 +7,13 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class StatuteComponent implements OnInit {
   @Input() modalRef: any;
+  @ViewChild('scrollMe') meme : ElementRef;
+  scrolltop:number=null;
 
   constructor() { }
 
   ngOnInit(): void {
+    this.scrolltop = 0;
     window.scrollTo(0,0);
   }
 

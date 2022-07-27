@@ -11,7 +11,7 @@
         </div> -->
 
         <div class="form-group px-2">
-            <label>Show: </label>
+            <label>Pokaż: </label>
             <select name="gender" style="width: 130px" [(ngModel)]="userParams.gender" class="form-control ml-1">
                 <option *ngFor="let gender of genderList" [value]="gender.value">
                     {{gender?.display}}

@@ -53,18 +53,20 @@ img {
     margin-bottom: 10px;
 }
 
+.row {
+  width: 100% !important;
+}
+
 .nav {
     position: relative;
 }
 
 .nav i {
   margin-top: 30px !important;
-  margin-left: 50px !important;
 }
 
 #toggle {
   margin-top: 30px !important;
-  margin-left: 200px !important;
 }
 
 .sidemenu-item {
@@ -372,7 +374,6 @@ form {
 
     .nav i {
       font-size: 20px;
-      margin-top: 5px;
     }
 
     #division {
@@ -410,12 +411,17 @@ form {
       margin-top: 20px !important;
       font-size: 14px !important;
       width: 40px !important;
-      margin-left: -30px !important;
+      margin-left: -40px !important;
+    }
+
+    .fa-bell {
+      margin-left: 0px !important;
+      margin-top: 0px !important;
     }
 
     #toggle {
       margin-top: 15px !important;
-      margin-left: -100px !important;
+      margin-left: -60px !important;
     }
 
     #profile {
