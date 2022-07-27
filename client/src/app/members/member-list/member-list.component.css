@@ -7,4 +7,9 @@ select, select:focus {
     #filterButton {
         margin-top: 15px !important;
     }
+
+    h2 {
+        margin-top: -40px !important;
+    }
+
 }

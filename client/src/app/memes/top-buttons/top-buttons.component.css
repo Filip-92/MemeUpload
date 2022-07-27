@@ -45,6 +45,10 @@ button {
     #show {
       display: inline !important;
     }
+
+    .container {
+      margin-top: -40px;
+    }
   }
 
   @media screen and (max-width: 800px) {

@@ -5,3 +5,9 @@
 .btn-primary {
     min-width: 200px;
 }
+
+@media screen and (max-width: 1000px) {
+    .container {
+        margin-top: -40px !important;
+    }
+}
