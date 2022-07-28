@@ -29,6 +29,14 @@
             <button (click)="addDislike(meme)" [disabled]="liked" class="btn btn-danger" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-thumbs-down" style="margin-top: -5px !important;"></i></button>
             <button class="btn btn-warning ml-2" (click)="flagAsSpam(meme.id)"><i class="fa fa-flag" aria-hidden="true"></i></button>
         </div>
+        <div class="mb-2">
+            <span *appHasRole='["Admin", "Moderator"]' class="mr-2">
+                <span id="division" *ngIf="division !== null && meme.division !== 0" [ngStyle]="division?.isCloseDivision ? { 'color': 'red' } : { 'color': 'yellow' }" (click)="openDivisionModal(meme)" style="cursor: pointer;">{{division?.name}}</span>
+                <span id="division" *ngIf="division === null || meme.division === 0" (click)="openDivisionModal(meme)" style="cursor: pointer; font-size: 12px;">Poczekalnia</span>
+            </span>
+            <button class="btn btn-info mr-2" *ngIf="meme?.isMain"><i class="fa fa-share mr-2"></i>Share</button>
+            <button *appHasRole='["Admin", "Moderator"]' class="btn btn-danger" (click)='rejectMeme(meme?.id)'><i class="fa fa-trash"></i> Usuń</button>
+        </div>
     </div>
     <div class="text-left mt-3 mb-2 ml-3">
         <i class="fa fa-comment mr-2" aria-hidden="true"></i>Komentarze: {{ numberOfComments || '0' }}

@@ -14,6 +14,8 @@ import { environment } from 'src/environments/environment';
 import { AccountService } from 'src/app/_services/account.service';
 import { User } from 'src/app/_models/user';
 import { take } from 'rxjs/operators';
+import { SwitchDivisionComponent } from 'src/app/modals/switch-division/switch-division.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-meme-detail',
@@ -52,7 +54,7 @@ export class MemeDetailComponent implements OnInit {
   constructor(private memeService: MemeService,
     private route: ActivatedRoute, private toastr: ToastrService, private helper: HelperService, 
     private fb: FormBuilder, private router: Router,public accountService: AccountService, 
-    private helperService: HelperService) {
+    private helperService: HelperService, private modalService: NgbModal) {
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
      }
 
@@ -75,12 +77,12 @@ export class MemeDetailComponent implements OnInit {
   getMeme(memeId: number) {
     this.memeService.getMeme(memeId).subscribe(meme => {
       this.meme = meme;
-      if(this.meme.division !== 0) {
-        this.getDivisionNameById(this.meme.division);
+      if(this.meme?.division !== 0) {
+        this.getDivisionNameById(this.meme?.division);
       }
       this.id = meme.id;
-      if (this.meme.url.includes("youtube") || this.meme.url.includes("youtu.be")) {
-        this.trustedUrl = this.formatYoutubeLink(this.meme.url)
+      if (this.meme?.url?.includes("youtube") || this.meme?.url?.includes("youtu.be")) {
+        this.trustedUrl = this.formatYoutubeLink(this.meme?.url)
       }
     })
   }
@@ -315,7 +317,7 @@ export class MemeDetailComponent implements OnInit {
       if ("user" in localStorage) {
 
       } else {
-        if(this.division.isCloseDivision) {
+        if(this.division?.isCloseDivision) {
           this.router.navigateByUrl('/');
           this.toastr.error("Zaloguj się aby mieć dostęp");
         }
@@ -325,5 +327,11 @@ export class MemeDetailComponent implements OnInit {
 
   checkIfUserWorthy(mainMemes: number) {
     return this.helperService.checkIfUserWorthy(mainMemes);
+  }
+
+  openDivisionModal(meme: Meme) {
+    const modalRef = this.modalService.open(SwitchDivisionComponent);
+    modalRef.componentInstance.meme = meme;
+    modalRef.componentInstance.modalRef = modalRef;
   }
 }

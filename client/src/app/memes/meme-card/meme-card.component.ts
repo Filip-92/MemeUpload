@@ -175,7 +175,6 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   }
 
   formatYoutubeLink(url: string) {
-    console.log(url);
     var id = '';
     if (url.includes('youtube')) {
       id = url?.split('v=')[1]?.split('&')[0];
@@ -183,7 +182,6 @@ export class MemeCardComponent implements OnInit, PipeTransform {
       id = url?.split('be/')[1];
     }
     url = "https://www.youtube-nocookie.com/embed/" + id;
-    console.log(url);
     return url;
   }
 

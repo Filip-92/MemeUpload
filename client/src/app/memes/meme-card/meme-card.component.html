@@ -39,19 +39,19 @@
                         autor: <a class="nav-link" routerLink='/uzytkownicy/{{meme.username}}' style="color: greenyellow !important" class="inline">{{meme.username}}</a>
                     </span>
                 </div>
-                <span *appHasRole='["Admin", "Moderator"]' class="mr-2">
-                    <span [ngStyle]="division?.isCloseDivision ? { 'color': 'red' } : { 'color': 'yellow' }" (click)="openDivisionModal(meme)" style="cursor: pointer;">{{division?.name}}</span>
-                    <span *ngIf="division === null" (click)="openDivisionModal(meme)" style="cursor: pointer; font-size: 12px;">Poczekalnia</span>
-                </span>
                 <button class="btn btn-success mr-2" (click)="addFavourite(meme.id)" [ngStyle]="!favourite ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-thumb-tack" aria-hidden="true"></i></button>
                 <button (click)="addLike(meme)" [disabled]="disliked" class="btn btn-success mr-2" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-thumbs-up"></i></button>
                 <span class="btn btn-primary mr-2" id="likes" style="min-width: 100px;">{{meme.numberOfLikes}}</span>
                 <button (click)="addDislike(meme)" [disabled]="liked" class="btn btn-danger" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-thumbs-down"></i></button>
                 <button class="btn btn-warning ml-2 mr-2" (click)="flagAsSpam(meme.id)"><i class="fa fa-flag" aria-hidden="true"></i></button>
-                <button *appHasRole='["Admin", "Moderator"]' class="btn btn-danger" (click)='rejectMeme(meme.id)'><i class="fa fa-trash"></i> Usuń</button>
             </div>
             <div class="mb-2">
-                <button class="btn btn-info ml-2" *ngIf="meme.isMain"><i class="fa fa-share mr-2"></i>Share</button>
+                <span *appHasRole='["Admin", "Moderator"]' class="mr-2">
+                    <span id="division" *ngIf="division !== null" [ngStyle]="division?.isCloseDivision ? { 'color': 'red' } : { 'color': 'yellow' }" (click)="openDivisionModal(meme)" style="cursor: pointer;">{{division?.name}}</span>
+                    <span id="division" *ngIf="division === null" (click)="openDivisionModal(meme)" style="cursor: pointer; font-size: 12px;">Poczekalnia</span>
+                </span>
+                <button class="btn btn-info mr-2" *ngIf="meme.isMain"><i class="fa fa-share mr-2"></i>Share</button>
+                <button *appHasRole='["Admin", "Moderator"]' class="btn btn-danger" (click)='rejectMeme(meme.id)'><i class="fa fa-trash"></i> Usuń</button>
             </div>
         </div>
     </div>

@@ -73,6 +73,15 @@ table {
     }
 }
 
+#division {
+    padding: 10px;
+    border: 1px solid white;
+}
+
+#division:hover {
+    color: red;
+    border: 1px solid yellow;
+}
 
 #likes {
     background-color: rgb(10, 92, 130) !important;
