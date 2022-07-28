@@ -7,7 +7,7 @@
     <iframe width="250" height="200" [src]="formatYoutubeLink(meme?.url) | safe"></iframe>
 </div>
 <img src="{{meme.url ? meme.url : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme.url)" style="max-width: 400px;"/>
-<video src="{{meme.url}}" class="card-img-top" *ngIf="!checkURL(meme?.url) && !meme?.url?.includes('https://www.youtube')" style="max-width: 400px;" controls></video>
+<video src="{{meme.url}}" class="card-img-top" *ngIf="!checkURL(meme?.url) && !meme?.url?.includes('youtube.com') && !meme?.url?.includes('you.tube')" style="max-width: 400px;" controls></video>
 <h4>{{meme.username}}</h4>
 <div class="mb-2">
     <span [ngStyle]="division?.isCloseDivision ? { 'color': 'red' } : { 'color': 'yellow' }" (click)="openDivisionModal(meme)" style="cursor: pointer;">{{division?.name}}</span>
