@@ -19,7 +19,7 @@
                 <iframe width="600" height="400" [src]="trustedUrl | safe"></iframe>
             </div>
                 <img src="{{addImageWatermark(meme?.url) ? addImageWatermark(meme?.url) : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme?.url) && !meme?.url?.includes('https://www.youtube')"/>
-            <video src="{{meme?.url}}" class="card-img-top" *ngIf="!checkURL(meme?.url) && !meme?.url?.includes('https://www.youtube')" controls></video>
+            <video src="{{meme?.url}}" class="card-img-top" *ngIf="!checkURL(meme?.url) && !meme?.url?.includes('youtube.com') && !meme?.url?.includes('you.tube')" controls></video>
         </div>
         <div class="mb-3">
             <span class="inline-block">autor: <a class="nav-link" routerLink='/uzytkownicy/{{meme?.username}}'>{{meme?.username}}</a></span>

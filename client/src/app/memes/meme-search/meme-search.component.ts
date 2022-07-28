@@ -70,7 +70,6 @@ export class MemeSearchComponent implements OnInit {
   searchForMember(searchString: string) {
     this.memberService.searchForMember(searchString.toLowerCase(), this.pageNumber, this.pageSize).subscribe(response => {
       this.members = response.result;
-      console.log(this.members);
       this.pagination = response.pagination;
       if (this.pageNumber === 0) {
         //this.location.replaceState("szukaj/uzytkownicy/" + searchString);

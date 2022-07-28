@@ -97,7 +97,6 @@ export class ResetPasswordComponent implements OnInit {
   getUserEmailById(userId: number) {
     this._authService.getUserEmailById(userId).subscribe(email => {
       this.user = email;
-      console.log(this.user.email);
     });
   }
 

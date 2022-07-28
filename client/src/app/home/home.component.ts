@@ -42,7 +42,6 @@ export class HomeComponent implements OnInit {
   formatYoutubeLink(url) {
     var id = url.split('v=')[1].split('&')[0]; //sGbxmsDFVnE
     url = "https://www.youtube.com/embed/" + id;
-    console.log(url)
   }
 
   addWatermark() {

@@ -28,7 +28,6 @@ export class SiteManagementComponent implements OnInit {
   }
 
   getSubject(id: number) {
-    console.log(id);
     if(id.toString() === '1') {
       return "Feedback";
     } else if (id.toString() === '2') {

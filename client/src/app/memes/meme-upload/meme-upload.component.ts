@@ -134,7 +134,6 @@ export class MemeUploadComponent implements OnInit {
 
     this.uploader.onWhenAddingFileFailed = (item, filter) => {
       let message = '';
-      console.log(filter.name);
       switch (filter.name) {
         case 'fileSize':
           message = 'Plik jest za duży. Rozmiar pliku to ' + this.formatBytes(item.size) + ', podczas gdy maksymalny dopuszczalny rozmiar to ' + this.formatBytes(maxFileSize);

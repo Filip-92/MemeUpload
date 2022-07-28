@@ -150,7 +150,6 @@ export class MemeDetailComponent implements OnInit {
   checkIfMemeLiked(id: number) {
     if (id === this.id) {
       this.liked = !this.liked;
-      console.log(id);
     }
   }
 

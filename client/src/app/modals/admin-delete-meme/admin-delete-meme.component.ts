@@ -15,7 +15,6 @@ export class AdminDeleteMemeComponent implements OnInit {
   constructor(private adminService: AdminService) { }
 
   ngOnInit(): void {
-    console.log(this.memeId);
   }
 
   rejectMeme(memeId: number) {

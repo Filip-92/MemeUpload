@@ -157,7 +157,6 @@ checkIfReplyDisliked(id: number) {
 getCommentUsername(id: number) {
   this.memeService.getCommentUsername(id).subscribe(response => {
     this.username = response;
-    console.log(this.username);
   });
 }
 
