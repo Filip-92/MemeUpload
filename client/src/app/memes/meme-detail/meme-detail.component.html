@@ -31,8 +31,8 @@
         </div>
         <div class="mb-2">
             <span *appHasRole='["Admin", "Moderator"]' class="mr-2">
-                <span id="division" *ngIf="division !== null && meme.division !== 0" [ngStyle]="division?.isCloseDivision ? { 'color': 'red' } : { 'color': 'yellow' }" (click)="openDivisionModal(meme)" style="cursor: pointer;">{{division?.name}}</span>
-                <span id="division" *ngIf="division === null || meme.division === 0" (click)="openDivisionModal(meme)" style="cursor: pointer; font-size: 12px;">Poczekalnia</span>
+                <span id="division" *ngIf="division !== null && meme?.division !== 0" [ngStyle]="division?.isCloseDivision ? { 'color': 'red' } : { 'color': 'yellow' }" (click)="openDivisionModal(meme)" style="cursor: pointer;">{{division?.name}}</span>
+                <span id="division" *ngIf="division === null || meme?.division === 0" (click)="openDivisionModal(meme)" style="cursor: pointer; font-size: 12px;">Poczekalnia</span>
             </span>
             <button class="btn btn-info mr-2" *ngIf="meme?.isMain"><i class="fa fa-share mr-2"></i>Share</button>
             <button *appHasRole='["Admin", "Moderator"]' class="btn btn-danger" (click)='rejectMeme(meme?.id)'><i class="fa fa-trash"></i> Usuń</button>
