@@ -17,7 +17,8 @@ table {
 @media screen and (max-width: 700px) {
 
     iframe {
-        max-width: 550px !important;
+        max-width: 480px !important;
+        margin-left: -4px !important;
     }
 }
 
@@ -25,6 +26,7 @@ table {
 
     iframe {
         max-width: 380px !important;
+        margin-left: -4px !important;
     }
 }
 
