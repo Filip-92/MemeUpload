@@ -333,6 +333,8 @@ export class MemeDetailComponent implements OnInit {
     this.adminService.rejectMeme(memeId).subscribe(() => {
       this.memes?.splice(this.memes?.findIndex(p => p.id === memeId), 1);
     })
+    this.toastr.success('Mem został usunięty pomyślnie');
+    this.router.navigateByUrl('/');
   }
 
   openDivisionModal(meme: Meme) {

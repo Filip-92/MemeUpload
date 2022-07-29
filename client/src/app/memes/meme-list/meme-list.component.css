@@ -35,3 +35,7 @@ pagination {
 .card {
   min-height: 600px !important;
 }
+
+#reject {
+  margin-top: -30px !important;
+}

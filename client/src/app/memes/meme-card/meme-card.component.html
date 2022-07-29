@@ -1,5 +1,5 @@
 <div class="text-center">
-    <div class="card mb-5 text-center mt-3">
+    <div class="card mb-3 text-center mt-3">
         <div class="card-img-wrapper">
             <div class="card-body p-1" style="text-align: center;">
                 <div class="row">
@@ -8,27 +8,27 @@
                             <h4 class="card-title text-center mb-4 mt-3"> 
                                 {{meme.title || 'Jakieś gówno'}}
                             </h4>
-                            </a>
-                            <div class="row">
-                                <div class="col-lg-2"></div>
-                                <p class="col-3 ml-2" [ngStyle]="(meme.uploaded | timeago).length < 10 ? { 'font-size': '14px' } : { 'font-size': '12px' }">{{meme.uploaded | timeago}}</p>
-                                <div class="col-7 col-lg-3"></div>
-                                <i class="fa fa-comment mr-2" aria-hidden="true"></i> {{comments}}
+                        </a>
+                        <div class="row">
+                            <div class="col-lg-2"></div>
+                            <p class="col-3 ml-2" [ngStyle]="(meme.uploaded | timeago).length < 10 ? { 'font-size': '14px' } : { 'font-size': '12px' }">{{meme.uploaded | timeago}}</p>
+                            <div class="col-7 col-lg-3"></div>
+                            <i class="fa fa-comment mr-2" aria-hidden="true"></i> {{comments}}
+                        </div>
+                        <span *ngIf="meme.description?.length > 0 && meme.description !== 'null'">
+                            <br>         
+                            <div id="description" class="text-center" style="padding-top: 10px; padding-bottom: 5px;">
+                                <p>{{meme.description}}</p>
                             </div>
-                            <span *ngIf="meme.description?.length > 0 && meme.description !== 'null'">
-                                <br>         
-                                <div id="description" class="text-center" style="padding-top: 10px; padding-bottom: 5px;">
-                                    <p>{{meme.description}}</p>
-                                </div>
-                                <br>
-                            </span>
-                            <div *ngIf="meme?.url?.includes('youtube')">
-                                <iframe width="600" height="400" [src]="trustedUrl | safe"></iframe>
-                            </div>
-                            <a routerLink="/meme/{{meme.id}}/{{ convertText(meme?.title) || convertText('Jakieś gówno')}}">
-                                <img src="{{addImageWatermark(meme.url) ? addImageWatermark(meme.url) : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme.url)"/>
-                            </a>
-                            <video src="{{meme.url}}" class="card-img-top" *ngIf="!checkURL(meme?.url) && !meme?.url?.includes('youtube.com') && !meme?.url?.includes('you.tube')" controls></video>
+                            <br>
+                        </span>
+                        <div *ngIf="meme?.url?.includes('youtube')">
+                            <iframe width="600" height="400" [src]="trustedUrl | safe"></iframe>
+                        </div>
+                        <a routerLink="/meme/{{meme.id}}/{{ convertText(meme?.title) || convertText('Jakieś gówno')}}">
+                            <img src="{{addImageWatermark(meme.url) ? addImageWatermark(meme.url) : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme.url)"/>
+                        </a>
+                        <video src="{{meme.url}}" class="card-img-top" *ngIf="!checkURL(meme?.url) && !meme?.url?.includes('youtube.com') && !meme?.url?.includes('you.tube')" controls></video>
                     </div>
                 </div>
             </div>
@@ -45,14 +45,14 @@
                 <button (click)="addDislike(meme)" [disabled]="liked" class="btn btn-danger" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-thumbs-down"></i></button>
                 <button class="btn btn-warning ml-2 mr-2" (click)="flagAsSpam(meme.id)"><i class="fa fa-flag" aria-hidden="true"></i></button>
             </div>
-            <div class="mb-2">
+            <div class="mb-3">
                 <span *appHasRole='["Admin", "Moderator"]' class="mr-2">
                     <span id="division" *ngIf="division !== null" [ngStyle]="division?.isCloseDivision ? { 'color': 'red' } : { 'color': 'yellow' }" (click)="openDivisionModal(meme)" style="cursor: pointer;">{{division?.name}}</span>
                     <span id="division" *ngIf="division === null" (click)="openDivisionModal(meme)" style="cursor: pointer; font-size: 12px;">Poczekalnia</span>
                 </span>
                 <button class="btn btn-info mr-2" *ngIf="meme.isMain"><i class="fa fa-share mr-2"></i>Share</button>
-                <button *appHasRole='["Admin", "Moderator"]' class="btn btn-danger" (click)='rejectMeme(meme.id)'><i class="fa fa-trash"></i> Usuń</button>
             </div>
         </div>
     </div>
 </div>
+<div *appHasRole='["Member"]' class="mb-5"></div>

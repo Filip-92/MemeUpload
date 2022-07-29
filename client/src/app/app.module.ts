@@ -64,7 +64,6 @@ import { BanModalComponent } from './modals/ban-modal/ban-modal.component';
 import { UserCardComponent } from './admin/user-card/user-card.component';
 import { CommentComponent } from './memes/comment/comment.component';
 import { AdminDeleteMemeComponent } from './modals/admin-delete-meme/admin-delete-meme.component';
-import { MemeListByDivisionComponent } from './memes/meme-list-by-division/meme-list-by-division.component';
 import { DivisionViewComponent } from './memes/division-view/division-view.component';
 import { AdminMemeViewComponent } from './modals/admin-meme-view/admin-meme-view.component';
 import { ReplyComponent } from './memes/reply/reply.component';
@@ -128,7 +127,6 @@ import { StatuteComponent } from './modals/statute/statute.component';
     UserCardComponent,
     CommentComponent,
     AdminDeleteMemeComponent,
-    MemeListByDivisionComponent,
     DivisionViewComponent,
     AdminMemeViewComponent,
     ReplyComponent,
