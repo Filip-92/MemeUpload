@@ -7,7 +7,7 @@ import { User } from 'src/app/_models/user';
 import { take } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { Meme } from 'src/app/_models/meme';
-import { UntypedFormBuilder, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { MemeService } from 'src/app/_services/meme.service';
 import { HttpClient, HttpEventType, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -37,9 +37,9 @@ export class MemeUploadComponent implements OnInit {
   };
   public progress: number;
   public message: string;
-  memeUploadForm: UntypedFormGroup;
-  youtubeForm: UntypedFormGroup;
-  divisionForm: UntypedFormGroup;
+  memeUploadForm: FormGroup;
+  youtubeForm: FormGroup;
+  divisionForm: FormGroup;
   members: Member[];
   meme: Meme = {
     x: '',
@@ -72,7 +72,7 @@ export class MemeUploadComponent implements OnInit {
   openDivision: boolean = false;
 
   constructor(public accountService: AccountService, private toastr: ToastrService, 
-    private sanitizer: DomSanitizer, private fb: UntypedFormBuilder, private memeService: MemeService, 
+    private sanitizer: DomSanitizer, private fb: FormBuilder, private memeService: MemeService, 
     private http: HttpClient, private modalService: NgbModal) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }

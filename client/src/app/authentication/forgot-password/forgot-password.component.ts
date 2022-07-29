@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ForgotPasswordDto } from 'src/app/_interfaces/ForgotPasswordDto.model';
@@ -12,7 +12,7 @@ import { AuthenticationService } from 'src/app/_services/authentication.service'
   styleUrls: ['./forgot-password.component.css']
 })
 export class ForgotPasswordComponent implements OnInit {
-  public forgotPasswordForm: UntypedFormGroup
+  public forgotPasswordForm: FormGroup
   public successMessage: string;
   public errorMessage: string;
   public showSuccess: boolean;
@@ -22,8 +22,8 @@ export class ForgotPasswordComponent implements OnInit {
     private toastr: ToastrService, private router: Router) { }
 
   ngOnInit(): void {
-    this.forgotPasswordForm = new UntypedFormGroup({
-      email: new UntypedFormControl("", [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')])
+    this.forgotPasswordForm = new FormGroup({
+      email: new FormControl("", [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')])
     })
   }
 

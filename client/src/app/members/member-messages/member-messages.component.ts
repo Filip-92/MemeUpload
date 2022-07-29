@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Message } from 'src/app/_models/message';
 import { MembersService } from 'src/app/_services/members.service';
 import { MessageService } from 'src/app/_services/message.service';
@@ -26,7 +26,7 @@ export class MemberMessagesComponent implements OnInit {
   message: any;
   // editForm: FormGroup;
 
-  constructor(public messageService: MessageService, private fb: UntypedFormBuilder) { }
+  constructor(public messageService: MessageService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
   }

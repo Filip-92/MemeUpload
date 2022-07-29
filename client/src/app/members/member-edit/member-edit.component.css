@@ -63,3 +63,8 @@ input[type="password"] {
       width: 2px;
     }
   }
+
+
+  #reject {
+    margin-top: -30px !important;
+  }

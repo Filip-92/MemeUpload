@@ -1,5 +1,5 @@
 import { ConnectionService } from '../_services/connection.service';
-import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, HostListener } from '@angular/core';
 import { AccountService } from '../_services/account.service';
 import { take } from 'rxjs/operators';
@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./contact-form.component.css'],
 })
 export class ContactFormComponent {
-contactForm: UntypedFormGroup;
+contactForm: FormGroup;
 disabledSubmitButton: boolean = true;
 optionsSelect: Array<any>;
 contactFormMode: boolean = true;
@@ -26,7 +26,7 @@ contactFormMode: boolean = true;
 
   user: User;
 
-  constructor(private fb: UntypedFormBuilder, private connectionService: ConnectionService,
+  constructor(private fb: FormBuilder, private connectionService: ConnectionService,
     public accountService: AccountService, private toastr: ToastrService) {
 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);

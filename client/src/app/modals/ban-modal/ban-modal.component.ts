@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
@@ -15,11 +15,11 @@ export class BanModalComponent implements OnInit {
   @Input() username: string;
   @Input() modalRef: any;
   users: Partial<User[]>;
-  banUserForm: UntypedFormGroup;
+  banUserForm: FormGroup;
   validationErrors: string[] = [];
 
   constructor(private adminService: AdminService, private toastr: ToastrService, 
-    private fb: UntypedFormBuilder) { }
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.initializeForm();

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Member } from 'src/app/_models/member';
@@ -36,7 +36,7 @@ export class MemeDetailComponent implements OnInit {
   pageNumber = 0;
   pageSize = 5;
   trustedUrl: any;
-  commentForm: UntypedFormGroup;
+  commentForm: FormGroup;
   validationErrors: string[] = [];
   liked: boolean;
   disliked: boolean;
@@ -54,7 +54,7 @@ export class MemeDetailComponent implements OnInit {
 
   constructor(private memeService: MemeService,
     private route: ActivatedRoute, private toastr: ToastrService, private helper: HelperService, 
-    private fb: UntypedFormBuilder, private router: Router,public accountService: AccountService, 
+    private fb: FormBuilder, private router: Router,public accountService: AccountService, 
     private helperService: HelperService, private modalService: NgbModal, private adminService: AdminService) {
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
      }
@@ -333,6 +333,8 @@ export class MemeDetailComponent implements OnInit {
     this.adminService.rejectMeme(memeId).subscribe(() => {
       this.memes?.splice(this.memes?.findIndex(p => p.id === memeId), 1);
     })
+    this.toastr.success('Mem został usunięty pomyślnie');
+    this.router.navigateByUrl('/');
   }
 
   openDivisionModal(meme: Meme) {

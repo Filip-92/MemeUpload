@@ -5,7 +5,6 @@ import { Member } from 'src/app/_models/member';
 import { Meme } from 'src/app/_models/meme';
 import { Pagination } from 'src/app/_models/pagination';
 import { User } from 'src/app/_models/user';
-import { MembersService } from 'src/app/_services/members.service';
 import { MemeService } from 'src/app/_services/meme.service';
 import { PresenceService } from 'src/app/_services/presence.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -216,12 +215,6 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     if (id === this.meme.id) {
       this.favourite = !this.favourite;
     }
-  }
-
-  rejectMeme(memeId: number) {
-    this.adminService.rejectMeme(memeId).subscribe(() => {
-      this.memes?.splice(this.memes?.findIndex(p => p.id === memeId), 1);
-    })
   }
 
   getDivisionNameById(divisionId: number) {

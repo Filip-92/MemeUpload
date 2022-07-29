@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Division } from 'src/app/_models/division';
 import { Meme } from 'src/app/_models/meme';
@@ -15,11 +15,11 @@ export class SwitchDivisionComponent implements OnInit {
   @Input() meme: Meme;
   @Input() modalRef: any;
   division: Division;
-  divisionForm: UntypedFormGroup;
+  divisionForm: FormGroup;
   divisions: Division[];
   validationErrors: string;
   
-  constructor(private adminService: AdminService, private fb: UntypedFormBuilder,
+  constructor(private adminService: AdminService, private fb: FormBuilder,
     private memeService: MemeService, private toastr: ToastrService) { }
 
   ngOnInit(): void {

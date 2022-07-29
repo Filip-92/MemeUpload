@@ -4,6 +4,12 @@
 
 <div *ngFor="let meme of memes" class="mb-2">
     <app-meme-card [meme]="meme"></app-meme-card>
+    <div *appHasRole='["Admin", "Moderator"]'  class="text-center">
+        <button class="btn btn-danger mb-2" id="reject" (click)='rejectMeme(meme.id)'><i class="fa fa-trash"></i> Usuń</button>
+    </div>
+    <div *ngIf="meme.username === user.username" id="reject" class="text-center">
+        <button class="btn btn-danger mb-2" (click)='removeMeme(meme.id)'><i class="fa fa-trash"></i> Usuń</button>
+    </div>
 </div>
 
 <div *ngIf="memes?.length <= 0" class="text-center mt-5 mb-5">

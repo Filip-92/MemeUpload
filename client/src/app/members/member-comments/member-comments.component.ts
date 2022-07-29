@@ -1,5 +1,5 @@
 import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
 import { MemeDetailComponent } from 'src/app/memes/meme-detail/meme-detail.component';
@@ -26,7 +26,7 @@ export class MemberCommentsComponent implements OnInit {
   }
   url: string;
   user: User;
-  replyForm: UntypedFormGroup;
+  replyForm: FormGroup;
   validationErrors: string[] = [];
   reply: boolean;
   replyQuote: boolean;
@@ -43,7 +43,7 @@ export class MemberCommentsComponent implements OnInit {
   mainMemes: number;
 
   constructor(private memeService: MemeService, public accountService: AccountService,
-    private toastr: ToastrService, private fb: UntypedFormBuilder, private helperService: HelperService) { 
+    private toastr: ToastrService, private fb: FormBuilder, private helperService: HelperService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
     this.logged = true;
   }

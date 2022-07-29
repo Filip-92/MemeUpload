@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Meme } from 'src/app/_models/meme';
 import { Pagination } from 'src/app/_models/pagination';
@@ -18,7 +18,7 @@ import { take } from 'rxjs/operators';
 })
 export class MemeSearchComponent implements OnInit {
 
-  constructor(private memeService: MemeService, private fb: UntypedFormBuilder, private location: Location,
+  constructor(private memeService: MemeService, private fb: FormBuilder, private location: Location,
     private memberService: MembersService, public accountService: AccountService) {
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
      }
@@ -28,8 +28,8 @@ export class MemeSearchComponent implements OnInit {
   pageSize = 8;
   memes: Meme[];
   members: Member[];
-  memeSearchForm: UntypedFormGroup;
-  memberSearchForm: UntypedFormGroup;
+  memeSearchForm: FormGroup;
+  memberSearchForm: FormGroup;
   searchString: string;
   searchActive: boolean;
   trustedUrl: any;

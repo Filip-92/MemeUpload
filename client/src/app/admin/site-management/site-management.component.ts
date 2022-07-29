@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ContactFormMessages } from 'src/app/_models/contactFormMessages';
 import { Division } from 'src/app/_models/division';
@@ -14,12 +14,12 @@ import { MemeService } from 'src/app/_services/meme.service';
 export class SiteManagementComponent implements OnInit {
   messages: ContactFormMessages[];
   divisions: Division[];
-  divisionForm: UntypedFormGroup;
+  divisionForm: FormGroup;
   validationErrors: string[] = [];
   scrolltop: number=null;
 
   constructor(private adminService: AdminService, private memeService: MemeService, 
-    private fb: UntypedFormBuilder, private toastr: ToastrService) { }
+    private fb: FormBuilder, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.getContactFormMessages();

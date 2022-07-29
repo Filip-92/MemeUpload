@@ -4,7 +4,11 @@ import { ToastrService } from 'ngx-toastr';
 import { Division } from 'src/app/_models/division';
 import { Meme } from 'src/app/_models/meme';
 import { Pagination } from 'src/app/_models/pagination';
+import { User } from 'src/app/_models/user';
+import { AccountService } from 'src/app/_services/account.service';
+import { AdminService } from 'src/app/_services/admin.service';
 import { MemeService } from 'src/app/_services/meme.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-meme-list',
@@ -12,7 +16,6 @@ import { MemeService } from 'src/app/_services/meme.service';
   styleUrls: ['./meme-list.component.css']
 })
 export class MemeListComponent implements OnInit {
-
   pagination: Pagination;
   pageNumber = +this.route.snapshot.paramMap.get('pageNumber');
   pageSize = 8;
@@ -24,8 +27,12 @@ export class MemeListComponent implements OnInit {
   division: Division;
   currentCategory: string;
   podstrona: string;
+  user: User;
 
-  constructor(private memeService: MemeService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService) { }
+  constructor(private memeService: MemeService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService,
+    private adminService: AdminService, private accountService: AccountService) { 
+      this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
+    }
 
   ngOnInit(): void { 
     this.determineDivision();
@@ -214,5 +221,17 @@ export class MemeListComponent implements OnInit {
     this.pageSize = pageSize;
     this.pageNumber = 0;
     this.determineDivision();
+  }
+
+  rejectMeme(memeId: number) {
+    this.adminService.rejectMeme(memeId).subscribe(() => {
+      this.memes?.splice(this.memes?.findIndex(p => p.id === memeId), 1);
+    })
+  }
+
+  removeMeme(memeId) {
+    this.memeService.removeMeme(memeId).subscribe(() => {
+      this.memes?.splice(this.memes?.findIndex(p => p.id === memeId), 1);
+    })
   }
 }
