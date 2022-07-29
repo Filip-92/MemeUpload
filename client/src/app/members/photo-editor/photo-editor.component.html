@@ -2,7 +2,7 @@
  
     <div class="text-center">
 
-        <h3>Zmiana avatara</h3>
+        <h3 class="mb-5">Zmiana avatara</h3>
 
         <img ngf-thumbnail="'user.photoUrl'">
         <img id="preview" [src]="user.photoUrl" *ngIf="!previewImg"/>
@@ -12,26 +12,23 @@
              [ngClass]="{'nv-file-over': hasBaseDropzoneOver}"
              (fileOver)="fileOverBase($event)"
              [uploader]="uploader"
-             class="card bg-faded p-3 text-center mb-3 my-drop-zone"
+             id="drag"
+             class="card bg-faded p-3 text-center mb-3 my-drop-zone mr-3"
              style="max-width: 200px; margin-left: auto; margin-right: auto;"
              >
              <i class="fa fa-upload fa-3x"></i>
             Upuść zdjęcie tutaj
         </div>
 
-        <label class="custom-file-upload" style="max-width: 200px;">
+        <label class="custom-file-upload ml-3" style="max-width: 200px;">
             <input type="file" ng2FileSelect [uploader]="uploader" class="text-center col-4 mt-3 mb-3" title="Wybierz"/>
-            Dodaj zdjęcie
+            <i class="fa fa-photo mr-2"></i>Zmień zdjęcie
         </label>
     </div>
 
     <div class="text-center" style="margin-bottom: 40px" *ngIf="uploader?.queue?.length">
 
         <img ngf-thumbnail="file" ngf-size="{width: 100, height: 100, quality: 0.5}"/>
-
-        <div class="text-center mt-5 mb-5" *ngFor="let item of uploader.queue">
-            <strong style="color: red;">{{ item?.file?.name }}</strong>
-        </div>
 
         <button type="button" class="btn btn-success btn-s"
                 (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">

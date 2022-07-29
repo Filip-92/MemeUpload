@@ -1,0 +1,19 @@
+select, select:focus {
+    background-color: gray;
+    color: whitesmoke;
+}
+
+@media screen and (max-width: 800px) {
+    #filterButton {
+        margin-top: 15px !important;
+    }
+
+    h2 {
+        margin-top: -40px !important;
+    }
+
+}
+
+@media screen and (max-width: 1000px) {
+
+}

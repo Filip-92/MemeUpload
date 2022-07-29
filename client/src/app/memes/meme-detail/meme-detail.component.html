@@ -4,42 +4,71 @@
             <h4 class="card-title text-center mb-4 mt-3"> 
                 {{meme?.title || 'Jakieś gówno'}}
             </h4>
-            <p>{{changeTimeZone(meme?.uploaded) | timeago}}</p>
+            <div class="row">
+                <div class="col-1 col-lg-3"></div>
+                <p>{{changeTimeZone(meme?.uploaded) | timeago}}</p>
+            </div>
+            <span *ngIf="meme?.description?.length > 0">
+                <br>         
+                <div id="description" class="text-center" style="padding-top: 10px; padding-bottom: 5px;">
+                    <p>{{meme?.description}}</p>
+                </div>
+                <br>
+            </span>
             <div *ngIf="meme?.url?.includes('youtube')">
                 <iframe width="600" height="400" [src]="trustedUrl | safe"></iframe>
             </div>
-            <img src="{{addImageWatermark(meme.url) ? addImageWatermark(meme.url) : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme?.url)" style="max-width: 400px;"/>
-            <video src="{{meme?.url}}" class="card-img-top" *ngIf="!checkURL(meme?.url) && !meme?.url?.includes('https://www.youtube')" style="max-width: 400px;" controls></video>
+                <img src="{{addImageWatermark(meme?.url) ? addImageWatermark(meme?.url) : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme?.url) && !meme?.url?.includes('https://www.youtube')"/>
+            <video src="{{meme?.url}}" class="card-img-top" *ngIf="!checkURL(meme?.url) && !meme?.url?.includes('youtube.com') && !meme?.url?.includes('you.tube')" controls></video>
         </div>
         <div class="mb-3">
-            <span class="inline-block">autor: <a class="nav-link" routerLink='/members/{{meme?.username}}'>{{meme?.username}}</a></span>
-            <button class="btn btn-success mr-2" (click)="addFavourite(meme.id)" [ngStyle]="!favourite ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-thumb-tack" aria-hidden="true"></i></button>
-            <button (click)="addLike(meme)" [disabled]="disliked" class="btn btn-success mr-2" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-plus"></i></button>
-            <span class="btn btn-primary mr-2" style="min-width: 100px;">{{meme?.numberOfLikes}}</span>
-            <button (click)="addDislike(meme)" [disabled]="liked" class="btn btn-danger" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-minus"></i></button>
+            <span class="inline-block">autor: <a class="nav-link" routerLink='/uzytkownicy/{{meme?.username}}'>{{meme?.username}}</a></span>
+            <button class="btn btn-success mr-2" (click)="addFavourite(meme.id)" [ngStyle]="!favourite ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-thumb-tack" style="margin-top: -5px !important;" aria-hidden="true"></i></button>
+            <button (click)="addLike(meme)" [disabled]="disliked" class="btn btn-success mr-2" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-thumbs-up" style="margin-top: -5px !important;"></i></button>
+            <span class="btn btn-primary mr-2" id="likes" style="min-width: 100px;">{{meme?.numberOfLikes}}</span>
+            <button (click)="addDislike(meme)" [disabled]="liked" class="btn btn-danger" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-thumbs-down" style="margin-top: -5px !important;"></i></button>
             <button class="btn btn-warning ml-2" (click)="flagAsSpam(meme.id)"><i class="fa fa-flag" aria-hidden="true"></i></button>
         </div>
+        <div class="mb-2">
+            <span *appHasRole='["Admin", "Moderator"]' class="mr-2">
+                <span id="division" *ngIf="division !== null && meme?.division !== 0" [ngStyle]="division?.isCloseDivision ? { 'color': 'red' } : { 'color': 'yellow' }" (click)="openDivisionModal(meme)" style="cursor: pointer;">{{division?.name}}</span>
+                <span id="division" *ngIf="division === null || meme?.division === 0" (click)="openDivisionModal(meme)" style="cursor: pointer; font-size: 12px;">Poczekalnia</span>
+            </span>
+            <button class="btn btn-info mr-2" *ngIf="meme?.isMain"><i class="fa fa-share mr-2"></i>Share</button>
+            <button *appHasRole='["Admin", "Moderator"]' class="btn btn-danger" (click)='rejectMeme(meme?.id)'><i class="fa fa-trash"></i> Usuń</button>
+        </div>
     </div>
-    <div *ngIf="comments?.length > 0" class="text-left mt-3 mb-2 ml-3">
-        Komentarze: {{ numberOfComments }}
+    <div class="text-left mt-3 mb-2 ml-3">
+        <i class="fa fa-comment mr-2" aria-hidden="true"></i>Komentarze: {{ numberOfComments || '0' }}
     </div>
 </div>
 
-<div *ngIf="(accountService.currentUser$ | async) !== null">
-    <form [formGroup]='commentForm' (ngSubmit)="commentForm.valid && addComment()" class="text-center column mb-3">
-        <div>
-            <textarea type="text" [formControl]='commentForm.controls["content"]' placeholder="Wpisz treść komentarza" class="col-7 mr-1"></textarea>
-            <label class="custom-file-upload">
-                <input type="file" ng2FileSelect [uploader]="uploader" (change)="fileChangeEvent($event)" class="text-center" title="Wybierz"/>
-                <i class="fa fa-paperclip"></i>
-            </label>
-            <button class="btn btn-success col-2 ml-1 mr-1" type="submit" [disabled]="!commentForm.valid">Dodaj komentarz</button>
-        </div>
-        <div *ngIf="commentForm.controls['content'].errors?.maxlength" class="text-danger">
-            Komentarz zbyt długi
-        </div>
-    </form>
+<div class="text-center">
+    <div *ngIf="(accountService.currentUser$ | async) !== null">
+        <form [formGroup]='commentForm' (ngSubmit)="commentForm.valid && addComment()" class="text-center mb-3">
+            <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-9 col-lg-7 text-right">
+                    <textarea type="text" [formControl]='commentForm.controls["content"]' placeholder="Wpisz treść komentarza"></textarea>
+                </div>
+                <div class="col-1 mt-1" *ngIf="checkIfUserWorthy(mainMemes)">
+                    <label class="custom-file-upload">
+                        <input type="file" ng2FileSelect [uploader]="uploader" (change)="fileChangeEvent($event)" class="text-center" title="Wybierz"/>
+                        <i class="fa fa-paperclip"></i>
+                    </label>
+                </div>
+                <div class="col-2 col-lg-2 text-left">
+                    <button class="btn btn-success" id="addComment" type="submit" [disabled]="!commentForm.valid">Dodaj <i class="fa fa-comment ml-1"></i></button>
+                </div>
+            </div>
+            <div *ngIf="commentForm.controls['content'].errors?.maxlength" class="text-danger">
+                Komentarz zbyt długi
+            </div>
+        </form>
+    </div>
 </div>
+
+
 
 <div *ngIf="(accountService.currentUser$ | async) === null" class="text-center">
     <p id="warning">Zaloguj się aby dodać komentarz</p>

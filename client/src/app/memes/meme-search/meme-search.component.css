@@ -2,9 +2,8 @@ input[type=text] {
     height: 50px;
     background-color: gray;
     margin-top: 25px !important;
-    min-width: 600px;
     color: whitesmoke;
-    margin-left: 200px;
+    width: 80% !important;
 }
 
 /* input[type="radio"] ~ label:before {
@@ -29,6 +28,7 @@ button {
     margin-top: 25px !important;
     height: 50px;
     transition: background-color 1s !important;
+    margin-left: -20px !important;
 }
 
 ::placeholder {
@@ -71,26 +71,17 @@ button {
 	content: '\f046';
 }
 
-#search {
-    margin-left: -50px;
+select {
+    background-color: gray;
+    color: whitesmoke;
 }
 
-#searchUser {
-    margin-left: -250px;
-}
+@media screen and (max-width: 1000px) {
+    button {
+        font-size: 14px !important;
+    }
 
-@media screen and (max-width: 700px) {
     input[type=text] {
-        min-width: 320px;
-        margin-left: 0px;
+        width: 100% !important;
     }
-
-    #search {
-        margin-left: 0px !important;
-    }
-
-    #searchUser {
-        margin-left: -75px !important;
-    }
-
 }

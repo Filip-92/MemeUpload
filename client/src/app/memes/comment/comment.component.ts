@@ -7,6 +7,7 @@ import { Comment } from 'src/app/_models/comments';
 import { Reply } from 'src/app/_models/reply';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
+import { HelperService } from 'src/app/_services/helper.service';
 import { MemeService } from 'src/app/_services/meme.service';
 import { environment } from 'src/environments/environment';
 import { MemeDetailComponent } from '../meme-detail/meme-detail.component';
@@ -41,9 +42,12 @@ export class CommentComponent implements OnInit {
   uploader: FileUploader;
   baseUrl = environment.apiUrl;
   imageChangedEvent: any = '';
+  mainMemes: number;
+  comments: any;
 
   constructor(private memeService: MemeService, public accountService: AccountService,
-    private toastr: ToastrService, private fb: FormBuilder) { 
+    private toastr: ToastrService, private fb: FormBuilder, private helperService: HelperService,
+    private detail: MemeDetailComponent) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
     this.logged = true;
   }
@@ -53,6 +57,7 @@ export class CommentComponent implements OnInit {
     this.getReplies(this.comment.id);
     if ("user" in localStorage) {
       this.loadLikes();
+      this.getMemberMainMemes(this.user.username);
     }
   }
 
@@ -62,9 +67,9 @@ export class CommentComponent implements OnInit {
     })
   }
 
-  removeComment(commentId) {
-    this.memeService.removeComment(commentId).subscribe(comment => {
-      this.comment.id = commentId
+  removeComment(commentId: number) {
+    this.memeService.removeComment(commentId).subscribe(() => {
+      this.comments?.splice(this.comments.findIndex(p => p.id === commentId), 1);
     });
     this.comment.content = "[Komentarz został usunięty]";
   }
@@ -122,14 +127,6 @@ export class CommentComponent implements OnInit {
     })
   }
 
-  // initializeEditForm(commentId) {
-  //   this.editForm = this.fb.group({
-  //     content: ['', [Validators.required, Validators.maxLength(2000)]],
-  //     memeId: [this.comment.memeId],
-  //     id: [commentId]
-  //   })
-  // }
-
   getReplies(commentId: number) {
     this.memeService.getReplies(commentId).subscribe(replies => {
       this.replies = replies;
@@ -173,6 +170,12 @@ loadLikes() {
         this.checkIfCommentLiked(comment.likedCommentId);
       }
     }
+  })
+}
+
+getMemberMainMemes(username: string) {
+  this.memeService.getMemberMainMemes(username).subscribe(memes => {
+    this.mainMemes = memes;
   })
 }
 
@@ -222,6 +225,9 @@ reloadCurrentPage() {
       case 'fileSize':
         message = 'Plik jest za duży. Rozmiar pliku to ' + this.formatBytes(item.size) + ', podczas gdy maksymalny dopuszczalny rozmiar to ' + this.formatBytes(maxFileSize);
         break;
+      case 'fileType':
+        message = 'Nieobsługiwany format pliku.'
+        break;
       default:
         message = 'Wystąpił błąd';
         break;
@@ -258,8 +264,8 @@ private formatBytes(bytes: number, decimals?: number) {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     }
 
-  canDeleteComment(comment: any) {
-    return Date.now() - comment.uploaded.getTime() < 5 * 60 * 1000;
+  checkIfUserWorthy(mainMemes: number) {
+    return this.helperService.checkIfUserWorthy(mainMemes);
   }
 
 }

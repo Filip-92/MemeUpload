@@ -5,7 +5,6 @@ import { Member } from 'src/app/_models/member';
 import { Meme } from 'src/app/_models/meme';
 import { Pagination } from 'src/app/_models/pagination';
 import { User } from 'src/app/_models/user';
-import { MembersService } from 'src/app/_services/members.service';
 import { MemeService } from 'src/app/_services/meme.service';
 import { PresenceService } from 'src/app/_services/presence.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -15,6 +14,9 @@ import { AccountService } from 'src/app/_services/account.service';
 import { take } from 'rxjs/operators';
 import { Reply } from 'src/app/_models/reply';
 import { AdminService } from 'src/app/_services/admin.service';
+import { SwitchDivisionComponent } from 'src/app/modals/switch-division/switch-division.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Division } from 'src/app/_models/division';
 
 @Pipe({ name: 'safe' })
 export class SafePipe implements PipeTransform {
@@ -42,7 +44,6 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   format;
   trustedUrl: any;
   waterMarkImage: ElementRef;
-  baseUrl = 'https://localhost:4200/';
   liked: boolean;
   disliked: boolean;
   favourite: boolean;
@@ -50,10 +51,11 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   favouriteMemes: Meme[];
   comments: number;
   replies: Reply[];
+  division: Division;
 
   constructor(public presence: PresenceService, private memeService: MemeService, private http: HttpClient,
     public sanitizer: DomSanitizer, public helper: HelperService, public accountService: AccountService,
-    private toastr: ToastrService, private adminService: AdminService) { 
+    private toastr: ToastrService, private adminService: AdminService, private modalService: NgbModal) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
     }
   transform(value: any, ...args: any[]) {
@@ -61,17 +63,17 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   }
 
   ngOnInit(): void {
-    this.getUsers();
     // temporary solution for incorrect timezone
     var newTime = Number(this.meme?.uploaded?.substring(11,13)) - 2;
     this.meme.uploaded = this.meme?.uploaded?.replace((this.meme?.uploaded?.substring(11,14)), newTime.toString() + ":");
     this.getNumberOfComments(this.meme.id);
-    if(this.meme?.url?.includes("youtube")) {
+    if(this.meme?.url?.includes("youtube") || this.meme?.url?.includes("youtu.be")) {
       this.trustedUrl = this.formatYoutubeLink(this.meme?.url);
     }
     if ("user" in localStorage) {
       this.getFavouriteMemes(this.user.username);
       this.loadLikes();
+      this.getDivisionNameById(this.meme.division);
     } else {
       this.liked = false;
       this.disliked = false;
@@ -79,16 +81,20 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   }
   
   addLike(meme: Meme) {
-      this.memeService.addLike(meme.id).subscribe(() => {
-        this.liked = !this.liked;
-      if(this.liked) {
-        this.meme.numberOfLikes++;
-        this.liked = true;
-      } else {
-        this.meme.numberOfLikes--;
-        this.liked = false;
-      }
-    })
+    if ("user" in localStorage) {
+        this.memeService.addLike(meme.id).subscribe(() => {
+          this.liked = !this.liked;
+        if(this.liked) {
+          this.meme.numberOfLikes++;
+          this.liked = true;
+        } else {
+          this.meme.numberOfLikes--;
+          this.liked = false;
+        }
+      }) 
+    } else {
+      this.toastr.error("Funkcja tylko dla zalogowanych użytkowników");
+    }
   }
 
   flagAsSpam(memeId: number) {
@@ -97,17 +103,21 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   }
 
   addDislike(meme: Meme) {
-      this.memeService.addDislike(meme.id).subscribe(() => {
-        this.disliked = !this.disliked;
-      if(this.disliked) {
-        this.meme.numberOfLikes--;
-        this.disliked = true;
-        this.liked = false;
-      } else {
-        this.meme.numberOfLikes++;
-        this.disliked = false;
-      }
-    })
+    if ("user" in localStorage) {
+        this.memeService.addDislike(meme.id).subscribe(() => {
+          this.disliked = !this.disliked;
+        if(this.disliked) {
+          this.meme.numberOfLikes--;
+          this.disliked = true;
+          this.liked = false;
+        } else {
+          this.meme.numberOfLikes++;
+          this.disliked = false;
+        }
+      })
+    } else {
+      this.toastr.error("Funkcja tylko dla zalogowanych użytkowników");
+    }
   }
 
   loadLikes() {
@@ -136,23 +146,19 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   }
 
   addFavourite(memeId: number) {
-    this.memeService.addFavourite(memeId).subscribe(() => {
-      this.favourite = !this.favourite;
-    if(this.favourite) {
-      this.favourite = true;
-    } else {
-      this.favourite = false;
-    }
-  })
-}
-
-  getUsers() {
-    this.http.get('https://localhost:5001/api/users').subscribe(response => {
-      this.users = response;
-    }, error => {
-      console.log(error);
+    if ("user" in localStorage) {
+      this.memeService.addFavourite(memeId).subscribe(() => {
+        this.favourite = !this.favourite;
+      if(this.favourite) {
+        this.favourite = true;
+      } else {
+        this.favourite = false;
+      }
     })
+   } else {
+    this.toastr.error("Funkcja tylko dla zalogowanych użytkowników");
   }
+}
 
   replaceTitle(title: string) {
     title.replace(" ", "-");
@@ -167,19 +173,24 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     return(url?.match(/\.(jpeg|jpg|gif|png)$/) != null);
   }
 
-  formatYoutubeLink(url) {
-    var id = url.split('v=')[1].split('&')[0]; //sGbxmsDFVnE
+  formatYoutubeLink(url: string) {
+    var id = '';
+    if (url.includes('youtube')) {
+      id = url?.split('v=')[1]?.split('&')[0];
+    } else if (url.includes('youtu.be')) {
+      id = url?.split('be/')[1];
+    }
     url = "https://www.youtube-nocookie.com/embed/" + id;
     return url;
   }
-  
+
   changeTimeZone(uploadedDate: string) {
     uploadedDate = this.helper.changeTimeZone(uploadedDate);
     return uploadedDate;
   }
 
   addImageWatermark(imageUrl: string) {
-    var watermarkedUrl = imageUrl.replace("/upload/", "/upload/l_logo_gimp_-_new_ucilaf,o_50,w_0.4,c_scale,g_south_east/")
+    var watermarkedUrl = imageUrl.replace("/upload/", "/upload/l_logo_gimp_-_new_ucilaf,o_50,w_0.4,c_scale,g_south_east/");
     return watermarkedUrl;
   }
 
@@ -206,9 +217,15 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     }
   }
 
-  rejectMeme(memeId: number) {
-    this.adminService.rejectMeme(memeId).subscribe(() => {
-      this.memes.splice(this.memes.findIndex(p => p.id === memeId), 1);
-    })
+  getDivisionNameById(divisionId: number) {
+    this.adminService.getDivisionNameById(divisionId).subscribe(division => {
+      this.division = division;
+      });
+    }
+
+  openDivisionModal(meme: Meme) {
+    const modalRef = this.modalService.open(SwitchDivisionComponent);
+    modalRef.componentInstance.meme = meme;
+    modalRef.componentInstance.modalRef = modalRef;
   }
 }

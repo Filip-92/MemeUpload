@@ -5,6 +5,7 @@ button {
     cursor: pointer;
     outline: none;
     transition: 0.2s all;
+    min-height: 34px !important;
   }
   
   button:hover {
@@ -24,3 +25,35 @@ button {
   img {
     max-height: 20px;
   } 
+
+  #show {
+    display: none;
+  }
+  
+
+  @media screen and (max-width: 700px) {
+    .btn {
+      font-size: 12px !important;
+    }
+  }
+
+  @media screen and (max-width: 1000px) {
+    #hide {
+      display: none;
+    }
+
+    #show {
+      display: inline !important;
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+    button {
+      font-size: 14px !important;
+      max-height: 50px !important;
+    }
+
+    .container {
+      margin-top: -40px;
+    }
+  }

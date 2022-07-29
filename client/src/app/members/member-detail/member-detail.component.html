@@ -8,13 +8,24 @@
         <div *ngIf="member.photos.length === 0">
             <img src="{{'././assets/LogoImage.png'}}" alt="{{member.username}}" class="card-img-top img-thumbnail">
         </div>
-        <h3 style="color: rgb(170, 139, 37);">{{member.username}}</h3>
-        <button (click)="selectTab(1)" class="btn btn-success mt-3"><i class="fa fa-envelope mr-1"></i> Message</button>
+        <h3 style="color: rgb(170, 139, 37);" *ngIf="member?.username?.length < 8">{{member.username}}</h3>
+        <h4 style="color: rgb(170, 139, 37);" *ngIf="member?.username?.length > 8 && member?.username?.length < 16">{{member.username}}</h4>
+        <h5 style="color: rgb(170, 139, 37);" *ngIf="member?.username?.length > 16">{{member.username}}</h5>
+        <hr>
+        <h4 class="mt-2">Odznaki</h4>
+        <div class="mt-4">
+            <span *ngIf="comments?.length + replies?.length > 10" class="mr-3">
+                <img src="./assets/silver-pepe.png" alt="golden badge" style="max-height: 50px;" title="Złoty pepe">
+            </span>
+            <span  *ngIf="mainMemes > 5" class="mr-3">
+                <img src="./assets/golden-pepe.png" alt="silver badge" style="max-height: 50px;" title="Srebrny pepe">
+            </span>
+        </div>
     </div>
     <div class="col-6" style="margin-top: 50px;">
         <div class="card-body text-left ml-5">
             <div class="mb-3" *ngIf="(presence.onlineUsers$ | async).includes(member.username)" >
-                <i class="fa fa-user-circle text-success"></i> Online now
+                <i class="fa fa-user-circle text-success"></i> Teraz Online
             </div>
             <div class="mb-3">
                 <i class="fa fa-calendar mr-2"></i><strong> Wiek: </strong><span style="color: greenyellow">{{member.age}}</span>
@@ -28,10 +39,10 @@
                 <i class="fa fa-history mr-2" aria-hidden="true"></i><strong>Ostatnia aktywność: </strong><span style="color: greenyellow">{{member.lastActive | timeago}}</span>
             </div>
             <div class="mb-3">
-                <i class="fa fa-user-plus mr-2" aria-hidden="true"></i><strong>Dołączył: </strong><span style="color: greenyellow">{{member.created}}</span>
+                <i class="fa fa-user-plus mr-2" aria-hidden="true"></i><strong>Dołączył: </strong><span style="color: greenyellow">{{changeDateFormat(member.created)}}</span>
             </div>
             <div class="mb-3">
-                <i class="fa fa-photo mr-2"></i>Ilość wrzut: <span style="color: greenyellow">{{ member.memes?.length || '0' }}</span>
+                <i class="fa fa-photo mr-2"></i>Ilość wrzut: <span style="color: greenyellow">{{ member.memes?.length || '0' }} / {{ mainMemes || '0' }}</span>
             </div>
             <div class="mb-3">
                 <i class="fa fa-plus mr-2"></i>Ilość plusów: <span style="color: greenyellow">{{ numberOfLikes }}</span>
@@ -87,7 +98,7 @@
         </tab>
         <tab heading='Memy użytkownika {{member.username}}' (selectTab)="onTabActivated($event)"
         #scrollMe
-        style="overflow-y: auto; height: 500px;"
+        style="overflow-y: auto; height: 300px;"
         [scrollTop]="scrolltop"
         *ngIf="memes?.length === 0"
         >

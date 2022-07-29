@@ -6,12 +6,11 @@
             <div id="search">
                 <div class="form-group">
                     <form class="text-center" [formGroup]='memeSearchForm'>
-                        <div class="row ml-3 text-center">
-                            <div class="col-sm-5 mr-3">
-                                <input type="text" placeholder="Wpisz tytuł wyszukiwanego mema" [formControl]='memeSearchForm.controls["searchString"]'>
+                        <div class="row text-center">
+                            <div class="col-9 col-lg-9 text-right">
+                                <input id="meme" type="text" placeholder="Wpisz tytuł wyszukiwanego mema" [formControl]='memeSearchForm.controls["searchString"]'>
                             </div>
-                            <div class="col-sm-3 col-1"></div>
-                            <div class="col-sm-3">
+                            <div class="col-3 col-lg-3 text-left">
                                 <button 
                                 class="dropdown-item"
                                 class="btn btn-primary btn-lg"
@@ -20,7 +19,7 @@
                                 [disabled]="!this.memeSearchForm.value.searchString"
                                 (click)="searchForMeme(this.memeSearchForm.value.searchString)"
                                 >
-                                <i class="fa fa-file-import"></i>
+                                <i class="fa fa-search"></i>
                                 Szukaj
                                 </button>
                             </div>
@@ -55,7 +54,7 @@
             <app-meme-card [meme]="meme"></app-meme-card>
         </div>
         
-        <div class="d-flex justify-content-center" *ngIf="memes?.length > pageSize && pagination">
+        <div class="d-flex justify-content-center" *ngIf="memes?.length > 0 && pagination">
             <pagination
                 [boundaryLinks]="true" 
                 [totalItems]="pagination.totalItems"
@@ -69,7 +68,7 @@
             </pagination>
         </div>
         
-        <div class="col-md-3 mt-2 justify-content-right" style="text-align: right;" *ngIf="memes?.length > pageSize && pagination">
+        <div class="col-md-3 mt-2 justify-content-right" style="text-align: right;" *ngIf="memes?.length > 0 && pagination">
             <span class="mr-2">Page Size</span>
         
             <select (change)="updatePageSize($any($event.target).value)">
@@ -79,17 +78,16 @@
             </select>
         </div>
     </tab>
-    <tab heading='Szukaj użytkowników' class="text-center">
+    <tab heading='Szukaj użytkowników' class="text-center" *ngIf="(accountService.currentUser$ | async) as user">
         <div id="container" class="container text-center mt-5">
             <div id="searchUser">
                 <div class="form-group">
                     <form class="text-center" [formGroup]='memberSearchForm'>
-                        <div class="row ml-3 text-center">
-                            <div class="column col-2"></div>
-                            <div class="column mr-3">
-                                <input type="text" placeholder="Wpisz nazwę wyszukiwanego użytkownika" [formControl]='memberSearchForm.controls["searchString"]'>
+                        <div class="row text-center">
+                            <div class="col-9 col-lg-9 text-right">
+                                <input id="user" type="text" placeholder="Wpisz nazwę wyszukiwanego użytkownika" [formControl]='memberSearchForm.controls["searchString"]'>
                             </div>
-                            <div class="column">
+                            <div class="col-3 col-lg-3 text-left">
                                 <button 
                                 class="dropdown-item"
                                 class="btn btn-primary btn-lg" 
@@ -97,7 +95,7 @@
                                 [disabled]="!this.memberSearchForm.value.searchString"
                                 (click)="searchForMember(this.memberSearchForm.value.searchString)"
                                 >
-                                <i class="fas fa-file-import"></i>
+                                <i class="fa fa-search"></i>
                                 Szukaj
                                 </button>
                             </div>
@@ -119,8 +117,8 @@
             <h4>Liczba Znalezionych użytkowników z podaną frazą - {{members?.length}} </h4>
         </div>
 
-        <div class="row">
-            <div *ngFor="let member of members" class="col-sm-6 col-md-4 col-lg-2">
+        <div>
+            <div *ngFor="let member of members">
                 <app-member-card [member]="member"></app-member-card>
             </div>
         </div>

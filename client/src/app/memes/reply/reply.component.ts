@@ -6,6 +6,7 @@ import { take } from 'rxjs/operators';
 import { Reply } from 'src/app/_models/reply';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
+import { HelperService } from 'src/app/_services/helper.service';
 import { MemeService } from 'src/app/_services/meme.service';
 import { environment } from 'src/environments/environment';
 
@@ -39,9 +40,10 @@ export class ReplyComponent implements OnInit {
   replyQuote: boolean;
   ifReply: boolean;
   commentUpdate: boolean;
+  mainMemes: number;
 
   constructor(public accountService: AccountService, private memeService: MemeService,
-    private fb: FormBuilder, private toastr: ToastrService) { 
+    private fb: FormBuilder, private toastr: ToastrService, private helperService: HelperService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
@@ -50,6 +52,7 @@ export class ReplyComponent implements OnInit {
     this.getReplies(this.comment.id);
     if ("user" in localStorage) {
       this.loadLikes();
+      this.getMemberMainMemes(this.user.username);
     }
   }
 
@@ -140,6 +143,12 @@ loadLikes() {
   })
 }
 
+getMemberMainMemes(username: string) {
+  this.memeService.getMemberMainMemes(username).subscribe(memes => {
+    this.mainMemes = memes;
+  })
+}  
+
 checkIfReplyLiked(id: number) {
   if (id === this.reply.id) {
     this.liked = !this.liked;
@@ -155,7 +164,6 @@ checkIfReplyDisliked(id: number) {
 getCommentUsername(id: number) {
   this.memeService.getCommentUsername(id).subscribe(response => {
     this.username = response;
-    console.log(this.username);
   });
 }
 
@@ -176,6 +184,9 @@ initializeUploader() {
     switch (filter.name) {
       case 'fileSize':
         message = 'Plik jest za duży. Rozmiar pliku to ' + this.formatBytes(item.size) + ', podczas gdy maksymalny dopuszczalny rozmiar to ' + this.formatBytes(maxFileSize);
+        break;
+      case 'fileType':
+        message = 'Nieobsługiwany format pliku.'
         break;
       default:
         message = 'Wystąpił błąd';
@@ -238,5 +249,9 @@ private formatBytes(bytes: number, decimals?: number) {
       this.editForm.reset(this.editForm.value);
       this.commentUpdate = !this.commentUpdate;
     })
+  }
+
+  checkIfUserWorthy(mainMemes: number) {
+    return this.helperService.checkIfUserWorthy(mainMemes);
   }
 }

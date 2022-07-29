@@ -39,9 +39,8 @@ i:hover {
     background-color: rgb(34, 31, 31);
     padding-top: 5px;
     padding-bottom: 5px;
-    margin-left: auto;
-    margin-right: auto;
     border-radius: 8px;
+    width: 200px !important;
 }
 
 i {
@@ -92,12 +91,17 @@ textarea {
 }
 
 #content {
-    margin-top: -30px;
-    margin-bottom: -10px;
+    margin-top: 20px !important;
+    margin-bottom: 10px !important;
+    word-wrap:break-word !important;
 }
 
 #timeago {
     color: gray;
+}
+
+#hide {
+    float: right;
 }
 
 @media screen and (max-width: 700px) {
@@ -132,6 +136,18 @@ textarea {
     }
 
     #buttons {
-        width: 35% !important;
+        width: 30% !important;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #reply {
+        min-width: 400px;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    #hide {
+        display: none;
     }
 }

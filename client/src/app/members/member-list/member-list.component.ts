@@ -22,10 +22,10 @@ export class MemberListComponent implements OnInit {
   userParams: UserParams;
   user: User;
   loggedIn: boolean;
-  genderList = [{ value: 'male', display: 'Males' }, { value: 'female', display: 'Females' }];
+  genderList = [{ value: 'male', display: 'Mężczyźni' }, { value: 'female', display: 'Kobiety' }, { value: 'other', display: 'Helikoptery bojowe'}];
   account: AccountService;
 
-  constructor(private memberService: MembersService, private authService: AuthenticationService, private accountService: AccountService, private router: Router, private toastr: ToastrService) {
+  constructor(private memberService: MembersService, private accountService: AccountService, private router: Router, private toastr: ToastrService) {
     this.userParams = this.memberService.getUserParams();
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }

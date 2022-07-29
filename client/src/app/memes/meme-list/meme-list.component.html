@@ -1,16 +1,22 @@
-<div *ngIf="pageNumber !== 0">
-    Strona {{pageNumber}}
+<div class="mt-3">
+    {{divisionName | titlecase}} <span  *ngIf="pageNumber !== 0"> > Strona {{pageNumber}}</span>
 </div>
 
-<div *ngFor="let meme of memes">
+<div *ngFor="let meme of memes" class="mb-2">
     <app-meme-card [meme]="meme"></app-meme-card>
+    <div *appHasRole='["Admin", "Moderator"]'  class="text-center">
+        <button class="btn btn-danger mb-2" id="reject" (click)='rejectMeme(meme.id)'><i class="fa fa-trash"></i> Usuń</button>
+    </div>
+    <div *ngIf="meme.username === user.username" id="reject" class="text-center">
+        <button class="btn btn-danger mb-2" (click)='removeMeme(meme.id)'><i class="fa fa-trash"></i> Usuń</button>
+    </div>
 </div>
 
-<div *ngIf="memes?.length <= 0" class="text-center mt-5">
+<div *ngIf="memes?.length <= 0" class="text-center mt-5 mb-5">
     Brak memów do wyświetlenia
 </div>
 
-<div class="d-flex justify-content-center" *ngIf="pagination && memes?.length >= pageSize">
+<div class="d-flex justify-content-center" *ngIf="pagination && memes?.length !== 0">
     <pagination
         [boundaryLinks]="true" 
         [totalItems]="pagination.totalItems"
@@ -27,7 +33,7 @@
 
 <!-- https://res.cloudinary.com/duj1ftjtp/image/upload/l_logo_gimp_-_new_ucilaf,o_50,w_200,c_scale,x_850,y_500/hcq1ymvalfdscq1m1i32.jpg -->
 
-<div class="col-md-3 mt-2 justify-content-right" style="text-align: right;" *ngIf="pagination && memes?.length >= pageSize">
+<div class="col-md-3 mt-2 justify-content-right" style="text-align: right;" *ngIf="pagination && memes?.length !== 0">
     <span class="mr-2">Page Size</span>
 
     <select (change)="updatePageSize($any($event.target).value)">

@@ -8,6 +8,7 @@ import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
 import { MemeService } from 'src/app/_services/meme.service';
 import { environment } from 'src/environments/environment';
+import { HelperService } from 'src/app/_services/helper.service';
 
 @Component({
   selector: 'app-member-replies',
@@ -39,9 +40,10 @@ export class MemberRepliesComponent implements OnInit {
   replyQuote: boolean;
   ifReply: boolean;
   commentUpdate: boolean;
+  mainMemes: number;
 
   constructor(public accountService: AccountService, private memeService: MemeService,
-    private fb: FormBuilder, private toastr: ToastrService) { 
+    private fb: FormBuilder, private toastr: ToastrService, private helperService: HelperService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
@@ -49,6 +51,7 @@ export class MemberRepliesComponent implements OnInit {
     this.getUserPhoto(this.reply?.username);
     if ("user" in localStorage) {
       this.loadLikes();
+      this.getMemberMainMemes(this.user.username);
     }
   }
 
@@ -65,17 +68,17 @@ export class MemberRepliesComponent implements OnInit {
     this.reply.content = "[Komentarz został usunięty]";
   }
 
-  addReply(commentId) {
+  addReply() {
     this.ifReply = !this.ifReply;
     this.replyField = !this.replyField;
-    this.initializeForm(commentId)
+    this.initializeForm()
   }
 
-  initializeForm(commentId) {
+  initializeForm() {
     this.replyForm = this.fb.group({
       content: ['', [Validators.required, Validators.maxLength(2000)]],
       memeId: [this.reply.memeId],
-      commentId: [commentId],
+      commentId: [this.reply.commentId],
       replyingToUser: [this.reply.username],
       replyingToReplyId: [this.reply.id]
     })
@@ -154,7 +157,6 @@ checkIfReplyDisliked(id: number) {
 getCommentUsername(id: number) {
   this.memeService.getCommentUsername(id).subscribe(response => {
     this.username = response;
-    console.log(this.username);
   });
 }
 
@@ -175,6 +177,9 @@ initializeUploader() {
     switch (filter.name) {
       case 'fileSize':
         message = 'Plik jest za duży. Rozmiar pliku to ' + this.formatBytes(item.size) + ', podczas gdy maksymalny dopuszczalny rozmiar to ' + this.formatBytes(maxFileSize);
+        break;
+      case 'fileType':
+        message = 'Nieobsługiwany format pliku.'
         break;
       default:
         message = 'Wystąpił błąd';
@@ -212,17 +217,17 @@ private formatBytes(bytes: number, decimals?: number) {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     }
 
-  addQuotedReply(commentId) {
+  addQuotedReply() {
     this.replyQuote = !this.replyQuote;
-    this.initializeQuoteForm(commentId);
+    this.initializeQuoteForm();
   }
 
-  initializeQuoteForm(commentId) {
+  initializeQuoteForm() {
     this.replyForm = this.fb.group({
       content: ['', [Validators.required, Validators.maxLength(2000)]],
-      memeId: [this.comment.memeId],
+      memeId: [this.reply.memeId],
       quote: [this.reply.content],
-      commentId: [commentId],
+      commentId: [this.reply.commentId],
       replyingToUser: [this.reply.replyingToUser],
       replyingToReplyId: [this.reply.id]
     })
@@ -237,6 +242,16 @@ private formatBytes(bytes: number, decimals?: number) {
       this.editForm.reset(this.editForm.value);
       this.commentUpdate = !this.commentUpdate;
     })
+  }
+
+  getMemberMainMemes(username: string) {
+    this.memeService.getMemberMainMemes(username).subscribe(memes => {
+      this.mainMemes = memes;
+    })
+  }  
+
+  checkIfUserWorthy(mainMemes: number) {
+    return this.helperService.checkIfUserWorthy(mainMemes);
   }
 
 }

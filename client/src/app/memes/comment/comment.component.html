@@ -1,18 +1,18 @@
 <div id="comment" class="mb-3" *ngIf="(accountService.currentUser$ | async) !== null">
     <table class="table">
         <td style="width: 10%"><img src="{{url || '././assets/LogoImage.png'}}" alt=""></td>
-        <td style="width: 5%;"><a routerLink='/members/{{comment.username}}'>{{comment.username}}</a></td>
-        <td id="timeago" style="width: 20%;">{{comment.uploaded | timeago}}</td>
-        <td id="freespace" style="width: 45%;"></td>
+        <td style="width: 5%;"><a routerLink='/uzytkownicy/{{comment.username}}'>{{comment.username}}</a></td>
+        <td id="timeago" style="width: 30%;">{{comment.uploaded | timeago}}</td>
+        <td id="freespace" style="width: 35%;"></td>
+        <td id="buttons" style="width: 10%" *ngIf="comment.username === user.username || user.roles[0] === 'Admin' || user.roles[1] === 'Moderator' && comment.content !== '[Komentarz został usunięty]'">
+            <span *ngIf="comment.username === user.username && comment.content !== '[Komentarz został usunięty]'" (click)="editCommentToggle(comment.id) && reloadComments(comment)" style="display: inline-block"><i id="edit" class="fa fa-pencil-square-o" aria-hidden="true"><span id="hide"> Edytuj</span></i></span>
+            <span *ngIf="comment.content !== '[Komentarz został usunięty]'" (click)="removeComment(comment.id)"><i id="delete" class="fa fa-trash" aria-hidden="true"><span id="hide"> Usuń</span></i></span>
+        </td>
         <td style="width: 3%;"><button id="like" [disabled]="disliked || comment.content !== '[Komentarz został usunięty]'" (click)="addLike(comment)"><i class="fa fa-plus" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'green' }"></i></button></td>
         <td style="width: 3%;">{{comment.numberOfLikes}}</td>
         <td style="width: 3%;"><button id="like" [disabled]="liked || comment.content !== '[Komentarz został usunięty]'" (click)="addDislike(comment)"><i class="fa fa-minus" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red' }"></i></button></td>
-        <td id="buttons" style="width: 10%" *ngIf="comment.username === user.username && comment.content !== '[Komentarz został usunięty]'">
-            <span (click)="editCommentToggle(comment.id) && reloadComments(comment)" style="display: inline-block"><i id="edit" class="fa fa-pencil-square-o" aria-hidden="true"> Edytuj</i></span>
-            <span (click)="removeComment(comment.id)"><i id="delete" class="fa fa-trash" aria-hidden="true"> Usuń</i></span>
-        </td>
     </table>
-    <p class="text-center" id="content" style="padding: 10px;">{{comment.content}}</p>
+    <div class="text-left" id="content" style="padding: 10px; margin-left: 50px !important;">{{comment.content}}</div>
     <div class="text-center">
         <img src="{{comment.url}}" alt="">
     </div>
@@ -23,8 +23,8 @@
 <div *ngIf="commentUpdate">
     <div class="text-center mb-3">
         <form #editForm="ngForm" (ngSubmit)="editComment()" class="text-center column">
-            <textarea type="text" name="content" [(ngModel)]="comment.content" placeholder="{{comment.content}}" class="col-7"></textarea>
-            <button class="btn btn-success ml-2 col-2" type="submit" [disabled]="!editForm?.dirty">Edytuj komentarz</button>
+            <textarea type="text" name="content" [(ngModel)]="comment.content" placeholder="{{comment.content}}" class="col-9 col-lg-10"></textarea>
+            <button class="btn btn-success ml-2 col-3 col-lg-2" type="submit" [disabled]="!editForm?.dirty">Edytuj komentarz</button>
         </form>
     </div>
 </div>
@@ -32,7 +32,7 @@
 <div id="comment" class="mb-3 text-center" *ngIf="(accountService.currentUser$ | async) === null">
     <table class="table mb-3">
         <td style="width: 10%"><img src="{{url || '././assets/LogoImage.png'}}" alt=""></td>
-        <td style="width: 5%;"><a routerLink='/members/{{comment.username}}'>{{comment.username}}</a></td>
+        <td style="width: 5%;"><a routerLink='/uzytkownicy/{{comment.username}}'>{{comment.username}}</a></td>
         <td style="width: 15%;">{{comment.uploaded | timeago}}</td>
         <span>
             <td style="width: 50%;"></td>
@@ -51,7 +51,7 @@
     <form [formGroup]='replyForm' (ngSubmit)="replyForm.valid && replyComment()" id="replyForm" class="text-center column mb-2">
         <div>
             <textarea type="text" [formControl]='replyForm.controls["content"]' placeholder="Wpisz treść komentarza" class="col-7 mr-1"></textarea>
-            <label class="custom-file-upload">
+            <label class="custom-file-upload" *ngIf="checkIfUserWorthy(mainMemes)">
                 <input type="file" ng2FileSelect [uploader]="uploader" (change)="fileChangeEvent($event)" class="text-center" title="Wybierz"/>
                 <i class="fa fa-paperclip"></i>
             </label>

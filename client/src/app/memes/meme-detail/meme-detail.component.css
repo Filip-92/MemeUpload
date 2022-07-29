@@ -1,9 +1,37 @@
 img {
-    min-width: 600px;
+    max-width: 600px !important;
+}
+
+video {
+    max-width: 600px !important;
 }
 
 table {
     background-color: rgb(95, 94, 94);
+}
+
+.btn {
+    max-height: 40px !important;
+}
+
+@media screen and (max-width: 700px) {
+
+    iframe {
+        max-width: 480px !important;
+        margin-left: -4px !important;
+    }
+}
+
+@media screen and (max-width: 600px) {
+
+    iframe {
+        max-width: 380px !important;
+        margin-left: -4px !important;
+    }
+}
+
+.row {
+    width: 100%;
 }
 
 #warning {
@@ -14,11 +42,58 @@ table {
     margin-right: auto;
 }
 
-@media screen and (max-width: 700px) {
+#addComment {
+    min-height: 51px !important;
+    margin-left: -20px !important;
+}
 
-    img {
-        min-width: 400px !important;
+@media screen and (max-width: 1000px) {
+
+    .row {
+        width: 100% !important;
     }
+
+    #addComment {
+        font-size: 12px;
+        min-width: 80px !important;
+        margin-left: 0 !important;
+    }
+
+    textarea {
+        margin-left: 20px !important;
+    }
+
+    .fa-paperclip {
+        margin-right: -60px !important;
+        min-width: 30px !important;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .card {
+        margin-top: -20px !important;
+    }
+}
+
+#division {
+    padding: 10px;
+    border: 1px solid white;
+}
+
+#division:hover {
+    color: red;
+    border: 1px solid yellow;
+}
+
+#likes {
+    background-color: rgb(10, 92, 130) !important;
+}
+
+#likes:hover {
+    cursor: default;
+    background-color: rgb(10, 92, 130);
+    transition: none !important;
+    transform: none !important;
 }
 
 i {
@@ -33,15 +108,16 @@ i {
     min-width: 50px;
     min-height: 40px;
     cursor: pointer;
+    margin-left: -40px !important;
+    margin-right: -10px !important;
 }
 
 input[type="file"] {
     display: none;
-    margin-left: -50px !important;
 }
 
 textarea {
-    margin-bottom: -20px;
+    width: 100% !important;
     background-color: gray;
     color: whitesmoke;
 }
@@ -50,14 +126,9 @@ textarea {
     color: whitesmoke;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 600px) {
 
-    .btn {
-        max-height: 40px;
-        font-size: 10px;
-    }
-
-    button {
-        margin-top: -5px;
+    .card {
+        width: 100%;
     }
 }

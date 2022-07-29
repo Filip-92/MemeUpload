@@ -6,6 +6,8 @@ import { AccountService } from "src/app/_services/account.service";
 import { MembersService } from "src/app/_services/members.service";
 import { ValidatorService } from "src/app/_services/validator.service";
 import { take } from 'rxjs/operators';
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { RemoveAccountComponent } from "src/app/modals/remove-account/remove-account.component";
 
 @Component({
   selector: 'app-change-password',
@@ -15,9 +17,13 @@ import { take } from 'rxjs/operators';
 export class ChangePasswordComponent implements OnInit {
   updatePasswordForm: FormGroup;
   user: User;
+  typeOld: string = "password";
+  typeNew: string = "password";
+  toggleOld: boolean;
+  toggleNew: boolean;
 
   constructor(private formBuilder: FormBuilder, private accountService: AccountService, 
-      private validatorService: ValidatorService, private toastr: ToastrService, private memberService: MembersService) {
+      private validatorService: ValidatorService, private toastr: ToastrService, private modalServ: NgbModal) {
         this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
       }
   
@@ -55,6 +61,30 @@ export class ChangePasswordComponent implements OnInit {
     return (control: AbstractControl) => {
       return control?.value === control?.parent?.controls[matchTo]?.value 
         ? null : {isMatching: true}
+    }
+  }
+
+  openRemoveAccountModal(user: any) {
+    const modalRef = this.modalServ.open(RemoveAccountComponent);
+    modalRef.componentInstance.user = user;
+    modalRef.componentInstance.modalRef = modalRef;
+  }
+
+  showOldPassword() {
+    this.toggleOld = !this.toggleOld;
+    if (this.toggleOld) {
+      this.typeOld = "text";
+    } else {
+      this.typeOld = "password";
+    }
+  }
+
+  showNewPassword() {
+    this.toggleNew = !this.toggleNew;
+    if (this.toggleNew) {
+      this.typeNew = "text";
+    } else {
+      this.typeNew = "password";
     }
   }
 }

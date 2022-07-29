@@ -37,7 +37,7 @@ input[type="file"] {
 }
 
 .custom-file-upload:hover {
-    border: red;
+    border: 1px solid red !important;
     color: red;
 }
 
@@ -45,4 +45,10 @@ input[type="file"] {
     max-width: 200px;
     margin-top: 20px;
     margin-bottom: 20px;
+}
+
+@media screen and (max-width: 700px) {
+ #drag {
+    display: none;
+ }
 }

@@ -1,7 +1,6 @@
 input[type=text] {
     height: 50px;
     background-color: gray;
-    margin-top: 30px;
     color: whitesmoke;
 }
 
@@ -9,9 +8,12 @@ input[type=text] {
     min-width: 40% !important;
 }
 
+#memeTitleForm {
+    height: 110px !important;
+}
+
 button {
     margin-top: 30px;
-    margin-left: 20px;
     height: 50px;
 }
 
@@ -21,18 +23,22 @@ label {
 
 input[type="file"] {
     display: none;
+}  
+
+#youtubeButton {
+    max-width: 40% !important; 
 }
 
 .custom-file-upload {
+    margin-top: 40px;
     border: 1px solid #ccc;
     display: inline-block;
     padding: 6px 12px;
     cursor: pointer;
+    border-radius: 2px;
 }
 
 .custom-file-upload:hover {
-    margin-top: auto;
-    margin-bottom: auto;
     border: 1px solid red;
     color: red;
 }
@@ -44,6 +50,7 @@ textarea {
     display: inline-block;
     margin-right: 20px;
     padding: 10px;
+    margin-top: 10px !important;
     color: whitesmoke !important;
 }
 
@@ -64,11 +71,10 @@ textarea {
 input[type=text] {
     height: 50px;
     background-color: gray;
-    margin-top: 30px;
     margin-bottom: 30px;
     margin-left: auto;
     margin-right: auto;
-    min-width: 600px;
+    min-width: 400px;
 }
 
 ::placeholder {
@@ -88,27 +94,61 @@ select {
     color: whitesmoke;
 }
 
-@media screen and (max-width: 700px) {
+#link {
+    margin-left: 120px !important;
+}
 
-    input[type=text] {
-        margin-left: 20px;
-        min-width: 300px !important;
-    }
-
-    textarea {
-        margin-top: 10px;
-        margin-bottom: 10px;
-        margin-left: -50px;
-        min-width: 450px;
-        height: 120px;
+@media screen and (max-width: 1000px) {
+    #import {
+        font-size: 12px !important;
     }
 
     #link {
-        margin-left: 10px;
-        min-width: 350px !important;
+        margin-left: 0 !important;
+        min-width: 300px !important;
+    }
+}
+
+@media screen and (max-width: 800px) {
+
+    #link {
+        margin-left: 0 !important;
+        min-width: 300px !important;
     }
 
     #youtubeButton {
         font-size: 12px;
     }
+
+    #drag {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 700px) {
+
+    .custom-file-upload {
+        margin-top: 10px !important;
+    }
+
+    textarea {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        height: 120px;
+        width: 100%;
+    }
+
+    #link {
+        margin-left: 20px !important;
+        min-width: 250px !important;
+    }
+
+    #youtubeButton {
+        font-size: 12px;
+    }
+
+    #drag {
+        display: none;
+    }
+
 }

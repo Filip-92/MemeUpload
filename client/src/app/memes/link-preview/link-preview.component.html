@@ -1,29 +1,3 @@
-<!-- You have complete control over how to display the JSON returned from linkpreview.net -->
-<!-- <div *ngIf="preview.url" class="row col-11 mb-3">
-  <div class="row col-12" style="height: 150px;">
-    <div class="col-3" style="height: 150px; float: left;">
-      <div [hidden]="!preview.image">
-        <img class="image" [hidden]="!preview.image" [src]="preview.image">
-      </div>
-    </div>
-    <div class="col-sm-6 col-8 preview-field" style="border: 1px solid white;">
-      <div class="preview-text row">
-        <div [hidden]="!preview.url" class="url">
-          <span><strong>Adres URL:</strong> {{preview.url}}</span>
-        </div>
-        <div [hidden]="!preview.title" class="title">
-          <span>Tytuł: {{preview.title}}</span>
-        </div>
-        <div [hidden]="!preview.description" class="description">
-          <span><strong>Opis:</strong> {{preview.description}}</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<br> -->
-
 <div id="linkPreview" class="row">
   <div *ngIf="preview.url" class="col-6">
     <div [hidden]="!preview.image">

@@ -17,6 +17,7 @@ import { Meme } from 'src/app/_models/meme';
 import { MemeService } from 'src/app/_services/meme.service';
 import { HttpClient } from '@angular/common/http';
 import { Reply } from 'src/app/_models/reply';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-member-detail',
@@ -49,7 +50,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   users: any;
   members: Partial<Member[]>;
   predicate = 'liked';
-  pageNumber = 1;
+  pageNumber = 0;
   pageSize = 5;
   pagination: Pagination;
   @ViewChild('scrollMe') meme : ElementRef;
@@ -60,6 +61,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   replies: Reply[];
   numberOfLikes: number = 0;
   liked: boolean = false;
+  mainMemes: number = 0;
 
   constructor(public presence: PresenceService, private route: ActivatedRoute, 
     private messageService: MessageService, private accountService: AccountService,
@@ -73,20 +75,27 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     this.route.data.subscribe(data => {
       this.member = data.member;
       if (this.member.username === this.user.username) {
-        window.location.replace('member/edit');
+        window.location.replace('uzytkownik/edycja');
       }
     })
-    this.getUsers();
-    this.loadLikes();
-    this.route?.queryParams?.subscribe(params => {
-      params?.tab ? this.selectTab(params?.tab) : this.selectTab(0);
-    })
-    this.galleryImages = this.getImages();
-    this.getMemberMemes(this.member.username);
-    this.getMemberComments(this.member.username);
-    this.getMemberReplies(this.member.username);
-    this.getMemberNumberOfLikes(this.member.username);
+    if ("user" in localStorage) {
+      this.getUsers();
+      this.loadLikes();
+      this.route?.queryParams?.subscribe(params => {
+        params?.tab ? this.selectTab(params?.tab) : this.selectTab(0);
+      })
+      this.galleryImages = this.getImages();
+      this.getMemberMemes(this.member.username);
+      this.getMemberComments(this.member.username);
+      this.getMemberReplies(this.member.username);
+      this.getMemberNumberOfLikes(this.member.username);
+      this.getMemberMainMemes(this.member.username);
+    } else {
+      this.toastr.warning("Zaloguj się aby mieć dostęp");
+      this.router.navigateByUrl('/');
+    }
   }
+
   getImages(): NgxGalleryImage[] {
     const imageUrls = [];
     for (const photo of this.member.photos) {
@@ -115,7 +124,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  changeDateFormat(date: string) {
+  changeDateFormat(date) {
     var newDate = date.substring(0,10);
     return newDate;
   }
@@ -160,13 +169,19 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     });
   }
 
+  getMemberMainMemes(username: string) {
+    this.memeService.getMemberMainMemes(username).subscribe(memes => {
+      this.mainMemes = memes;
+    })
+  }
+
   pageChanged(event: any) {
     this.pageNumber = event.page;
     this.getMemberMemes(this.user.username);
   }
 
   getUsers() {
-    this.http.get('https://localhost:5001/api/users').subscribe(response => {
+    this.http.get(environment.apiUrl + 'users').subscribe(response => {
       this.users = response;
       for(let user of this.users){
       if (user.username == this.member.username) {

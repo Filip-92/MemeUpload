@@ -38,7 +38,6 @@ export class MemeCardFavouriteComponent implements OnInit {
   getFavouriteMemes(username: string) {
     this.memeService.getFavouritesList(username).subscribe(response => {
       this.memes = response;
-      console.log(this.memes);
       if (this.favouriteMemes?.length > 0) {
         for (var meme of this.favouriteMemes) {
           this.checkIfMemeFavourite(meme.memeId);

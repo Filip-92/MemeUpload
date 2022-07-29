@@ -27,13 +27,14 @@ export class MemberEditComponent implements OnInit {
   user: User;
   members: Partial<Member[]>;
   predicate = 'likedBy';
-  pageNumber = 1;
+  pageNumber = 0;
   pageSize = 8;
   pagination: Pagination;
   memes: Meme[];
   comments: Comment[];
   replies: Reply[];
   numberOfLikes: number = 0;
+  mainMemes: number = 0;
 
   constructor(private accountService: AccountService, private memberService: MembersService, 
     private toastr: ToastrService, private router: Router, private memeService: MemeService) { 
@@ -48,7 +49,7 @@ export class MemberEditComponent implements OnInit {
     this.getMemberComments(this.user.username);
     this.getMemberReplies(this.user.username);
     this.getMemberNumberOfLikes(this.user.username);
-    console.log(this.user);
+    this.getMemberMainMemes(this.user.username);
     } else {
       this.toastr.warning("Zaloguj się aby mieć dostęp");
       this.router.navigateByUrl('/');
@@ -62,9 +63,9 @@ export class MemberEditComponent implements OnInit {
     });
   }
 
-  deletePhoto(photoId: number) {
-    this.memberService.deletePhoto(photoId).subscribe(() => {
-      this.member.photos = this.member.photos.filter(x => x.id !== photoId);
+  getMemberMainMemes(username: string) {
+    this.memeService.getMemberMainMemes(username).subscribe(memes => {
+      this.mainMemes = memes;
     })
   }
 
@@ -104,7 +105,7 @@ export class MemberEditComponent implements OnInit {
 
   removeMeme(memeId) {
     this.memeService.removeMeme(memeId).subscribe(() => {
-      this.memes.splice(this.memes.findIndex(p => p.id === memeId), 1);
+      this.memes?.splice(this.memes?.findIndex(p => p.id === memeId), 1);
     })
   }
 

@@ -9,6 +9,7 @@ import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
 import { MemeService } from 'src/app/_services/meme.service';
 import { environment } from 'src/environments/environment';
+import { HelperService } from 'src/app/_services/helper.service';
 
 @Component({
   selector: 'app-member-comments',
@@ -39,9 +40,10 @@ export class MemberCommentsComponent implements OnInit {
   uploader: FileUploader;
   baseUrl = environment.apiUrl;
   imageChangedEvent: any = '';
+  mainMemes: number;
 
   constructor(private memeService: MemeService, public accountService: AccountService,
-    private toastr: ToastrService, private fb: FormBuilder) { 
+    private toastr: ToastrService, private fb: FormBuilder, private helperService: HelperService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
     this.logged = true;
   }
@@ -51,6 +53,7 @@ export class MemberCommentsComponent implements OnInit {
     this.getReplies(this.comment.id);
     if ("user" in localStorage) {
       this.loadLikes();
+      this.getMemberMainMemes(this.user.username)
     }
   }
 
@@ -89,6 +92,12 @@ export class MemberCommentsComponent implements OnInit {
     }
   }
 
+  getMemberMainMemes(username: string) {
+    this.memeService.getMemberMainMemes(username).subscribe(memes => {
+      this.mainMemes = memes;
+    })
+  }  
+
   addReply(commentId) {
     this.reply = !this.reply;
     this.initializeForm(commentId);
@@ -119,14 +128,6 @@ export class MemberCommentsComponent implements OnInit {
       replyingToUser: [this.comment.username]
     })
   }
-
-  // initializeEditForm(commentId) {
-  //   this.editForm = this.fb.group({
-  //     content: ['', [Validators.required, Validators.maxLength(2000)]],
-  //     memeId: [this.comment.memeId],
-  //     id: [commentId]
-  //   })
-  // }
 
   getReplies(commentId: number) {
     this.memeService.getReplies(commentId).subscribe(replies => {
@@ -220,6 +221,9 @@ reloadCurrentPage() {
       case 'fileSize':
         message = 'Plik jest za duży. Rozmiar pliku to ' + this.formatBytes(item.size) + ', podczas gdy maksymalny dopuszczalny rozmiar to ' + this.formatBytes(maxFileSize);
         break;
+      case 'fileType':
+        message = 'Nieobsługiwany format pliku.'
+        break;
       default:
         message = 'Wystąpił błąd';
         break;
@@ -255,4 +259,8 @@ private formatBytes(bytes: number, decimals?: number) {
     i = Math.floor(Math.log(bytes) / Math.log(k));
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     }
+
+  checkIfUserWorthy(mainMemes: number) {
+    return this.helperService.checkIfUserWorthy(mainMemes);
+  }
 }

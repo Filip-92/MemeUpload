@@ -32,21 +32,21 @@
             </div>
         </ng-template>
 
-        <form [formGroup]='memeUploadForm' class="text-center">
-            <div class="row ml-3 text-center">
-                <div class="column col-2"></div>
-                <div class="column">
-                    <app-meme-title-input [formControl]='memeUploadForm.controls["title"]' id="memeTitle" style="min-width: 40% !important;"
-                        [label]='"Wpisz tytuł"' name="title" autocomplete="off"></app-meme-title-input>
+        <form [formGroup]='memeUploadForm' id="memeTitleForm" class="text-center">
+            <div class="row text-center">
+                <div class="column col-lg-1"></div>
+                <div class="column col-9 col-lg-8">
+                    <app-meme-title-input [formControl]='memeUploadForm.controls["title"]' id="memeTitle"
+                        [label]='"Wpisz tytuł"' name="title" autocomplete="off" style="margin-right: -20px !important;"></app-meme-title-input>
                 </div>
-                <div class="column">
+                <div class="column col-3 col-lg-3">
                     <button 
-                        class="dropdown-item"
                         [disabled]="!memeUploadForm?.valid"
                         (click)="memeToggle()"
+                        id="import"
                         *ngIf="(accountService?.currentUser$ | async) !== null"
                         class="btn btn-primary btn-lg" 
-                        style="align-items: center; font-size: 17px;"
+                        style="align-items: center; font-size: 17px; float: left; margin-left: -20px !important;"
                     >
                     <i class="fa fa-paper-plane mr-1"></i>
                     Dodaj
@@ -59,8 +59,8 @@
     <div class="container text-center" *ngIf="memeUploadMode" style="max-height: 1200px !important;">
 
         <div style="margin-top: -20px;">
-            <div class="row">
-                <div class="col-sm-4 col-9 text-right">
+            <div class="row text-center">
+                <div class="col-4 col-sm-4 text-right">
                     Wybierz dział: 
                 </div>
                 <div class="col-sm-3 col-3 text-center" style="margin-top: -5px;">
@@ -95,21 +95,35 @@
             </div> -->
         </div>
 
-        <button (click)="normalMemeToggle()" [disabled]="youtubeVideo" class="btn btn-danger mb-2" style="width: 80%; margin-top: 10px !important;">
+        <button (click)="normalMemeToggle()" [disabled]="youtubeVideo" class="btn btn-danger mb-2 col-12 col-lg-8" style="margin-top: 10px !important;">
             Dodaj klasycznego mema
         </button>
 
         <div *ngIf="normalMeme" class="mb-2">
-            <div class="column col-10" style="margin-left: auto; margin-right: auto;"> 
-                <textarea class="col-8" placeholder="Wpisz opis (opcjonalnie)" name="description" [formControl]='memeUploadForm.controls["description"]' style="display: inline-block;"></textarea>
+            <div class="column col-12 col-lg-9" style="margin-left: auto; margin-right: auto;"> 
+                <textarea class="col-11 col-lg-7" placeholder="Wpisz opis (opcjonalnie)" name="description" [formControl]='memeUploadForm.controls["description"]' style="display: inline-block;"></textarea>
                 <div class="col-3" style="max-width: 200px; display: inline-block;">
                     <label class="custom-file-upload" style="min-width: 150px !important;">
                         <input type="file" ng2FileSelect [uploader]="uploader" (change)="fileChangeEvent($event)" class="text-center mt-3 mb-3" title="Wybierz"/>
-                        Dodaj plik
+                        <i class="fa fa-photo mr-1"></i>/<i class="fa fa-video-camera ml-1 mr-2"></i> Dodaj plik
                     </label>
-                    <button type="button" class="btn btn-info mb-2 text-center" *ngIf="previewImg && uploader?.queue?.length" (click)="open(content)" style="min-width: 150px !important; margin-left: 0 !important;">Podgląd</button>
+                    <div ng2FileDrop
+                    [ngClass]="{'nv-file-over': hasBaseDropzoneOver}"
+                    (fileOver)="fileOverBase($event)"
+                    [uploader]="uploader"
+                    *ngIf="!uploader?.queue?.length"
+                    id="drag"
+                    class="card bg-faded p-3 text-center mb-3 ml-2 my-drop-zone"
+                    style="max-width: 200px; margin-left: auto; margin-right: auto;"
+                    >
+                        <i class="fa fa-upload fa-3x"></i>
+                    Upuść zdjęcie tutaj
+                    </div>
+                    <button type="button" class="btn btn-info mb-2 text-center" *ngIf="previewImg && uploader?.queue?.length" (click)="open(content)" style="min-width: 150px !important; margin-left: 0 !important;"><i class="fa fa-search mr-2"></i>Podgląd</button>
                 </div>
             </div>
+
+
     
             <div class="col-9 text-center" style="margin-bottom: 20px; margin-left: auto; margin-right: auto;" *ngIf="uploader?.queue?.length">
     
@@ -126,27 +140,28 @@
             </div>
         </div>
 
-        <button (click)="youtubeVideoToggle()" [disabled]="normalMeme" [hidden]="uploader?.queue?.length !== 0" class="btn btn-danger mb-2" style="width: 80%; margin-top: 10px !important;">
+        <button (click)="youtubeVideoToggle()" [disabled]="normalMeme" [hidden]="uploader?.queue?.length !== 0" class="btn btn-danger mb-2 col-12 col-lg-8" style="margin-top: 10px !important;">
             Dodaj filmik z youtube
         </button>
 
         <div *ngIf="youtubeVideo" class="column">
-            <form [formGroup]='youtubeForm' (ngSubmit)="youtubeForm.valid && addYoutubeLink()" class="text-center column">
+            <form [formGroup]='youtubeForm' (ngSubmit)="youtubeForm.valid && addYoutubeLink()" class="text-center">
                 <div>
-                    <div>
-                        <input id="link" type="text" [formControl]='youtubeForm.controls["url"]' placeholder="Wstaw link z youtube" class="col-7">
-                        <button id="youtubeButton" class="btn btn-success ml-2 col-2" type="submit" style="margin-top: 0 !important;">Dodaj link</button>
+                    <div class="row mt-3">
+                        <div class="col-lg-1"></div>
+                        <input id="link" type="text" [formControl]='youtubeForm.controls["url"]' placeholder="Wstaw link z youtube" class="col-7 col-lg-5 mr-2 text-left">
+                        <button id="youtubeButton" class="btn btn-success col-2 tex-left" type="submit" style="margin-top: 0 !important;"><i class="fa fa-youtube mr-2"></i>Dodaj</button>
                     </div>
                     <div *ngIf="youtubeForm.dirty && !youtubeForm.controls['url'].errors?.pattern && !youtubeForm.controls['url'].errors?.required && youtubeForm.controls['url'].touched">
                         <app-link-preview [link1]="youtubeForm.value.url"></app-link-preview>
                     </div>
-                    <div *ngIf="youtubeForm.controls['url'].errors?.pattern" class="text-danger" style="margin-top: 0 !important;">
+                    <div *ngIf="youtubeForm.controls['url'].errors?.pattern" class="text-danger mb-2" style="margin-top: 0 !important;">
                         Link musi mieć odpowiedni format
                     </div>
                     <div *ngIf="youtubeForm.controls['url'].errors?.required && youtubeForm.controls['url'].touched" class="text-danger mb-3">
                         Link jest wymagany
                     </div>
-                    <textarea class="col-9 ml-3" [formControl]='youtubeForm.controls["description"]' placeholder="Wpisz opis (opcjonalnie)" name="description" style="height: 100px !important;"></textarea>
+                    <textarea class="col-11 col-lg-7 ml-3" [formControl]='youtubeForm.controls["description"]' placeholder="Wpisz opis (opcjonalnie)" name="description" style="height: 100px !important;"></textarea>
                     <div *ngIf="youtubeForm.controls['description'].errors?.maxlength" class="text-danger">
                         Opis zbyt długi
                     </div>

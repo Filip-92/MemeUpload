@@ -14,6 +14,9 @@ import { environment } from 'src/environments/environment';
 import { AccountService } from 'src/app/_services/account.service';
 import { User } from 'src/app/_models/user';
 import { take } from 'rxjs/operators';
+import { SwitchDivisionComponent } from 'src/app/modals/switch-division/switch-division.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AdminService } from 'src/app/_services/admin.service';
 
 @Component({
   selector: 'app-meme-detail',
@@ -30,7 +33,7 @@ export class MemeDetailComponent implements OnInit {
   likes: number = 0;
   numberOfComments: number;
   pagination: Pagination;
-  pageNumber = 1;
+  pageNumber = 0;
   pageSize = 5;
   trustedUrl: any;
   commentForm: FormGroup;
@@ -47,11 +50,12 @@ export class MemeDetailComponent implements OnInit {
   url: string[];
   division: any;
   favouriteMemes: Meme[];
+  mainMemes: number;
 
-  constructor(private memeService: MemeService, private http: HttpClient,
-    private route: ActivatedRoute, private toastr: ToastrService,
-    private helper: HelperService, private fb: FormBuilder, private router: Router,
-    private location: Location, public accountService: AccountService) {
+  constructor(private memeService: MemeService,
+    private route: ActivatedRoute, private toastr: ToastrService, private helper: HelperService, 
+    private fb: FormBuilder, private router: Router,public accountService: AccountService, 
+    private helperService: HelperService, private modalService: NgbModal, private adminService: AdminService) {
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
      }
 
@@ -64,6 +68,7 @@ export class MemeDetailComponent implements OnInit {
       this.initializeForm();
       this.loadLikes();
       this.getFavouriteMemes(this.user.username);
+      this.getMemberMainMemes(this.user.username);
     }
     this.getMeme(this.id);
     this.getComments(this.id);
@@ -73,12 +78,12 @@ export class MemeDetailComponent implements OnInit {
   getMeme(memeId: number) {
     this.memeService.getMeme(memeId).subscribe(meme => {
       this.meme = meme;
-      if(this.meme.division !== 0) {
-        this.getDivisionNameById(this.meme.division);
+      if(this.meme?.division !== 0) {
+        this.getDivisionNameById(this.meme?.division);
       }
       this.id = meme.id;
-      if (this.meme.url.includes("youtube")) {
-        this.trustedUrl = this.formatYoutubeLink(this.meme.url)
+      if (this.meme?.url?.includes("youtube") || this.meme?.url?.includes("youtu.be")) {
+        this.trustedUrl = this.formatYoutubeLink(this.meme?.url)
       }
     })
   }
@@ -89,30 +94,38 @@ export class MemeDetailComponent implements OnInit {
   }
 
   addLike(meme: Meme) {
-      this.memeService.addLike(meme.id).subscribe(() => {
-        this.liked = !this.liked;
-      if(this.liked) {
-        this.meme.numberOfLikes++;
-        this.liked = true;
-      } else {
-        this.meme.numberOfLikes--;
-        this.liked = false;
-      }
-    })
+    if ("user" in localStorage) {
+        this.memeService.addLike(meme.id).subscribe(() => {
+          this.liked = !this.liked;
+        if(this.liked) {
+          this.meme.numberOfLikes++;
+          this.liked = true;
+        } else {
+          this.meme.numberOfLikes--;
+          this.liked = false;
+        }
+      })
+    } else {
+      this.toastr.error("Funkcja tylko dla zalogowanych użytkowników");
+    }
   }
 
   addDislike(meme: Meme) {
-      this.memeService.addDislike(meme.id).subscribe(() => {
-        this.disliked = !this.disliked;
-      if(this.disliked) {
-        this.meme.numberOfLikes--;
-        this.disliked = true;
-        this.liked = false;
-      } else {
-        this.meme.numberOfLikes++;
-        this.disliked = false;
-      }
-    })
+    if ("user" in localStorage) {
+        this.memeService.addDislike(meme.id).subscribe(() => {
+          this.disliked = !this.disliked;
+        if(this.disliked) {
+          this.meme.numberOfLikes--;
+          this.disliked = true;
+          this.liked = false;
+        } else {
+          this.meme.numberOfLikes++;
+          this.disliked = false;
+        }
+      })
+    } else {
+      this.toastr.error("Funkcja tylko dla zalogowanych użytkowników");
+    }
   }
 
   loadLikes() {
@@ -128,10 +141,15 @@ export class MemeDetailComponent implements OnInit {
     })
   }
 
+  getMemberMainMemes(username: string) {
+    this.memeService.getMemberMainMemes(username).subscribe(memes => {
+      this.mainMemes = memes;
+    })
+  }  
+
   checkIfMemeLiked(id: number) {
     if (id === this.id) {
       this.liked = !this.liked;
-      console.log(id);
     }
   }
 
@@ -149,8 +167,13 @@ export class MemeDetailComponent implements OnInit {
     this.toastr.error("Adres url jest zjebany!")
   }
 
-  formatYoutubeLink(url) {
-    var id = url.split('v=')[1].split('&')[0]; //sGbxmsDFVnE
+  formatYoutubeLink(url: string) {
+    var id = '';
+    if (url.includes('youtube')) {
+      id = url?.split('v=')[1]?.split('&')[0];
+    } else if (url.includes('youtu.be')) {
+      id = url?.split('be/')[1];
+    }
     url = "https://www.youtube-nocookie.com/embed/" + id;
     return url;
   }
@@ -212,6 +235,9 @@ export class MemeDetailComponent implements OnInit {
         case 'fileSize':
           message = 'Plik jest za duży. Rozmiar pliku to ' + this.formatBytes(item.size) + ', podczas gdy maksymalny dopuszczalny rozmiar to ' + this.formatBytes(maxFileSize);
           break;
+        case 'fileType':
+          message = 'Nieobsługiwany format pliku.'
+          break;
         default:
           message = 'Wystąpił błąd';
           break;
@@ -254,14 +280,18 @@ export class MemeDetailComponent implements OnInit {
   }
 
   addFavourite(memeId: number) {
-    this.memeService.addFavourite(memeId).subscribe(() => {
-      this.favourite = !this.favourite;
-    if(this.favourite) {
-      this.favourite = true;
+    if ("user" in localStorage) {
+        this.memeService.addFavourite(memeId).subscribe(() => {
+          this.favourite = !this.favourite;
+        if(this.favourite) {
+          this.favourite = true;
+        } else {
+          this.favourite = false;
+        }
+      })
     } else {
-      this.favourite = false;
+      this.toastr.error("Funkcja tylko dla zalogowanych użytkowników");
     }
-  })
   }
 
   getFavouriteMemes(username: string) {
@@ -287,7 +317,7 @@ export class MemeDetailComponent implements OnInit {
       if ("user" in localStorage) {
 
       } else {
-        if(this.division.isCloseDivision) {
+        if(this.division?.isCloseDivision) {
           this.router.navigateByUrl('/');
           this.toastr.error("Zaloguj się aby mieć dostęp");
         }
@@ -295,4 +325,21 @@ export class MemeDetailComponent implements OnInit {
     })
   }
 
+  checkIfUserWorthy(mainMemes: number) {
+    return this.helperService.checkIfUserWorthy(mainMemes);
+  }
+
+  rejectMeme(memeId: number) {
+    this.adminService.rejectMeme(memeId).subscribe(() => {
+      this.memes?.splice(this.memes?.findIndex(p => p.id === memeId), 1);
+    })
+    this.toastr.success('Mem został usunięty pomyślnie');
+    this.router.navigateByUrl('/');
+  }
+
+  openDivisionModal(meme: Meme) {
+    const modalRef = this.modalService.open(SwitchDivisionComponent);
+    modalRef.componentInstance.meme = meme;
+    modalRef.componentInstance.modalRef = modalRef;
+  }
 }

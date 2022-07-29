@@ -1,5 +1,9 @@
 img {
-    min-width: 700px;
+    max-width: 600px !important;
+}
+
+video {
+    max-width: 600px !important;
 }
 
 a {
@@ -10,15 +14,26 @@ a:hover {
     text-decoration: none !important;
 }
 
-@media screen and (max-width: 700px) {
+.btn {
+    max-height: 50px !important;
+}
 
-    img {
-        min-width: 500px !important;
-    }
+@media screen and (max-width: 700px) {
 
     iframe {
         max-width: 480px !important;
+        margin-left: -4px !important;
     }
+}
+
+#division {
+    padding: 10px;
+    border: 1px solid white;
+}
+
+#division:hover {
+    color: red;
+    border: 1px solid yellow;
 }
 
 #description {
@@ -31,4 +46,32 @@ a:hover {
 .card-title:hover {
     color: red;
     text-decoration: none !important;
+}
+
+#ok {
+    max-height: 20px !important;
+    max-width: 15px !important;
+}
+
+#likes {
+    background-color: rgb(10, 92, 130) !important;
+}
+
+#likes:hover {
+    cursor: default;
+    background-color: rgb(10, 92, 130);
+    transition: none !important;
+    transform: none !important;
+}
+
+@media screen and (max-width: 600px) {
+
+    iframe {
+        max-width: 380px !important;
+        margin-left: -4px !important;
+    }
+
+    .card {
+        width: 100%;
+    }
 }
