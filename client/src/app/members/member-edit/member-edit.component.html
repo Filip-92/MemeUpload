@@ -63,7 +63,7 @@
         >
             <div *ngFor="let meme of memes" >
                 <app-meme-card [meme]="meme"></app-meme-card>
-                <div class='text-center mb-5' id="reject">
+                <div class='text-center mb-5' id="reject" *ngIf="meme.username === user.username && checkIfOlderThan1Hour(meme.uploaded, user)">
                     <button class='btn btn-sm btn-danger' (click)='removeMeme(meme.id)'><i class="fa fa-trash"></i> Usuń</button>
                 </div>
             </div>

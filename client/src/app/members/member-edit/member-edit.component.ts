@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { Meme } from 'src/app/_models/meme';
 import { MemeService } from 'src/app/_services/meme.service';
 import { Reply } from 'src/app/_models/reply';
+import { HelperService } from 'src/app/_services/helper.service';
 
 @Component({
   selector: 'app-member-edit',
@@ -37,7 +38,8 @@ export class MemberEditComponent implements OnInit {
   mainMemes: number = 0;
 
   constructor(private accountService: AccountService, private memberService: MembersService, 
-    private toastr: ToastrService, private router: Router, private memeService: MemeService) { 
+    private toastr: ToastrService, private router: Router, private memeService: MemeService,
+    private helperService: HelperService) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
@@ -140,5 +142,9 @@ export class MemberEditComponent implements OnInit {
     } else {
       return 'Helikopter bojowy';
     }
+  }
+
+  checkIfOlderThan1Hour(date: any) {
+    return this.helperService.checkIfOlderThan1Hour(date, this.user)
   }
 }
