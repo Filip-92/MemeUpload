@@ -81,6 +81,8 @@ import { MessageComponent } from './members/message/message.component';
 import { RemoveUserComponent } from './modals/remove-user/remove-user.component';
 import { RemoveAccountComponent } from './modals/remove-account/remove-account.component';
 import { StatuteComponent } from './modals/statute/statute.component';
+import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
+import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 
 @NgModule({
   declarations: [
@@ -158,6 +160,8 @@ import { StatuteComponent } from './modals/statute/statute.component';
     NgbModule,
     NgxLinkPreviewModule,
     ImageCropperModule,
+    ShareButtonsModule,
+    ShareIconsModule,
     TimeagoModule.forRoot({formatter: { provide: 
       TimeagoFormatter, useClass: TimeagoCustomFormatter },}),
     RouterModule.forRoot([

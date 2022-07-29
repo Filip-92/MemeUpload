@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from "@angular/forms";
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidatorFn, Validators } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { User } from "src/app/_models/user";
 import { AccountService } from "src/app/_services/account.service";
@@ -15,14 +15,14 @@ import { RemoveAccountComponent } from "src/app/modals/remove-account/remove-acc
   styleUrls: ['./change-password.component.css']
 })
 export class ChangePasswordComponent implements OnInit {
-  updatePasswordForm: FormGroup;
+  updatePasswordForm: UntypedFormGroup;
   user: User;
   typeOld: string = "password";
   typeNew: string = "password";
   toggleOld: boolean;
   toggleNew: boolean;
 
-  constructor(private formBuilder: FormBuilder, private accountService: AccountService, 
+  constructor(private formBuilder: UntypedFormBuilder, private accountService: AccountService, 
       private validatorService: ValidatorService, private toastr: ToastrService, private modalServ: NgbModal) {
         this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
       }

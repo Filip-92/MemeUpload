@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Member } from 'src/app/_models/member';
@@ -36,7 +36,7 @@ export class MemeDetailComponent implements OnInit {
   pageNumber = 0;
   pageSize = 5;
   trustedUrl: any;
-  commentForm: FormGroup;
+  commentForm: UntypedFormGroup;
   validationErrors: string[] = [];
   liked: boolean;
   disliked: boolean;
@@ -54,7 +54,7 @@ export class MemeDetailComponent implements OnInit {
 
   constructor(private memeService: MemeService,
     private route: ActivatedRoute, private toastr: ToastrService, private helper: HelperService, 
-    private fb: FormBuilder, private router: Router,public accountService: AccountService, 
+    private fb: UntypedFormBuilder, private router: Router,public accountService: AccountService, 
     private helperService: HelperService, private modalService: NgbModal, private adminService: AdminService) {
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
      }

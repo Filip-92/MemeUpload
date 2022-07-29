@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AccountService } from '../_services/account.service';
 import { ToastrService } from 'ngx-toastr';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, FormControl, UntypedFormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StatuteComponent } from '../modals/statute/statute.component';
@@ -13,7 +13,7 @@ import { StatuteComponent } from '../modals/statute/statute.component';
 })
 export class RegisterComponent implements OnInit {
   @Output() cancelRegister = new EventEmitter();
-  registerForm: FormGroup;
+  registerForm: UntypedFormGroup;
   maxDate: Date;
   validationErrors: string[] = [];
   registrationComplete: boolean = false;
@@ -21,7 +21,7 @@ export class RegisterComponent implements OnInit {
   togglePassword: boolean = false;
 
   constructor(public accountService: AccountService, private toastr: ToastrService, 
-    private fb: FormBuilder, private router: Router, private modalServ: NgbModal) { }
+    private fb: UntypedFormBuilder, private router: Router, private modalServ: NgbModal) { }
 
   ngOnInit(): void {
     this.initializeForm();

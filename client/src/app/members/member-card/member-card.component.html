@@ -20,12 +20,12 @@
         <a id="user" href="/uzytkownicy/{{member?.username}}">
             <h3 *ngIf="member?.username?.length < 8">{{member?.username}}
             <span [class.is-online]="(presence?.onlineUsers$ | async).includes(member?.username)">
-                <i class="fa fa-user ml-2 mr-2"></i>
+                <i class="fa fa-user ms-2 me-2"></i>
             </span>  
             </h3>
             <h4 *ngIf="member?.username?.length > 8 && member?.username?.length < 16">{{member?.username}}
                 <span [class.is-online]="(presence?.onlineUsers$ | async).includes(member?.username)">
-                    <i class="fa fa-user ml-2 mr-2"></i>
+                    <i class="fa fa-user ms-2 me-2"></i>
                 </span>  
             </h4>
             <h5 *ngIf="member?.username?.length > 16">{{member?.username}}
@@ -36,10 +36,10 @@
     </div>
     <div class="col-5 col-lg-2" style="margin-top: auto; margin-bottom: auto;">
         <div>
-            <i class="fa fa-thumbs-up mr-2 mb-2"></i>Ilość plusów: <span style="color: greenyellow">{{ numberOfLikes }}</span>
+            <i class="fa fa-thumbs-up me-2 mb-2"></i>Ilość plusów: <span style="color: greenyellow">{{ numberOfLikes }}</span>
         </div>
         <div>
-            <i class="fa fa-photo mr-2 mb-2"></i>Ilość wrzut: {{ memes?.length }} / {{ mainMemes || '0' }}
+            <i class="fa fa-photo me-2 mb-2"></i>Ilość wrzut: {{ memes?.length }} / {{ mainMemes || '0' }}
         </div>
         <div>
             <i class="fa fa-comment mr-2"></i>Ilość komentarzy: <span style="color: greenyellow">{{ comments?.length + replies?.length || '0' }}</span>

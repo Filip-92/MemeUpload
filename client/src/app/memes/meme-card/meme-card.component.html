@@ -11,9 +11,9 @@
                             </a>
                             <div class="row">
                                 <div class="col-lg-2"></div>
-                                <p class="col-3 ml-2" [ngStyle]="(meme.uploaded | timeago).length < 10 ? { 'font-size': '14px' } : { 'font-size': '12px' }">{{meme.uploaded | timeago}}</p>
-                                <div class="col-7 col-lg-3"></div>
-                                <i class="fa fa-comment mr-2" aria-hidden="true"></i> {{comments}}
+                                <p class="col-3 ms-2" [ngStyle]="(meme.uploaded | timeago).length < 10 ? { 'font-size': '14px' } : { 'font-size': '12px' }">{{meme.uploaded | timeago}}</p>
+                                <div class="col-6 col-lg-3"></div>
+                                <div class="col-2 col-lg-1"><i class="fa fa-comment me-2" aria-hidden="true"></i> {{comments}}</div>
                             </div>
                             <span *ngIf="meme.description?.length > 0 && meme.description !== 'null'">
                                 <br>         
@@ -39,18 +39,26 @@
                         autor: <a class="nav-link" routerLink='/uzytkownicy/{{meme.username}}' style="color: greenyellow !important" class="inline">{{meme.username}}</a>
                     </span>
                 </div>
-                <button class="btn btn-success mr-2" (click)="addFavourite(meme.id)" [ngStyle]="!favourite ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-thumb-tack" aria-hidden="true"></i></button>
-                <button (click)="addLike(meme)" [disabled]="disliked" class="btn btn-success mr-2" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-thumbs-up"></i></button>
-                <span class="btn btn-primary mr-2" id="likes" style="min-width: 100px;">{{meme.numberOfLikes}}</span>
+                <button class="btn btn-success me-2" (click)="addFavourite(meme.id)" [ngStyle]="!favourite ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-thumb-tack" aria-hidden="true"></i></button>
+                <button (click)="addLike(meme)" [disabled]="disliked" class="btn btn-success me-2" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-thumbs-up"></i></button>
+                <span class="btn btn-primary me-2" id="likes" style="min-width: 100px;">{{meme.numberOfLikes}}</span>
                 <button (click)="addDislike(meme)" [disabled]="liked" class="btn btn-danger" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-thumbs-down"></i></button>
-                <button class="btn btn-warning ml-2 mr-2" (click)="flagAsSpam(meme.id)"><i class="fa fa-flag" aria-hidden="true"></i></button>
+                <button class="btn btn-warning ms-2 me-2" (click)="flagAsSpam(meme.id)"><i class="fa fa-flag" aria-hidden="true"></i></button>
             </div>
             <div class="mb-2">
                 <span *appHasRole='["Admin", "Moderator"]' class="mr-2">
                     <span id="division" *ngIf="division !== null" [ngStyle]="division?.isCloseDivision ? { 'color': 'red' } : { 'color': 'yellow' }" (click)="openDivisionModal(meme)" style="cursor: pointer;">{{division?.name}}</span>
                     <span id="division" *ngIf="division === null" (click)="openDivisionModal(meme)" style="cursor: pointer; font-size: 12px;">Poczekalnia</span>
                 </span>
-                <button class="btn btn-info mr-2" *ngIf="meme.isMain"><i class="fa fa-share mr-2"></i>Share</button>
+                <!-- <button class="btn btn-info mr-2" *ngIf="meme.isMain"><i class="fa fa-share mr-2"></i>Share</button> -->
+                <share-buttons id="shareButtons" *ngIf="meme.isMain" theme="modern-dark"
+                [include]="['copy', 'facebook', 'messenger', 'telegram', 'twitter', 'whatsapp']"
+                [showIcon]="true"
+                [showText]="false"
+                url="https://localhost:4200/meme/{{meme.id}}"
+                description="Angular Share Buttons"
+                class="pt-5">
+              </share-buttons>
                 <button *appHasRole='["Admin", "Moderator"]' class="btn btn-danger" (click)='rejectMeme(meme.id)'><i class="fa fa-trash"></i> Usuń</button>
             </div>
         </div>

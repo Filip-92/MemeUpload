@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
@@ -18,14 +18,14 @@ import { AdminService } from 'src/app/_services/admin.service';
 export class UserManagementComponent implements OnInit {
   users: any;
   bsModalRef: BsModalRef;
-  banUserForm: FormGroup;
+  banUserForm: UntypedFormGroup;
   validationErrors: string[] = [];
   photo: Photo;
   url: string;
-  userSearchForm: FormGroup;
+  userSearchForm: UntypedFormGroup;
 
   constructor(private adminService: AdminService, private modalService: BsModalService, 
-    private modalServ: NgbModal, private toastr: ToastrService, private fb: FormBuilder) { }
+    private modalServ: NgbModal, private toastr: ToastrService, private fb: UntypedFormBuilder) { }
 
   ngOnInit(): void {
     this.getUsersWithRoles();

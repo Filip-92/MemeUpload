@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, UntypedFormControl, UntypedFormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbDayTemplateData } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-view-model';
 import { ToastrService } from 'ngx-toastr';
@@ -15,8 +15,8 @@ import { AuthenticationService } from '../../_services/authentication.service';
   styleUrls: ['./reset-password.component.css']
 })
 export class ResetPasswordComponent implements OnInit {
-  public resetPasswordForm: FormGroup;
-  public changePasswordForm: FormGroup;
+  public resetPasswordForm: UntypedFormGroup;
+  public changePasswordForm: UntypedFormGroup;
   public showSuccess: boolean;
   public showError: boolean;
   public errorMessage: string;
@@ -32,9 +32,9 @@ export class ResetPasswordComponent implements OnInit {
     private _route: ActivatedRoute, private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.resetPasswordForm = new FormGroup({
-      password: new FormControl('', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]),
-      confirm: new FormControl('')
+    this.resetPasswordForm = new UntypedFormGroup({
+      password: new UntypedFormControl('', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]),
+      confirm: new UntypedFormControl('')
     });
     this._userId = this._route.snapshot.queryParams['userid'];
     this.resetPasswordForm.get('confirm').setValidators([Validators.required,,
