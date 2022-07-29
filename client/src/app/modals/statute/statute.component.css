@@ -1,0 +1,16 @@
+ol { 
+    counter-reset: item; 
+    padding: 0;
+}
+
+li { 
+    display: block; 
+    margin-bottom: 10px;
+}
+
+li:before { 
+    content: counters(item, ".") " "; 
+    counter-increment: item; 
+    margin-right: 5px;
+    color: rgb(184, 189, 22);
+}

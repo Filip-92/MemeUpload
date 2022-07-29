@@ -1,22 +1,16 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { AccountService } from '../_services/account.service';
-import { Observable } from 'rxjs';
 import { User } from '../_models/user';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { ElementRef } from '@angular/core'; 
 import { Message } from '../_models/message';
 import { Pagination } from '../_models/pagination';
 import { MessageService } from '../_services/message.service';
-import { add } from 'ngx-bootstrap/chronos';
 import { DeviceDetectorService } from 'ngx-device-detector';
-import * as internal from 'stream';
 import { Division } from '../_models/division';
 import { MemeService } from '../_services/meme.service';
 import { take } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationsModalComponent } from '../modals/notifications-modal/notifications-modal.component';
-import { MemeListComponent } from '../memes/meme-list/meme-list.component';
 
 @Component({
   selector: 'app-nav',
@@ -33,7 +27,7 @@ export class NavComponent implements OnInit {
   divisions: Division[];
   pagination: Pagination;
   container = 'Unread';
-  pageNumber = 1;
+  pageNumber = 0;
   pageSize = 5;
   loading = false;
   open: boolean;
@@ -94,6 +88,14 @@ export class NavComponent implements OnInit {
 
   registerToggle() {
     this.registerMode = !this.registerMode;
+    if (this.registerMode) {
+      this.goToTop();
+      this.closeNavbar();
+    }
+  }
+
+  goToTop(){
+    window.scrollTo(0,0);
   }
 
   cancelRegisterMode(event: boolean) {

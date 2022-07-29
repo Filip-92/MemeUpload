@@ -25,6 +25,8 @@ export class ResetPasswordComponent implements OnInit {
   private _email: string;
   private _userId: string;
   private user: any;
+  type: string = "password";
+  togglePassword: boolean;
 
   constructor(private _authService: AuthenticationService, private _passConfValidator: PasswordConfirmationValidatorService, 
     private _route: ActivatedRoute, private http: HttpClient) { }
@@ -95,8 +97,16 @@ export class ResetPasswordComponent implements OnInit {
   getUserEmailById(userId: number) {
     this._authService.getUserEmailById(userId).subscribe(email => {
       this.user = email;
-      console.log(this.user.email);
     });
+  }
+
+  showPassword() {
+    this.togglePassword = !this.togglePassword;
+    if (this.togglePassword) {
+      this.type = "text";
+    } else {
+      this.type = "password";
+    }
   }
 
 }

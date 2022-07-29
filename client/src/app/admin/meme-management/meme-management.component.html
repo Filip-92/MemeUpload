@@ -1,10 +1,28 @@
-<div class='row text'>
+<div class="row">
     <div class='col-10 col-lg-4 text-center' id="memeCard" *ngFor='let meme of memes'>
         <app-meme-for-approval-card [meme]="meme"></app-meme-for-approval-card>
+        <div class="mb-2">
+            <span [ngStyle]="division?.isCloseDivision ? { 'color': 'red' } : { 'color': 'yellow' }" (click)="openDivisionModal(meme)" style="cursor: pointer;">{{division?.name}}</span>
+            <span *ngIf="division === null" (click)="openDivisionModal(meme)" style="cursor: pointer;">Poczekalnia</span>
+        </div>
+        <div class="mb-2">
+            <span class="btn btn-primary mr-2"><i class="fa fa-plus" aria-hidden="true"></i> {{meme?.numberOfLikes}}</span>
+            <span class="btn btn-danger mr-2"><i class="fa fa-flag" aria-hidden="true"></i> {{meme?.numberOfFlags}}</span>
+        </div>
+        <div class='text-center mb-5'>
+            <button class='btn btn-sm btn-info mr-1' (click)="openMemeView(meme)"><i class="fa fa-search"></i></button>
+            <button class='btn btn-sm btn-success mr-1' (click)='approveMeme(meme.id)'>Approve</button>
+            <button class='btn btn-sm btn-success mr-1' (click)='pushMemeToMain(meme.id)'>Główna</button>
+            <button class='btn btn-sm btn-danger' (click)="openDeleteModal(meme.id)" [attr.data-target]="'#'+meme.id">Usuń</button>
+        </div>
+    </div>
+    <div *ngIf="memes?.length === 0" class="mt-5 mb-5" style="margin-left: auto; margin-right: auto;">
+        Brak memów do wyświetlenia
     </div>
 </div>
 
-<div class="d-flex justify-content-center" *ngIf="pagination">
+
+<div class="d-flex justify-content-center" *ngIf="pagination && memes?.length !== 0">
     <pagination 
         [boundaryLinks]="true" 
         [totalItems]="pagination.totalItems"

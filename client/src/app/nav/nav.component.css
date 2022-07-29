@@ -2,6 +2,10 @@
     cursor: pointer;
 }
 
+.navbar-toggler-icon {
+  width: 50px;
+}
+
 .navbar {
     max-height: 90px !important;
     border-bottom: 1px solid black;
@@ -26,6 +30,10 @@ ul.nav {
     margin-bottom: auto;
 }
 
+.fa-search:hover {
+  cursor: pointer;
+}
+
 #forgot:hover {
   color: red !important;
 }
@@ -45,8 +53,20 @@ img {
     margin-bottom: 10px;
 }
 
+.row {
+  width: 100% !important;
+}
+
 .nav {
     position: relative;
+}
+
+.nav i {
+  margin-top: 30px !important;
+}
+
+#toggle {
+  margin-top: 30px !important;
 }
 
 .sidemenu-item {
@@ -226,9 +246,57 @@ form {
     margin-top: auto;
     margin-bottom: auto;
   }
+
+  .fa-bell {
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    width: auto !important;
+  }
+
+  .fa-bell:hover {
+    cursor: pointer;
+  }
 }
 
 @media screen and (max-width: 700px) {
+
+    .navbar {
+        min-height: 100px !important;
+        max-height: 100px !important;
+        font-size: 10px;
+    }
+
+    .sidebar {
+      width: 100%;
+      min-width: 300px;
+      height: 100%;
+      z-index: 1; /* Stay on top */
+      top: 0;
+      right: 0;
+      opacity: 1 !important;
+      background-color: #111; /* Black*/
+      overflow-x: hidden; /* Disable horizontal scroll */
+      padding-top: 20px; /* Place content 60px from the top */
+      transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+      box-shadow: 2px 2px 5px #999;
+      transition: 0.5s;
+    }
+
+    .sidebar-mini {
+      visibility: hidden;
+    }
+
+    .nav-item {
+        text-align: left !important;
+        display: inline-block !important;
+    }
+
+    li {
+      display: inline !important;
+    }
+  }
+
+  @media screen and (max-width: 1000px) {
 
     .navbar {
         min-height: 100px !important;
@@ -274,19 +342,54 @@ form {
     font: sans-serif;
   }
 
+  #toggle {
+    margin-left: 50px !important;
+  }
+
+  @media screen and (max-width: 1200px) {
+    #toggle {
+      font-size: 22px;
+    }
+
+    #toggleClose {
+      font-size: 22px;
+    }
+
+    #toggle {
+      margin-left: -20px !important;
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+    .navbar-toggler-icon {
+      margin-left: 100px !important;
+    }
+  }
+
   @media screen and (max-width: 700px) {
     #toggle {
       font-size: 25px;
     }
 
+    #toggleClose {
+      font-size: 25px;
+      margin-left: -100px !important;
+    }
+
     .nav i {
       font-size: 20px;
-      margin-top: 5px;
-      /* margin-left: 50px; */
     }
 
     #division {
       font-size: 15px !important;
+    }
+
+    input {
+      min-width: 200px;
+    }
+
+    .btn {
+      min-width: 80px;
     }
 
     /* li {
@@ -296,6 +399,77 @@ form {
     #messages {
       width: 50px !important;
     } */
+  }
+
+  .loggedOut {
+    margin-left: 160px !important;
+  }
+
+  @media screen and (max-width: 800px) {
+
+    .nav {
+      max-height: 50px !important;
+    }
+
+    .row {
+      width: 90% !important;
+    }
+
+    #icons {
+      margin-left: -100px !important;
+    }
+
+    .navbar-toggler-icon {
+      margin-left: 40px !important;
+    }
+
+    .nav li {
+      width: 40px !important;
+    }
+
+    .nav i {
+      margin-top: 0px !important;
+      font-size: 14px !important;
+    }
+
+    .fa-bell {
+      margin-left: 0px !important;
+      margin-top: 0px !important;
+    }
+
+    #toggle {
+      margin-top: -5px !important;
+    }
+
+    #toggleClose {
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    .loggedOut {
+      margin-left: 150px !important;
+    }
+
+    .navbar-brand img {
+      max-height: 50px;
+      margin-top: -17px !important;
+    }
+
+    .navbar {
+      min-height: 50px !important;
+    }
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* .container {
+      max-height: 40px !important;
+    } */
+
+    .navbar {
+      max-height: 60px !important;
+    }
   }
 
 

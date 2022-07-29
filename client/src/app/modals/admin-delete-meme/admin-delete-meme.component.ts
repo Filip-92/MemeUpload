@@ -15,12 +15,11 @@ export class AdminDeleteMemeComponent implements OnInit {
   constructor(private adminService: AdminService) { }
 
   ngOnInit(): void {
-    console.log(this.memeId);
   }
 
   rejectMeme(memeId: number) {
     this.adminService.rejectMeme(memeId).subscribe(() => {
-      this.memes.splice(this.memes.findIndex(p => p.id === memeId), 1);
+      this.memes?.splice(this.memes?.findIndex(p => p.id === memeId), 1);
     })
     this.modalRef.close();
   }

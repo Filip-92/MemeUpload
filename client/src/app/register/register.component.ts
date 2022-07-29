@@ -3,6 +3,8 @@ import { AccountService } from '../_services/account.service';
 import { ToastrService } from 'ngx-toastr';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { StatuteComponent } from '../modals/statute/statute.component';
 
 @Component({
   selector: 'app-register',
@@ -15,9 +17,11 @@ export class RegisterComponent implements OnInit {
   maxDate: Date;
   validationErrors: string[] = [];
   registrationComplete: boolean = false;
+  type: string = "password";
+  togglePassword: boolean = false;
 
   constructor(public accountService: AccountService, private toastr: ToastrService, 
-    private fb: FormBuilder, private router: Router) { }
+    private fb: FormBuilder, private router: Router, private modalServ: NgbModal) { }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -36,7 +40,8 @@ export class RegisterComponent implements OnInit {
                       Validators.minLength(8), 
                       Validators.maxLength(16),
                       Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]],
-      confirmPassword: ['', [Validators.required, this.matchValues('password')]]
+      confirmPassword: ['', [Validators.required, this.matchValues('password')]],
+      statute: [false, Validators.requiredTrue]
     })
     this.registerForm.controls.password.valueChanges.subscribe(() => {
       this.registerForm.controls.confirmPassword.updateValueAndValidity();
@@ -61,6 +66,20 @@ export class RegisterComponent implements OnInit {
 
   cancel() {
     this.cancelRegister.emit(false);
+  }
+
+  openStatuteModal() {
+    const modalRef = this.modalServ.open(StatuteComponent);
+    modalRef.componentInstance.modalRef = modalRef;
+  }
+
+  showPassword() {
+    this.togglePassword = !this.togglePassword;
+    if (this.togglePassword) {
+      this.type = "text";
+    } else {
+      this.type = "password"; 
+    }
   }
 
 }

@@ -20,32 +20,6 @@ export class MemeForApprovalCardComponent implements OnInit {
   constructor(private adminService: AdminService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
-    this.getDivisionNameById(this.meme.division);
-  }
-
-  approveMeme(memeId: number) {
-    this.adminService.approveMeme(memeId).subscribe(() => {
-      this.memes.splice(this.memes.findIndex(p => p.id === memeId), 1);
-    })
-  }
-
-  pushMemeToMain(memeId: number) {
-    this.adminService.pushMemeToMain(memeId).subscribe(() => {
-      this.memes.splice(this.memes.findIndex(p => p.id === memeId), 1);
-    })
-  }
-
-  openDeleteModal(memeId: number) {
-    const modalRef = this.modalService.open(AdminDeleteMemeComponent);
-    modalRef.componentInstance.memes = this.memes;
-    modalRef.componentInstance.memeId = memeId;
-    modalRef.componentInstance.modalRef = modalRef;
-  }
-
-  rejectMeme(memeId: number) {
-    this.adminService.rejectMeme(memeId).subscribe(() => {
-      this.memes.splice(this.memes.findIndex(p => p.id === memeId), 1);
-    })
   }
 
   convertText(title: string) {
@@ -62,23 +36,4 @@ export class MemeForApprovalCardComponent implements OnInit {
     url = "https://www.youtube-nocookie.com/embed/" + id;
     return url;
   }
-
-  openMemeView(meme: Meme) {
-    const modalRef = this.modalService.open(AdminMemeViewComponent);
-    modalRef.componentInstance.meme = meme;
-    modalRef.componentInstance.modalRef = modalRef;
-  }
-
-  getDivisionNameById(divisionId: number) {
-  this.adminService.getDivisionNameById(divisionId).subscribe(division => {
-    this.division = division;
-    });
-  }
-
-  openDivisionModal(meme: Meme) {
-    const modalRef = this.modalService.open(SwitchDivisionComponent);
-    modalRef.componentInstance.meme = meme;
-    modalRef.componentInstance.modalRef = modalRef;
-  }
-
 }

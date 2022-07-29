@@ -31,8 +31,13 @@ export class NotificationsModalComponent implements OnInit {
     this.accountService.markAsRead(notificationId).subscribe(() => {
       this.notifications.splice(this.notifications.findIndex(p => p.id === notificationId), 1);
     });
-    this.nav.notifications?.length - 1;
     this.modalRef.close();
+  }
+
+  removeNotification(notificationId: number) {
+    this.accountService.removeNotification(notificationId).subscribe(() => {
+      this.notifications.splice(this.notifications.findIndex(p => p.id === notificationId), 1);
+    })
   }
 
 }

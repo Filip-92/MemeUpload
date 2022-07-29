@@ -3,42 +3,51 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-primary">
     <div class="container">
-        <a class="navbar-brand" routerLink='/' routerLinkActive='active'>
-            <!-- <img src="https://memegenerator.net/img/images/14687350.jpg" class="mr-3">Memesy -->
-            <div *ngIf="innerWidth >= 768">
-                <source media="(max-width: 799px)" srcset="././assets/LogoImage.png">
-                <source media="(min-width: 800px)" srcset="././assets/logo (gimp - new).png">
-                <img src="././assets/logo (gimp - new).png" alt="Main logo">
+        <div class="row">
+            <div class="col-2 col-lg-3">
+                <a class="navbar-brand" routerLink='/' routerLinkActive='active' (click)="registerMode = false" style="float: left !important;">
+                    <!-- <img src="https://memegenerator.net/img/images/14687350.jpg" class="mr-3">Memesy -->
+                    <div *ngIf="innerWidth >= 768">
+                        <source media="(max-width: 799px)" srcset="././assets/LogoImage.png">
+                        <source media="(min-width: 800px)" srcset="././assets/logo (gimp - new).png">
+                        <img src="././assets/logo (gimp - new).png" alt="Main logo">
+                    </div>
+                    <div *ngIf="innerWidth < 768">
+                        <img src="././assets/LogoImage.png" alt="Main logo">
+                    </div>
+                </a>
             </div>
-            <div *ngIf="innerWidth < 768">
-                <img src="././assets/LogoImage.png" alt="Main logo">
+
+            <div class="col col-lg-2"></div>
+            
+            <div class="col-8 col-lg-6 text-right" id="icons">
+                <ng-container *ngIf="accountService.currentUser$ | async" style="margin-top: 50px !important;">
+                    <ul class="nav text-right">
+                        <li style="width: 60px" title="Użytkownicy"><a class="nav-link" routerLink='/uzytkownicy' routerLinkActive='active'><i class="fa fa-user" [ngStyle]="router.url.includes('uzytkownicy') ? { 'color': 'yellow' } : { 'color': 'white' }"></i></a></li>
+                        <!-- <li style="width: 60px" title="Polubienia"><a class="nav-link" routerLink='/lists' routerLinkActive='active'><i class="fa fa-thumbs-up"></i></a></li> -->
+                        <li style="width: 60px" *ngIf="(accountService.currentUser$ | async) || (accountService.currentUser$ | async) === null" title="Szukaj memów"><a class="nav-link" routerLink='szukaj/memes' routerLinkActive='active'><i class="fa fa-search" [ngStyle]="router.url.includes('szukaj') ? { 'color': 'yellow' } : { 'color': 'white' }"></i></a></li>
+                        <li id="messages" style="width: 60px" title="Wiadomości"><a class="nav-link" routerLink='/wiadomosci'routerLinkActive='active'><i class="fa fa-envelope" [ngStyle]="unreadMessages > 0 ? { 'color': 'red' } : { 'color': 'white' } && router.url.includes('wiadomosci') ? { 'color': 'yellow' } : { 'color': 'white' }"><span class="ml-1" *ngIf="unreadMessages > 0" id="unread">{{unreadMessages}}</span></i></a></li>
+                        <li id="messages" style="width: 60px" title="Powiadomienia"><a class="nav-link" style="cursor: pointer;" (click)="openNotificationsModal(user.username)" routerLinkActive='active'><i class="fa fa-bell" [ngStyle]="notifications?.length > 0 ? { 'color': 'red' } : { 'color': 'white' }"><span class="ml-1" *ngIf="notifications?.length > 0" id="unread">{{notifications?.length}}</span></i></a></li>
+                        <li *appHasRole='["Admin", "Moderator"]' class="nav-item" style="width: 60px">
+                            <a class="nav-link" routerLink='/admin' routerLinkActive='active'><i class="fa fa-lock"></i></a>
+                        </li>
+                        <li *appHasRole='["Admin", "Moderator"]' class="nav-item" style="width: 60px;">
+                            <a class="nav-link" routerLink='/errors' routerLinkActive='active' ><i class="fa fa-exclamation-triangle mr-3"></i></a>
+                        </li>
+                    </ul>
+                </ng-container>
             </div>
-        </a>
 
-        <ng-container *ngIf="accountService.currentUser$ | async" style="float: right !important;">
-            <ul class="nav">
-                <li style="width: 60px" title="Użytkownicy"><a class="nav-link" routerLink='/members' routerLinkActive='active'><i class="fa fa-user"></i></a></li>
-                <!-- <li style="width: 60px" title="Polubienia"><a class="nav-link" routerLink='/lists' routerLinkActive='active'><i class="fa fa-thumbs-up"></i></a></li> -->
-                <li style="width: 60px" *ngIf="(accountService.currentUser$ | async) || (accountService.currentUser$ | async) === null" title="Szukaj memów"><a class="nav-link" routerLink='szukaj/memes' routerLinkActive='active'><i class="fa fa-search"></i></a></li>
-                <li id="messages" style="width: 60px" title="Wiadomości"><a class="nav-link" routerLink='/messages'routerLinkActive='active'><i class="fa fa-envelope" [ngStyle]="unreadMessages > 0 ? { 'color': 'red' } : { 'color': 'white' }"><span class="ml-1" *ngIf="unreadMessages > 0" id="unread">{{unreadMessages}}</span></i></a></li>
-                <li id="messages" style="width: 60px" title="Powiadomienia"><a class="nav-link" style="cursor: pointer;" (click)="openNotificationsModal(user.username)" routerLinkActive='active'><i class="fa fa-bell" [ngStyle]="notifications?.length > 0 ? { 'color': 'red' } : { 'color': 'white' }"><span class="ml-1" *ngIf="notifications?.length > 0" id="unread">{{notifications?.length}}</span></i></a></li>
-                <li *appHasRole='["Admin", "Moderator"]' class="nav-item" style="width: 60px">
-                    <a class="nav-link" routerLink='/admin' routerLinkActive='active'><i class="fa fa-lock"></i></a>
-                </li>
-                <li *appHasRole='["Admin", "Moderator"]' class="nav-item" style="width: 60px">
-                    <a class="nav-link" routerLink='/errors' routerLinkActive='active' ><i class="fa fa-exclamation-triangle"></i></a>
-                </li>
-            </ul>
-        </ng-container>
-
-
-        <!-- </div> -->
-        <div id="toggle">
-            <i class="navbar-toggler-icon mr-5 text-center" (click)="displayNavbar()" *ngIf="display"></i>
+            <div class="col-1 col-lg-1">
+                <div id="toggle">
+                    <i class="navbar-toggler-icon text-center" (click)="displayNavbar()" *ngIf="display" style="width: 50px !important;"></i>
+                </div>
+            </div>
         </div>
 
+
         <div class="sidebar sidebar-mini text-center" [ngStyle]="!display ? {'animation': 'slideMe 0.7s ease-in', 'visibility': 'visible', 'opacity': '0.8','cursor': 'pointer'} : {'animation': 'slideOut 0.7s ease-out', 'opacity': '0', 'cursor': 'default'}">
-            <div id="toggle">
+            <div id="toggleClose">
                 <i class="navbar-toggler-icon text-center mb-3" (click)="closeNavbar()"></i>
             </div>
             <section>
@@ -53,7 +62,7 @@
 
                 <div class="mt-3">
                     <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">
-                        <a [routerLink]="display ? [''] : ['/member/edit']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;" >
+                        <a id="profile" [routerLink]="display ? [''] : ['/uzytkownik/edycja']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;" >
                             <i class="fa fa-user mr-2"></i>Mój Profil
                         </a>
                     </button>
@@ -75,13 +84,13 @@
                     <br />
                     <br />
                     <h2>Działy:</h2>
-                    <span style="color: rgb(49, 247, 49)" id="division">Otwarte</span>
+                    <div class="mt-2 mb-2" style="color: rgb(49, 247, 49)" id="division">Otwarte</div>
                     <div *ngFor="let division of divisions" class="text-center mt-1 division">
                         <span *ngIf="division.isCloseDivision === false">
                             <a routerLink="kategoria/{{replaceTitle(division.name)}}" (click)="reloadCurrentPage()" style="font-size: 14px !important;">{{division.name}}</a>
                         </span>
                     </div>
-                    <span style="color: rgb(255, 55, 55)" id="division">Zamknięte</span>
+                    <div class="mt-2 mb-2" style="color: rgb(255, 55, 55)" id="division">Zamknięte</div>
                     <div *ngFor="let division of divisions" class="text-center mt-1 division">
                         <span *ngIf="division.isCloseDivision === true">
                             <a routerLink="kategoria/{{replaceTitle(division.name)}}" (click)="reloadCurrentPage()" style="font-size: 14px !important;">{{division.name}}</a>
@@ -117,12 +126,17 @@
                     </form>
                     <br><br>
                     <div class="card-footer mt-3">        
-                        <a routerLink='/forgot-password' routerLinkActive='active' id="forgot" (click)="displayNavbar()" style="color: yellow;">Zapomniałem hasła</a>
+                        <a routerLink='/zapomnialem-hasla' routerLinkActive='active' id="forgot" (click)="displayNavbar()" style="color: yellow;">Zapomniałem hasła</a>
                     </div>
                     <br />
                     <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">
                         <a [routerLink]="display ? [''] : ['/poczekalnia']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;">
                             <i class="fa fa-clock-o mr-2"></i>Poczekalnia
+                        </a>
+                    </button>
+                    <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">
+                        <a [routerLink]="display ? [''] : ['/szukaj/memes']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;">
+                            <i class="fa fa-search mr-2"></i>Szukaj
                         </a>
                     </button>
                     <br />
@@ -146,7 +160,7 @@
 <div *ngIf="registerMode" class="container">
     <div class="row justify-content-center" #scrollMe
     [scrollTop]="scrolltop">
-        <div class="col-4">
+        <div class="col-10 col-xl-4">
             <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>
         </div>
     </div>

@@ -64,7 +64,6 @@ import { BanModalComponent } from './modals/ban-modal/ban-modal.component';
 import { UserCardComponent } from './admin/user-card/user-card.component';
 import { CommentComponent } from './memes/comment/comment.component';
 import { AdminDeleteMemeComponent } from './modals/admin-delete-meme/admin-delete-meme.component';
-import { MemeListByDivisionComponent } from './memes/meme-list-by-division/meme-list-by-division.component';
 import { DivisionViewComponent } from './memes/division-view/division-view.component';
 import { AdminMemeViewComponent } from './modals/admin-meme-view/admin-meme-view.component';
 import { ReplyComponent } from './memes/reply/reply.component';
@@ -77,6 +76,10 @@ import { MemberCommentsComponent } from './members/member-comments/member-commen
 import { MemberRepliesComponent } from './members/member-replies/member-replies.component';
 import { MemeForApprovalCardComponent } from './admin/meme-for-approval-card/meme-for-approval-card.component';
 import { SwitchDivisionComponent } from './modals/switch-division/switch-division.component';
+import { MessageComponent } from './members/message/message.component';
+import { RemoveUserComponent } from './modals/remove-user/remove-user.component';
+import { RemoveAccountComponent } from './modals/remove-account/remove-account.component';
+import { StatuteComponent } from './modals/statute/statute.component';
 
 @NgModule({
   declarations: [
@@ -124,7 +127,6 @@ import { SwitchDivisionComponent } from './modals/switch-division/switch-divisio
     UserCardComponent,
     CommentComponent,
     AdminDeleteMemeComponent,
-    MemeListByDivisionComponent,
     DivisionViewComponent,
     AdminMemeViewComponent,
     ReplyComponent,
@@ -137,6 +139,10 @@ import { SwitchDivisionComponent } from './modals/switch-division/switch-divisio
     MemberRepliesComponent,
     MemeForApprovalCardComponent,
     SwitchDivisionComponent,
+    MessageComponent,
+    RemoveUserComponent,
+    RemoveAccountComponent,
+    StatuteComponent,
   ],
   imports: [
     BrowserModule,

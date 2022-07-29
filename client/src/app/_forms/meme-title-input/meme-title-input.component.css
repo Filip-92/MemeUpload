@@ -2,10 +2,7 @@ input[type=text] {
     height: 50px;
     background-color: gray;
     margin-top: 30px;
-    margin-bottom: 30px;
-    margin-left: auto;
-    margin-right: auto;
-    min-width: 600px;
+    margin-bottom: 5px;
 }
 
 ::placeholder {
@@ -20,10 +17,8 @@ input {
     color: whitesmoke;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 1000px) {
     input[type=text] {
-        min-width: 300px;
-        left: 0;
-        margin-left: -80px;
+        margin-left: 5px !important;
     }
 }

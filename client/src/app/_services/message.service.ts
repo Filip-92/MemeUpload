@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { BehaviorSubject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Group } from '../_models/group';
 import { Message } from '../_models/message';
@@ -19,6 +19,7 @@ export class MessageService {
   private hubConnection: HubConnection;
   private messageThreadSource = new BehaviorSubject<Message[]>([]);
   messageThread$ = this.messageThreadSource.asObservable();
+  messages: Message[];
 
   constructor(private http: HttpClient, private busyService: BusyService) { }
 
@@ -83,5 +84,18 @@ export class MessageService {
 
   deleteMessage(id: number) {
     return this.http.delete(this.baseUrl + 'messages/' + id);
+  }
+
+  updateMessage(message: any) {
+    return this.http.put(this.baseUrl + 'messages/' + message.id, message).pipe(
+      map(() => {
+        const index = this.messages?.indexOf(message);
+        // this.messages[index] = message;
+      })
+    )
+  }
+
+  removeMessage(messageId: number) {
+    return this.http.post(this.baseUrl + 'messages/remove-message/' + messageId, {});
   }
 }

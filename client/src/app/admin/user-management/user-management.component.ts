@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { BanModalComponent } from 'src/app/modals/ban-modal/ban-modal.component';
+import { RemoveUserComponent } from 'src/app/modals/remove-user/remove-user.component';
 import { RolesModalComponent } from 'src/app/modals/roles-modal/roles-modal.component';
 import { Photo } from 'src/app/_models/photo';
 import { User } from 'src/app/_models/user';
@@ -97,10 +98,10 @@ export class UserManagementComponent implements OnInit {
     return roles;
   }
 
-  removeUser(userId) {
-    this.adminService.removeUser(userId).subscribe(() => {
-      this.users.splice(this.users.findIndex(p => p.id === userId), 1);
-    })
+  openRemoveUserModal(username: string) {
+    const modalRef = this.modalServ.open(RemoveUserComponent);
+    modalRef.componentInstance.username = username;
+    modalRef.componentInstance.modalRef = modalRef;
   }
 
   openBanModal(username: string) {

@@ -34,7 +34,7 @@ namespace API.Data
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
+        public async Task<MemberPagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
             var query = _context.Users.AsQueryable();
 
@@ -52,7 +52,7 @@ namespace API.Data
                 _ => query.OrderByDescending(u => u.LastActive)
             };
             
-            return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper
+            return await MemberPagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper
                 .ConfigurationProvider).AsNoTracking(), 
                     userParams.PageNumber, userParams.PageSize);
         }
@@ -148,6 +148,7 @@ namespace API.Data
         public async Task<PagedList<MemberDto>> SearchForMembers(UserParams userParams, string searchString)
         {
             var query = _context.Users
+                .Include(m => m.Memes)
                 .IgnoreQueryFilters()
                 .Where(m => m.UserName.ToLower().Contains(searchString))
                 .Select(u => new MemberDto
@@ -157,11 +158,12 @@ namespace API.Data
                     Gender = u.Gender,
                     NumberOfLikes = u.NumberOfLikes,
                     LastActive = u.LastActive,
+                    Created = u.Created,
                     IsBanned = u.IsBanned 
                 }).AsNoTracking()
                 .OrderByDescending(u => u.Id);
 
-            return await PagedList<MemberDto>.CreateAsync(query, 
+            return await PagedList<MemberDto>.CreateAsync(query,
             userParams.PageNumber, userParams.PageSize);
         }
 
@@ -201,6 +203,11 @@ namespace API.Data
             return await _context.Notifications
             .IgnoreQueryFilters()
             .SingleOrDefaultAsync(x => x.Id == id);
+        }
+
+        public void RemoveNotification(Notifications notification)
+        {
+            _context.Notifications.Remove(notification);
         }
 
         public async Task<IEnumerable<NotificationDto>> GetUnreadNotifications(int id)

@@ -53,6 +53,23 @@
     border-top: 1px solid #eee;
   }
 
+  .pagination > .active > a {
+    background-color: red !important;
+  }
+
+  .pagination > li > a {
+    background-color: #892626 !important;
+  }
+
+  .pagination > li > a:hover {
+    background-color: #b72929 !important;
+  }
+
+  .pagination > .active > a:hover {
+    background-color: rgb(252, 84, 84) !important;
+    color: rgb(0, 0, 0);
+  }
+
     /* width */
     ::-webkit-scrollbar {
       width: 10px;

@@ -12,7 +12,7 @@ namespace API.Interfaces
         Task<IEnumerable<AppUser>> GetUsersAsync();
         Task<AppUser> GetUserByIdAsync(int id);
         Task<AppUser> GetUserByUsernameAsync(string username);
-        Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams);
+        Task<MemberPagedList<MemberDto>> GetMembersAsync(UserParams userParams);
         Task<MemberDto> GetMemberAsync(string username, bool isCurrentUser);
         Task<AppUser> GetUserByPhotoId(int photoId);
         Task<AppUser> GetUserByMemeId(int memeId);
@@ -25,6 +25,7 @@ namespace API.Interfaces
         Task<IEnumerable<ContactFormDto>> GetContactFormMessages();
         Task<IEnumerable<NotificationDto>> GetNotifications(int id);
         Task<Notifications> GetNotificationById(int id);
+        void RemoveNotification(Notifications notification);
         Task<IEnumerable<NotificationDto>> GetUnreadNotifications(int id);
         Task<ContactForm> GetMessageById(int id);
         void RemoveMessage(ContactForm message);

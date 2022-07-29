@@ -1,5 +1,5 @@
 <form [formGroup]='registerForm' (ngSubmit)="registerForm.valid && register()" *ngIf="!registrationComplete" autocomplete="off">
-    <h2 class="text-center text-primary">Sign up</h2>
+    <h2 class="text-center text-primary">Rejestracja</h2>
     <hr>
 
     <div class="form-group text-center">
@@ -11,16 +11,55 @@
         </select>
     </div>
 
-    <app-text-input [formControl]='registerForm.controls["email"]' 
-    [label]='"Email użytkownika"' autocomplete="off"></app-text-input>
-    <app-text-input [formControl]='registerForm.controls["username"]' 
-    [label]='"Nazwa użytkownika"' autocomplete="off"></app-text-input>
-    <app-date-input [formControl]='registerForm.controls["dateOfBirth"]' 
-    [label]='"Data urodzenia"' [maxDate]='maxDate' autocomplete="off"></app-date-input>
-    <app-text-input [formControl]='registerForm.controls["password"]' 
-        [label]='"Hasło"' [type]='"password"' autocomplete="off"></app-text-input>
-    <app-text-input [formControl]='registerForm.controls["confirmPassword"]' 
-        [label]='"Potwierdź hasło"' [type]='"password"' autocomplete="off"></app-text-input>
+    <div class="row" id="inputs">
+        <div class="col-1 col-md-1" style="margin-top: 5px;">
+            <i class="fa fa-envelope"></i>
+        </div>
+        <div class="col-11 col-md-11">
+            <app-text-input [formControl]='registerForm.controls["email"]' 
+            [label]='"Email użytkownika"' autocomplete="off"></app-text-input>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-1 col-md-1" style="margin-top: 5px;">
+            <i class="fa fa-user"></i>
+        </div>
+        <div class="col-11 col-md-11">
+            <app-text-input [formControl]='registerForm.controls["username"]' 
+            [label]='"Nazwa użytkownika"' autocomplete="off"></app-text-input>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-1 col-md-1" style="margin-top: 5px;">
+            <i class="fa fa-calendar"></i>
+        </div>
+        <div class="col-11 col-md-11">
+            <app-date-input [formControl]='registerForm.controls["dateOfBirth"]' 
+            [label]='"Data urodzenia"' [maxDate]='maxDate' autocomplete="off"></app-date-input>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-1 col-md-1" style="margin-top: 5px;">
+            <i class="fa fa-eye" (click)="showPassword()" *ngIf="!togglePassword"></i>
+            <i class="fa fa-eye-slash" (click)="showPassword()" *ngIf="togglePassword"></i>
+        </div>
+        <div class="col-11 col-md-11">
+            <div style="display: inline;"><app-text-input [formControl]='registerForm.controls["password"]' 
+            [label]='"Hasło"' type={{type}} autocomplete="off"></app-text-input></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-1 col-md-1" style="margin-top: 5px;">
+            <i class="fa fa-key"></i>
+        </div>
+        <div class="col-11 col-md-11">
+            <app-text-input [formControl]='registerForm.controls["confirmPassword"]' 
+            [label]='"Potwierdź hasło"' [type]='"password"' autocomplete="off"></app-text-input>
+        </div>
+    </div>
+
+ 
+    <span><input type="checkbox" [formControl]='registerForm.controls["statute"]' id="statute" name="statute" value="true" class="mr-2" style="float:left !important;">Zapoznałem się z <a (click)="openStatuteModal()" id="statuteLink" style="color: rgb(5, 95, 174);">Regulaminem</a></span>
 
         <div class="row" *ngIf="validationErrors.length > 0">
             <ul class="text-danger">
@@ -30,9 +69,10 @@
             </ul>
         </div>
 
-    <div class="form-group text-center">
-        <button [disabled]='!registerForm.valid' class="btn btn-success mr-2" type="submit">Register</button>
-        <button class="btn btn-default mr-2" (click)="cancel()" type="button">Cancel</button>
+    <div class="form-group text-center mt-3">
+        <button [disabled]='!registerForm.valid' class="btn btn-success mr-2" type="submit"><i class="fa fa-user-plus mr-2"></i>Zarejestruj</button>
+        <button class="btn btn-default mr-2" (click)="cancel()" type="button">Anuluj</button>
     </div>
     <hr>
 </form>
+

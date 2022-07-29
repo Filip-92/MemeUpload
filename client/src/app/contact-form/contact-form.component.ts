@@ -56,9 +56,11 @@ contactFormMode: boolean = true;
 
   onSubmit() {
     this.connectionService.sendMessage(this.contactForm.value).subscribe(() => {
-      this.toastr.success('Your message has been sent.');
+      this.toastr.success('Twoja wiadomość została wysłana');
       this.contactForm.reset();
       this.disabledSubmitButton = true;
+      this.contactFormMode = false;
+      window.scrollTo(0,0);
     }, error => {
       console.log('Error', error);
     });

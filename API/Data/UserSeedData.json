@@ -15,7 +15,8 @@
         "Memes": [
             {
                 "Url": "https://i.kym-cdn.com/entries/icons/original/000/034/408/Punching_Pepe_Banner.jpg",
-                "IsApproved": true
+                "IsApproved": true,
+                "IsMain": true
             }
         ]
     },
