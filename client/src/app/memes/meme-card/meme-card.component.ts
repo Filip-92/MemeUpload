@@ -64,8 +64,6 @@ export class MemeCardComponent implements OnInit, PipeTransform {
 
   ngOnInit(): void {
     // temporary solution for incorrect timezone
-    var newTime = Number(this.meme?.uploaded?.substring(11,13)) - 2;
-    this.meme.uploaded = this.meme?.uploaded?.replace((this.meme?.uploaded?.substring(11,14)), newTime.toString() + ":");
     this.getNumberOfComments(this.meme.id);
     if(this.meme?.url?.includes("youtube") || this.meme?.url?.includes("youtu.be")) {
       this.trustedUrl = this.formatYoutubeLink(this.meme?.url);
@@ -190,7 +188,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   }
 
   addImageWatermark(imageUrl: string) {
-    var watermarkedUrl = imageUrl.replace("/upload/", "/upload/l_logo_gimp_-_new_ucilaf,o_50,w_0.4,c_scale,g_south_east/");
+    var watermarkedUrl = imageUrl.replace("/upload/", "/upload/l_logo_gimp_-_new_ucilaf,o_50,w_0.3,c_scale,g_south_east/");
     return watermarkedUrl;
   }
 
