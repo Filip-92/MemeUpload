@@ -6,7 +6,7 @@
             </h4>
             <div class="row">
                 <div class="col-1 col-lg-3"></div>
-                <p>{{changeTimeZone(meme?.uploaded) | timeago}}</p>
+                <p>{{meme?.uploaded | timeago}}</p>
             </div>
             <span *ngIf="meme?.description?.length > 0">
                 <br>         

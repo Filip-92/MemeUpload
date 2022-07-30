@@ -17,7 +17,7 @@ export class MemeCardFavouriteComponent implements OnInit {
   constructor(private memeService: MemeService) { }
 
   ngOnInit(): void {
-    this.getMeme(this.meme.memeId);
+    this.getMeme(this.meme?.memeId);
   }
 
   getMeme(memeId: number) {
@@ -40,7 +40,7 @@ export class MemeCardFavouriteComponent implements OnInit {
       this.memes = response;
       if (this.favouriteMemes?.length > 0) {
         for (var meme of this.favouriteMemes) {
-          this.checkIfMemeFavourite(meme.memeId);
+          this.checkIfMemeFavourite(meme?.memeId);
         }
       }
     });

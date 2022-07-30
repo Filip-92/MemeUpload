@@ -71,9 +71,9 @@ export class MemeCardComponent implements OnInit, PipeTransform {
       this.trustedUrl = this.formatYoutubeLink(this.meme?.url);
     }
     if ("user" in localStorage) {
-      this.getFavouriteMemes(this.user.username);
+      this.getFavouriteMemes(this.user?.username);
       this.loadLikes();
-      this.getDivisionNameById(this.meme.division);
+      this.getDivisionNameById(this.meme?.division);
     } else {
       this.liked = false;
       this.disliked = false;
@@ -218,7 +218,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   }
 
   getDivisionNameById(divisionId: number) {
-    this.adminService.getDivisionNameById(divisionId).subscribe(division => {
+    this.adminService?.getDivisionNameById(divisionId).subscribe(division => {
       this.division = division;
       });
     }

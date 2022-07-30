@@ -58,6 +58,7 @@ export class SwitchDivisionComponent implements OnInit {
 
   close() {
     this.modalRef.close();
+    this.divisionForm.reset();
   }
 
 }
