@@ -8,7 +8,7 @@
                 <div class="col-1 col-lg-3"></div>
                 <p>{{meme?.uploaded | timeago}}</p>
             </div>
-            <span *ngIf="meme?.description?.length > 0">
+            <span *ngIf="meme.description?.length > 0 && meme.description !== 'null'">
                 <br>         
                 <div id="description" class="text-center" style="padding-top: 10px; padding-bottom: 5px;">
                     <p>{{meme?.description}}</p>
