@@ -1,5 +1,5 @@
 import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, NgForm, Validators } from '@angular/forms';
 import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
 import { Reply } from 'src/app/_models/reply';
@@ -27,7 +27,7 @@ export class MemberRepliesComponent implements OnInit {
   user: User;
   url: string;
   replyField: boolean;
-  replyForm: FormGroup;
+  replyForm: UntypedFormGroup;
   validationErrors: any;
   liked: boolean;
   disliked: boolean;
@@ -43,7 +43,7 @@ export class MemberRepliesComponent implements OnInit {
   mainMemes: number;
 
   constructor(public accountService: AccountService, private memeService: MemeService,
-    private fb: FormBuilder, private toastr: ToastrService, private helperService: HelperService) { 
+    private fb: UntypedFormBuilder, private toastr: ToastrService, private helperService: HelperService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 

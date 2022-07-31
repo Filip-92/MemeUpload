@@ -1,5 +1,5 @@
 import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, NgForm, Validators } from '@angular/forms';
 import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
@@ -28,7 +28,7 @@ export class CommentComponent implements OnInit {
   }
   url: string;
   user: User;
-  replyForm: FormGroup;
+  replyForm: UntypedFormGroup;
   validationErrors: string[] = [];
   reply: boolean;
   replyQuote: boolean;
@@ -46,7 +46,7 @@ export class CommentComponent implements OnInit {
   comments: any;
 
   constructor(private memeService: MemeService, public accountService: AccountService,
-    private toastr: ToastrService, private fb: FormBuilder, private helperService: HelperService,
+    private toastr: ToastrService, private fb: UntypedFormBuilder, private helperService: HelperService,
     private detail: MemeDetailComponent) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
     this.logged = true;

@@ -50,7 +50,19 @@
                     <span id="division" *ngIf="division !== null && meme.division !== 0" [ngStyle]="division?.isCloseDivision ? { 'color': 'red' } : { 'color': 'green' }" (click)="openDivisionModal(meme)" style="cursor: pointer;">{{division?.name}}</span>
                     <span id="division" *ngIf="division === null || meme.division === 0" (click)="openDivisionModal(meme)" style="cursor: pointer; font-size: 12px;">Poczekalnia</span>
                 </span>
-                <button class="btn btn-info mr-2" *ngIf="meme.isMain"><i class="fa fa-share mr-2"></i>Share</button>
+                <button class="btn btn-info mr-2" *ngIf="meme.isMain" (click)="shareMeme()"><i class="fa fa-share mr-2"></i>Share</button>
+                <div *ngIf="meme.isMain && shareToggle" style="padding-left: 10px;">
+                    <share-buttons theme="modern-dark"
+                    [include]="['copy', 'facebook', 'messenger', 'print', 'reddit', 'telegram', 'twitter', 'whatsapp']"
+                    [showIcon]="true"
+                    [showText]="true"
+                    image="{{meme.url}}"
+                    url="{{meme.url}}"
+                    description="{{meme.title}}"
+                    twitterAccount="rodrigokamada"
+                    class="pt-5">
+                  </share-buttons>
+                </div>
             </div>
         </div>
     </div>

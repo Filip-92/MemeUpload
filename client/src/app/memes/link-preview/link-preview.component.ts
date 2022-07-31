@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { HttpClient} from '@angular/common/http';
 
 import { Observable } from 'rxjs';
@@ -19,7 +19,7 @@ export interface IlinkPreview {
 })
 export class LinkPreviewComponent implements OnInit {
   @Input() link1: string;
-  linkUploadForm: FormGroup;
+  linkUploadForm: UntypedFormGroup;
 
   // Link array to display links.  You probably will want to put your link data in a database.
   links: Array<IlinkPreview> = [
@@ -42,7 +42,7 @@ export class LinkPreviewComponent implements OnInit {
   // Regular Expression for validating the link the user enters
   private regExHyperlink = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
 
-  constructor(private http: HttpClient, private fb: FormBuilder) {
+  constructor(private http: HttpClient, private fb: UntypedFormBuilder) {
 
   }
   ngOnInit(): void {

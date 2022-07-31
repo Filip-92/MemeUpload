@@ -80,6 +80,10 @@ import { MessageComponent } from './members/message/message.component';
 import { RemoveUserComponent } from './modals/remove-user/remove-user.component';
 import { RemoveAccountComponent } from './modals/remove-account/remove-account.component';
 import { StatuteComponent } from './modals/statute/statute.component';
+import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
+import { environment } from 'src/environments/environment';
+import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
+import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 
 @NgModule({
   declarations: [
@@ -156,6 +160,10 @@ import { StatuteComponent } from './modals/statute/statute.component';
     NgbModule,
     NgxLinkPreviewModule,
     ImageCropperModule,
+    RecaptchaModule,
+    RecaptchaFormsModule,
+    ShareButtonsModule,
+    ShareIconsModule,
     TimeagoModule.forRoot({formatter: { provide: 
       TimeagoFormatter, useClass: TimeagoCustomFormatter },}),
     RouterModule.forRoot([
@@ -174,6 +182,12 @@ import { StatuteComponent } from './modals/statute/statute.component';
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
     {provide: LOCALE_ID, useValue: "pl", useFactory: (sessionService) => sessionService.getLocale()},
+    {
+      provide: RECAPTCHA_SETTINGS,
+      useValue: {
+        siteKey: environment.recaptcha.siteKey,
+      } as RecaptchaSettings,
+    },
     [TimeagoIntl],
     [DatePipe],
     AuthGuard,

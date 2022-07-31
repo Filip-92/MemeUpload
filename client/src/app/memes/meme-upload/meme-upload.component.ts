@@ -7,7 +7,7 @@ import { User } from 'src/app/_models/user';
 import { take } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { Meme } from 'src/app/_models/meme';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { MemeService } from 'src/app/_services/meme.service';
 import { HttpClient, HttpEventType, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -37,9 +37,9 @@ export class MemeUploadComponent implements OnInit {
   };
   public progress: number;
   public message: string;
-  memeUploadForm: FormGroup;
-  youtubeForm: FormGroup;
-  divisionForm: FormGroup;
+  memeUploadForm: UntypedFormGroup;
+  youtubeForm: UntypedFormGroup;
+  divisionForm: UntypedFormGroup;
   members: Member[];
   meme: Meme = {
     x: '',
@@ -70,9 +70,10 @@ export class MemeUploadComponent implements OnInit {
   imageChangedEvent: any = '';
   croppedImage: any = '';
   openDivision: boolean = false;
+  cropMode: boolean;
 
   constructor(public accountService: AccountService, private toastr: ToastrService, 
-    private sanitizer: DomSanitizer, private fb: FormBuilder, private memeService: MemeService, 
+    private sanitizer: DomSanitizer, private fb: UntypedFormBuilder, private memeService: MemeService, 
     private http: HttpClient, private modalService: NgbModal) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
@@ -157,7 +158,7 @@ export class MemeUploadComponent implements OnInit {
       } 
       this.previewImg = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(file._file)));
       file.file.name = this.memeUploadForm.value.title + '^' + this.divisionForm.value.division + '^' + this.memeUploadForm.value.description;
-      file.file.rawFile = this.croppedImage;
+      console.log(file.file);
     }
 
     this.uploader.onSuccessItem = (item, response) => {
@@ -230,6 +231,12 @@ export class MemeUploadComponent implements OnInit {
   }
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
+  }
+  saveCrop() {
+    this.uploader.clearQueue();
+    this.uploader.uploadItem(this.croppedImage);
+    this.uploader.addToQueue(this.croppedImage);
+    console.log(this.uploader.queue);
   }
   public save() {
     const date: number = new Date().getTime();

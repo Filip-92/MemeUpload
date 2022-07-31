@@ -9,25 +9,31 @@
                 <div>
                     {{memeUploadForm.value.description}}
                 </div>
-                <img id="preview" [src]="previewImg" *ngIf="previewImg && format==='image'"/>
+                <!-- <div>
+                    <button class="btn btn-info" (click)="cropMode = true"><i class="fa fa-scissors mr-2"></i>Crop</button>
+                </div> -->
 
-                <!-- <image-cropper                         trzeba bedzie ogarnac jak przekazywac zdjecie
+                <img id="preview" [src]="previewImg" *ngIf="previewImg && !cropMode && format==='image'"/>
+
+                <image-cropper                  
                 [imageChangedEvent]="imageChangedEvent"
                 [maintainAspectRatio]="true"
                 [aspectRatio]="4 / 3"
                 format="png"
+                *ngIf="cropMode"
                 (imageCropped)="imageCropped($event)"
                 (imageLoaded)="imageLoaded()"
                 (cropperReady)="cropperReady()"
                 (loadImageFailed)="loadImageFailed()"
+                class="mt-2"
                 ></image-cropper>
 
-                <img [src]="croppedImage" class="mt-3" style="height: 150px;" /> -->
+                <img [src]="croppedImage" class="mt-3" style="height: 150px;" />
 
-                <video id="preview" [src]="previewImg" *ngIf="previewImg && format==='video'" controls></video>
+                <video id="preview" [src]="previewImg" *ngIf="previewImg && !cropMode && format==='video'" controls></video>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" (click)="c('Save click')">OK</button>
+                <button type="button" class="btn btn-success" (click)="c('Save click') && saveCrop()">OK</button>
                 <button type="button" class="btn btn-warning" aria-label="Close" (click)="d('Cross click')">Wyjdź</button>
             </div>
         </ng-template>

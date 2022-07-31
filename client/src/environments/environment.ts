@@ -5,7 +5,10 @@
 export const environment = {
   production: false,
   apiUrl: 'https://localhost:5001/api/',
-  hubUrl: 'https://localhost:5001/hubs/'
+  hubUrl: 'https://localhost:5001/hubs/',
+  recaptcha: {
+    siteKey: '6LeM9qIgAAAAAMPXFzRWk8wh5QGLG-A0-O6I1vbr',
+  },
 };
 
 /*

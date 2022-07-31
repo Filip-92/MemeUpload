@@ -52,6 +52,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   comments: number;
   replies: Reply[];
   division: Division;
+  shareToggle: boolean;
 
   constructor(public presence: PresenceService, private memeService: MemeService, private http: HttpClient,
     public sanitizer: DomSanitizer, public helper: HelperService, public accountService: AccountService,
@@ -225,5 +226,9 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     const modalRef = this.modalService.open(SwitchDivisionComponent);
     modalRef.componentInstance.meme = meme;
     modalRef.componentInstance.modalRef = modalRef;
+  }
+
+  shareMeme() {
+    this.shareToggle = !this.shareToggle;
   }
 }
