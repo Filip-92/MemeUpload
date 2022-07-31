@@ -3,6 +3,6 @@ export const environment = {
   apiUrl: 'api/',
   hubUrl: 'hubs/',
   recaptcha: {
-    siteKey: '6LeM9qIgAAAAAMPXFzRWk8wh5QGLG-A0-O6I1vbr',
+    siteKey: '6LcKiTchAAAAAHCX3FgArwLO_2HyiG4T0LXzakGL',
   },
 };
