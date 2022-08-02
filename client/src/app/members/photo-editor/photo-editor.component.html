@@ -8,16 +8,22 @@
         <img id="preview" [src]="user.photoUrl" *ngIf="!previewImg"/>
         <img id="preview" [src]="previewImg || 'user.photoUrl'" *ngIf="previewImg"/>
 
-        <div ng2FileDrop
-             [ngClass]="{'nv-file-over': hasBaseDropzoneOver}"
-             (fileOver)="fileOverBase($event)"
-             [uploader]="uploader"
-             id="drag"
-             class="card bg-faded p-3 text-center mb-3 my-drop-zone mr-3"
-             style="max-width: 200px; margin-left: auto; margin-right: auto;"
-             >
-             <i class="fa fa-upload fa-3x"></i>
-            Upuść zdjęcie tutaj
+        <div class="row">
+            <div class="col-md-5"></div>
+            <div class="col-md-2">
+                <div ng2FileDrop
+                [ngClass]="{'nv-file-over': hasBaseDropzoneOver}"
+                (fileOver)="fileOverBase($event)"
+                [uploader]="uploader"
+                id="drag"
+                class="card bg-faded p-3 mb-3 my-drop-zone"
+                style="max-width: 200px;"
+                >
+                <i class="fa fa-upload fa-3x"></i>
+               Upuść zdjęcie tutaj
+                </div>
+            </div>
+            <div class="col-md-5"></div>
         </div>
 
         <label class="custom-file-upload ml-3" style="max-width: 200px;">

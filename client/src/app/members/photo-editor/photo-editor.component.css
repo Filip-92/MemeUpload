@@ -47,6 +47,14 @@ input[type="file"] {
     margin-bottom: 20px;
 }
 
+#drag {
+    margin-left: 10px !important;
+}
+
+.btn {
+    margin-left: 20px !important;
+}
+
 @media screen and (max-width: 700px) {
  #drag {
     display: none;

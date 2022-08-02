@@ -7,7 +7,7 @@ import { Pagination } from 'src/app/_models/pagination';
 import { User } from 'src/app/_models/user';
 import { MemeService } from 'src/app/_services/meme.service';
 import { PresenceService } from 'src/app/_services/presence.service';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer, Meta, SafeResourceUrl } from '@angular/platform-browser';
 import { Pipe, PipeTransform } from '@angular/core';
 import { HelperService } from 'src/app/_services/helper.service';
 import { AccountService } from 'src/app/_services/account.service';
@@ -53,6 +53,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   replies: Reply[];
   division: Division;
   shareToggle: boolean;
+  private meta: Meta;
 
   constructor(public presence: PresenceService, private memeService: MemeService, private http: HttpClient,
     public sanitizer: DomSanitizer, public helper: HelperService, public accountService: AccountService,
@@ -77,6 +78,16 @@ export class MemeCardComponent implements OnInit, PipeTransform {
       this.liked = false;
       this.disliked = false;
     }
+
+    this.meta.updateTag(
+      { property: 'og:title', content: this.meme.title },
+    );
+    this.meta.updateTag(
+      { property: 'og:description', content: this.meme.description },
+    );
+    this.meta.updateTag(
+      { property: 'og:image', content: this.meme.url },
+    );
   }
   
   addLike(meme: Meme) {
