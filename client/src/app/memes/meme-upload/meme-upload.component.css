@@ -43,6 +43,10 @@ input[type="file"] {
     color: red;
 }
 
+#addMeme {
+    width: 100%;
+}
+
 textarea {
     height: 200px;
     background-color: gray;

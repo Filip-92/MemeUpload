@@ -73,6 +73,10 @@ input[type="password"] {
       word-break: break-all;
     }
 
+    h3 {
+      font-size: 16px;
+    }
+
     #background {
       margin-top: -50px !important;
     }

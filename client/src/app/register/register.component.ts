@@ -41,7 +41,7 @@ export class RegisterComponent implements OnInit {
       password: ['', [Validators.required, 
                       Validators.minLength(8), 
                       Validators.maxLength(16),
-                      Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]],
+                      Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&_/])[A-Za-z\d$@$!%*?&].{8,}')]],
       confirmPassword: ['', [Validators.required, this.matchValues('password')]],
       statute: [false, Validators.requiredTrue],
       recaptcha: [null, Validators.required]

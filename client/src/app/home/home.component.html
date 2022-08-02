@@ -1,6 +1,6 @@
 <app-top-buttons></app-top-buttons>
 
-<div class="text-center" id="container" *ngIf="(accountService.currentUser$ | async) !== null">
+<!-- <div class="text-center" id="container" *ngIf="(accountService.currentUser$ | async) !== null">
     <app-meme-upload></app-meme-upload>
 </div>
 
@@ -8,12 +8,7 @@
     <p *ngIf="(accountService.currentUser$ | async) === null" id="warning">
         <strong>Zaloguj się lub załóż konto, aby dodać mema</strong>
     </p>
-</div>
-
-<!-- <div *ngFor="let user of users">
-    tutaj: {{user.numberOflikes}}
 </div> -->
 
-<!-- <app-link-preview></app-link-preview> -->
 <app-meme-list></app-meme-list>
 

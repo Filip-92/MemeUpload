@@ -6,17 +6,17 @@
         [formControl]="ngControl.control"
         placeholder={{label}}>
     <div *ngIf="ngControl.control.errors?.required" class="invalid-feedback">Wpisz {{label}}</div>
-    <div *ngIf="ngControl.control.errors?.pattern && [type]=='password'" class="invalid-feedback text-left">
+    <div *ngIf="ngControl.control.errors?.pattern && [type]==='password'" class="invalid-feedback text-left">
         Zachowaj odpowiednie formatowanie<br>
         Hasło musi zawierać co najmniej:
         <ul>
             <li>8 znaków</li>
             <li>1 cyfrę</li>
             <li>zarówno małe i duże litery</li>
-            <li>1 znak specjalny</li>
+            <li>1 znak specjalny ($@$!%*?&_/)</li>
         </ul>
     </div>
-    <div *ngIf="ngControl.control.errors?.pattern && [type]!='password'" class="invalid-feedback">Podaj właściwy adres email</div>
+    <div *ngIf="ngControl.control.errors?.pattern && [type]!=='password'" class="invalid-feedback">Podaj właściwy adres email</div>
     <div *ngIf="ngControl.control.errors?.minlength" class="invalid-feedback">
         {{label}} musi zawierać co najmniej {{ngControl.control.errors.minlength['requiredLength']}} znaków
     </div>

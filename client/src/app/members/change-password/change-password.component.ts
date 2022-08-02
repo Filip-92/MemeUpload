@@ -35,7 +35,7 @@ export class ChangePasswordComponent implements OnInit {
     this.updatePasswordForm = this.formBuilder.group({
         currentPassword: ['', [Validators.required]],
         newPassword: ['', [Validators.required, Validators.maxLength(16), Validators.minLength(8), 
-                        Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]],
+                        Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&_/])[A-Za-z\d$@$!%*?&].{8,}')]],
         confirmPassword: ['', [Validators.required]],
     });
   }

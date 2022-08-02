@@ -1,14 +1,27 @@
 <div class="container">
-    <button routerLink="/memes/losowe/{{id}}" class="btn col-4">
+    <button id="addMeme" (click)="addMeme()" class="btn col-12 col-lg-3">
+        <i class="fa fa-plus mr-1"></i><i class="fa fa-picture-o mr-2"></i>Dodaj memesa <span style="font-weight: bold;">( ͡° ͜ʖ ͡°)</span>
+    </button>
+    <button routerLink="/memes/losowe/{{id}}" class="btn col-4 col-lg-3">
         <img src="./assets/2048px-2-Dice-Icon.svg.png" alt="" class="mr-1">
         Losowe    
     </button>
-    <button class="btn col-4" routerLink={{link24H}} [ngStyle]="router.url.includes('/ostatnie24H')  ? { 'color': 'black', 'background-color': 'red', 'box-shadow': '3px 2px 22px 1px rgba(0, 0, 0, 0.24)' } : 
+    <button class="btn col-4 col-lg-3" routerLink={{link24H}} [ngStyle]="router.url.includes('/ostatnie24H')  ? { 'color': 'black', 'background-color': 'red', 'box-shadow': '3px 2px 22px 1px rgba(0, 0, 0, 0.24)' } : 
         { 'color': 'white', 'background-color': 'rgb(121, 56, 56)' }">        
         Ostatnie 24<span id="hide"> godziny</span><span id="show">H</span>
     </button>
-    <button class="btn col-4" routerLink={{link48H}} [ngStyle]="router.url.includes('/ostatnie48H') ? { 'color': 'black', 'background-color': 'red', 'box-shadow': '3px 2px 22px 1px rgba(0, 0, 0, 0.24)' } : 
+    <button class="btn col-4 col-lg-3" routerLink={{link48H}} [ngStyle]="router.url.includes('/ostatnie48H') ? { 'color': 'black', 'background-color': 'red', 'box-shadow': '3px 2px 22px 1px rgba(0, 0, 0, 0.24)' } : 
     { 'color': 'white', 'background-color': 'rgb(121, 56, 56)' }">
         Ostatnie 48<span id="hide"> godzin</span><span id="show">H</span>
     </button>
+</div>
+
+<div class="text-center" id="container" *ngIf="(accountService.currentUser$ | async) !== null && addMemeToggle">
+    <app-meme-upload></app-meme-upload>
+</div>
+
+<div class="text-center" [ngStyle]="(accountService.currentUser$ | async) === null ? { 'margin-top': '-20px' } : { 'margin-top': '0px' }">
+    <p *ngIf="(accountService.currentUser$ | async) === null && addMemeToggle" id="warning">
+        <strong>Zaloguj się lub załóż konto, aby dodać mema</strong>
+    </p>
 </div>
