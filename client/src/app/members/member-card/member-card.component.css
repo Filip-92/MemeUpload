@@ -91,4 +91,9 @@ span {
     .fa-user {
         font-size: 12px !important;
     }
+
+    .row {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
 }
