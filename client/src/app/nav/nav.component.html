@@ -54,7 +54,7 @@
               <header>
                 <div *ngIf="(accountService.currentUser$ | async) as user">
                     <img src="{{user.photoUrl || '././assets/LogoImage.png'}}" alt="{{user.username}}" class="mr-2">
-                    {{user.knownAs || user.username | titlecase}}
+                    {{user.knownAs || user.username}}
                 </div>
               </header>
           
