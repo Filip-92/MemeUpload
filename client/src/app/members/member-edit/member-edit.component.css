@@ -64,6 +64,15 @@ input[type="password"] {
     }
   }
 
+  @media screen and (max-width: 800px) {
+    #attributes {
+      font-size: 12px !important;
+    }
+
+    h3, h4, h5 {
+      word-break: break-all;
+    }
+  }
 
   #reject {
     margin-top: -30px !important;
