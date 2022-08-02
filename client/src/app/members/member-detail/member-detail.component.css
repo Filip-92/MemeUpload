@@ -20,9 +20,11 @@
   border: 2px solid white;
 }
 
-#likeButton:hover {
-  background-color: rgb(47, 221, 24) !important;
-  color: red !important;
+@media screen and (min-width: 1000px) {
+  #likeButton:hover {
+    background-color: rgb(47, 221, 24) !important;
+    color: red !important;
+  }
 }
 
 .text-center {
@@ -102,7 +104,6 @@ tabset {
 
     #attributes {
       font-size: 12px !important;
-      margin-top: 0px !important;
     }
 
     h3, h4, h5 {

@@ -72,6 +72,10 @@ input[type="password"] {
     h3, h4, h5 {
       word-break: break-all;
     }
+
+    #background {
+      margin-top: -50px !important;
+    }
   }
 
   #reject {
