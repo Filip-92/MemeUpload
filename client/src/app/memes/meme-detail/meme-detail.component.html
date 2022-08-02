@@ -48,7 +48,7 @@
     </div>
 </div>
 
-<div class="text-center">
+<div class="text-center" id="container">
     <div *ngIf="(accountService.currentUser$ | async) !== null">
         <form [formGroup]='commentForm' (ngSubmit)="commentForm.valid && addComment()" class="text-center mb-3">
             <div class="row">
@@ -79,7 +79,7 @@
     <p id="warning">Zaloguj się aby dodać komentarz</p>
 </div>
 
-<div *ngIf="comments?.length === 0" class="text-center">
+<div *ngIf="comments?.length === 0" class="text-center mt-5 mb-3">
     <h3>Brak komentarzy</h3>
 </div>
 

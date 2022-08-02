@@ -118,8 +118,12 @@ input[type="file"] {
 
 textarea {
     width: 100% !important;
+    padding: 2px;
     background-color: gray;
     color: whitesmoke;
+    border: thick double #2f3234;
+    height: 55px;
+    min-height: 55px;
 }
 
 ::placeholder {
@@ -129,6 +133,21 @@ textarea {
 @media screen and (max-width: 600px) {
 
     .card {
+        width: 100%;
+    }
+}
+
+#container {
+    padding-top: 20px;
+    padding-bottom: 5px;
+    background-color: rgb(49, 49, 49) !important;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media screen and (max-width: 600px) {
+    #container {
         width: 100%;
     }
 }

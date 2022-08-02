@@ -6,12 +6,10 @@
         <img src="./assets/2048px-2-Dice-Icon.svg.png" alt="" class="mr-1">
         Losowe    
     </button>
-    <button class="btn col-4 col-lg-3" routerLink={{link24H}} [ngStyle]="router.url.includes('/ostatnie24H')  ? { 'color': 'black', 'background-color': 'red', 'box-shadow': '3px 2px 22px 1px rgba(0, 0, 0, 0.24)' } : 
-        { 'color': 'white', 'background-color': 'rgb(121, 56, 56)' }">        
+    <button class="btn col-4 col-lg-3" routerLink={{link24H}}>        
         Ostatnie 24<span id="hide"> godziny</span><span id="show">H</span>
     </button>
-    <button class="btn col-4 col-lg-3" routerLink={{link48H}} [ngStyle]="router.url.includes('/ostatnie48H') ? { 'color': 'black', 'background-color': 'red', 'box-shadow': '3px 2px 22px 1px rgba(0, 0, 0, 0.24)' } : 
-    { 'color': 'white', 'background-color': 'rgb(121, 56, 56)' }">
+    <button class="btn col-4 col-lg-3" routerLink={{link48H}}>
         Ostatnie 48<span id="hide"> godzin</span><span id="show">H</span>
     </button>
 </div>
