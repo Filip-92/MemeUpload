@@ -81,6 +81,18 @@ span {
         word-break: break-all;
     }
 
+    h5 {
+        font-size: 18px;
+    }
+
+    h4 {
+        font-size: 16px;
+    }
+
+    h3 {
+        font-size: 14px;
+    }
+
     h3:hover, h4:hover, h5:hover {
         color: red !important;
         cursor: pointer;
