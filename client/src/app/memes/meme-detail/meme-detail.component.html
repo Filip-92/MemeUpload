@@ -7,6 +7,18 @@
             <div class="row">
                 <div class="col-1 col-lg-3"></div>
                 <p>{{meme?.uploaded | timeago}}</p>
+                <div class="col-5 col-lg-4"></div>
+                <div class="col-2">
+                    <share-buttons theme="modern-dark"
+                    [include]="['copy']"
+                    [showIcon]="true"
+                    [showText]="true"
+                    [autoSetMeta]="false"
+                    [image]="'https://res.cloudinary.com/duj1ftjtp/image/upload/v1659265449/epctjzlewpy4ik1ez88i.jpg'"
+                    url="{{router.url}}"
+                    description="Daily Dose Of Memes - Ty też możesz dać z siebie 30%">
+                  </share-buttons>
+                </div>
             </div>
             <span *ngIf="meme.description?.length > 0 && meme.description !== 'null'">
                 <br>         

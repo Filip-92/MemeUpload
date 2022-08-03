@@ -151,3 +151,7 @@ textarea {
         width: 100%;
     }
 }
+
+share-buttons {
+    margin-top: -10px;
+}

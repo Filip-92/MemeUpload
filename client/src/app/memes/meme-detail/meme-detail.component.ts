@@ -54,7 +54,7 @@ export class MemeDetailComponent implements OnInit {
 
   constructor(private memeService: MemeService,
     private route: ActivatedRoute, private toastr: ToastrService, private helper: HelperService, 
-    private fb: UntypedFormBuilder, private router: Router,public accountService: AccountService, 
+    private fb: UntypedFormBuilder, public router: Router,public accountService: AccountService, 
     private helperService: HelperService, private modalService: NgbModal, private adminService: AdminService) {
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
      }
