@@ -18,6 +18,9 @@
     <app-meme-upload></app-meme-upload>
 </div>
 
+<div style="margin-bottom: 35px;" *ngIf="(accountService.currentUser$ | async) === null">
+</div>
+
 <div class="text-center" [ngStyle]="(accountService.currentUser$ | async) === null ? { 'margin-top': '-20px' } : { 'margin-top': '0px' }">
     <p *ngIf="(accountService.currentUser$ | async) === null && addMemeToggle" id="warning">
         <strong>Zaloguj się lub załóż konto, aby dodać mema</strong>

@@ -79,13 +79,13 @@ export class MemeCardComponent implements OnInit, PipeTransform {
       this.disliked = false;
     }
 
-    this.meta.updateTag(
+    this.meta?.updateTag(
       { property: 'og:title', content: this.meme.title },
     );
-    this.meta.updateTag(
+    this.meta?.updateTag(
       { property: 'og:description', content: this.meme.description },
     );
-    this.meta.updateTag(
+    this.meta?.updateTag(
       { property: 'og:image', content: this.meme.url },
     );
   }
@@ -169,6 +169,10 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     this.toastr.error("Funkcja tylko dla zalogowanych użytkowników");
   }
 }
+
+  transformImage(){
+    return this.sanitizer.bypassSecurityTrustResourceUrl(this.meme.url);
+  }
 
   replaceTitle(title: string) {
     title.replace(" ", "-");

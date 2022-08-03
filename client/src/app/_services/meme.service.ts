@@ -333,6 +333,10 @@ getMainMemes(page?: number, itemsPerPage?: number) {
   addYoutubeLink(model: any) {
     return this.http.post(this.baseUrl + 'memes/add-youtube-link', model);
   }
+  
+  addMeme(model: any) {
+    return this.http.post(this.baseUrl + 'memes/add-meme', model);
+  }
 
   addComment(model: any) {
     return this.http.post(this.baseUrl + 'memes/add-comment', model);

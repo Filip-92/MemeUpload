@@ -79,7 +79,7 @@ export class MemeUploadComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.accountService.currentUser$ !== null) { // trzeba to ogarnac
+    if ("user" in localStorage) {
       this.initializeUploader();
     }
     this.initializeForm();

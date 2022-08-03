@@ -73,6 +73,29 @@ namespace API.Controllers
             return BadRequest("Problem addding meme");
         }
 
+        // [HttpPost("add-meme")]
+        // public async Task<ActionResult<MemeDto>> AddMeme(MemeDto memeDto)
+        // {
+        //     var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+
+        //     var meme = new Memes
+        //     {
+        //         Url = memeDto.Url,
+        //         Title = memeDto.Title,
+        //         Division = memeDto.Division,
+        //         Description = memeDto.Description
+        //     };
+
+        //     user.Memes.Add(meme);
+
+        //     if (await _unitOfWork.Complete())
+        //     {
+        //         return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<MemeDto>(meme));
+        //     }
+
+        //     return BadRequest("Problem addding meme");
+        // }
+
         [HttpPost("add-youtube-link")]
         public async Task<ActionResult<MemeDto>> AddYoutubeVideo(MemeDto memeDto)
         {

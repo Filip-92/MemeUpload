@@ -1,0 +1,158 @@
+input[type=text] {
+    height: 50px;
+    background-color: gray;
+    color: whitesmoke;
+}
+
+#memeTitle {
+    min-width: 40% !important;
+}
+
+#memeTitleForm {
+    height: 110px !important;
+}
+
+button {
+    margin-top: 30px;
+    height: 50px;
+}
+
+label {
+    color: whitesmoke;
+}
+
+input[type="file"] {
+    display: none;
+}  
+
+#youtubeButton {
+    max-width: 40% !important; 
+}
+
+.custom-file-upload {
+    margin-top: 40px;
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 2px;
+}
+
+.custom-file-upload:hover {
+    border: 1px solid red;
+    color: red;
+}
+
+#addMeme {
+    width: 100%;
+}
+
+textarea {
+    height: 200px;
+    background-color: gray;
+    vertical-align: top !important;
+    display: inline-block;
+    margin-right: 20px;
+    padding: 10px;
+    margin-top: 10px !important;
+    color: whitesmoke !important;
+}
+
+::placeholder {
+    color: whitesmoke;
+}
+
+.my-drop-zone {
+    float: left;
+}
+
+#preview {
+    max-width: 300px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+input[type=text] {
+    height: 50px;
+    background-color: gray;
+    margin-bottom: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 400px;
+}
+
+::placeholder {
+    color: whitesmoke;
+}
+
+input {
+    color: whitesmoke !important;
+}
+
+.form-control {
+    color: whitesmoke;
+}
+
+select {
+    background-color: gray;
+    color: whitesmoke;
+}
+
+#link {
+    margin-left: 120px !important;
+}
+
+@media screen and (max-width: 1000px) {
+    #import {
+        font-size: 12px !important;
+    }
+
+    #link {
+        margin-left: 0 !important;
+        min-width: 300px !important;
+    }
+}
+
+@media screen and (max-width: 800px) {
+
+    #link {
+        margin-left: 0 !important;
+        min-width: 300px !important;
+    }
+
+    #youtubeButton {
+        font-size: 12px;
+    }
+
+    #drag {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 700px) {
+
+    .custom-file-upload {
+        margin-top: 10px !important;
+    }
+
+    textarea {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        height: 120px;
+        width: 100%;
+    }
+
+    #link {
+        margin-left: 20px !important;
+        min-width: 250px !important;
+    }
+
+    #youtubeButton {
+        font-size: 12px;
+    }
+
+    #drag {
+        display: none;
+    }
+
+}

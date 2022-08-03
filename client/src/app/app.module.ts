@@ -84,6 +84,7 @@ import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSet
 import { environment } from 'src/environments/environment';
 import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
 import { ShareIconsModule } from 'ngx-sharebuttons/icons';
+import { MemeUploadBase64Component } from './memes/meme-upload-base64/meme-upload-base64.component';
 
 @NgModule({
   declarations: [
@@ -147,6 +148,7 @@ import { ShareIconsModule } from 'ngx-sharebuttons/icons';
     RemoveUserComponent,
     RemoveAccountComponent,
     StatuteComponent,
+    MemeUploadBase64Component,
   ],
   imports: [
     BrowserModule,

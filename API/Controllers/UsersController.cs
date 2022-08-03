@@ -102,6 +102,26 @@ namespace API.Controllers
             return BadRequest("Problem addding photo");
         }
 
+        // [HttpPost("add-photo")]
+        // public async Task<ActionResult<PhotoDto>> AddPhoto(PhotoDto photoDto)
+        // {
+        //     var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+
+        //     var photo = new Photo
+        //     {
+        //         Url = photoDto.Url
+        //     };
+
+        //     user.Photos.Add(photo);
+
+        //     if (await _unitOfWork.Complete())
+        //     {
+        //         return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<PhotoDto>(photo));
+        //     }
+
+        //     return BadRequest("Problem addding photo");
+        // }
+
         [HttpPut("set-main-photo/{photoId}")]
         public async Task<ActionResult> SetMainPhoto(int photoId)
         {
