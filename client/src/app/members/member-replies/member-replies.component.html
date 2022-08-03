@@ -72,7 +72,7 @@
 </div>
 
 <div *ngIf="replyQuote">
-    <form [formGroup]='replyForm' (ngSubmit)="replyForm?.valid && replyComment()" class="text-center column mb-3 ml-5">
+    <form [formGroup]='replyForm' (ngSubmit)="replyForm?.valid && replyComment()" class="text-center column mb-3">
         <div>
             <textarea type="text" [formControl]='replyForm?.controls["content"]' placeholder="Wpisz treść komentarza" class="col-7"></textarea>
             <button class="btn btn-success ml-2 col-2" type="submit" [disabled]="!replyForm?.valid">Dodaj komentarz</button>
