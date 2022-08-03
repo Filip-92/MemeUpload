@@ -152,6 +152,12 @@ textarea {
     }
 }
 
+@media screen and (max-width: 800px) {
+    share-buttons {
+        margin-left: -20px
+    }
+}
+
 share-buttons {
     margin-top: -10px;
 }
