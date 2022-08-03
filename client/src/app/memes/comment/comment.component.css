@@ -67,12 +67,6 @@ span {
 }
 
 @media screen and (max-width: 800px) {
-    #username {
-        word-break: break-all;
-    }
-}
-
-@media screen and (max-width: 800px) {
 
     #reply {
         width: 100%;
