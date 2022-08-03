@@ -1,6 +1,8 @@
 <div class="row text-center" id="background" style="border: 3px solid rgb(209, 207, 207);">
     <br />
-    <div class="col-12 text-center mt-2 mb-4"><h3>Profil użytkownika {{member.username}}</h3></div>
+    <div class="col-12 text-center mt-2 mb-4">
+        <h3>Profil użytkownika</h3>
+        <h3>{{member.username}}</h3></div>
     <div class="col-6 text-center mb-5" style="border-right: 1px solid white;">
         <div *ngFor="let photo of member.photos">
             <img src="{{photo.url || '././assets/LogoImage.png'}}" alt="{{member.username}}" class="card-img-top img-thumbnail">
@@ -8,7 +10,7 @@
         <div *ngIf="member.photos.length === 0">
             <img src="{{'././assets/LogoImage.png'}}" alt="{{member.username}}" class="card-img-top img-thumbnail">
         </div>
-        <h3 style="color: rgb(170, 139, 37);" *ngIf="member?.username?.length < 8">{{member.username}}</h3>
+        <h3 style="color: rgb(170, 139, 37);" *ngIf="member?.username?.length <= 8">{{member.username}}</h3>
         <h4 style="color: rgb(170, 139, 37);" *ngIf="member?.username?.length > 8 && member?.username?.length < 16">{{member.username}}</h4>
         <h5 style="color: rgb(170, 139, 37);" *ngIf="member?.username?.length > 16">{{member.username}}</h5>
         <hr>
@@ -68,7 +70,7 @@
                 </div>
             </div>
             <div *ngIf="comments?.length <= 0" class="text-center mt-3" style="min-height: 200px;">
-                <h3 class="mt-5">Brak komentarzy użytkownika</h3>
+                <h3 id="comments" class="mt-5">Brak komentarzy użytkownika</h3>
             </div>
         </tab>
         <tab heading='Memy {{member.username}}' (selectTab)="onTabActivated($event)"

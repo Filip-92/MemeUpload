@@ -109,4 +109,8 @@ tabset {
     h3, h4, h5 {
       word-break: break-all;
     }
+
+    #comments {
+      font-size: 18px;
+    }
 }
