@@ -29,6 +29,7 @@ i:hover {
 
 #edit, #delete {
     font-size: 12px;
+    min-width: 50px !important;
 }
 
 #edit:hover {

@@ -4,24 +4,27 @@
             <div><img id="avatar" src="{{url || '././assets/LogoImage.png'}}" alt=""></div>
             <div><a routerLink='/uzytkownicy/{{reply?.username}}' id="username">{{reply?.username}}</a></div>
         </div>
-        <div id="timeago" class="col-2 col-lg-2" style="margin-left: 10px !important;">
+        <div id="timeago" class="col-2 col-lg-2">
             {{reply?.uploaded | timeago}}
         </div>
-        <div class="col col-lg-3"></div>
-        <div class="col-4 col-lg-2 text-right">
-            <button id="like" class="mr-2" (click)="addLike(reply)"><i class="fa fa-plus" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'green' }"></i></button>
-            {{reply.numberOfLikes}}
-            <button id="like" class="ml-2" (click)="addDislike(reply)"><i class="fa fa-minus" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red' }"></i></button>
-        </div>
-        <div class="col-2 col-lg-2" *ngIf="(accountService.currentUser$ | async) !== null">
-            <div *ngIf="reply?.username === user?.username && reply?.content !== '[Komentarz został usunięty]'" (click)="editReplyToggle(reply.id) && reloadComments(comment)" style="display: inline-block">
-                <i id="edit" class="fa fa-pencil-square-o" aria-hidden="true"><span id="hide" class="ml-1"> Edytuj</span></i>
+        <div class="col col-lg-6"></div>
+        <div class="col-4 col-lg-2">
+            <div class="text-right">
+                <button id="like" class="mr-2" (click)="addLike(reply)"><i class="fa fa-plus" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'green' }"></i></button>
+                {{reply.numberOfLikes}}
+                <button id="like" class="ml-2" (click)="addDislike(reply)"><i class="fa fa-minus" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red' }"></i></button>
             </div>
-            <div *ngIf="reply.content !== '[Komentarz został usunięty]' && reply?.username === user?.username || user?.roles[0] === 'Admin' || user?.roles[1] === 'Moderator'" (click)="removeReply(reply?.id)">
-                <i id="delete" class="fa fa-trash" aria-hidden="true"><span id="hide" class="ml-1"> Usuń</span></i>
+            <div class="text-left">
+                <div *ngIf="reply?.username === user?.username && reply?.content !== '[Komentarz został usunięty]'" (click)="editReplyToggle(reply.id) && reloadComments(comment)" style="display: inline-block">
+                    <i id="edit" class="fa fa-pencil-square-o" aria-hidden="true">Edytuj</i>
+                </div>
+                <div *ngIf="reply.content !== '[Komentarz został usunięty]' && reply?.username === user?.username || user?.roles[0] === 'Admin' || user?.roles[1] === 'Moderator'" (click)="removeReply(reply?.id)">
+                    <i id="delete" class="fa fa-trash" aria-hidden="true">Usuń</i>
+                </div>
+                <a routerLink='/meme/{{reply?.memeId}}/..'><i id="goTo" class="fa fa-share" aria-hidden="true"> Idź do</i></a>
             </div>
-            <a routerLink='/meme/{{reply?.memeId}}/..'><i id="goTo" class="fa fa-share" aria-hidden="true"> Idź do</i></a>
         </div>
+
     </div>
     <div class="text-left mt-3" id="content" style="padding: 10px; margin-left: 50px !important;">                    
         <span class="mb-3" *ngIf="reply.content !== '[Komentarz został usunięty]'" style="color: black;">

@@ -7,17 +7,19 @@
         <div id="timeago" class="col-2">
             {{comment.uploaded | timeago}}
         </div>
-        <div class="col-2 col-lg-4"></div>
-        <div class="col-2 col-lg-2" *ngIf="(accountService.currentUser$ | async) !== null">
-            <div id="buttons" *ngIf="comment.username === user.username || user.roles[0] === 'Admin' || user.roles[1] === 'Moderator' && comment.content !== '[Komentarz został usunięty]'">
-                <span *ngIf="comment.username === user.username && comment.content !== '[Komentarz został usunięty]'" (click)="editCommentToggle(comment.id) && reloadComments(comment)" style="display: inline-block"><i id="edit" class="fa fa-pencil-square-o" aria-hidden="true"><span id="hide"> Edytuj</span></i></span>
-                <span *ngIf="comment.content !== '[Komentarz został usunięty]'" (click)="removeComment(comment.id)"><i id="delete" class="fa fa-trash" aria-hidden="true"><span id="hide"> Usuń</span></i></span>
+        <div class="col col-lg-6"></div>
+        <div class="col-4 col-lg-2">
+            <div class="text-right">
+                <button id="like" class="mr-2" (click)="addLike(comment)"><i class="fa fa-plus" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'green' }"></i></button>
+                {{comment.numberOfLikes}}
+                <button id="like" class="ml-2" (click)="addDislike(comment)"><i class="fa fa-minus" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red' }"></i></button>
             </div>
-        </div>
-        <div class="col-4 col-lg-2 text-right">
-            <button id="like" class="mr-2" (click)="addLike(comment)"><i class="fa fa-plus" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'green' }"></i></button>
-            {{comment.numberOfLikes}}
-            <button id="like" class="ml-2" (click)="addDislike(comment)"><i class="fa fa-minus" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red' }"></i></button>
+            <div *ngIf="(accountService.currentUser$ | async) !== null" class="text-left mt-2">
+                <div id="buttons" *ngIf="comment.username === user.username || user.roles[0] === 'Admin' || user.roles[1] === 'Moderator' && comment.content !== '[Komentarz został usunięty]'">
+                    <span *ngIf="comment.username === user.username && comment.content !== '[Komentarz został usunięty]'" (click)="editCommentToggle(comment.id) && reloadComments(comment)" style="display: inline-block"><i id="edit" class="fa fa-pencil-square-o" aria-hidden="true"> Edytuj</i></span>
+                    <span *ngIf="comment.content !== '[Komentarz został usunięty]'" (click)="removeComment(comment.id)"><i id="delete" class="fa fa-trash" aria-hidden="true">Usuń</i></span>
+                </div>
+            </div>
         </div>
     </div>
     <div class="text-left" id="content" style="padding: 10px; margin-left: 50px !important;">{{comment.content}}</div>

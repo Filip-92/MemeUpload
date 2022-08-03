@@ -9,17 +9,19 @@
             <div id="timeago" class="col-2 col-lg-2" style="margin-left: 10px !important;">
                 {{reply.uploaded | timeago}}
             </div>
-            <div class="col col-lg-3"></div>
-            <div class="col-2 col-lg-2" *ngIf="(accountService.currentUser$ | async) !== null">
-                <div *ngIf="reply.username === user.username || user.roles[0] === 'Admin' || user.roles[1] === 'Moderator' && reply.content !== '[Komentarz został usunięty]'">
-                    <div *ngIf="reply.username === user.username && reply.content !== '[Komentarz został usunięty]'" (click)="editReplyToggle(reply.id) && reloadComments(comment)" style="display: inline-block"><i id="edit" class="fa fa-pencil-square-o" aria-hidden="true"><span id="hide"> Edytuj</span></i></div>
-                    <div *ngIf="reply.content !== '[Komentarz został usunięty]'" (click)="removeReply(reply.id)"><i id="delete" class="fa fa-trash" aria-hidden="true"><span id="hide"> Usuń</span></i></div>
+            <div class="col col-lg-5"></div>
+            <div class="col-4 col-lg-2">
+                <div class="text-right">
+                    <button id="like" class="mr-2" (click)="addLike(reply)"><i class="fa fa-plus" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'green' }"></i></button>
+                    {{reply.numberOfLikes}}
+                    <button id="like" class="ml-2" (click)="addDislike(reply)"><i class="fa fa-minus" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red' }"></i></button>
                 </div>
-            </div>
-            <div class="col-4 col-lg-2 text-right">
-                <button id="like" class="mr-2" (click)="addLike(reply)"><i class="fa fa-plus" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'green' }"></i></button>
-                {{reply.numberOfLikes}}
-                <button id="like" class="ml-2" (click)="addDislike(reply)"><i class="fa fa-minus" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red' }"></i></button>
+                <div *ngIf="(accountService.currentUser$ | async) !== null" class="text-left mt-2">
+                    <div *ngIf="reply.username === user.username || user.roles[0] === 'Admin' || user.roles[1] === 'Moderator' && reply.content !== '[Komentarz został usunięty]'">
+                        <div *ngIf="reply.username === user.username && reply.content !== '[Komentarz został usunięty]'" (click)="editReplyToggle(reply.id) && reloadComments(comment)" style="display: inline-block"><i id="edit" class="fa fa-pencil-square-o" aria-hidden="true"><span class="ml-1"> Edytuj</span></i></div>
+                        <div *ngIf="reply.content !== '[Komentarz został usunięty]'" (click)="removeReply(reply.id)"><i id="delete" class="fa fa-trash" aria-hidden="true"><span class="ml-1"> Usuń</span></i></div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="text-left" id="content" style="padding: 10px; margin-left: 50px !important;">                    
