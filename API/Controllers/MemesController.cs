@@ -637,7 +637,7 @@ namespace API.Controllers
             }
             else 
             {
-                return null;
+                return NoContent();
             }
         }
 
@@ -655,7 +655,7 @@ namespace API.Controllers
             }
             else 
             {
-                return null;
+                return NoContent();
             }
         }
 

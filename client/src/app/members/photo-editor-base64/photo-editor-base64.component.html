@@ -1,0 +1,78 @@
+<div class="text-center mt-3 ml-2">
+ 
+    <div class="text-center">
+
+        <h3 class="mb-5">Zmiana avatara</h3>
+
+        <img ngf-thumbnail="'user.photoUrl'">
+        <img id="preview" [src]="user.photoUrl" *ngIf="!previewImg && !cropMode"/>
+        <img id="preview" [src]="previewImg || 'user.photoUrl'" *ngIf="previewImg && !cropMode"/>
+
+        <ng-template #content let-c="close" let-d="dismiss">
+
+            <div class="modal-body text-center">
+
+                <image-cropper                  
+                [imageChangedEvent]="imageChangedEvent"
+                [maintainAspectRatio]="true"
+                [aspectRatio]="4 / 3"
+                format="png"
+                [formControl]='updatePhotoForm?.controls["url"]'
+                (imageCropped)="imageCropped($event)"
+                (imageLoaded)="imageLoaded()"
+                (cropperReady)="cropperReady()"
+                (loadImageFailed)="loadImageFailed()"
+                ></image-cropper>
+
+                <img [src]="croppedImage" class="mt-3" style="height: 150px;" *ngIf="croppedImage !== null" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" (click)="c('Save click') && saveCrop()">OK</button>
+                <button type="button" class="btn btn-warning" aria-label="Close" (click)="d('Cross click')">Wyjdź</button>
+            </div>
+        </ng-template>
+
+        <div class="row">
+            <div class="col-md-5"></div>
+            <div class="col-md-2">
+                <div ng2FileDrop
+                [ngClass]="{'nv-file-over': hasBaseDropzoneOver}"
+                (fileOver)="fileOverBase($event)"
+                [uploader]="uploader"
+                id="drag"
+                class="card bg-faded p-3 mb-3 my-drop-zone"
+                style="max-width: 200px;"
+                >
+                <i class="fa fa-upload fa-3x"></i>
+               Upuść zdjęcie tutaj
+                </div>
+            </div>
+            <div class="col-md-5"></div>
+        </div>
+
+        <label class="custom-file-upload ml-3" style="max-width: 200px;">
+            <input type="file" (change)="fileChangeEvent($event)" ng2FileSelect [uploader]="uploader" class="text-center col-4 mt-3 mb-3" title="Wybierz"/>
+            <i class="fa fa-photo mr-2"></i>Zmień zdjęcie
+        </label>
+    </div>
+
+    <div class="text-center" style="margin-bottom: 40px" *ngIf="uploader?.queue?.length">
+
+        <img ngf-thumbnail="file" *ngIf="!cropMode" ngf-size="{width: 100, height: 100, quality: 0.5}"/>
+
+        <div>
+            <!-- <button type="button" class="btn btn-success btn-s"
+            (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                <span class="fa fa-upload"></span> Wrzucaj
+            </button> -->
+            <button type="button" class="btn btn-success btn-s"
+            (click)="addPhoto()" (imageCropped)="imageCropped($event)" [disabled]="!uploader.getNotUploadedItems().length">
+                <span class="fa fa-upload"></span> Wrzucaj
+            </button>
+            <button class="btn btn-warning" (click)="open(content)"><i class="fa fa-scissors mr-2"></i>Przytnij</button>
+        </div>
+
+
+    </div>
+
+</div>

@@ -125,4 +125,8 @@ export class MembersService {
   );
   }
 
+  addPhoto(model: any) {
+    return this.http.post(this.baseUrl + 'users/add-photo', model);
+  }
+
 }

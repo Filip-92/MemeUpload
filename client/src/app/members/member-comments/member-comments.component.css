@@ -63,7 +63,7 @@ span {
     color: gray;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
 
     #comment {
         width: 100%;
@@ -75,7 +75,7 @@ span {
     margin-left: 100px;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
 
     #reply {
         width: 100%;
@@ -121,7 +121,7 @@ textarea {
     float: right;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
 
     .btn {
         max-height: 40px;

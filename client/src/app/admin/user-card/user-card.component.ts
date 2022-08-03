@@ -22,7 +22,11 @@ export class UserCardComponent implements OnInit {
   constructor(private adminService: AdminService) { }
 
   ngOnInit(): void {
-    this.getUserPhoto(this.user.id);
+    if (this.user.id !== 11) {
+      this.getUserPhoto(this.user.id);
+    } else {
+      this.url = '././assets/LogoImage.png';
+    }
   }
 
   getUserPhoto(id: number) {

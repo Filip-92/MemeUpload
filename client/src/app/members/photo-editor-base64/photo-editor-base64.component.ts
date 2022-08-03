@@ -14,11 +14,11 @@ import { FormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-photo-editor',
-  templateUrl: './photo-editor.component.html',
-  styleUrls: ['./photo-editor.component.css']
+  selector: 'app-photo-editor-base64',
+  templateUrl: './photo-editor-base64.component.html',
+  styleUrls: ['./photo-editor-base64.component.css']
 })
-export class PhotoEditorComponent implements OnInit {
+export class PhotoEditorBase64Component implements OnInit {
   @Input() member: Member;
   uploader: FileUploader;
   hasBaseDropzoneOver = false;
@@ -39,6 +39,7 @@ export class PhotoEditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeUploader();
+    this.initializeForm();
     if (this.member?.photos?.length > 0) {
       this.deletePhotos();
     }
@@ -46,6 +47,12 @@ export class PhotoEditorComponent implements OnInit {
 
   fileOverBase(e: any) {
     this.hasBaseDropzoneOver = e;
+  }
+
+  initializeForm() {
+    this.updatePhotoForm = this.fb.group({
+      url: [''],
+    })
   }
 
   setMainPhoto(photo: Photo) {
@@ -127,7 +134,26 @@ export class PhotoEditorComponent implements OnInit {
     }
   }
 
+  open(content: any) {
+    this.modalService.open(content);
+  }
+
   fileChangeEvent(event: any): void {
-    this.imageChangedEvent = event;
-}
+      this.imageChangedEvent = event;
+  }
+  imageCropped(event: ImageCroppedEvent) {
+      this.croppedImage = event.base64;
+      this.previewImg = this.croppedImage;
+      this.updatePhotoForm.value.url = this.croppedImage;
+  }
+  imageLoaded(image: LoadedImage) {
+      // show cropper
+  }
+  cropperReady() {
+      // cropper ready
+  }
+  loadImageFailed() {
+      // show messa
+
+  }
 }

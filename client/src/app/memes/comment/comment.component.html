@@ -32,7 +32,7 @@
 <div id="comment" class="mb-3 text-center" *ngIf="(accountService.currentUser$ | async) === null">
     <table class="table mb-3">
         <td style="width: 10%"><img src="{{url || '././assets/LogoImage.png'}}" alt=""></td>
-        <td style="width: 5%;"><a routerLink='/uzytkownicy/{{comment.username}}'>{{comment.username}}</a></td>
+        <td style="width: 5%;"><a routerLink='/uzytkownicy/{{comment.username}}' id="username" [ngStyle]="comment.username?.lenght > 10 ? { 'font-size': '10px' } : { 'font-size': '14px' }">{{comment.username}}</a></td>
         <td style="width: 15%;">{{comment.uploaded | timeago}}</td>
         <span>
             <td style="width: 50%;"></td>

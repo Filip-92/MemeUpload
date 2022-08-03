@@ -61,7 +61,7 @@
     </div>
 </div>
 
-<div class="text-center" id="container">
+<div class="text-center mb-3" id="container">
     <div *ngIf="(accountService.currentUser$ | async) !== null">
         <form [formGroup]='commentForm' (ngSubmit)="commentForm.valid && addComment()" class="text-center mb-3">
             <div class="row">

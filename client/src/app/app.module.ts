@@ -85,6 +85,7 @@ import { environment } from 'src/environments/environment';
 import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
 import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 import { MemeUploadBase64Component } from './memes/meme-upload-base64/meme-upload-base64.component';
+import { PhotoEditorBase64Component } from './members/photo-editor-base64/photo-editor-base64.component';
 
 @NgModule({
   declarations: [
@@ -149,6 +150,7 @@ import { MemeUploadBase64Component } from './memes/meme-upload-base64/meme-uploa
     RemoveAccountComponent,
     StatuteComponent,
     MemeUploadBase64Component,
+    PhotoEditorBase64Component,
   ],
   imports: [
     BrowserModule,

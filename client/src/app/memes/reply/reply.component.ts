@@ -48,7 +48,11 @@ export class ReplyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUserPhoto(this.reply.username);
+    if (this.reply.username !== 'admin') {
+      this.getUserPhoto(this.reply.username);
+    } else {
+      this.url = '././assets/LogoImage.png';
+    }
     this.getReplies(this.comment.id);
     if ("user" in localStorage) {
       this.loadLikes();

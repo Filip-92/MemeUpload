@@ -149,7 +149,7 @@ namespace API.Controllers
 
             if (photo == null) return NotFound();
 
-            if (photo.IsMain) return BadRequest("You cannot delete your main photo");
+            // if (photo.IsMain) return BadRequest("You cannot delete your main photo");
 
             if (photo.PublicId != null)
             {

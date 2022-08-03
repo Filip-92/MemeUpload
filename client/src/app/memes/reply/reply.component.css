@@ -15,7 +15,7 @@ img {
     border: none !important;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
 
     #reply {
         width: 100%;
@@ -104,7 +104,7 @@ textarea {
     float: right;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
 
     .btn {
         max-height: 40px;
@@ -140,7 +140,7 @@ textarea {
     }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
     #reply {
         min-width: 400px;
     }

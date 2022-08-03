@@ -53,7 +53,11 @@ export class CommentComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    this.getUserPhoto(this.comment.username);
+    if (this.comment.username !== 'admin') {
+      this.getUserPhoto(this.comment.username);
+    } else {
+      this.url = '././assets/LogoImage.png';
+    }
     this.getReplies(this.comment.id);
     if ("user" in localStorage) {
       this.loadLikes();

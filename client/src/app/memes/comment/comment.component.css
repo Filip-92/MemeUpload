@@ -59,14 +59,20 @@ span {
     color: gray;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
 
     #comment {
         width: 100%;
     }
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
+    #username {
+        word-break: break-all;
+    }
+}
+
+@media screen and (max-width: 800px) {
 
     #reply {
         width: 100%;
@@ -112,7 +118,7 @@ textarea {
     margin-bottom: -30px;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
 
     .btn {
         max-height: 40px;

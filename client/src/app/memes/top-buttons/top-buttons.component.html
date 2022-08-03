@@ -18,7 +18,7 @@
     <app-meme-upload></app-meme-upload>
 </div>
 
-<div style="margin-bottom: 35px;" *ngIf="(accountService.currentUser$ | async) === null">
+<div style="margin-bottom: 35px;">
 </div>
 
 <div class="text-center" [ngStyle]="(accountService.currentUser$ | async) === null ? { 'margin-top': '-20px' } : { 'margin-top': '0px' }">
