@@ -18,6 +18,7 @@ import { MemeService } from 'src/app/_services/meme.service';
 import { HttpClient } from '@angular/common/http';
 import { Reply } from 'src/app/_models/reply';
 import { environment } from 'src/environments/environment';
+import { AdminService } from 'src/app/_services/admin.service';
 
 @Component({
   selector: 'app-member-detail',
@@ -66,7 +67,8 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   constructor(public presence: PresenceService, private route: ActivatedRoute, 
     private messageService: MessageService, private accountService: AccountService,
     private router: Router, private memberService: MembersService, private http: HttpClient, 
-    private toastr: ToastrService, public datepipe: DatePipe, private memeService: MemeService) { 
+    private toastr: ToastrService, public datepipe: DatePipe, private memeService: MemeService,
+    private adminService: AdminService) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     }
@@ -219,5 +221,11 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     } else {
       return 'Helikopter bojowy';
     }
+  }
+
+  rejectMeme(memeId: number) {
+    this.adminService.rejectMeme(memeId).subscribe(() => {
+      this.memes?.splice(this.memes?.findIndex(p => p.id === memeId), 1);
+    })
   }
 }
