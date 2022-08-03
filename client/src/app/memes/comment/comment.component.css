@@ -59,10 +59,18 @@ span {
     color: gray;
 }
 
+#avatar {
+    max-height: 70px;
+}
+
 @media screen and (max-width: 800px) {
 
     #comment {
         width: 100%;
+    }
+
+    #avatar {
+        max-height: 50px;
     }
 }
 

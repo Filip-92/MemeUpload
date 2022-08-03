@@ -107,7 +107,15 @@ textarea {
     float: right;
 }
 
+#avatar {
+    height: 70px;
+}
+
 @media screen and (max-width: 800px) {
+
+    #avatar {
+        height: 50px;
+    }
 
     .btn {
         max-height: 40px;

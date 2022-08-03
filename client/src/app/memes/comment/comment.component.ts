@@ -138,30 +138,38 @@ export class CommentComponent implements OnInit {
   }
 
   addLike(comment: Comment) {
-    this.memeService.addCommentLike(comment.id).subscribe(() => {
-      this.liked = !this.liked;
-    if(this.liked) {
-      this.comment.numberOfLikes++;
-      this.liked = true;
-    } else {
-      this.comment.numberOfLikes--;
-      this.liked = false;
-    }
-  })
+    if ("user" in localStorage) {
+      this.memeService.addCommentLike(comment.id).subscribe(() => {
+        this.liked = !this.liked;
+      if(this.liked) {
+        this.comment.numberOfLikes++;
+        this.liked = true;
+      } else {
+        this.comment.numberOfLikes--;
+        this.liked = false;
+      }
+    })
+  } else {
+    this.toastr.error("Funkcja tylko dla zalogowanych użytkowników");
+  }
 }
 
 addDislike(comment: Comment) {
-    this.memeService.addCommentDislike(comment.id).subscribe(() => {
-      this.disliked = !this.disliked;
-    if(this.disliked) {
-      this.comment.numberOfLikes--;
-      this.disliked = true;
-      this.liked = false;
-    } else {
-      this.comment.numberOfLikes++;
-      this.disliked = false;
-    }
-  })
+  if ("user" in localStorage) {
+      this.memeService.addCommentDislike(comment.id).subscribe(() => {
+        this.disliked = !this.disliked;
+      if(this.disliked) {
+        this.comment.numberOfLikes--;
+        this.disliked = true;
+        this.liked = false;
+      } else {
+        this.comment.numberOfLikes++;
+        this.disliked = false;
+      }
+    })
+  } else {
+    this.toastr.error("Funkcja tylko dla zalogowanych użytkowników");
+  }
 }
 
 loadLikes() {

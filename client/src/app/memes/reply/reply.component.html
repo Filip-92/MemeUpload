@@ -1,19 +1,27 @@
-<div class="row" *ngIf="(accountService.currentUser$ | async) !== null">
+<div class="row">
     <div class="col-1"></div>
-    <div id="reply" class="col-sm-10 col-6 mb-2">
-        <table class="table">
-            <td style="width: 10%"><img src="{{url || '././assets/LogoImage.png'}}" alt=""></td> <!-- zjebane zdjęcie, do poprawy ale nie dzisiaj -->
-            <td style="width: 5%;"><a routerLink='/uzytkownicy/{{reply.username}}'>{{reply.username}}</a></td>
-            <td id="timeago" style="width: 30%;">{{reply.uploaded | timeago}}</td>
-            <td id="freespace" style="width: 32%;"></td>
-            <td id="buttons" style="width: 15%;" *ngIf="reply.username === user.username || user.roles[0] === 'Admin' || user.roles[1] === 'Moderator' && reply.content !== '[Komentarz został usunięty]'">
-                <span *ngIf="reply.username === user.username && reply.content !== '[Komentarz został usunięty]'" (click)="editReplyToggle(comment.id)"><i id="edit" class="fa fa-pencil-square-o" aria-hidden="true"><span id="hide"> Edytuj</span></i></span>
-                <span *ngIf="reply.content !== '[Komentarz został usunięty]'" (click)="removeReply(reply.id) && reloadComments(comment)"><i id="delete" class="fa fa-trash" aria-hidden="true"><span id="hide">  Usuń</span></i></span>
-            </td>
-            <td style="width: 3%;"><button id="like" [disabled]="disliked" (click)="addLike(reply)"><i class="fa fa-plus" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'green' }"></i></button></td>
-            <td style="width: 3%;">{{reply.numberOfLikes}}</td>
-            <td style="width: 3%;"><button id="like" [disabled]="liked" (click)="addDislike(reply)"><i class="fa fa-minus" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red' }"></i></button></td>
-        </table>
+    <div id="reply" class="col-lg-8 mb-2">
+        <div class="row" style="padding-top: 10px; padding-bottom: 10px;">
+            <div class="col-2 col-lg-2">
+                <div><img id="avatar" src="{{url || '././assets/LogoImage.png'}}" alt=""></div>
+                <div><a routerLink='/uzytkownicy/{{reply.username}}' id="username" [ngStyle]="reply?.username?.length > 10 ? { 'font-size': '10px' } : { 'font-size': '14px' }">{{reply.username}}</a></div>
+            </div>
+            <div id="timeago" class="col-2 col-lg-2" style="margin-left: 10px !important;">
+                {{reply.uploaded | timeago}}
+            </div>
+            <div class="col col-lg-3"></div>
+            <div class="col-2 col-lg-2" *ngIf="(accountService.currentUser$ | async) !== null">
+                <div *ngIf="reply.username === user.username || user.roles[0] === 'Admin' || user.roles[1] === 'Moderator' && reply.content !== '[Komentarz został usunięty]'">
+                    <div *ngIf="reply.username === user.username && reply.content !== '[Komentarz został usunięty]'" (click)="editReplyToggle(reply.id) && reloadComments(comment)" style="display: inline-block"><i id="edit" class="fa fa-pencil-square-o" aria-hidden="true"><span id="hide"> Edytuj</span></i></div>
+                    <div *ngIf="reply.content !== '[Komentarz został usunięty]'" (click)="removeReply(reply.id)"><i id="delete" class="fa fa-trash" aria-hidden="true"><span id="hide"> Usuń</span></i></div>
+                </div>
+            </div>
+            <div class="col-4 col-lg-2 text-right">
+                <button id="like" class="mr-2" (click)="addLike(reply)"><i class="fa fa-plus" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'green' }"></i></button>
+                {{reply.numberOfLikes}}
+                <button id="like" class="ml-2" (click)="addDislike(reply)"><i class="fa fa-minus" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red' }"></i></button>
+            </div>
+        </div>
         <div class="text-left" id="content" style="padding: 10px; margin-left: 50px !important;">                    
             <span class="mb-3" *ngIf="reply.content !== '[Komentarz został usunięty]'" style="color: black;">
             @{{reply.replyingToUser}}
@@ -39,23 +47,6 @@
             <textarea type="text" name="content" [(ngModel)]="reply.content" placeholder="{{reply.content}}" class="col-7"></textarea>
             <button class="btn btn-success ml-2 col-2" type="submit" [disabled]="!editForm?.dirty">Edytuj komentarz</button>
         </form>
-    </div>
-</div>
-
-<div class="row" *ngIf="(accountService.currentUser$ | async) === null">
-    <div id="reply" class="col-sm-12 col-6 mb-2">
-        <table class="table">
-            <td class="col-1"></td>
-            <td style="width: 10%"><img src="{{url || '././assets/LogoImage.png'}}" alt=""></td> <!-- zjebane zdjęcie, do poprawy ale nie dzisiaj -->
-            <td style="width: 5%;"><a routerLink='/uzytkownicy/{{reply.username}}'>{{reply.username}}</a></td>
-            <td style="width: 15%;">{{reply.uploaded | timeago}}</td>
-            <span>
-                <td style="width: 51%;">{{reply.content}}</td>
-            </span>
-            <td style="width: 3%;"><button id="like" [disabled]="disliked"><i class="fa fa-plus" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'green' }"></i></button></td>
-            <td style="width: 3%;">{{reply.numberOfLikes}}</td>
-            <td style="width: 3%;"><button id="like" [disabled]="liked"><i class="fa fa-minus" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red' }"></i></button></td>
-        </table>
     </div>
 </div>
 

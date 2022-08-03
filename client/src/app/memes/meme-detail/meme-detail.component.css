@@ -124,6 +124,7 @@ textarea {
     border: thick double #2f3234;
     height: 55px;
     min-height: 55px;
+    margin-top: -2px;
 }
 
 ::placeholder {
