@@ -11,8 +11,8 @@
                         </a>
                         <div class="row">
                             <div class="col-lg-2"></div>
-                            <p class="col-3 ml-2" [ngStyle]="(meme.uploaded | timeago).length < 10 ? { 'font-size': '14px' } : { 'font-size': '12px' }">{{meme.uploaded | timeago}}</p>
-                            <div class="col-7 col-lg-3"></div>
+                            <p class="col-3 ml-2" id="timeago" [ngStyle]="(meme.uploaded | timeago).length < 10 ? { 'font-size': '14px' } : { 'font-size': '12px' }">{{meme.uploaded | timeago}}</p>
+                            <div class="col-7 col-lg-4"></div>
                             <i class="fa fa-comment mr-2" aria-hidden="true"></i> {{comments}}
                         </div>
                         <span *ngIf="meme.description?.length > 0 && meme.description !== 'null'">

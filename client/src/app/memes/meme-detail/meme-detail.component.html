@@ -21,18 +21,19 @@
                   </share-buttons>
                 </div>
             </div>
-            <span *ngIf="meme.description?.length > 0 && meme.description !== 'null'">
+            <span *ngIf="meme.description?.length > 0 && meme.description !== 'null' && meme?.url?.length > 1000">
                 <br>         
                 <div id="description" class="text-center" style="padding-top: 10px; padding-bottom: 5px;">
                     <p>{{meme?.description}}</p>
                 </div>
                 <br>
             </span>
-            <div *ngIf="meme?.url?.includes('youtube')">
+            <div *ngIf="meme?.url?.includes('youtube') || meme?.url?.includes('you.tube') && meme?.url?.length < 1000">
                 <iframe width="600" height="400" [src]="trustedUrl | safe"></iframe>
             </div>
-                <img src="{{addImageWatermark(meme?.url) ? addImageWatermark(meme?.url) : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme?.url) && !meme?.url?.includes('https://www.youtube')"/>
-            <video src="{{meme?.url}}" class="card-img-top" *ngIf="!checkURL(meme?.url) && !meme?.url?.includes('youtube.com') && !meme?.url?.includes('you.tube')" controls></video>
+                <img src="{{addImageWatermark(meme?.url) ? addImageWatermark(meme?.url) : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme?.url) && !meme?.url?.includes('https://www.youtube') && meme?.url?.length < 1000"/>
+                <img src="{{meme?.url}}" class="card-img-top col-sm-6" *ngIf="meme?.url?.length > 1000"/>
+            <video src="{{meme?.url}}" class="card-img-top" *ngIf="!checkURL(meme?.url) && !meme?.url?.includes('youtube.com') && !meme?.url?.includes('you.tube') && meme?.url?.length < 1000" controls></video>
         </div>
         <div class="mb-3">
             <div class="row mb-2 ml-1">
@@ -61,29 +62,27 @@
     </div>
 </div>
 
-<div class="text-center mb-3" id="container">
-    <div *ngIf="(accountService.currentUser$ | async) !== null">
-        <form [formGroup]='commentForm' (ngSubmit)="commentForm.valid && addComment()" class="text-center mb-3">
-            <div class="row">
-                <div class="col-lg-2"></div>
-                <div class="col-9 col-lg-7 text-right">
-                    <textarea type="text" [formControl]='commentForm.controls["content"]' placeholder="Wpisz treść komentarza"></textarea>
-                </div>
-                <div class="col-1 mt-1" *ngIf="checkIfUserWorthy(mainMemes)">
-                    <label class="custom-file-upload">
-                        <input type="file" ng2FileSelect [uploader]="uploader" (change)="fileChangeEvent($event)" class="text-center" title="Wybierz"/>
-                        <i class="fa fa-paperclip"></i>
-                    </label>
-                </div>
-                <div class="col-2 col-lg-2 text-left">
-                    <button class="btn btn-success" id="addComment" type="submit" [disabled]="!commentForm.valid">Dodaj <i class="fa fa-comment ml-1"></i></button>
-                </div>
+<div class="text-center mb-3" id="container" *ngIf="(accountService.currentUser$ | async) !== null">
+    <form [formGroup]='commentForm' (ngSubmit)="commentForm.valid && addComment()" class="text-center mb-3">
+        <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-9 col-lg-7 text-right">
+                <textarea type="text" [formControl]='commentForm.controls["content"]' placeholder="Wpisz treść komentarza"></textarea>
             </div>
-            <div *ngIf="commentForm.controls['content'].errors?.maxlength" class="text-danger">
-                Komentarz zbyt długi
+            <div class="col-1 mt-1" *ngIf="checkIfUserWorthy(mainMemes)">
+                <label class="custom-file-upload">
+                    <input type="file" ng2FileSelect [uploader]="uploader" (change)="fileChangeEvent($event)" class="text-center" title="Wybierz"/>
+                    <i class="fa fa-paperclip"></i>
+                </label>
             </div>
-        </form>
-    </div>
+            <div class="col-2 col-lg-2 text-left">
+                <button class="btn btn-success" id="addComment" type="submit" [disabled]="!commentForm.valid">Dodaj <i class="fa fa-comment ml-1"></i></button>
+            </div>
+        </div>
+        <div *ngIf="commentForm.controls['content'].errors?.maxlength" class="text-danger">
+            Komentarz zbyt długi
+        </div>
+    </form>
 </div>
 
 

@@ -18,6 +18,12 @@ a:hover {
     max-height: 50px !important;
 }
 
+@media screen and (min-width: 1000px) {
+    #timeago {
+        margin-left: -20px !important;
+    }
+}
+
 @media screen and (max-width: 700px) {
 
     iframe {
@@ -37,7 +43,7 @@ a:hover {
 }
 
 #description {
-    max-width: 700px;
+    max-width: 600px;
     margin-left: auto;
     margin-right: auto;
     background-color: rgb(32, 31, 31);
