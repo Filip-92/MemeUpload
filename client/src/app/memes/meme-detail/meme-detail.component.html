@@ -5,8 +5,8 @@
                 {{meme?.title || 'Jakieś gówno'}}
             </h4>
             <div class="row">
-                <div class="col-1 col-lg-3"></div>
-                <p class="col-4 col-lg-2 ml-2 text-left" id="timeago"  [ngStyle]="(meme.uploaded | timeago).length < 10 ? { 'font-size': '14px' } : { 'font-size': '12px' }">{{meme?.uploaded | timeago}}</p>
+                <div class="col-lg-3"></div>
+                <p class="col-5 col-lg-2 ml-2 text-left" id="timeago" [ngStyle]="(meme.uploaded | timeago).length < 10 ? { 'font-size': '14px' } : { 'font-size': '12px' }">{{meme?.uploaded | timeago}}</p>
                 <div class="col-4 col-lg-3"></div>
                 <div class="col-2">
                     <share-buttons theme="modern-dark"
