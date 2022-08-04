@@ -46,7 +46,7 @@
             <button (click)="addLike(meme)" [disabled]="disliked" class="btn btn-success mr-2" [ngStyle]="!liked ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-thumbs-up" style="margin-top: -5px !important;"></i></button>
             <span class="btn btn-primary mr-2" id="likes" style="min-width: 100px;">{{meme?.numberOfLikes}}</span>
             <button (click)="addDislike(meme)" [disabled]="liked" class="btn btn-danger" [ngStyle]="!disliked ? { 'color': 'white' } : { 'color': 'red', 'background-color': 'yellow' }"><i class="fa fa-thumbs-down" style="margin-top: -5px !important;"></i></button>
-            <button class="btn btn-warning ml-2" (click)="flagAsSpam(meme.id)"><i class="fa fa-flag" aria-hidden="true"></i></button>
+            <button id="flag" class="btn btn-warning ml-2" (click)="flagAsSpam(meme.id)"><i class="fa fa-flag" aria-hidden="true"></i></button>
         </div>
         <div class="mb-2">
             <span *appHasRole='["Admin", "Moderator"]' class="mr-2">

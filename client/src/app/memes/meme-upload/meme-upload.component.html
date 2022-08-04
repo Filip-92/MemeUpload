@@ -185,8 +185,11 @@
             Opis zbyt długi
         </div>
 
-        <div class="container form-group text-center mt-3">
-            <button class="btn btn-warning mr-2" type="button" (click)="memeToggle()" style="margin-bottom: 30px;">Anuluj</button>
+        <div class="container form-group text-center mt-3" *ngIf="!uploader?.queue?.length">
+            <button class="btn btn-warning mr-2" type="button" (click)="cancel(uploader)" style="margin-bottom: 30px;">Anuluj</button>
+        </div>
+        <div class="container form-group text-center mt-3" *ngIf="uploader?.queue?.length">
+            <button class="btn btn-warning mr-2" type="button" (click)="uploader.clearQueue()" style="margin-bottom: 30px;">Anuluj</button>
         </div>
     </div>
 

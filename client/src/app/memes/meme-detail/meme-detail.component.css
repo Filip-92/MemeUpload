@@ -157,6 +157,10 @@ textarea {
     share-buttons {
         margin-left: -30px
     }
+
+    #flag {
+        max-height: 36px !important;
+    }
 }
 
 share-buttons {

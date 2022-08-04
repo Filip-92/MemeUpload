@@ -94,7 +94,7 @@ export class MemeUploadComponent implements OnInit {
               Validators.minLength(8), 
               Validators.maxLength(32),
               Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]],
-      description: ['', [Validators.maxLength(400)]]
+      description: ['', [Validators.maxLength(2000)]]
     })
   }
 
@@ -112,7 +112,7 @@ export class MemeUploadComponent implements OnInit {
     this.youtubeForm = this.fb.group({
       title: [this.memeUploadForm.value.title],
       url: ['', [Validators.required, Validators.pattern(this.regExHyperlink)]],
-      description: ['', [Validators.maxLength(400)]],
+      description: ['', [Validators.maxLength(2000)]],
       division: [this.divisionForm.value.division]
     })
   }
@@ -189,6 +189,14 @@ export class MemeUploadComponent implements OnInit {
 
   memeToggle() {
     this.memeUploadMode = !this.memeUploadMode;
+  }
+
+  cancel() {
+    this.memeUploadMode = false;
+    this.normalMeme = false;
+    this.youtubeVideo = false;
+    this.memeUploadForm.reset();
+    this.youtubeForm.reset();
   }
 
   normalMemeToggle() {
