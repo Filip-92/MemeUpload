@@ -37,6 +37,7 @@ export class MemberEditComponent implements OnInit {
   numberOfLikes: number = 0;
   mainMemes: number = 0;
   url: string;
+  photos: any;
 
   constructor(private accountService: AccountService, private memberService: MembersService, 
     private toastr: ToastrService, private router: Router, private memeService: MemeService,
@@ -118,6 +119,12 @@ export class MemberEditComponent implements OnInit {
   removeMeme(memeId) {
     this.memeService.removeMeme(memeId).subscribe(() => {
       this.memes?.splice(this.memes?.findIndex(p => p.id === memeId), 1);
+    })
+  }
+
+  deletePhoto(photoId: number) {
+    this.memberService.deletePhoto(photoId).subscribe(() => {
+      this.member.photos = this.member.photos.filter(x => x.id !== photoId);
     })
   }
 

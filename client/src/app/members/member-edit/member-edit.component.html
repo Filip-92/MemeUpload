@@ -4,6 +4,7 @@
     <div class="col-6 text-center mb-5" style="border-right: 1px solid white; margin-left: auto; margin-right: auto;">
         <div *ngFor="let photo of member.photos" style="margin-left: auto; margin-right: auto;">
             <img src="{{photo.url || '././assets/LogoImage.png'}}" alt="{{member.username}}" class="card-img-top img-thumbnail">
+            <button (click)="deletePhoto(photo.id)">Usun</button>
         </div>
         <div *ngIf="member.photos.length === 0">
             <img src="{{'././assets/LogoImage.png'}}" alt="{{member.username}}" class="card-img-top img-thumbnail">

@@ -330,6 +330,10 @@ getMainMemes(page?: number, itemsPerPage?: number) {
     return this.http.post(this.baseUrl + 'memes/remove-meme/' + memeId, {});
   }
 
+  removePhoto(photoId: number) {
+    return this.http.post(this.baseUrl + 'users/delete-photo/' + photoId, {});
+  }
+
   addYoutubeLink(model: any) {
     return this.http.post(this.baseUrl + 'memes/add-youtube-link', model);
   }

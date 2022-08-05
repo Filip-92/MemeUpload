@@ -49,7 +49,7 @@ export class MemberCommentsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.getUserPhoto(this.comment.username);
+    this.getUserPhoto(this.comment.username);
     this.getReplies(this.comment.id);
     if ("user" in localStorage) {
       this.loadLikes();

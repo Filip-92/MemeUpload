@@ -28,9 +28,9 @@ export class PhotoEditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeUploader();
-
+    if (this.member?.photos?.length > 0) {
       this.deletePhotos();
-
+    }
   }
 
   fileOverBase(e: any) {
@@ -57,11 +57,9 @@ export class PhotoEditorComponent implements OnInit {
 
   deletePhotos() {
     this.member.photos.forEach(p => {
-
         this.memberService.deletePhoto(p.id).subscribe(() => {
           this.member.photos = this.member.photos.filter(x => x.id !== p.id);
         })
-
     })
   }
 
@@ -83,12 +81,12 @@ export class PhotoEditorComponent implements OnInit {
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       if (response) {
         const photo: Photo = JSON.parse(response);
+        this.deletePhotos();
         this.member.photos.forEach(p => {
           if (p.isMain) p.isMain = false;
           if (p.id === photo.id) p.isMain = true;
         })
         this.member.photos.push(photo);
-        this.deletePhotos();
         this.setMainPhoto(photo);
          if (photo.isMain) {
            this.user.photoUrl = photo.url;

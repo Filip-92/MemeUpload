@@ -5,7 +5,7 @@
         <h3 class="mb-5">Zmiana avatara</h3>
 
         <img ngf-thumbnail="'user.photoUrl'">
-        <img id="preview" [src]="user.photoUrl" *ngIf="!previewImg"/>
+        <!-- <img id="preview" [src]="user.photoUrl" *ngIf="!previewImg"/> -->
         <img id="preview" [src]="previewImg || 'user.photoUrl'" *ngIf="previewImg"/>
 
         <div class="row">

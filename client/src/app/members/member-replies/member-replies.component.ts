@@ -48,7 +48,7 @@ export class MemberRepliesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.getUserPhoto(this.reply?.username);
+    this.getUserPhoto(this.reply?.username);
     if ("user" in localStorage) {
       this.loadLikes();
       this.getMemberMainMemes(this.user.username);
