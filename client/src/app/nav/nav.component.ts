@@ -55,7 +55,6 @@ export class NavComponent implements OnInit {
 
   ngOnInit(): void {
     if ("user" in localStorage) {
-      this.getUserPhoto(this.user.username);
       this.loadMessages();
       this.getUnreadNotifications(this.user.username);
     }
@@ -71,12 +70,6 @@ export class NavComponent implements OnInit {
 
   closeNavbar() {
     this.display = !this.display;
-  }
-
-  getUserPhoto(username: string) {
-    this.memeService.getUserPhoto(username).subscribe(photo => {
-      this.url = photo?.url;
-    })
   }
 
   login() {

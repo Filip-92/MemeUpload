@@ -27,7 +27,7 @@
         </div>
 
         <label class="custom-file-upload ml-3" style="max-width: 200px;">
-            <input type="file" (change)="fileChangeEvent($event)" ng2FileSelect [uploader]="uploader" class="text-center col-4 mt-3 mb-3" title="Wybierz"/>
+            <input type="file" ng2FileSelect [uploader]="uploader" class="text-center col-4 mt-3 mb-3" title="Wybierz"/>
             <i class="fa fa-photo mr-2"></i>Zmień zdjęcie
         </label>
     </div>
@@ -37,7 +37,7 @@
         <img ngf-thumbnail="file" ngf-size="{width: 100, height: 100, quality: 0.5}"/>
 
         <button type="button" class="btn btn-success btn-s"
-        (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
             <span class="fa fa-upload"></span> Wrzucaj
         </button>
 

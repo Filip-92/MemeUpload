@@ -48,7 +48,7 @@ export class MemberEditComponent implements OnInit {
     if ("user" in localStorage) {
     this.loadMember();
     this.loadLikes();
-    this.getUserPhoto(this.user.username);
+    this.deletePhotos();
     this.getMemberMemes(this.user.username);
     this.getMemberComments(this.user.username);
     this.getMemberReplies(this.user.username);
@@ -60,9 +60,11 @@ export class MemberEditComponent implements OnInit {
     }
   }
 
-  getUserPhoto(username: string) {
-    this.memeService.getUserPhoto(username).subscribe(photo => {
-      this.url = photo?.url;
+  deletePhotos() {
+    this.member?.photos?.forEach(p => {
+        this.memberService?.deletePhoto(p.id).subscribe(() => {
+          this.member.photos = this.member.photos.filter(x => x.id !== p.id);
+        })
     })
   }
 

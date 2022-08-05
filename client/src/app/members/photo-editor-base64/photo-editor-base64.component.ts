@@ -87,7 +87,7 @@ export class PhotoEditorBase64Component implements OnInit {
     this.memberService.addPhoto(this.updatePhotoForm?.value).subscribe(response => {
       this.toastr.success('Pomyślnie dodano zdjęcie');
       this.updatePhotoForm.reset();
-      this.memberEdit.getUserPhoto(this.user.username);
+      // this.memberEdit.getUserPhoto(this.user.username);
       this.previewImg = null;
       this.uploader?.clearQueue();
       }, error => {

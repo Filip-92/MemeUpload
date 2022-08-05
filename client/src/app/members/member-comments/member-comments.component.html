@@ -1,7 +1,7 @@
 <div id="comment" class="mb-3" *ngIf="(accountService.currentUser$ | async) !== null">
     <div class="row" style="padding: 10px;">
         <div class="col-2">
-            <div><img id="avatar" src="{{url || '././assets/LogoImage.png'}}" alt=""></div>
+            <div><img id="avatar" src="'././assets/LogoImage.png'" alt=""></div>
             <div><a routerLink='/uzytkownicy/{{comment.username}}' id="username" [ngStyle]="comment.username?.lenght > 10 ? { 'font-size': '10px' } : { 'font-size': '14px' }">{{comment.username}}</a></div>
         </div>
         <div id="timeago" class="col-2">

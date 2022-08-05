@@ -1,7 +1,7 @@
 <div id="reply" class="mb-3" *ngIf="(accountService.currentUser$ | async) !== null">
     <div class="row" style="padding: 10px;">
         <div class="col-2 col-lg-2">
-            <div><img id="avatar" src="{{url || '././assets/LogoImage.png'}}" alt=""></div>
+            <div><img id="avatar" src="'././assets/LogoImage.png'" alt=""></div>
             <div><a routerLink='/uzytkownicy/{{reply?.username}}' id="username">{{reply?.username}}</a></div>
         </div>
         <div id="timeago" class="col-2 col-lg-2">

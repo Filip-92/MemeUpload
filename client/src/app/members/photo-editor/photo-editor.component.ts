@@ -8,10 +8,6 @@ import { take } from 'rxjs/operators';
 import { MembersService } from 'src/app/_services/members.service';
 import { Photo } from 'src/app/_models/photo';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, UntypedFormGroup } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-photo-editor',
@@ -25,21 +21,16 @@ export class PhotoEditorComponent implements OnInit {
   baseUrl = environment.apiUrl;
   user: User;
   previewImg: SafeUrl;
-  imageChangedEvent: any = '';
-  format: any;
-  updatePhotoForm: UntypedFormGroup;
-  validationErrors: any;
 
-  constructor(private accountService: AccountService, private memberService: MembersService, private sanitizer: DomSanitizer,
-    private modalService: NgbModal, private fb: FormBuilder, private toastr: ToastrService) { 
+  constructor(private accountService: AccountService, private memberService: MembersService, private sanitizer: DomSanitizer) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
   ngOnInit(): void {
     this.initializeUploader();
-    if (this.member?.photos?.length > 0) {
+
       this.deletePhotos();
-    }
+
   }
 
   fileOverBase(e: any) {
@@ -58,16 +49,6 @@ export class PhotoEditorComponent implements OnInit {
     })
   } 
 
-  addPhoto() {
-    this.deletePhotos();
-    this.memberService.addPhoto(this.updatePhotoForm?.value).subscribe(response => {
-      this.toastr.success('Pomyślnie dodano zdjęcie');
-      this.updatePhotoForm.reset();
-      }, error => {
-      this.validationErrors = error;
-    })
-  }
-
   deletePhoto(photoId: number) {
     this.memberService.deletePhoto(photoId).subscribe(() => {
       this.member.photos = this.member.photos.filter(x => x.id !== photoId);
@@ -76,9 +57,11 @@ export class PhotoEditorComponent implements OnInit {
 
   deletePhotos() {
     this.member.photos.forEach(p => {
-      this.memberService.deletePhoto(p.id).subscribe(() => {
-        this.member.photos = this.member.photos.filter(x => x.id !== p.id);
-      })
+
+        this.memberService.deletePhoto(p.id).subscribe(() => {
+          this.member.photos = this.member.photos.filter(x => x.id !== p.id);
+        })
+
     })
   }
 
@@ -105,6 +88,7 @@ export class PhotoEditorComponent implements OnInit {
           if (p.id === photo.id) p.isMain = true;
         })
         this.member.photos.push(photo);
+        this.deletePhotos();
         this.setMainPhoto(photo);
          if (photo.isMain) {
            this.user.photoUrl = photo.url;
@@ -117,15 +101,6 @@ export class PhotoEditorComponent implements OnInit {
 
     this.uploader.onAfterAddingFile = (file) => {
       this.previewImg = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(file._file)));;
-      if(file._file.type.indexOf('image') > -1) {
-        this.format = 'image';
-      } else if (file._file.type.indexOf('video') > -1) {
-        this.format = 'video';
-      } 
     }
   }
-
-  fileChangeEvent(event: any): void {
-    this.imageChangedEvent = event;
-}
 }
