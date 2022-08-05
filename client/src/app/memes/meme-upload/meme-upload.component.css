@@ -13,8 +13,12 @@ input[type=text] {
 }
 
 button {
-    margin-top: 30px;
+    margin-top: 15px;
     height: 50px;
+}
+
+#import {
+    margin-top: 30px;
 }
 
 label {

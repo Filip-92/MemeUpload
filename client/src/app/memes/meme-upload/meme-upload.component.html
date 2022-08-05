@@ -105,7 +105,7 @@
             Dodaj klasycznego mema
         </button>
 
-        <div *ngIf="normalMeme" class="mb-2">
+        <div *ngIf="normalMeme">
             <div class="column col-12 col-lg-9" style="margin-left: auto; margin-right: auto;"> 
                 <textarea class="col-11 col-lg-7" placeholder="Wpisz opis (opcjonalnie)" name="description" [formControl]='memeUploadForm.controls["description"]' style="display: inline-block;"></textarea>
                 <div class="col-3" style="max-width: 200px; display: inline-block;">
@@ -129,13 +129,12 @@
                         <span *ngIf="previewImg && format==='image'"> obrazek</span>
                         <span *ngIf="previewImg && format==='video'"> filmik</span>
                     </div>
-                    <button type="button" class="btn btn-info mb-2 text-center" *ngIf="previewImg && uploader?.queue?.length" (click)="open(content)" style="min-width: 150px !important; margin-left: 0 !important;"><i class="fa fa-search mr-2"></i>Podgląd</button>
+                    <button type="button" class="btn btn-info text-center" *ngIf="previewImg && uploader?.queue?.length" (click)="open(content)" style="min-width: 150px !important; margin-left: 0 !important;"><i class="fa fa-search mr-2"></i>Podgląd</button>
                 </div>
             </div>
     
-            <div class="col-9 text-center" style="margin-bottom: 20px; margin-left: auto; margin-right: auto;" *ngIf="uploader?.queue?.length">
-    
-                <div class="mt-2">
+            <div class="col-9 text-center" style="margin-left: auto; margin-right: auto;" *ngIf="uploader?.queue?.length">
+                <div>
                     <button type="button" class="btn btn-success btn-s mr-3" *ngIf="this.memeUploadForm.valid"
                             (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
                         <span class="fa fa-upload"></span> Wrzuć
@@ -148,7 +147,7 @@
             </div>
         </div>
 
-        <button (click)="youtubeVideoToggle()" [disabled]="normalMeme" [hidden]="uploader?.queue?.length !== 0" class="btn btn-danger mb-2 col-12 col-lg-8" style="margin-top: 10px !important;">
+        <button (click)="youtubeVideoToggle()" [disabled]="normalMeme" [hidden]="uploader?.queue?.length !== 0" class="btn btn-danger col-12 col-lg-8" style="margin-top: 10px !important;">
             Dodaj filmik z youtube
         </button>
 
@@ -185,11 +184,11 @@
             Opis zbyt długi
         </div>
 
-        <div class="container form-group text-center mt-3" *ngIf="!uploader?.queue?.length">
-            <button class="btn btn-warning mr-2" type="button" (click)="cancel(uploader)" style="margin-bottom: 30px;">Anuluj</button>
+        <div class="container form-group text-center" *ngIf="!uploader?.queue?.length">
+            <button class="btn btn-warning mr-2" type="button" (click)="cancel(uploader)" style="margin-bottom: 30px;"><i class="fa fa-close mr-1"></i>Anuluj</button>
         </div>
-        <div class="container form-group text-center mt-3" *ngIf="uploader?.queue?.length">
-            <button class="btn btn-warning mr-2" type="button" (click)="uploader.clearQueue()" style="margin-bottom: 30px;">Anuluj</button>
+        <div class="container form-group text-center" *ngIf="uploader?.queue?.length">
+            <button class="btn btn-warning mr-2" type="button" (click)="uploader.clearQueue()" style="margin-bottom: 30px;"><i class="fa fa-close mr-1"></i>Anuluj</button>
         </div>
     </div>
 
