@@ -10,7 +10,6 @@ import { AccountService } from 'src/app/_services/account.service';
 export class NotificationsModalComponent implements OnInit {
   @Input() username: string;
   @Input() modalRef: any;
-  @Input() nav: NavComponent;
   scrolltop: number=null;
 
   constructor(private accountService: AccountService) { }

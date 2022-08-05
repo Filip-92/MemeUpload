@@ -1,0 +1,62 @@
+img.img-thumbnail {
+    height: 100px;
+    min-width: 100px !important;
+    margin-bottom: 2px;
+}
+
+.nv-file-over {
+    border: dotted 3px red;
+}
+
+input[type=file] {
+    color: transparent;
+}
+
+.not-approved {
+    opacity: 0.2;
+}
+
+.img-wrapper {
+    position: relative;
+}
+
+.img-text {
+    position: absolute;
+    bottom: 30%;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.custom-file-upload:hover {
+    border: 1px solid red !important;
+    color: red;
+}
+
+#preview {
+    max-width: 200px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#drag {
+    margin-left: 10px !important;
+}
+
+.btn {
+    margin-left: 20px !important;
+}
+
+@media screen and (max-width: 700px) {
+ #drag {
+    display: none;
+ }
+}

@@ -36,6 +36,7 @@ export class MemberEditComponent implements OnInit {
   replies: Reply[];
   numberOfLikes: number = 0;
   mainMemes: number = 0;
+  url: string;
 
   constructor(private accountService: AccountService, private memberService: MembersService, 
     private toastr: ToastrService, private router: Router, private memeService: MemeService,
@@ -47,6 +48,7 @@ export class MemberEditComponent implements OnInit {
     if ("user" in localStorage) {
     this.loadMember();
     this.loadLikes();
+    this.getUserPhoto(this.user.username);
     this.getMemberMemes(this.user.username);
     this.getMemberComments(this.user.username);
     this.getMemberReplies(this.user.username);
@@ -56,6 +58,12 @@ export class MemberEditComponent implements OnInit {
       this.toastr.warning("Zaloguj się aby mieć dostęp");
       this.router.navigateByUrl('/');
     }
+  }
+
+  getUserPhoto(username: string) {
+    this.memeService.getUserPhoto(username).subscribe(photo => {
+      this.url = photo?.url;
+    })
   }
 
   getMemberMemes(username: string) {

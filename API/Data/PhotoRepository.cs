@@ -44,7 +44,8 @@ namespace API.Data
                 .Where(x => x.AppUserId == id)
                 .Select(u => new PhotoDto
                 {
-                    Url = u.Url
+                    Url = u.Url,
+                    Id = u.Id
                 }).SingleOrDefaultAsync();
         }
 

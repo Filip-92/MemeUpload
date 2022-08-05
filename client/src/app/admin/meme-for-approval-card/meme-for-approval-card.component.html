@@ -6,6 +6,7 @@
 <div *ngIf="meme?.url?.includes('youtube')">
     <iframe width="250" height="200" [src]="formatYoutubeLink(meme?.url) | safe"></iframe>
 </div>
-<img src="{{meme.url ? meme.url : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme.url)" style="max-width: 400px;"/>
-<video src="{{meme.url}}" class="card-img-top" *ngIf="!checkURL(meme?.url) && !meme?.url?.includes('youtube.com') && !meme?.url?.includes('you.tube')" style="max-width: 400px;" controls></video>
+<img src="{{meme.url ? meme.url : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme.url) && meme?.url?.length < 1000" style="max-width: 400px;"/>
+<img src="{{meme.url}}" class="card-img-top col-sm-6" *ngIf="meme?.url?.length > 1000" style="max-width: 400px;"/>
+<video src="{{meme.url}}" class="card-img-top" *ngIf="!checkURL(meme?.url) && !meme?.url?.includes('youtube.com') && !meme?.url?.includes('you.tube') && meme?.url?.length < 1000" style="max-width: 400px;" controls></video>
 <h4>{{meme.username}}</h4>

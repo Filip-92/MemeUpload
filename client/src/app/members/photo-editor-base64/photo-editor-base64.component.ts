@@ -12,6 +12,8 @@ import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { MemeService } from 'src/app/_services/meme.service';
+import { MemberEditComponent } from '../member-edit/member-edit.component';
 
 @Component({
   selector: 'app-photo-editor-base64',
@@ -31,9 +33,12 @@ export class PhotoEditorBase64Component implements OnInit {
   format: any;
   updatePhotoForm: UntypedFormGroup;
   validationErrors: any;
+  url: string;
+  id: number;
 
   constructor(private accountService: AccountService, private memberService: MembersService, private sanitizer: DomSanitizer,
-    private modalService: NgbModal, private fb: FormBuilder, private toastr: ToastrService) { 
+    private modalService: NgbModal, private fb: FormBuilder, private toastr: ToastrService, private memeService: MemeService, 
+    private memberEdit: MemberEditComponent) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
@@ -43,6 +48,16 @@ export class PhotoEditorBase64Component implements OnInit {
     if (this.member?.photos?.length > 0) {
       this.deletePhotos();
     }
+  }
+
+  getUserPhoto(username: string) {
+    this.memeService.getUserPhoto(username).subscribe(photo => {
+      this.url = photo?.url;
+      this.id = photo?.id;
+      if (this.id !== null) {
+        this.deletePhoto(this.id)
+      }
+    })
   }
 
   fileOverBase(e: any) {
@@ -72,6 +87,9 @@ export class PhotoEditorBase64Component implements OnInit {
     this.memberService.addPhoto(this.updatePhotoForm?.value).subscribe(response => {
       this.toastr.success('Pomyślnie dodano zdjęcie');
       this.updatePhotoForm.reset();
+      this.memberEdit.getUserPhoto(this.user.username);
+      this.previewImg = null;
+      this.uploader?.clearQueue();
       }, error => {
       this.validationErrors = error;
     })
@@ -125,7 +143,7 @@ export class PhotoEditorBase64Component implements OnInit {
     }
 
     this.uploader.onAfterAddingFile = (file) => {
-      this.previewImg = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(file._file)));;
+      this.previewImg = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(file._file)));
       if(file._file.type.indexOf('image') > -1) {
         this.format = 'image';
       } else if (file._file.type.indexOf('video') > -1) {
@@ -138,9 +156,61 @@ export class PhotoEditorBase64Component implements OnInit {
     this.modalService.open(content);
   }
 
-  fileChangeEvent(event: any): void {
-      this.imageChangedEvent = event;
-  }
+  imageError: string;
+  isImageSaved: boolean;
+  cardImageBase64: string;
+
+  // fileChangeEvent(event: any): void {
+  //   this.imageChangedEvent = event;
+  // }
+
+  fileChangeEvent(fileInput: any) {
+    this.imageChangedEvent = fileInput;
+    this.imageError = null;
+    if (fileInput.target.files && fileInput.target.files[0]) {
+        // Size Filter Bytes
+        const max_size = 20971520;
+        const allowed_types = ['image/png', 'image/jpeg'];
+        const max_height = 15200;
+        const max_width = 25600;
+
+        if (fileInput.target.files[0].size > max_size) {
+            this.imageError =
+                'Maximum size allowed is ' + max_size / 1000 + 'Mb';
+
+            return false;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+            const image = new Image();
+            image.src = e.target.result;
+            image.onload = rs => {
+                const img_height = rs.currentTarget['height'];
+                const img_width = rs.currentTarget['width'];
+
+                if (img_height > max_height && img_width > max_width) {
+                    this.imageError =
+                        'Maximum dimentions allowed ' +
+                        max_height +
+                        '*' +
+                        max_width +
+                        'px';
+                    return false;
+                } else {
+                    const imgBase64Path = e.target.result;
+                    this.cardImageBase64 = imgBase64Path;
+                    this.updatePhotoForm.value.url = this.cardImageBase64;
+                    this.isImageSaved = true;
+                    // this.previewImagePath = imgBase64Path;
+                }
+            };
+        };
+
+        reader.readAsDataURL(fileInput.target.files[0]);
+    }
+}
+
   imageCropped(event: ImageCroppedEvent) {
       this.croppedImage = event.base64;
       this.previewImg = this.croppedImage;

@@ -4,10 +4,6 @@ table {
     border-top: none !important;
 }
 
-img {
-    max-height: 50px;
-}
-
 #reply {
     background-color: rgb(83, 83, 83);
     border: none !important;

@@ -11,6 +11,7 @@ import { MemeService } from '../_services/meme.service';
 import { take } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationsModalComponent } from '../modals/notifications-modal/notifications-modal.component';
+import { Url } from 'url';
 
 @Component({
   selector: 'app-nav',
@@ -37,6 +38,7 @@ export class NavComponent implements OnInit {
   unreadMessages: number = null;
   user: User;
   notifications: Notification[];
+  url: string;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -53,6 +55,7 @@ export class NavComponent implements OnInit {
 
   ngOnInit(): void {
     if ("user" in localStorage) {
+      this.getUserPhoto(this.user.username);
       this.loadMessages();
       this.getUnreadNotifications(this.user.username);
     }
@@ -68,6 +71,12 @@ export class NavComponent implements OnInit {
 
   closeNavbar() {
     this.display = !this.display;
+  }
+
+  getUserPhoto(username: string) {
+    this.memeService.getUserPhoto(username).subscribe(photo => {
+      this.url = photo?.url;
+    })
   }
 
   login() {

@@ -2,6 +2,12 @@
  
     <div class="text-center">
 
+        <h3 class="mb-5">Zmiana avatara</h3>
+
+        <img ngf-thumbnail="'user.photoUrl'">
+        <img id="preview" [src]="user.photoUrl" *ngIf="!previewImg && !cropMode"/>
+        <img id="preview" [src]="previewImg || 'user.photoUrl'" *ngIf="previewImg && !cropMode"/>
+
         <div class="row">
             <div class="col-md-5"></div>
             <div class="col-md-2">
