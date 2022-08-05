@@ -23,16 +23,7 @@ export class MemeCardFavouriteComponent implements OnInit {
   getMeme(memeId: number) {
     this.memeService.getMeme(memeId).subscribe(meme => {
       this.meme = meme;
-      if (this.meme.url.includes("youtube")) {
-        this.trustedUrl = this.formatYoutubeLink(this.meme.url)
-      }
     })
-  }
-
-  formatYoutubeLink(url) {
-    var id = url.split('v=')[1].split('&')[0]; //sGbxmsDFVnE
-    url = "https://www.youtube-nocookie.com/embed/" + id;
-    return url;
   }
 
   getFavouriteMemes(username: string) {
