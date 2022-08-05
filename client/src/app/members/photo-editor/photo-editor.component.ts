@@ -26,8 +26,6 @@ export class PhotoEditorComponent implements OnInit {
   user: User;
   previewImg: SafeUrl;
   imageChangedEvent: any = '';
-  croppedImage: any = '';
-  cropMode: boolean;
   format: any;
   updatePhotoForm: UntypedFormGroup;
   validationErrors: any;
