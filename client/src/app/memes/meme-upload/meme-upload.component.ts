@@ -212,11 +212,10 @@ export class MemeUploadComponent implements OnInit {
     var id = '';
     if (url.includes('youtube')) {
       id = url?.split('v=')[1]?.split('&')[0];
-      url = "https://www.youtube-nocookie.com/embed/" + id;
     } else if (url.includes('youtu.be')) {
       id = url?.split('be/')[1];
-      url = "https://www.youtube-nocookie.com/embed/" + id;
     }
+    url = "https://www.youtube-nocookie.com/embed/" + id;
     return url;
   }
 
