@@ -208,7 +208,20 @@ export class MemeUploadComponent implements OnInit {
     this.initializeYoutubeForm();
   }
 
+  formatYoutubeLink(url: string) {
+    var id = '';
+    if (url.includes('youtube')) {
+      id = url?.split('v=')[1]?.split('&')[0];
+      url = "https://www.youtube-nocookie.com/embed/" + id;
+    } else if (url.includes('youtu.be')) {
+      id = url?.split('be/')[1];
+      url = "https://www.youtube-nocookie.com/embed/" + id;
+    }
+    return url;
+  }
+
   addYoutubeLink() {
+    this.youtubeForm.value.url = this.formatYoutubeLink(this.youtubeForm.value.url);
     this.memeService.addYoutubeLink(this.youtubeForm.value).subscribe(response => {
       this.memeToggle();
       this.toastr.success('Pomyślnie dodano link');

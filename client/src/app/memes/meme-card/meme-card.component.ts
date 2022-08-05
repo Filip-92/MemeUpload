@@ -68,7 +68,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     // temporary solution for incorrect timezone
     this.getNumberOfComments(this.meme.id);
     if(this.meme?.url?.includes("youtube") || this.meme?.url?.includes("youtu.be")) {
-      this.trustedUrl = this.formatYoutubeLink(this.meme?.url);
+      this.trustedUrl = this.meme?.url;
     }
     if ("user" in localStorage) {
       this.getFavouriteMemes(this.user?.username);

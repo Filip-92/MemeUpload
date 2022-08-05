@@ -30,10 +30,4 @@ export class MemeForApprovalCardComponent implements OnInit {
   checkURL(url) {
     return(url?.match(/\.(jpeg|jpg|gif|png)$/) != null);
   }
-
-  formatYoutubeLink(url) {
-    var id = url?.split('v=')[1]?.split('&')[0]; //sGbxmsDFVnE
-    url = "https://www.youtube-nocookie.com/embed/" + id;
-    return url;
-  }
 }

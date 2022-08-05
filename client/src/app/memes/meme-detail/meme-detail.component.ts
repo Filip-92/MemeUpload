@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -17,6 +17,15 @@ import { take } from 'rxjs/operators';
 import { SwitchDivisionComponent } from 'src/app/modals/switch-division/switch-division.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdminService } from 'src/app/_services/admin.service';
+import { DomSanitizer } from '@angular/platform-browser';
+
+@Pipe({ name: 'safe' })
+export class SafePipe implements PipeTransform {
+  constructor(private sanitizer: DomSanitizer) { }
+  transform(url) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+}
 
 @Component({
   selector: 'app-meme-detail',
@@ -83,7 +92,7 @@ export class MemeDetailComponent implements OnInit {
       }
       this.id = meme.id;
       if (this.meme?.url?.includes("youtube") || this.meme?.url?.includes("youtu.be")) {
-        this.trustedUrl = this.formatYoutubeLink(this.meme?.url)
+        this.trustedUrl = this.meme?.url;
       }
     })
   }
@@ -165,17 +174,6 @@ export class MemeDetailComponent implements OnInit {
 
   onErrorFunction() {
     this.toastr.error("Adres url jest zjebany!")
-  }
-
-  formatYoutubeLink(url: string) {
-    var id = '';
-    if (url.includes('youtube')) {
-      id = url?.split('v=')[1]?.split('&')[0];
-    } else if (url.includes('youtu.be')) {
-      id = url?.split('be/')[1];
-    }
-    url = "https://www.youtube-nocookie.com/embed/" + id;
-    return url;
   }
 
   initializeForm() {

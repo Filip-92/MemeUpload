@@ -26,12 +26,12 @@
                             <iframe width="600" height="400" [src]="trustedUrl | safe"></iframe>
                         </div>
                         <a routerLink="/meme/{{meme.id}}/{{ convertText(meme?.title) || convertText('Jakieś gówno')}}">
-                            <img src="{{addImageWatermark(meme.url) ? addImageWatermark(meme.url) : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme.url) && meme?.url?.length < 1000"/>
+                            <img src="{{addImageWatermark(meme.url) ? addImageWatermark(meme.url) : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme.url) && !meme?.url?.includes('youtube-nocookie') && meme?.url?.length < 1000"/>
                         </a>
                         <a routerLink="/meme/{{meme.id}}/{{ convertText(meme?.title) || convertText('Jakieś gówno')}}">
-                            <img [src]="transformImage()" class="card-img-top col-sm-6" *ngIf="meme?.url?.length > 1000"/>
+                            <img [src]="transformImage()" class="card-img-top col-sm-6" *ngIf="meme?.url?.length > 1000 && !meme?.url?.includes('youtube-nocookie')"/>
                         </a>
-                        <video src="{{meme.url}}" class="card-img-top" *ngIf="!checkURL(meme?.url) && !meme?.url?.includes('youtube.com') && !meme?.url?.includes('you.tube') && meme?.url?.length < 1000" controls></video>
+                        <video src="{{meme.url}}" class="card-img-top" *ngIf="!checkURL(meme?.url) && !meme?.url?.includes('youtube-nocookie') && meme?.url?.length < 1000" controls></video>
                     </div>
                 </div>
             </div>
