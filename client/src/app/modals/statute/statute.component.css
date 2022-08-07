@@ -4,13 +4,106 @@ ol {
 }
 
 li { 
+    margin-top: 10px;
     display: block; 
     margin-bottom: 10px;
 }
 
 li:before { 
-    content: counters(item, ".") " "; 
+    content: counters(item, ".") "."; 
     counter-increment: item; 
     margin-right: 5px;
     color: rgb(184, 189, 22);
+}
+
+ol[type="a"] > li:before {
+    content: icon;
+}
+
+
+li > ol > li {
+    margin-left: 10px;
+}
+
+li > ol > li > ol {
+    margin-left: 15px;
+}
+
+.btn {
+    box-shadow: 3px 3px 3px 3px #383535;
+}
+
+.btn:hover {
+    background-color: rgb(87, 208, 26);
+    box-shadow: 3px 3px 3px 3px #242222;
+}
+
+.container{
+	display: flex;
+	justify-content: center;
+	vertical-align: middle;
+	position: sticky;
+	position: -webkit-sticky;
+	bottom: 0;
+    border: 3px solid white;
+    padding-top: 15px;
+    padding-bottom: 15px;
+  overflow: hidden; 
+}
+.scrollToTopClass {
+	background-color: #025316;
+	color: white;
+	font-weight: normal;
+	border-radius: 160px;
+	cursor: pointer;
+}
+.top-most-div{
+    overflow-y: scroll;
+    height:680px;
+    scroll-behavior: smooth;
+}
+
+.floating-btn
+{
+    background: #009879;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
+    position: fixed;
+    right: 500px;
+    bottom: 100px;
+    border-radius: 8px;
+    border: 1px solid white;
+    transition: ease-in;
+    padding: 10px;
+    opacity: 0.8;
+}
+
+.floating-btn:hover {
+    cursor: pointer !important;
+    opacity: 1 !important;
+}
+
+@media screen and (max-width: 800px) {
+    .floating-btn {
+        right: 20px;
+        bottom: 80px;
+    }
+
+    .container{
+        margin-top: -50px;
+    }
+}
+
+.rules {
+    color: violet;
+    font-size: 20px;
+}
+
+.subRules {
+    color: white;
+    font-size: 16px;
 }
