@@ -30,11 +30,6 @@ a:hover {
         max-width: 480px !important;
         margin-left: -4px !important;
     }
-
-    .card {
-        margin-left: -20px;
-        width: 105% !important;
-    }
 }
 
 #division {
