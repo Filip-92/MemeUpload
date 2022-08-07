@@ -14,9 +14,7 @@ export class StatuteComponent implements OnInit {
 
   public tabsContentRef!: ElementRef;
 
-  ngOnInit(): void {
-    this.scroller = fromEvent(window, 'scroll')
-    .subscribe(() => this.dealWithScroll(window.scrollY));  
+  ngOnInit(): void { 
   }
 
   close() {
@@ -27,7 +25,6 @@ export class StatuteComponent implements OnInit {
     window.scrollTo(0, 0);
   }
 
-  dealWithScroll(y: number) {}
 
   checkIfScrolled() {
     if (window.scrollY > 200) {

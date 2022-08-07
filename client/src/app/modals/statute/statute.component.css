@@ -48,19 +48,7 @@ li > ol > li > ol {
     border: 3px solid white;
     padding-top: 15px;
     padding-bottom: 15px;
-  overflow: hidden; 
-}
-.scrollToTopClass {
-	background-color: #025316;
-	color: white;
-	font-weight: normal;
-	border-radius: 160px;
-	cursor: pointer;
-}
-.top-most-div{
-    overflow-y: scroll;
-    height:680px;
-    scroll-behavior: smooth;
+    overflow: hidden;
 }
 
 .floating-btn
@@ -82,6 +70,10 @@ li > ol > li > ol {
     opacity: 0.8;
 }
 
+h3 {
+    margin-bottom: 30px;
+}
+
 .floating-btn:hover {
     cursor: pointer !important;
     opacity: 1 !important;
@@ -95,6 +87,18 @@ li > ol > li > ol {
 
     .container{
         margin-top: -50px;
+    }
+
+    .rules {
+        font-size: 16px !important;
+    }
+
+    .subRules {
+        font-size: 12px !important;
+    }
+
+    p {
+        font-size: 14px;
     }
 }
 
