@@ -90,3 +90,11 @@
       width: 5px;
     }
   }
+
+  @media screen and (min-width: 2400px) {
+    .container {
+        min-width: 1800px !important;
+        font-size: 32px !important;
+    }
+
+}

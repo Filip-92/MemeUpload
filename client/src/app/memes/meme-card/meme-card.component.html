@@ -28,15 +28,32 @@
                         <a routerLink="/meme/{{meme.id}}/{{ convertText(meme?.title) || convertText('Jakieś gówno')}}">
                             <img src="{{addImageWatermark(meme.url) ? addImageWatermark(meme.url) : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme.url) && !meme?.url?.includes('youtube-nocookie') && meme?.url?.length < 1000"/>
                         </a>
-                        <a routerLink="/meme/{{meme.id}}/{{ convertText(meme?.title) || convertText('Jakieś gówno')}}">
+                        <!-- <a routerLink="/meme/{{meme.id}}/{{ convertText(meme?.title) || convertText('Jakieś gówno')}}" *ngIf="meme?.url?.length > 1000" class="example">
                             <img [src]="transformImage()" class="card-img-top col-sm-6" *ngIf="meme?.url?.length > 1000 && !meme?.url?.includes('youtube-nocookie')"/>
+                            <div class="overlay">
+                                <img src="https://res.cloudinary.com/duj1ftjtp/image/upload/v1659042057/logo_gimp_-_new_ucilaf.png" alt="">
+                            </div>
+                        </a> -->
+                        <a routerLink="/meme/{{meme.id}}/{{ convertText(meme?.title) || convertText('Jakieś gówno')}}" *ngIf="meme?.url?.length > 1000" class="example">
+                            <!-- <div>
+                                <img src="https://res.cloudinary.com/duj1ftjtp/image/upload/v1659042057/logo_gimp_-_new_ucilaf.png" class="card-img-top col-sm-6" *ngIf="!meme?.url?.includes('youtube-nocookie') && meme?.url?.length > 1000" style="background-color: url({{meme.url}});"/>
+                            </div> -->
+                              <!-- DEMO 1 Item-->
+                              <div class="mb-3 mb-lg-0">
+                                <div class="hover hover-1 text-white rounded"><img [src]="transformImage()" alt="">
+                                  <div class="hover-overlay"></div>
+                                  <div class="hover-1-content">
+                                    <img src="https://res.cloudinary.com/duj1ftjtp/image/upload/v1659042057/logo_gimp_-_new_ucilaf.png" style="width: 100px; height: 40px; opacity: 0.7; margin-top: -70px; margin-right: -500px;"/>
+                                  </div>
+                                </div>
+                              </div>
                         </a>
                         <video src="{{meme.url}}" class="card-img-top" *ngIf="!checkURL(meme?.url) && !meme?.url?.includes('youtube-nocookie') && meme?.url?.length < 1000" controls></video>
                     </div>
                 </div>
             </div>
             <div class="mb-3">
-                <div class="row mb-2">
+                <div class="row mb-3">
                     <div class="col-1 col-lg-3"></div>
                     <span class="inline text-left">
                         autor: <a class="nav-link" routerLink='/uzytkownicy/{{meme.username}}' style="color: greenyellow !important" class="inline">{{meme.username}}</a>
@@ -64,7 +81,7 @@
                     url="{{addImageWatermark(meme.url)}}"
                     description="Daily Dose Of Memes - Ty też możesz dać z siebie 30%"
                     title="{{meme.title}}"
-                    class="pt-5">
+                    class="pt-3">
                   </share-buttons>
                 </div>
             </div>

@@ -2,6 +2,33 @@ img {
     max-width: 600px !important;
 }
 
+@media screen and (min-width: 2400px) {
+    img {
+        max-width: 1200px !important;
+    }
+
+    #description {
+        max-width: 1200px !important;
+    }
+
+    video {
+        max-width: 1200px !important;
+    }
+
+    #timeago {
+        margin-left: -200px !important;
+        font-size: 24px !important;
+    }
+
+    .card {
+        font-size: 24px !important;
+    }
+
+    .card-title {
+        font-size: 30px !important;
+    }
+}
+
 video {
     max-width: 600px !important;
 }
@@ -81,3 +108,35 @@ a:hover {
         width: 100%;
     }
 }
+
+.example img {
+    width: 100%;
+    position: relative;
+  }
+  
+  .example .overlay {
+    position: absolute;
+    bottom: 0;
+    right: 280px;
+  }
+
+  .overlay img {
+    opacity: 0.7;
+    width: 100px;
+    height: 40px;
+  }
+
+  @media screen and (max-width: 800px) {
+    .example .overlay {
+        right: 30px;
+      }
+  }
+
+  .mask1 {
+    -webkit-mask-image: url(https://res.cloudinary.com/duj1ftjtp/image/upload/v1659042057/logo_gimp_-_new_ucilaf.png);
+    mask-image: url(https://res.cloudinary.com/duj1ftjtp/image/upload/v1659042057/logo_gimp_-_new_ucilaf.png);
+    -webkit-mask-size: 70%;
+    mask-size: 70%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;    
+  }

@@ -471,4 +471,26 @@ form {
     }
   }
 
+  @media screen and (min-width: 1700px) and (max-width: 1800px) {
+    #toggle {
+      margin-left: 0px !important;
+    }
+  }
+
+  @media screen and (min-width: 1600px) and (max-width: 1700px) {
+    #toggle {
+      margin-left: -10px !important;
+    }
+  }
+
+  @media screen and (min-width: 1500px) and (max-width: 1600px) {
+    .navbar-toggler-icon {
+      margin-right: 0px !important;
+    }
+
+    #toggle i {
+      margin-left: 50px !important;
+    }
+  }
+
 

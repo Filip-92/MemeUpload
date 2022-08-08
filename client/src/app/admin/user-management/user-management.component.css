@@ -26,4 +26,8 @@ input[type=text]::placeholder {
         font-size: 12px !important;
         font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     }
+
+    #split {
+        word-break: break-all;
+    }
 }
