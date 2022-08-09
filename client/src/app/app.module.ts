@@ -86,6 +86,7 @@ import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
 import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 import { MemeUploadBase64Component } from './memes/meme-upload-base64/meme-upload-base64.component';
 import { PhotoEditorBase64Component } from './members/photo-editor-base64/photo-editor-base64.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -179,7 +180,13 @@ import { PhotoEditorBase64Component } from './members/photo-editor-base64/photo-
         return localStorage.getItem('token');
         } 
      }
-   })
+   }),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
