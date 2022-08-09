@@ -1,0 +1,121 @@
+{
+  "configVersion": 1,
+  "timestamp": 1660051254962,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/82.e1ee5d1d57099e32.js",
+        "/favicon.ico",
+        "/index.html",
+        "/main.f0feef467f039638.js",
+        "/manifest.webmanifest",
+        "/polyfills.a3ccbb1e57e1f285.js",
+        "/runtime.199bc7cce91c8fbf.js",
+        "/scripts.8f8a7b64d99526ea.js",
+        "/styles.cab722541d6652bb.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/assets/2048px-2-Dice-Icon.svg.png",
+        "/assets/Farewell.png",
+        "/assets/LogoImage.png",
+        "/assets/diamond-pepe.png",
+        "/assets/dice.png",
+        "/assets/favicon.ico",
+        "/assets/golden-pepe.png",
+        "/assets/helicopter-solid.svg",
+        "/assets/icons/icon-128x128.png",
+        "/assets/icons/icon-144x144.png",
+        "/assets/icons/icon-152x152.png",
+        "/assets/icons/icon-192x192.png",
+        "/assets/icons/icon-384x384.png",
+        "/assets/icons/icon-512x512.png",
+        "/assets/icons/icon-72x72.png",
+        "/assets/icons/icon-96x96.png",
+        "/assets/logo (gimp - new).png",
+        "/assets/middle-finger.svg",
+        "/assets/ok.svg",
+        "/assets/silver-pepe.png",
+        "/assets/universal-pepe.png",
+        "/assets/user.png",
+        "/fontawesome-webfont.8a7cb27d142e3e19.ttf",
+        "/fontawesome-webfont.cf011583fb81df9f.woff",
+        "/fontawesome-webfont.da909aa098b0ee2d.svg",
+        "/fontawesome-webfont.e9955780856cf8aa.woff2"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/82.e1ee5d1d57099e32.js": "7588d3bbe8e396409cb665f7189353d64d30abe7",
+    "/assets/2048px-2-Dice-Icon.svg.png": "b78c261b4e5eb1c6069b585ec4ddd51fdfc1761a",
+    "/assets/Farewell.png": "f8784ceb794e7cff21d803730960550db8a60ba2",
+    "/assets/LogoImage.png": "ee9aebb0a3772ff5a01abd2a89e21ac984875441",
+    "/assets/diamond-pepe.png": "bb0be837ed6025f75d6756ebbf76253353819cdc",
+    "/assets/dice.png": "95ffb9c83ed403041ee9d21cc2761ba1b2de14b4",
+    "/assets/favicon.ico": "4d715f198a2e6c31dd1b91fc395dd6837c5259cc",
+    "/assets/golden-pepe.png": "2a06627495878180244a24b854ec596c6984d238",
+    "/assets/helicopter-solid.svg": "388c44e75664ca0a1ce810add6105500a1906340",
+    "/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
+    "/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
+    "/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
+    "/assets/icons/icon-192x192.png": "1abd80d431a237a853ce38147d8c63752f10933b",
+    "/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
+    "/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
+    "/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
+    "/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
+    "/assets/logo (gimp - new).png": "f4f6b2036d2c8814b3c63e9870fdbca553760857",
+    "/assets/middle-finger.svg": "d8ca9d64f8209e433c042a08153b297674424ac6",
+    "/assets/ok.svg": "62c611f32eb76f4928b15c2d4bbb22b88524b898",
+    "/assets/silver-pepe.png": "03d76d2ff322b98beb1d5df8c4cc5e50c9f09199",
+    "/assets/universal-pepe.png": "12c8257612c50e075da839500b202eb02097d309",
+    "/assets/user.png": "f8e897fbf6ccda288d7982d9e85b6399d88cc91f",
+    "/favicon.ico": "825b2cc9429ea46470a1249d27fa3fc7e8c69c21",
+    "/fontawesome-webfont.8a7cb27d142e3e19.ttf": "13b1eab65a983c7a73bc7997c479d66943f7c6cb",
+    "/fontawesome-webfont.cf011583fb81df9f.woff": "28b782240b3e76db824e12c02754a9731a167527",
+    "/fontawesome-webfont.da909aa098b0ee2d.svg": "98a8aa5cf7d62c2eff5f07ede8d844b874ef06ed",
+    "/fontawesome-webfont.e9955780856cf8aa.woff2": "d6f48cba7d076fb6f2fd6ba993a75b9dc1ecbf0c",
+    "/index.html": "d6c10e1ab450eff727ac7a086fa8ca658c853a32",
+    "/main.f0feef467f039638.js": "19eda3bf67755a58bc996e52df7c1cf1cbbc8180",
+    "/manifest.webmanifest": "6bd446cf481e91dc7da6926e0d9b5fb2029c63fa",
+    "/polyfills.a3ccbb1e57e1f285.js": "3e2762832e394331b746172eab8d4f0219431b68",
+    "/runtime.199bc7cce91c8fbf.js": "c80e83e0837e86016ca4a46f66ad5ccf01dac71a",
+    "/scripts.8f8a7b64d99526ea.js": "f026b2ca689560dc9ec1b89ce935d7714247c7da",
+    "/styles.cab722541d6652bb.css": "eac703125e9129ea27aac2e8b9396153104076b9"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
