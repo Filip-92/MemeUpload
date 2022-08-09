@@ -234,4 +234,16 @@ export class MemeListComponent implements OnInit {
       this.memes?.splice(this.memes?.findIndex(p => p.id === memeId), 1);
     })
   }
+
+  disapproveMeme(memeId: number) {
+    this.adminService.disapproveMeme(memeId).subscribe(() => {
+      this.memes?.splice(this.memes?.findIndex(p => p.id === memeId), 1);
+    })
+  }
+
+  hideMeme(memeId: number) {
+    this.adminService.hideMeme(memeId).subscribe(() => {
+      this.memes?.splice(this.memes?.findIndex(p => p.id === memeId), 1);
+    })
+  }
 }

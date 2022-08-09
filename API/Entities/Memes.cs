@@ -15,6 +15,7 @@ namespace API.Entities
         public string Title { get; set; }
         public string Description { get; set; }
         public bool IsApproved { get; set; }
+        public bool IsHidden { get; set; }
         public ICollection<Comments> Comments { get; set; }
         public bool IsMain { get; set; }
         public string PublicId { get; set; }

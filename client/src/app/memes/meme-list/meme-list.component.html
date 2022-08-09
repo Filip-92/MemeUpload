@@ -5,7 +5,9 @@
 <div *ngFor="let meme of memes" class="mb-2">
     <app-meme-card [meme]="meme"></app-meme-card>
     <div *appHasRole='["Admin", "Moderator"]'  class="text-center">
+        <button class="btn btn-warning mb-2 mr-2" *ngIf="meme.isMain" id="reject" (click)='disapproveMeme(meme.id)'><i class="fa fa fa-arrow-circle-left"></i> Cofnij</button>
         <button class="btn btn-danger mb-2" id="reject" (click)='rejectMeme(meme.id)'><i class="fa fa-trash"></i> Usuń</button>
+        <button class="btn btn-warning mb-2 ml-2" id="reject" (click)='hideMeme(meme.id)'><i class="fa fa-eye-slash"></i> Hide</button>
     </div>
 </div>
 

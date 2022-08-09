@@ -53,6 +53,14 @@ export class AdminService {
     return this.http.post(this.baseUrl + 'admin/approve-meme/' + memeId, {});
   }
 
+  disapproveMeme(memeId: number) {
+    return this.http.post(this.baseUrl + 'admin/disapprove-meme/' + memeId, {});
+  }
+
+  hideMeme(memeId: number) {
+    return this.http.post(this.baseUrl + 'admin/hide-meme/' + memeId, {});
+  }
+
   pushMemeToMain(memeId: number) {
     return this.http.post(this.baseUrl + 'admin/push-meme-to-main/' + memeId, {});
   }

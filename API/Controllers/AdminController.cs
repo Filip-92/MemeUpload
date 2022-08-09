@@ -194,6 +194,43 @@ namespace API.Controllers
         }
 
         [Authorize(Policy = "ModerateMemeRole")]
+        [HttpPost("disapprove-meme/{memeId}")]
+        public async Task<ActionResult> DisapproveMeme(int memeId)
+        {
+            var meme = await _unitOfWork.MemeRepository.GetMemeById(memeId);
+
+            if (meme == null) return NotFound("Could not find meme");
+
+            meme.IsApproved = false;
+            meme.IsMain = false;
+
+            var user = await _unitOfWork.UserRepository.GetUserByMemeId(memeId);
+
+            await _unitOfWork.Complete();
+
+            return Ok();
+        }
+
+        [Authorize(Policy = "ModerateMemeRole")]
+        [HttpPost("hide-meme/{memeId}")]
+        public async Task<ActionResult> HideMeme(int memeId)
+        {
+            var meme = await _unitOfWork.MemeRepository.GetMemeById(memeId);
+
+            if (meme == null) return NotFound("Could not find meme");
+
+            meme.IsApproved = false;
+            meme.IsMain = false;
+            meme.IsHidden = true;
+
+            var user = await _unitOfWork.UserRepository.GetUserByMemeId(memeId);
+
+            await _unitOfWork.Complete();
+
+            return Ok();
+        }
+
+        [Authorize(Policy = "ModerateMemeRole")]
         [HttpPost("push-meme-to-main/{memeId}")]
         public async Task<ActionResult> PushMemeToMain(int memeId)
         {
@@ -261,7 +298,7 @@ namespace API.Controllers
 
         [Authorize(Policy = "RequireAdminRole")]
         [HttpPost("remove-message/{messageId}")]
-        public async Task<ActionResult> RemoveMeme(int messageId)
+        public async Task<ActionResult> RemoveMessage(int messageId)
         {
             var message = await _unitOfWork.UserRepository.GetMessageById(messageId);
 

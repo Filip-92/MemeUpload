@@ -68,7 +68,7 @@ namespace API.Data
         {
             var query = _context.Memes
                 .IgnoreQueryFilters()
-                .Where(m => m.IsMain == false && m.Division == 0)
+                .Where(m => m.IsMain == false && m.Division == 0 && m.IsHidden == false)
                 .Select(u => new MemeDto
                 {
                     Id = u.Id,
@@ -76,6 +76,7 @@ namespace API.Data
                     Url = u.Url,
                     Title = u.Title,
                     IsMain = u.IsMain,
+                    IsHidden = u.IsHidden,
                     Description = u.Description,
                     Uploaded = u.Uploaded, 
                     NumberOfLikes = u.NumberOfLikes,
@@ -91,7 +92,7 @@ namespace API.Data
         {
             var query = _context.Memes
                 .IgnoreQueryFilters()
-                .Where(m => m.IsMain == true && m.Division == 0)
+                .Where(m => m.IsMain == true && m.Division == 0 && m.IsHidden == false)
                 .Select(u => new MemeDto
                 {
                     Id = u.Id,
@@ -99,6 +100,7 @@ namespace API.Data
                     Url = u.Url,
                     Title = u.Title,
                     IsMain = u.IsMain,
+                    IsHidden = u.IsHidden,
                     Description = u.Description,
                     Uploaded = u.Uploaded, 
                     NumberOfLikes = u.NumberOfLikes,
@@ -113,7 +115,7 @@ namespace API.Data
         {
             var query = _context.Memes
                 .IgnoreQueryFilters()
-                .Where(m => m.Division == divisionId)
+                .Where(m => m.Division == divisionId && m.IsHidden == false)
                 .Select(u => new MemeDto
                 {
                     Id = u.Id,
@@ -121,6 +123,7 @@ namespace API.Data
                     Url = u.Url,
                     Title = u.Title,
                     IsMain = u.IsMain,
+                    IsHidden = u.IsHidden,
                     Description = u.Description,
                     Uploaded = u.Uploaded, 
                     NumberOfLikes = u.NumberOfLikes,
@@ -136,6 +139,7 @@ namespace API.Data
         {
                 return await _context.Memes
                 .IgnoreQueryFilters()
+                .Where(m => m.IsHidden == false)
                 .Select(u => new MemeDto
                 {
                     Id = u.Id,
@@ -170,7 +174,7 @@ namespace API.Data
         {
             var query = _context.Memes
                 .IgnoreQueryFilters()
-                .Where(m => m.Title.ToLower().Contains(searchString))
+                .Where(m => m.Title.ToLower().Contains(searchString) && m.IsHidden == false)
                 .Select(u => new MemeDto
                 {
                     Id = u.Id,
@@ -185,7 +189,7 @@ namespace API.Data
             if (type == "Images") {
                 query = _context.Memes
                 .IgnoreQueryFilters()
-                .Where(m => m.Title.ToLower().Contains(searchString))
+                .Where(m => m.Title.ToLower().Contains(searchString) && m.IsHidden == false)
                 .Where(m => m.Url.Contains(".jpg") || m.Url.Contains(".png"))
                 .Select(u => new MemeDto
                 {
@@ -200,7 +204,7 @@ namespace API.Data
             } else if (type == "Gifs") {
                 query = _context.Memes
                 .IgnoreQueryFilters()
-                .Where(m => m.Title.ToLower().Contains(searchString))
+                .Where(m => m.Title.ToLower().Contains(searchString) && m.IsHidden == false)
                 .Where(m => m.Url.Contains(".gif"))
                 .Select(u => new MemeDto
                 {
@@ -237,7 +241,7 @@ namespace API.Data
         {
             var query = _context.Memes
                 .IgnoreQueryFilters()
-                .Where(m => m.AppUser.UserName == username)
+                .Where(m => m.AppUser.UserName == username && m.IsHidden == false)
                 .Select(u => new MemeDto
                 {
                     Id = u.Id,
@@ -256,7 +260,7 @@ namespace API.Data
         {
             return await _context.Memes
                 .IgnoreQueryFilters()
-                .Where(m => m.AppUser.UserName == username && m.IsMain == true)
+                .Where(m => m.AppUser.UserName == username && m.IsMain == true && m.IsHidden == false)
                 .Select(u => new MemeDto
                 {
                     Id = u.Id,
@@ -272,7 +276,7 @@ namespace API.Data
         {
             var query = _context.Memes
                 .IgnoreQueryFilters()
-                .Where(m => m.IsMain == false && m.Division == 0 && m.Uploaded > (DateTime.Now.AddDays(-1)))
+                .Where(m => m.IsMain == false && m.Division == 0 && m.Uploaded > (DateTime.Now.AddDays(-1)) && m.IsHidden == false)
                 .Select(u => new MemeDto
                 {
                     Id = u.Id,
@@ -293,7 +297,7 @@ namespace API.Data
         {
             var query = _context.Memes
                 .IgnoreQueryFilters()
-                .Where(m => m.IsMain == true && m.Uploaded > (DateTime.Now.AddDays(-1)))
+                .Where(m => m.IsMain == true && m.Uploaded > (DateTime.Now.AddDays(-1)) && m.IsHidden == false)
                 .Select(u => new MemeDto
                 {
                     Id = u.Id,
@@ -314,7 +318,7 @@ namespace API.Data
         {
             var query = _context.Memes
                 .IgnoreQueryFilters()
-                .Where(m => m.Division == division && m.Uploaded > (DateTime.Now.AddDays(-1)))
+                .Where(m => m.Division == division && m.Uploaded > (DateTime.Now.AddDays(-1)) && m.IsHidden == false)
                 .Select(u => new MemeDto
                 {
                     Id = u.Id,
@@ -335,7 +339,7 @@ namespace API.Data
         {
             var query = _context.Memes
                 .IgnoreQueryFilters()
-                .Where(m => m.IsMain == false && m.Division == 0 && m.Uploaded > (DateTime.Now.AddDays(-2)))
+                .Where(m => m.IsMain == false && m.Division == 0 && m.Uploaded > (DateTime.Now.AddDays(-2)) && m.IsHidden == false)
                 .Select(u => new MemeDto
                 {
                     Id = u.Id,
@@ -356,7 +360,7 @@ namespace API.Data
         {
             var query = _context.Memes
                 .IgnoreQueryFilters()
-                .Where(m => m.IsMain == true && m.Uploaded > (DateTime.Now.AddDays(-2)))
+                .Where(m => m.IsMain == true && m.Uploaded > (DateTime.Now.AddDays(-2)) && m.IsHidden == false)
                 .Select(u => new MemeDto
                 {
                     Id = u.Id,
@@ -377,7 +381,7 @@ namespace API.Data
         {
             var query = _context.Memes
                 .IgnoreQueryFilters()
-                .Where(m => m.Division == division && m.Uploaded > (DateTime.Now.AddDays(-2)))
+                .Where(m => m.Division == division && m.Uploaded > (DateTime.Now.AddDays(-2)) && m.IsHidden == false)
                 .Select(u => new MemeDto
                 {
                     Id = u.Id,
