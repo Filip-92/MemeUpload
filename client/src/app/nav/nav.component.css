@@ -471,6 +471,11 @@ form {
     }
   }
 
+  nav {
+    background-color: black !important;
+    border-bottom: 1px solid white !important;
+  }
+
   @media screen and (min-width: 1700px) and (max-width: 1800px) {
     #toggle {
       margin-left: 0px !important;

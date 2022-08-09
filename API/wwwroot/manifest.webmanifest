@@ -1,56 +1,56 @@
 {
   "name": "DDM - Daily Dose Of Memes",
   "short_name": "DDM",
-  "theme_color": "#1976d2",
-  "background_color": "#c29595",
+  "theme_color": "#000000",
+  "background_color": "#7d3333",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
   "icons": [
     {
-      "src": "assets/LogoImage.png",
+      "src": "assets/LogoImage.svg",
       "sizes": "72x72",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "assets/LogoImage.png",
+      "src": "assets/LogoImage.svg",
       "sizes": "96x96",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "assets/LogoImage.png",
+      "src": "assets/LogoImage.svg",
       "sizes": "128x128",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "assets/LogoImage.png",
+      "src": "assets/LogoImage.svg",
       "sizes": "144x144",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "assets/LogoImage.png",
+      "src": "assets/LogoImage.svg",
       "sizes": "152x152",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "assets/LogoImage.png",
+      "src": "assets/LogoImage.svg",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "assets/LogoImage.png",
+      "src": "assets/LogoImage.svg",
       "sizes": "384x384",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "assets/LogoImage.png",
+      "src": "assets/LogoImage.svg",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable any"

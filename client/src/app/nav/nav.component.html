@@ -1,6 +1,3 @@
-<script src="angular-pageslide.js"></script>
-<script src="script.js"></script>
-
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-primary">
     <div class="container">
         <div class="row">
@@ -28,16 +25,9 @@
                         <li style="width: 60px" *ngIf="(accountService.currentUser$ | async) || (accountService.currentUser$ | async) === null" title="Szukaj memów"><a class="nav-link" routerLink='szukaj/memes' routerLinkActive='active'><i class="fa fa-search" [ngStyle]="router.url.includes('szukaj') ? { 'color': 'yellow' } : { 'color': 'white' }"></i></a></li>
                         <li id="messages" style="width: 60px" title="Wiadomości"><a class="nav-link" routerLink='/wiadomosci'routerLinkActive='active'><i class="fa fa-envelope" [ngStyle]="unreadMessages > 0 ? { 'color': 'red' } : { 'color': 'white' } && router.url.includes('wiadomosci') ? { 'color': 'yellow' } : { 'color': 'white' }"><span class="ml-1" *ngIf="unreadMessages > 0" id="unread">{{unreadMessages}}</span></i></a></li>
                         <li id="messages" style="width: 60px" title="Powiadomienia"><a class="nav-link" style="cursor: pointer;" (click)="openNotificationsModal(user.username)" routerLinkActive='active'><i class="fa fa-bell" [ngStyle]="notifications?.length > 0 ? { 'color': 'red' } : { 'color': 'white' }"><span class="ml-1" *ngIf="notifications?.length > 0" id="unread">{{notifications?.length}}</span></i></a></li>
-                        <li *appHasRole='["Admin", "Moderator"]' class="nav-item" style="width: 60px">
-                            <a class="nav-link" routerLink='/admin' routerLinkActive='active'><i class="fa fa-lock"></i></a>
-                        </li>
-                        <li *appHasRole='["Admin", "Moderator"]' class="nav-item" style="width: 60px;">
-                            <a class="nav-link" routerLink='/errors' routerLinkActive='active' ><i class="fa fa-exclamation-triangle mr-3"></i></a>
-                        </li>
                     </ul>
                 </ng-container>
             </div>
-
             <div class="col-1 col-lg-1">
                 <div id="toggle">
                     <i class="navbar-toggler-icon text-center" (click)="displayNavbar()" *ngIf="display" style="width: 50px !important;"></i>
@@ -74,6 +64,16 @@
                     <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">
                         <a [routerLink]="display ? [''] : ['/ulubione']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;">
                             <i class="fa fa-star mr-2"></i>Ulubione
+                        </a>
+                    </button>
+                    <button *appHasRole='["Admin", "Moderator"]' class="nav-item" style="background-color: black;" class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">
+                        <a [routerLink]="display ? [''] : ['/admin']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;">
+                            <i class="fa fa fa-lock mr-2"></i>Admin
+                        </a>
+                    </button>
+                    <button *appHasRole='["Admin", "Moderator"]' class="nav-item" style="background-color: black;" class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">
+                        <a [routerLink]="display ? [''] : ['/errors']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;">
+                            <i class="fa fa-exclamation-triangle mr-2"></i>Errors
                         </a>
                     </button>
                     <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}" [disabled]="!display">
