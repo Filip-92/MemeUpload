@@ -78,7 +78,7 @@ export class NavComponent implements OnInit {
       this.router.navigateByUrl('/');
     })
     this.registerMode = false;
-    this.reloadCurrentPage();
+    //this.reloadCurrentPage();
   }
 
   logout() {
