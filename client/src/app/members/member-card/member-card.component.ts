@@ -35,7 +35,11 @@ export class MemberCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadLikes();
-    this.getUserPhoto(this.member.id);
+        if (this.member.id !== 11) {
+      this.getUserPhoto(this.member.id);
+    } else {
+      this.url = '././assets/LogoImage.png';
+    }
     this.getMemberReplies(this.member.username);
     this.getMemberComments(this.member.username);
     this.getMemberNumberOfLikes(this.member.username);

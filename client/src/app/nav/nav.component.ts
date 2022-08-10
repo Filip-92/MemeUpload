@@ -80,6 +80,10 @@ export class NavComponent implements OnInit {
     this.unreadMessages = 0;
     //this.reloadCurrentPage();
   }
+  
+  refresh() {
+    this.getUnreadNotifications(this.user.username);
+  }
 
   logout() {
     this.displayNavbar();

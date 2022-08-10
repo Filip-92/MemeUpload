@@ -4,11 +4,8 @@
         <h3>Profil użytkownika</h3>
         <h3>{{member.username}}</h3></div>
     <div class="col-6 text-center mb-5" style="border-right: 1px solid white;">
-        <div *ngFor="let photo of member.photos">
-            <img src="{{photo.url || '././assets/LogoImage.png'}}" alt="{{member.username}}" class="card-img-top img-thumbnail">
-        </div>
-        <div *ngIf="member.photos.length === 0">
-            <img src="{{'././assets/LogoImage.png'}}" alt="{{member.username}}" class="card-img-top img-thumbnail">
+        <div>
+            <img src="{{url || '././assets/LogoImage.png'}}" alt="{{member.username}}" class="card-img-top img-thumbnail">
         </div>
         <h3 style="color: rgb(170, 139, 37);" *ngIf="member?.username?.length <= 8">{{member.username}}</h3>
         <h4 style="color: rgb(170, 139, 37);" *ngIf="member?.username?.length > 8 && member?.username?.length <= 16">{{member.username}}</h4>

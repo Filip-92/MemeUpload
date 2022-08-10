@@ -63,6 +63,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   numberOfLikes: number = 0;
   liked: boolean = false;
   mainMemes: number = 0;
+  url: string;
 
   constructor(public presence: PresenceService, private route: ActivatedRoute, 
     private messageService: MessageService, private accountService: AccountService,
@@ -83,6 +84,11 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     if ("user" in localStorage) {
       this.getUsers();
       this.loadLikes();
+      if (this.member.id !== 11) {
+        this.getUserPhoto(this.member.id);
+      } else {
+        this.url = '././assets/LogoImage.png';
+      }
       this.route?.queryParams?.subscribe(params => {
         params?.tab ? this.selectTab(params?.tab) : this.selectTab(0);
       })
@@ -96,6 +102,12 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
       this.toastr.warning("Zaloguj się aby mieć dostęp");
       this.router.navigateByUrl('/');
     }
+  }
+
+  getUserPhoto(id: number) {
+    this.memberService.getUserPhoto(id).subscribe(photo => {
+      this.url = photo?.url;
+    })
   }
 
   getImages(): NgxGalleryImage[] {

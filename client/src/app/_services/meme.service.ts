@@ -383,7 +383,11 @@ getMainMemes(page?: number, itemsPerPage?: number) {
   }
 
   getUserPhoto(username: string) {
-    return this.http.get<Photo>(this.baseUrl + 'memes/get-user-photo-by-username/' + username);
+    if (username !== "admin") {
+      return this.http.get<Photo>(this.baseUrl + 'memes/get-user-photo-by-username/' + username);
+    } else {
+      return null;
+    }
   }
 
   getDivisions() {   
