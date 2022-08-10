@@ -8,6 +8,7 @@ using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -90,6 +91,15 @@ namespace API.Controllers
             await _unitOfWork.Complete();
 
             return Ok();
+        }
+
+        [HttpGet("get-unread-messages/{username}")]
+        public async Task<ActionResult<IEntityTypeConfiguration<MessageDto>>> GetUnreadMessages(string username)
+        {
+            // var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
+            var messages = await _unitOfWork.MessageRepository.GetUnreadMessages(username);
+
+            return Ok(messages);
         }
     }
 }

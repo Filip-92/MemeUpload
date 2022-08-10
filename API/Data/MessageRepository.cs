@@ -108,5 +108,18 @@ namespace API.Data
         {
             _context.Connections.Remove(connection);
         }
+
+        public async Task<IEnumerable<MessageDto>> GetUnreadMessages(string username)
+        {
+                return await _context.Messages
+                .IgnoreQueryFilters()
+                .Where(m => m.RecipientUsername == username && m.DateRead == null)
+                .Select(u => new MessageDto
+                {
+                    Id = u.Id,
+                    Content = u.Content
+                }).OrderByDescending(u => u.Id)
+                .ToListAsync();
+        }
     }
 }

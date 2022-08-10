@@ -23,7 +23,6 @@ export class NavComponent implements OnInit {
   private isOpen: boolean = false;
   registerMode = false;
   loginMode = false;
-  messages: Message[] = [];
   divisions: Division[];
   pagination: Pagination;
   container = 'Unread';
@@ -37,6 +36,7 @@ export class NavComponent implements OnInit {
   unreadMessages: number = null;
   user: User;
   notifications: Notification[];
+  messages: Message[];
   url: string;
 
   @HostListener('window:resize', ['$event'])
@@ -54,7 +54,7 @@ export class NavComponent implements OnInit {
 
   ngOnInit(): void {
     if ("user" in localStorage) {
-      this.loadMessages();
+      this.getUnreadMessages(this.user.username);
       this.getUnreadNotifications(this.user.username);
     }
     this.open = true;
@@ -77,12 +77,11 @@ export class NavComponent implements OnInit {
       this.router.navigateByUrl('/');
     })
     this.registerMode = false;
-    this.unreadMessages = 0;
-    //this.reloadCurrentPage();
   }
   
   refresh() {
     this.getUnreadNotifications(this.user.username);
+    this.getUnreadMessages(this.user.username);
   }
 
   logout() {
@@ -109,24 +108,6 @@ export class NavComponent implements OnInit {
     this.loginMode = true;
   }
 
-  checkForUnreadMessages(messages: Message[]) {
-    for (var message of messages) {
-      if (message.dateRead === null) {
-        this.unreadMessages++;
-      }
-    }
-  }
-
-  loadMessages() {
-    this.loading = true;
-    this.messageService.getMessages(this.pageNumber, this.pageSize, this.container).subscribe(response => {
-      this.messages = response.result;
-      this.checkForUnreadMessages(this.messages);
-      this.pagination = response.pagination;
-      this.loading = false;
-    })
-  }
-
   getDivisions() {
     this.memeService.getDivisions().subscribe(divisions => {
       this.divisions = divisions;
@@ -143,6 +124,12 @@ export class NavComponent implements OnInit {
   getUnreadNotifications(username: string) {
     this.accountService.getUnreadNotifications(username).subscribe(notifications => {
       this.notifications = notifications;
+    });
+  }
+
+  getUnreadMessages(username: string) {
+    this.messageService.getUnreadMessages(username).subscribe(messages => {
+      this.messages = messages;
     });
   }
 

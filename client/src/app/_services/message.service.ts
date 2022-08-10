@@ -98,4 +98,8 @@ export class MessageService {
   removeMessage(messageId: number) {
     return this.http.post(this.baseUrl + 'messages/remove-message/' + messageId, {});
   }
+
+  getUnreadMessages(username: string) {
+    return this.http.get<Message[]>(this.baseUrl + 'messages/get-unread-messages/' + username);
+  }
 }
