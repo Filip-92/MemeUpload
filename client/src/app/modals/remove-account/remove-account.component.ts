@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-remove-account',
@@ -15,7 +16,9 @@ export class RemoveAccountComponent implements OnInit {
   users: User[];
 
   constructor(private accountService: AccountService, private router: Router,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService) {
+      this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
+     }
 
   ngOnInit(): void {
   }
@@ -25,8 +28,8 @@ export class RemoveAccountComponent implements OnInit {
       this.users?.splice(this.users?.findIndex(p => p.username === username), 1);
     })
     this.close();
-    this.toastr.success("Konto zostało usunięte pomyślnie")
-    this.logout();
+    //this.logout();
+    this.toastr.success("Konto zostało usunięte pomyślnie");
   }
 
   close() {

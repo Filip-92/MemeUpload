@@ -498,4 +498,8 @@ form {
     }
   }
 
+  .fa-refresh:hover {
+    cursor: pointer;
+  }
+
 

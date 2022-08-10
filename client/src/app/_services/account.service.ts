@@ -119,6 +119,7 @@ export class AccountService {
   }
 
   removeAccount(username: string) {
+    this.logout();
     return this.http.post(this.baseUrl + 'account/remove-account/' + username, {});
   }
 

@@ -43,6 +43,7 @@
             <section>
               <header>
                 <div *ngIf="(accountService.currentUser$ | async) as user">
+                    <i class="fa fa-refresh mr-3" style="color: rgb(22, 185, 22);" (click)="getUnreadNotifications(user.username)"></i>
                     <img src="{{user.photoUrl || '././assets/LogoImage.png'}}" alt="{{user.username}}" class="mr-2">
                     {{user.knownAs || user.username}}
                 </div>

@@ -11,7 +11,6 @@ import { MemeService } from '../_services/meme.service';
 import { take } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationsModalComponent } from '../modals/notifications-modal/notifications-modal.component';
-import { Url } from 'url';
 
 @Component({
   selector: 'app-nav',
@@ -78,13 +77,14 @@ export class NavComponent implements OnInit {
       this.router.navigateByUrl('/');
     })
     this.registerMode = false;
+    this.unreadMessages = 0;
     //this.reloadCurrentPage();
   }
 
   logout() {
     this.displayNavbar();
-    this.accountService.logout();
     this.unreadMessages = 0;
+    this.accountService.logout();
     this.router.navigateByUrl('/');
   }
 
