@@ -469,6 +469,10 @@ form {
     .navbar {
       max-height: 60px !important;
     }
+
+    #refresh i {
+      font-size: 20px !important;
+    }
   }
 
   nav {
