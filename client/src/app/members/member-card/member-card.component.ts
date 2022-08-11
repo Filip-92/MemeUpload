@@ -19,7 +19,7 @@ export class MemberCardComponent implements OnInit {
   photos: Photo[];
   liked: boolean;
   predicate = 'liked';
-  pageNumber = 1;
+  pageNumber = 0;
   pageSize = 5;
   pagination: Pagination;
   photo: Photo;
@@ -50,6 +50,13 @@ export class MemberCardComponent implements OnInit {
   addLike(member: Member) {
     this.memberService.addLike(member.username).subscribe(() => {
       this.liked = !this.liked;
+      if(this.liked) {
+        this.numberOfLikes++;
+        this.liked = true;
+      } else {
+        this.numberOfLikes--;
+        this.liked = false;
+      }
     })
   }
 
@@ -64,6 +71,7 @@ export class MemberCardComponent implements OnInit {
   }
 
   checkIfUserLiked(members: Partial<Member[]>) {
+    console.log(members);
     for (var user of members) {
       if (user.id === this.member.id) {
         this.liked = !this.liked;

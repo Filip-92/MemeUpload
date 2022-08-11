@@ -112,7 +112,6 @@ export class UserManagementComponent implements OnInit {
 
   unbanUser(username: string) {
     this.adminService.unbanUser(username).subscribe(() => {
-      this.users.splice(this.users.findIndex(p => p.username === username), 1);
       this.toastr.success('Pomyślnie zdjęto bana z użytkownika ' + username);
     })
   }

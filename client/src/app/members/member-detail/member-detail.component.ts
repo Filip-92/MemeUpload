@@ -163,6 +163,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   checkIfUserLiked(members: Partial<Member[]>) {
     for (var user of members) {
       if (user.id === this.member.id) {
+        console.log("hi");
         this.liked = true;
       }
     }
@@ -171,6 +172,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   loadLikes() {
     this.memberService.getLikes(this.predicate, this.pageNumber, this.pageSize).subscribe(response => {
       this.members = response.result;
+      console.log(this.members);
       this.checkIfUserLiked(this.members);
       this.pagination = response.pagination;
     })

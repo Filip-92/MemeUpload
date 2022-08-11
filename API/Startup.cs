@@ -48,6 +48,11 @@ namespace API
             services.AddScoped<JwtHandler>();
 
             services.AddScoped<IEmailSender,EmailSender>();
+            services.Configure<SecurityStampValidatorOptions>(options =>
+            {
+                // enables immediate logout, after updating the user's stat.
+                options.ValidationInterval = TimeSpan.Zero;   
+            });
 
             var emailConfig = _config
                 .GetSection("EmailConfiguration")

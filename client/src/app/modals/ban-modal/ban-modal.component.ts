@@ -42,9 +42,8 @@ export class BanModalComponent implements OnInit {
   banUser() {
     var days = this.banUserForm.value.expirationDate;
     this.adminService.banUser(this.username, this.banUserForm.value, days).subscribe(() => {
-      this.users.splice(this.users.findIndex(p => p.username === this.username), 1);
       this.modalRef.close();
-      this.toastr.success('Pomyślnie zbanowano użytkownika ' + this.username + 'na okres ' + days + ' dni');
+      this.toastr.success('Pomyślnie zbanowano użytkownika ' + this.username + ' na okres ' + days + ' dni');
     }, error => {
       this.validationErrors = error;
     })

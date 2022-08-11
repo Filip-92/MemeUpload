@@ -60,7 +60,7 @@ namespace API.Controllers
 
             var user = _mapper.Map<AppUser>(registerDto);
 
-            user.UserName = registerDto.Username;
+            user.UserName = registerDto.Username.ToLower();
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
 
@@ -141,8 +141,6 @@ namespace API.Controllers
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var uriBuilder = new UriBuilder(_config["returnPaths:PasswordChange"]);
-            if (uriBuilder != null) return BadRequest(uriBuilder);
-
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
             query["token"] = token;
             query["userid"] = user.Id.ToString();

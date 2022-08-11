@@ -11,6 +11,7 @@ import { MemeService } from '../_services/meme.service';
 import { take } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationsModalComponent } from '../modals/notifications-modal/notifications-modal.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-nav',
@@ -38,6 +39,7 @@ export class NavComponent implements OnInit {
   notifications: Notification[];
   messages: Message[];
   url: string;
+  isBanned: boolean;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -46,29 +48,44 @@ export class NavComponent implements OnInit {
 
   constructor(public accountService: AccountService, private router: Router, 
     private messageService: MessageService, private deviceService: DeviceDetectorService, 
-    private memeService: MemeService, private modalServ: NgbModal) {
+    private memeService: MemeService, private modalServ: NgbModal, private toastr: ToastrService) {
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
-     }
-
-    // @ViewChild("component1") meme_list: MemeListComponent;
+     };
 
   ngOnInit(): void {
     if ("user" in localStorage) {
       this.getUnreadMessages(this.user.username);
       this.getUnreadNotifications(this.user.username);
+      this.checkIfBanned(this.user.username);
     }
     this.open = true;
     this.isMobile = this.deviceService.isMobile();
     this.innerWidth = window.innerWidth;
     this.getDivisions();
   }
+
+
+  interval = setInterval(function() {
+    if ("user" in localStorage) {
+      this.accountService?.isUserBanned(this.user.username).subscribe(response => {
+        this.isBanned = response.isBanned;
+        console.log(this.isBanned);
+        if(this.isBanned) {
+          this.logoutOnBan();
+        }
+      })
+  }
+  }, 1000);
+
   
   displayNavbar() {
     this.display = !this.display;
+    this.temporarySolution();
   }
 
   closeNavbar() {
     this.display = !this.display;
+    this.temporarySolution();
   }
 
   login() {
@@ -80,8 +97,34 @@ export class NavComponent implements OnInit {
   }
   
   refresh() {
-    this.getUnreadNotifications(this.user.username);
-    this.getUnreadMessages(this.user.username);
+    this.getUnreadNotifications(this.user?.username);
+    this.getUnreadMessages(this.user?.username);
+  }
+
+  temporarySolution() {
+    if ("user" in localStorage) {
+      this.accountService.isUserBanned(this.user.username).subscribe(response => {
+        this.isBanned = response.isBanned
+        if(this.isBanned) {
+          this.logoutOnBan();
+        }
+      })
+    }
+  }
+
+  checkIfBanned(username: string) {
+    this.accountService.isUserBanned(username).subscribe(response => {
+      this.isBanned = response.isBanned
+      if(this.isBanned) {
+        this.logoutOnBan();
+      }
+    })
+  }
+
+  logoutOnBan() {
+    this.accountService.logout();
+    this.toastr.error("Zostałeś zbanowany!")
+    this.router.navigateByUrl('/');
   }
 
   logout() {

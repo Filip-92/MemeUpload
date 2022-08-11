@@ -10,6 +10,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
@@ -319,6 +320,18 @@ namespace API.Controllers
 
             if (user == null) return NotFound("Nie znaleziono użytkownika");
 
+            await _userManager.UpdateSecurityStampAsync(user);
+
+            new UserDto
+            {
+                Email = user.Email,
+                Username = user.UserName,
+                Token = null,
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+                Gender = user.Gender,
+                NumberOfLikes = user.NumberOfLikes
+            };
+
             var result = _userManager.DeleteAsync(user);
 
             await _unitOfWork.Complete();
@@ -338,6 +351,8 @@ namespace API.Controllers
             user.BanExpiration = DateTime.Now;
             user.BanExpiration = user.BanExpiration.AddDays(days);
             user.BanReason = memberDto.BanReason;
+
+            var result = await _userManager.UpdateSecurityStampAsync(user);
 
             await _unitOfWork.Complete();
 

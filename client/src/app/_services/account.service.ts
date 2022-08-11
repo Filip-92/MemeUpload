@@ -66,6 +66,10 @@ export class AccountService {
     )
   }
 
+  isUserBanned(username: string) {
+    return this.http.get<User>(this.baseUrl + 'account/is-banned/' + username, {});
+  }
+
   setCurrentUser(user: User) {
     user.roles = [];
     const roles = this.getDecodedToken(user.token).role;
@@ -119,7 +123,6 @@ export class AccountService {
   }
 
   removeAccount(username: string) {
-    this.logout();
     return this.http.post(this.baseUrl + 'account/remove-account/' + username, {});
   }
 

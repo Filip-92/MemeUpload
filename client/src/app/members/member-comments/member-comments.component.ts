@@ -58,20 +58,20 @@ export class MemberCommentsComponent implements OnInit {
   }
 
   getUserPhoto(username: string) {
-    this.memeService.getUserPhoto(username).subscribe(photo => {
+    this.memeService?.getUserPhoto(username).subscribe(photo => {
       this.url = photo?.url;
     })
   }
 
   removeComment(commentId) {
-    this.memeService.removeComment(commentId).subscribe(comment => {
+    this.memeService?.removeComment(commentId).subscribe(comment => {
       this.comment.id = commentId
     });
     this.comment.content = "[Komentarz został usunięty]";
   }
 
   reloadComments(comment) {
-    this.memeDetail.getComments(comment.memeId);
+    this.memeDetail?.getComments(comment.memeId);
   }
 
   replyComment() {
@@ -93,7 +93,7 @@ export class MemberCommentsComponent implements OnInit {
   }
 
   getMemberMainMemes(username: string) {
-    this.memeService.getMemberMainMemes(username).subscribe(memes => {
+    this.memeService?.getMemberMainMemes(username).subscribe(memes => {
       this.mainMemes = memes;
     })
   }  
