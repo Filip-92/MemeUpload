@@ -29,5 +29,6 @@ namespace API.Interfaces
         Task<IEnumerable<NotificationDto>> GetUnreadNotifications(int id);
         Task<ContactForm> GetMessageById(int id);
         void RemoveMessage(ContactForm message);
+        Task<AppUser> CheckIfBanned(int id);
     }
 }

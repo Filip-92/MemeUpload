@@ -67,7 +67,7 @@ export class AccountService {
   }
 
   isUserBanned(username: string) {
-    return this.http.get<User>(this.baseUrl + 'account/is-banned/' + username, {});
+    return this.http.get<boolean>(this.baseUrl + 'account/is-banned/' + username, {});
   }
 
   setCurrentUser(user: User) {

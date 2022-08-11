@@ -15,3 +15,11 @@
         margin-left: -50px !important;
     }
 }
+
+#message {
+    word-break: break-all;
+}
+
+i:hover {
+    color: red;
+}

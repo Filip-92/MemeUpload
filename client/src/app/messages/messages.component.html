@@ -28,7 +28,7 @@
         <div class="col-12">
             <table class="table table-hover" style="cursor: pointer">
                 <tr>
-                    <th style="width: 40%">Wiadomość</th>
+                    <th id="message" style="width: 40%">Wiadomość</th>
                     <th style="width: 20%">Od / Do</th>
                     <th style="width: 20%">Wysłano / Dostarczono</th>
                     <th style="width: 20%"></th>
@@ -56,7 +56,7 @@
                     </td>
                     <td>{{message.messageSent | timeago}}</td>
                     <td>
-                        <button (click)="$event.stopPropagation()" (click)="deleteMessage(message.id)" class='btn btn-danger'><i class="fa fa-trash mr-2"></i>Usuń</button>
+                        <i (click)="$event.stopPropagation()" (click)="deleteMessage(message.id)" class="fa fa-trash"></i>
                     </td>
                 </tr>
             </table>

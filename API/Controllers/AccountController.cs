@@ -242,6 +242,15 @@ namespace API.Controllers
             return NoContent();
         }
 
+        [HttpGet("is-banned/{username}")]
+        public async Task<ActionResult> CheckIfUserBanned(string username)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
+            var bannedUser = await _unitOfWork.UserRepository.CheckIfBanned(user.Id);
+
+            return Ok(bannedUser.IsBanned);
+        }
+
         private async Task<bool> UserExists(string username)
         {
             return await _userManager.Users.AnyAsync(x => x.UserName == username.ToLower());

@@ -237,5 +237,12 @@ namespace API.Data
         {
             _context.ContactForm.Remove(message);
         }
+
+        public async Task<AppUser> CheckIfBanned(int id)
+        {
+            return await _context.Users
+                .IgnoreQueryFilters()
+                .SingleOrDefaultAsync(x => x.Id == id);
+        }
     }
 }

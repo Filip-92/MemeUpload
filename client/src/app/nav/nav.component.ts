@@ -104,7 +104,7 @@ export class NavComponent implements OnInit {
   temporarySolution() {
     if ("user" in localStorage) {
       this.accountService.isUserBanned(this.user.username).subscribe(response => {
-        this.isBanned = response.isBanned
+        this.isBanned = response
         if(this.isBanned) {
           this.logoutOnBan();
         }
@@ -114,7 +114,8 @@ export class NavComponent implements OnInit {
 
   checkIfBanned(username: string) {
     this.accountService.isUserBanned(username).subscribe(response => {
-      this.isBanned = response.isBanned
+      this.isBanned = response
+      console.log(this.isBanned)
       if(this.isBanned) {
         this.logoutOnBan();
       }
