@@ -6,7 +6,7 @@
     <div class="col-3 col-lg-2">Avatar</div>
     <div class="col-3 col-lg-2">Użytkownik</div>
     <div class="col-3 col-lg-2">E-mail</div>
-    <div class="col-3 col-lg-2">Temat</div>
+    <div id="topic" class="col-3 col-lg-2">Temat</div>
     <div id="message" class="col-3 col-lg-2">Wiadomość</div>
     <div class="col-3 col-lg-2"></div>
 </div>
@@ -18,8 +18,9 @@
     >
     <div class="col-3 col-lg-2 mb-2"><app-user-card [user]="message.senderName"></app-user-card></div>
     <div class="col-3 col-lg-2"><a routerLink='/uzytkownicy/{{message.senderName}}'>{{message.senderName}}</a></div>
-    <div class="col-3 col-lg-2">{{message.senderEmail}}</div>
-    <div class="col-3 col-lg-2">{{getSubject(message.subject)}}</div>
+    <div class="col-6 col-lg-2">{{message.senderEmail}}</div>
+    <div class="col-3" id="subject">Temat: </div>
+    <div class="col-7 col-lg-2">{{getSubject(message.subject)}}</div>
     <div class="col-3 mb-3" id="content">Treść: </div>
     <div class="col-6 col-lg-2 mb-3" id="messageContent">{{message.message}}</div>
     <div class="col-3 col-lg-2"><button class="button btn btn-danger" (click)="removeMessage(message.id)"><i class="fa fa-trash" aria-hidden="true"> Usuń</i></button></div>

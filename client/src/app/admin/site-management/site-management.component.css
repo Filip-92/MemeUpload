@@ -18,19 +18,31 @@ input {
     display: none;
 }
 
+#subject {
+    display: none;
+}
+
 @media screen and (max-width: 700px) {
 
     #message {
         display: none;
     }
 
+    #topic {
+        display: none;
+    }
+
     #content {
-        margin-top: 20px;
+        margin-top: 10px;
+        display: inline;
+    }
+
+    #subject {
         display: inline;
     }
 
     #messageContent {
-        margin-top: 20px;
+        margin-top: 10px;
     }
 
     .row {
