@@ -30,4 +30,8 @@ input[type=text]::placeholder {
     #split {
         word-break: break-all;
     }
+
+    #searchUser input[type=text] {
+        width: 250px !important;
+    }
 }

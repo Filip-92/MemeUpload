@@ -3,7 +3,7 @@
         <div class="form-group">
             <form class="text-center" [formGroup]='userSearchForm'>
                 <div class="row ml-3 text-center">
-                    <div class="column col-6 mt-1 mb-3">Liczba użytkowników: {{users?.length}}</div>
+                    <div class="column col-6 col-lg-4 mt-1 mb-3">Liczba użytkowników: {{users?.length}}</div>
                         <div class="column mr-3 mb-2">
                             <input type="text" placeholder="Wpisz nazwę wyszukiwanego użytkownika" [formControl]='userSearchForm.controls["searchString"]'>
                         </div>

@@ -47,7 +47,7 @@
 </div>
 
 <div *ngIf="commentUpdate">
-    <div class="text-center mt-2 mb-3" id="editForm">
+    <div class="text-center mt-2 mb-3">
         <form #editForm="ngForm" (ngSubmit)="editReply()" class="text-center column">
             <textarea type="text" name="content" [(ngModel)]="reply.content" placeholder="{{reply?.content}}" class="col-7"></textarea>
             <button class="btn btn-success ml-2 col-2" type="submit" [disabled]="!editForm?.dirty">Edytuj komentarz</button>
