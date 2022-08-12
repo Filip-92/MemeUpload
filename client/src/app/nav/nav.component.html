@@ -55,32 +55,32 @@
                     <i class="fa fa-bell mr-2"></i><i class="fa fa-refresh" style="color: rgb(22, 84, 185);" (click)="getUnreadNotifications(user.username)"></i>
                 </div>
                 <div class="mt-3">
-                    <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">
+                    <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default', 'opacity': '0', 'transition': '0.5s' }">
                         <a id="profile" [routerLink]="display ? [''] : ['/uzytkownik/edycja']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;" >
                             <i class="fa fa-user mr-2"></i>Mój Profil
                         </a>
                     </button>
-                    <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">
-                        <a [routerLink]="display ? [''] : ['/poczekalnia']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;">
+                    <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default', 'opacity': '0', 'transition': '0.5s' }">
+                        <a [routerLink]="display ? [''] : ['/poczekalnia']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default', 'opacity': '0' }" (click)="displayNavbar()" style="color: white;">
                             <i class="fa fa-clock-o mr-2"></i>Poczekalnia
                         </a>
                     </button>
-                    <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">
-                        <a [routerLink]="display ? [''] : ['/ulubione']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;">
+                    <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default', 'opacity': '0', 'transition': '0.5s' }">
+                        <a [routerLink]="display ? [''] : ['/ulubione']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default', 'opacity': '0' }" (click)="displayNavbar()" style="color: white;">
                             <i class="fa fa-star mr-2"></i>Ulubione
                         </a>
                     </button>
-                    <button *appHasRole='["Admin", "Moderator"]' class="nav-item" style="background-color: black;" class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">
+                    <button *appHasRole='["Admin", "Moderator"]' class="nav-item" style="background-color: black;" class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default', 'opacity': '0', 'transition': '0.5s' }">
                         <a [routerLink]="display ? [''] : ['/admin']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;">
                             <i class="fa fa fa-lock mr-2"></i>Admin
                         </a>
                     </button>
-                    <button *appHasRole='["Admin", "Moderator"]' class="nav-item" style="background-color: black;" class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">
+                    <button *appHasRole='["Admin", "Moderator"]' class="nav-item" style="background-color: black;" class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default', 'opacity': '0', 'transition': '0.5s' }">
                         <a [routerLink]="display ? [''] : ['/errors']" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="displayNavbar()" style="color: white;">
                             <i class="fa fa-exclamation-triangle mr-2"></i>Errors
                         </a>
                     </button>
-                    <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}" [disabled]="!display">
+                    <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default', 'opacity': '0', 'transition': '0.5s' }" [disabled]="!display">
                         <a [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" (click)="logout()" style="color: white;" [disabled]="!display">
                             <i class="fa fa-sign-out mr-2"></i>Wyloguj
                         </a>
