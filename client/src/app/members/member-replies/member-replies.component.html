@@ -16,10 +16,10 @@
             </div>
             <div class="text-left">
                 <div *ngIf="reply?.username === user?.username && reply?.content !== '[Komentarz został usunięty]'" (click)="editReplyToggle(reply.id) && reloadComments(comment)" style="display: inline-block">
-                    <i id="edit" class="fa fa-pencil-square-o" aria-hidden="true">Edytuj</i>
+                    <i id="edit" class="fa fa-pencil-square-o" aria-hidden="true" style="opacity: 0.7;">Edytuj</i>
                 </div>
                 <div *ngIf="reply.content !== '[Komentarz został usunięty]' && reply?.username === user?.username || user?.roles[0] === 'Admin' || user?.roles[1] === 'Moderator'" (click)="removeReply(reply?.id)">
-                    <i id="delete" class="fa fa-trash" aria-hidden="true">Usuń</i>
+                    <i id="delete" class="fa fa-trash" aria-hidden="true" style="opacity: 0.7;">Usuń</i>
                 </div>
                 <a routerLink='/meme/{{reply?.memeId}}/..'><i id="goTo" class="fa fa-share" aria-hidden="true"> Idź do</i></a>
             </div>
@@ -41,8 +41,8 @@
         <img src="{{reply?.url}}" alt="">
     </div>
     <div class="text-left mt-2">
-        <i class="fa fa-reply ml-3 mb-1" *ngIf="!replyQuote" (click)="addReply()"> Odpowiedz</i>
-        <i class="fa fa-quote-left ml-3 mb-1" *ngIf="!ifReply && reply?.content !== '[Komentarz został usunięty]'" (click)="addQuotedReply()"> Zacytuj</i>
+        <i class="fa fa-reply ml-3 mb-1" *ngIf="!replyQuote" (click)="addReply()" style="opacity: 0.7;"> Odpowiedz</i>
+        <i class="fa fa-quote-left ml-3 mb-1" *ngIf="!ifReply && reply?.content !== '[Komentarz został usunięty]'" (click)="addQuotedReply()" style="opacity: 0.7;"> Zacytuj</i>
     </div>
 </div>
 

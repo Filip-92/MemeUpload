@@ -18,8 +18,8 @@
                 </div>
                 <div *ngIf="(accountService.currentUser$ | async) !== null" class="text-left mt-2">
                     <div *ngIf="reply.username === user.username || user.roles[0] === 'Admin' || user.roles[1] === 'Moderator' && reply.content !== '[Komentarz został usunięty]'">
-                        <div *ngIf="reply.username === user.username && reply.content !== '[Komentarz został usunięty]'" (click)="editReplyToggle(reply.id) && reloadComments(comment)" style="display: inline-block"><i id="edit" class="fa fa-pencil-square-o" aria-hidden="true"><span class="ml-1"> Edytuj</span></i></div>
-                        <div *ngIf="reply.content !== '[Komentarz został usunięty]'" (click)="removeReply(reply.id)"><i id="delete" class="fa fa-trash" aria-hidden="true"><span class="ml-1"> Usuń</span></i></div>
+                        <div *ngIf="reply.username === user.username && reply.content !== '[Komentarz został usunięty]'" (click)="editReplyToggle(reply.id) && reloadComments(comment)" style="display: inline-block; opacity: 0.7;"><i id="edit" class="fa fa-pencil-square-o" aria-hidden="true"> Edytuj</i></div>
+                        <div *ngIf="reply.content !== '[Komentarz został usunięty]'" (click)="removeReply(reply.id)" style="opacity: 0.7;"><i id="delete" class="fa fa-trash" aria-hidden="true"> Usuń</i></div>
                     </div>
                 </div>
             </div>
@@ -38,8 +38,8 @@
         <div id="image" class="text-center mb-3" *ngIf="reply.url !== null">
             <img src="{{reply.url}}" alt="">
         </div>
-        <i class="fa fa-reply ml-3 mb-1" (click)="addReply(reply.commentId)"> Odpowiedz</i>
-        <i class="fa fa-quote-left ml-3 mb-1" *ngIf="!ifReply" (click)="addQuotedReply(reply.commentId)"> Zacytuj</i>
+        <i class="fa fa-reply ml-3 mb-1" (click)="addReply(reply.commentId)" style="opacity: 0.7;"> Odpowiedz</i>
+        <i class="fa fa-quote-left ml-3 mb-1" *ngIf="!ifReply" (click)="addQuotedReply(reply.commentId)" style="opacity: 0.7;"> Zacytuj</i>
     </div>
 </div>
 

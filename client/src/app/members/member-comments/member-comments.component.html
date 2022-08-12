@@ -16,22 +16,22 @@
             </div>
             <div class="text-left">
                 <div *ngIf="comment.username === user.username && comment.content !== '[Komentarz został usunięty]'" (click)="editCommentToggle(comment.id) && reloadComments(comment)" style="display: inline-block">
-                    <i id="edit" class="fa fa-pencil-square-o" aria-hidden="true"> Edytuj</i>
+                    <i id="edit" class="fa fa-pencil-square-o" aria-hidden="true" style="opacity: 0.7;"> Edytuj</i>
                 </div>
                 <div *ngIf="comment.content !== '[Komentarz został usunięty]' && comment.username === user.username || user.roles[0] === 'Admin' || user.roles[1] === 'Moderator'" (click)="removeComment(comment.id)">
-                    <i id="delete" class="fa fa-trash" aria-hidden="true"> Usuń</i>
+                    <i id="delete" class="fa fa-trash" aria-hidden="true" style="opacity: 0.7;"> Usuń</i>
                 </div>
                 <a routerLink='/meme/{{comment.memeId}}/..'><i id="goTo" class="fa fa-share" aria-hidden="true"> Idź do</i></a>
             </div>
         </div>
     </div>
-    <div class="text-left mt-3" id="content" style="padding: 10px; margin-left: 50px !important;">{{comment.content}}</div>
+    <div class="text-left mt-1" id="content" style="padding: 10px; margin-left: 50px !important;">{{comment.content}}</div>
     <div class="text-center">
         <img src="{{comment.url}}" alt="">
     </div>
     <div class="text-left mt-2">
-        <i class="fa fa-reply ml-3 mb-1" *ngIf="!replyQuote" (click)="addReply(comment.id)"> Odpowiedz</i>
-        <i class="fa fa-quote-left ml-3 mb-1" *ngIf="!reply && comment.content !== '[Komentarz został usunięty]'" (click)="addQuotedReply(comment.id)"> Zacytuj</i>
+        <i class="fa fa-reply ml-3 mb-1" *ngIf="!replyQuote" (click)="addReply(comment.id)" style="opacity: 0.7;"> Odpowiedz</i>
+        <i class="fa fa-quote-left ml-3 mb-1" *ngIf="!reply && comment.content !== '[Komentarz został usunięty]'" (click)="addQuotedReply(comment.id)" style="opacity: 0.7;"> Zacytuj</i>
     </div>
 </div>
 

@@ -16,8 +16,8 @@
             </div>
             <div *ngIf="(accountService.currentUser$ | async) !== null" class="text-left mt-2">
                 <div id="buttons" *ngIf="comment.username === user.username || user.roles[0] === 'Admin' || user.roles[1] === 'Moderator' && comment.content !== '[Komentarz został usunięty]'">
-                    <span *ngIf="comment.username === user.username && comment.content !== '[Komentarz został usunięty]'" (click)="editCommentToggle(comment.id) && reloadComments(comment)" style="display: inline-block"><i id="edit" class="fa fa-pencil-square-o" aria-hidden="true"> Edytuj</i></span>
-                    <span *ngIf="comment.content !== '[Komentarz został usunięty]'" (click)="removeComment(comment.id)"><i id="delete" class="fa fa-trash" aria-hidden="true">Usuń</i></span>
+                    <span *ngIf="comment.username === user.username && comment.content !== '[Komentarz został usunięty]'" (click)="editCommentToggle(comment.id) && reloadComments(comment)" style="display: inline-block; opacity: 0.7;"><i id="edit" class="fa fa-pencil-square-o" aria-hidden="true"> Edytuj</i></span>
+                    <span *ngIf="comment.content !== '[Komentarz został usunięty]'" (click)="removeComment(comment.id)" style="opacity: 0.7;"><i id="delete" class="fa fa-trash" aria-hidden="true"> Usuń</i></span>
                 </div>
             </div>
         </div>
@@ -26,8 +26,8 @@
     <div class="text-center">
         <img src="{{comment.url}}" alt="">
     </div>
-    <i class="fa fa-reply ml-3 mb-1" *ngIf="!replyQuote" (click)="addReply(comment.id)"> Odpowiedz</i>
-    <i class="fa fa-quote-left ml-3 mb-1" *ngIf="!reply && comment.content !== '[Komentarz został usunięty]'" (click)="addQuotedReply(comment.id)"> Zacytuj</i>
+    <i class="fa fa-reply ml-3 mb-1" *ngIf="!replyQuote" (click)="addReply(comment.id)" style="opacity: 0.7;"> Odpowiedz</i>
+    <i class="fa fa-quote-left ml-3 mb-1" *ngIf="!reply && comment.content !== '[Komentarz został usunięty]'" (click)="addQuotedReply(comment.id)" style="opacity: 0.7;"> Zacytuj</i>
 </div>
 
 <div *ngIf="commentUpdate">

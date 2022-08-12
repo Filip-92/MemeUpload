@@ -90,7 +90,6 @@ export class CommentComponent implements OnInit {
       this.memeService.addReply(this.replyForm.value).subscribe(response => {
         this.toastr.success('Pomyślnie dodano odpowiedź');
         this.replyForm.reset();
-        this.reply = false;
         this.replyQuote = false;
         this.getReplies(this.comment.id);
         this.reply = !this.reply;
