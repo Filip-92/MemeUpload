@@ -9,6 +9,8 @@ import { AccountService } from 'src/app/_services/account.service';
 import { AdminService } from 'src/app/_services/admin.service';
 import { MemeService } from 'src/app/_services/meme.service';
 import { take } from 'rxjs/operators';
+import { AdminDeleteMemeComponent } from 'src/app/modals/admin-delete-meme/admin-delete-meme.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-meme-list',
@@ -30,7 +32,7 @@ export class MemeListComponent implements OnInit {
   user: User;
 
   constructor(private memeService: MemeService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService,
-    private adminService: AdminService, private accountService: AccountService) { 
+    private adminService: AdminService, private accountService: AccountService, private modalService: NgbModal) { 
       this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
     }
 
@@ -245,5 +247,11 @@ export class MemeListComponent implements OnInit {
     this.adminService.hideMeme(memeId).subscribe(() => {
       this.memes?.splice(this.memes?.findIndex(p => p.id === memeId), 1);
     })
+  }
+
+  openDeleteModal(memeId: number) {
+    const modalRef = this.modalService.open(AdminDeleteMemeComponent);
+    modalRef.componentInstance.memeId = memeId;
+    modalRef.componentInstance.modalRef = modalRef;
   }
 }

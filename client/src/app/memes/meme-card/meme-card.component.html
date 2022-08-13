@@ -66,10 +66,6 @@
                 <button class="btn btn-warning ml-2 mr-2" (click)="flagAsSpam(meme.id)"><i class="fa fa-flag" aria-hidden="true"></i></button>
             </div>
             <div class="mb-3">
-                <span *appHasRole='["Admin", "Moderator"]' class="mr-2">
-                    <span id="division" *ngIf="division !== null && meme.division !== 0" [ngStyle]="division?.isCloseDivision ? { 'color': 'red' } : { 'color': 'green' }" (click)="openDivisionModal(meme)" style="cursor: pointer;">{{division?.name}}</span>
-                    <span id="division" *ngIf="division === null || meme.division === 0" (click)="openDivisionModal(meme)" style="cursor: pointer; font-size: 12px;">Poczekalnia</span>
-                </span>
                 <button class="btn btn-info mr-2" *ngIf="meme.isMain" (click)="shareMeme()"><i class="fa fa-share mr-2"></i>Share</button>
                 <div *ngIf="meme.isMain && shareToggle" style="padding-left: 10px;">
                     <share-buttons theme="modern-dark"

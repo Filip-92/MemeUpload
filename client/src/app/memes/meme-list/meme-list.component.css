@@ -32,10 +32,20 @@ pagination {
   }
 }
 
+#admin {
+  margin-top: -30px !important;
+}
+
 .card {
   min-height: 600px !important;
 }
 
-#reject {
-  margin-top: -30px !important;
+#division {
+  padding: 10px;
+  border: 1px solid white;
+}
+
+#division:hover {
+  color: red;
+  border: 1px solid yellow;
 }

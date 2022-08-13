@@ -9,10 +9,14 @@ import { Meme } from 'src/app/_models/meme';
 export class AdminMemeViewComponent implements OnInit {
   @Input() meme: Meme;
   @Input() modalRef: any;
+  trustedUrl: string;
 
   constructor() { }
 
   ngOnInit(): void {
+    if (this.meme?.url?.includes("youtube") || this.meme?.url?.includes("youtu.be")) {
+      this.trustedUrl = this.meme?.url;
+    }
   }
 
   checkURL(url) {

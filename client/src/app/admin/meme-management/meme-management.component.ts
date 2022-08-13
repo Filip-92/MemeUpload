@@ -97,6 +97,4 @@ export class PhotoManagementComponent implements OnInit {
     modalRef.componentInstance.meme = meme;
     modalRef.componentInstance.modalRef = modalRef;
   }
-
-
 }

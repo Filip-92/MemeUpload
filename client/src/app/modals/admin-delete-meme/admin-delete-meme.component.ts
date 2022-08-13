@@ -10,7 +10,7 @@ import { AdminService } from 'src/app/_services/admin.service';
 export class AdminDeleteMemeComponent implements OnInit {
   @Input() memeId: number;
   @Input() modalRef: any;
-  @Input() memes: Meme[];
+  memes: Meme[];
 
   constructor(private adminService: AdminService) { }
 
