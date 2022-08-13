@@ -54,7 +54,7 @@
     </div>
 </div>
 <div class="row mb-3" id="background" style="border: 3px solid rgb(104, 95, 95);">
-    <tabset class="member-tabset mt-3" #memberTabs>
+    <tabset class="mt-3" id="tabs" #memberTabs>
         <tab heading='Komentarze' (selectTab)="onTabActivated($event)">
             <div class="mt-3" *ngFor="let comment of comments">
                 <div>
@@ -70,7 +70,7 @@
                 <h3 id="comments" class="mt-5">Brak komentarzy użytkownika</h3>
             </div>
         </tab>
-        <tab heading='Memy użytkownika {{member.username}}' (selectTab)="onTabActivated($event)"
+        <tab heading='Memy {{member.username}}' (selectTab)="onTabActivated($event)"
             #scrollMe
             style="overflow-y: auto; height: 1000px;"
             [scrollTop]="scrolltop"
@@ -98,7 +98,7 @@
             </pagination>
         </div>
         </tab>
-        <tab heading='Memy użytkownika {{member.username}}' (selectTab)="onTabActivated($event)"
+        <tab heading='Memy {{member.username}}' (selectTab)="onTabActivated($event)"
         #scrollMe
         style="overflow-y: auto; height: 300px;"
         [scrollTop]="scrolltop"
