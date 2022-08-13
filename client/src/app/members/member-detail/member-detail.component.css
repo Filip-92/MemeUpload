@@ -31,15 +31,6 @@
   background-color: rgb(56, 56, 56) !important;
 }
 
-.member-tabset > .tab-content {
-  background-color: rgb(56, 56, 56) !important;
-  padding: 0 0 !important;
-}
-
-tab {
-  min-width: 300px !important;
-}
-
 tabset {
   margin-left: auto;
   margin-right: auto;
@@ -112,5 +103,9 @@ tabset {
 
     #comments {
       font-size: 18px;
+    }
+
+    #tabs {
+      font-size: 12px !important;
     }
 }

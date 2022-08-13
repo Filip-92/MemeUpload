@@ -70,7 +70,7 @@
                 <h3 id="comments" class="mt-5">Brak komentarzy użytkownika</h3>
             </div>
         </tab>
-        <tab heading='Memy {{member.username}}' (selectTab)="onTabActivated($event)"
+        <tab heading='Memy użytkownika {{member.username}}' (selectTab)="onTabActivated($event)"
             #scrollMe
             style="overflow-y: auto; height: 1000px;"
             [scrollTop]="scrolltop"
@@ -98,7 +98,7 @@
             </pagination>
         </div>
         </tab>
-        <tab heading='Memy {{member.username}}' (selectTab)="onTabActivated($event)"
+        <tab heading='Memy użytkownika {{member.username}}' (selectTab)="onTabActivated($event)"
         #scrollMe
         style="overflow-y: auto; height: 300px;"
         [scrollTop]="scrolltop"

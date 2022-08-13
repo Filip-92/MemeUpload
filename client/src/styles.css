@@ -96,10 +96,6 @@
     ::-webkit-scrollbar {
       width: 5px;
     }
-
-    .member-tabset > .nav-tabs > li  {
-      font-size: 12px !important;
-    }
   }
 
   @media screen and (min-width: 2400px) {
