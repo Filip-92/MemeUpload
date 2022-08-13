@@ -80,6 +80,11 @@ input[type="password"] {
     #background {
       margin-top: -50px !important;
     }
+
+    #tabs {
+      font-size: 10px !important;
+      width: auto;
+    }
   }
 
   #reject {

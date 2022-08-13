@@ -7,7 +7,7 @@
   
   .nav-tabs > li.open, .member-tabset > .nav-tabs > li:hover {
     border-bottom: 2px solid #fbcdcf;
-    background-color: rgb(70, 69, 69);
+    background-color: rgb(43, 43, 43);
     border-radius: 4px 4px 0px 0px;
   }
   
@@ -18,7 +18,7 @@
   }
   
   .member-tabset > .nav-tabs > li.open > a > i, .member-tabset > .nav-tabs > li:hover > a > i {
-    background-color: rgb(56, 56, 56) !important;
+    background-color: rgb(39, 39, 39) !important;
   }
   
   .member-tabset > .nav-tabs > li.open .dropdown-menu, .member-tabset > .nav-tabs > li:hover .dropdown-menu {
@@ -27,21 +27,26 @@
   
   .member-tabset > .nav-tabs > li.active {
     border-bottom: 1px solid #e02117;
+    border: 0 !important;
     border-radius: 8px 8px 0px 0px;
     position: relative;
     background-color: black;
   }
 
   .member-tabset > .nav-tabs > li.active:hover {
-
     border-radius: 8px 8px 0px 0px;
     color: red !important;
   }
   
   .member-tabset > .nav-tabs > li.active > a {
-    border: 0 !important;
+    border: 0px !important;
     color: white !important;
     background-color: black !important;
+  }
+
+  .member-tabset > .nav-tabs > li  {
+    border: 1px solid rgb(76, 74, 74) !important;
+    border-radius: 4px 4px 0px 0px;
   }
   
   .member-tabset > .nav-tabs > li.active > a > i {
@@ -90,6 +95,10 @@
   @media screen and (max-width: 800px) {
     ::-webkit-scrollbar {
       width: 5px;
+    }
+
+    .member-tabset > .nav-tabs > li  {
+      font-size: 12px !important;
     }
   }
 
