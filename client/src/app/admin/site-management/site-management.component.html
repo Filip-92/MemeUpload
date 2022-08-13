@@ -1,8 +1,8 @@
 
-<h3>Wiadomości od użytkowników</h3>
+<h3 class="mt-2">Wiadomości od użytkowników</h3>
 <br>
 <p class="mb-3">Liczba wiadomości: {{messages?.length}}</p>
-<div class="row mb-4" style="border-bottom: 1px solid white">
+<div class="row mb-2" style="border-bottom: 1px solid white">
     <div class="col-3 col-lg-2">Avatar</div>
     <div class="col-3 col-lg-2">Użytkownik</div>
     <div class="col-3 col-lg-2">E-mail</div>
@@ -10,21 +10,27 @@
     <div id="message" class="col-3 col-lg-2">Wiadomość</div>
     <div class="col-3 col-lg-2"></div>
 </div>
-<div class="row mb-2 mt-3"
+<div
 #scrollMe
-    style="overflow-y: auto; border-bottom: 1px solid white;"
-    [scrollTop]="scrolltop"
-    *ngFor="let message of messages"
-    >
-    <div class="col-3 col-lg-2 mb-2"><app-user-card [user]="message.senderName"></app-user-card></div>
-    <div class="col-3 col-lg-2"><a routerLink='/uzytkownicy/{{message.senderName}}'>{{message.senderName}}</a></div>
-    <div class="col-6 col-lg-2">{{message.senderEmail}}</div>
-    <div class="col-3" id="subject">Temat: </div>
-    <div class="col-7 col-lg-2">{{getSubject(message.subject)}}</div>
-    <div class="col-3 mb-3" id="content">Treść: </div>
-    <div class="col-6 col-lg-2 mb-3" id="messageContent">{{message.message}}</div>
-    <div class="col-3 col-lg-2"><button class="button btn btn-danger" (click)="removeMessage(message.id)"><i class="fa fa-trash" aria-hidden="true"> Usuń</i></button></div>
+style="overflow-y: auto; overflow-x: hidden; border-bottom: 1px solid white; max-height: 300px;"
+[scrollTop]="scrolltop">
+    <div class="row mb-2 mt-3"
+    #scrollMe
+        style="overflow-y: auto; overflow-x: none; border-bottom: 1px solid white; max-height: 200px;"
+        [scrollTop]="scrolltop"
+        *ngFor="let message of messages"
+        >
+        <div class="col-3 col-lg-2 mb-2"><app-user-card [user]="message.senderName"></app-user-card></div>
+        <div class="col-3 col-lg-2"><a routerLink='/uzytkownicy/{{message.senderName}}'>{{message.senderName}}</a></div>
+        <div class="col-6 col-lg-2">{{message.senderEmail}}</div>
+        <div class="col-3" id="subject">Temat: </div>
+        <div class="col-7 col-lg-2">{{getSubject(message.subject)}}</div>
+        <div class="col-3 mb-3" id="content">Treść: </div>
+        <div class="col-6 col-lg-2 mb-3" id="messageContent">{{message.message}}</div>
+        <div class="col-3 col-lg-2"><button class="button btn btn-danger" (click)="removeMessage(message.id)"><i class="fa fa-trash" aria-hidden="true"> Usuń</i></button></div>
+    </div>
 </div>
+
 <div class="row"> </div>
 <br>
 <div class="row">

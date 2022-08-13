@@ -1,6 +1,6 @@
 <a routerLink="/meme/{{meme.id}}/{{convertText(meme?.title) || convertText('Jakieś gówno')}}">
     <h4 class="card-title text-center mb-4 mt-3"> 
-        {{meme.title || 'Jakieś gówno'}} {{meme.id}}
+        {{meme.title || 'Jakieś gówno'}}
     </h4>
     </a>
 <div *ngIf="meme?.url?.includes('youtube')">

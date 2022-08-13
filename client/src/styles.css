@@ -6,7 +6,9 @@
   }
   
   .nav-tabs > li.open, .member-tabset > .nav-tabs > li:hover {
-    border-bottom: 4px solid #fbcdcf;
+    border-bottom: 2px solid #fbcdcf;
+    background-color: rgb(70, 69, 69);
+    border-radius: 4px 4px 0px 0px;
   }
   
   .member-tabset > .nav-tabs > li.open > a, .member-tabset > .nav-tabs > li:hover > a {
@@ -24,22 +26,22 @@
   }
   
   .member-tabset > .nav-tabs > li.active {
-    border-bottom: 4px solid #E95420;
+    border-bottom: 1px solid #e02117;
     border-radius: 8px 8px 0px 0px;
     position: relative;
-    background-color: green;
+    background-color: black;
   }
 
   .member-tabset > .nav-tabs > li.active:hover {
-    background-color: black !important;
+
     border-radius: 8px 8px 0px 0px;
     color: red !important;
   }
   
   .member-tabset > .nav-tabs > li.active > a {
     border: 0 !important;
-    color: yellow !important;
-    background-color: rgb(21, 90, 21) !important;
+    color: white !important;
+    background-color: black !important;
   }
   
   .member-tabset > .nav-tabs > li.active > a > i {
