@@ -12,15 +12,15 @@
         <div *ngIf="meme?.url?.includes('youtube')">
             <iframe width="450" height="400" [src]="trustedUrl | safe"></iframe>
         </div>
-        <img src="{{addImageWatermark(meme.url) ? addImageWatermark(meme.url) : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme.url)" style="max-width: 400px;"/>
+        <img src="{{meme.url}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme.url)" style="max-width: 400px;"/>
         <video src="{{meme.url}}" class="card-img-top" *ngIf="!checkURL(meme?.url) && !meme?.url?.includes('https://www.youtube')" style="max-width: 400px;" controls></video>
     </div>
     <div class="mb-3">
-        <span class="text-center" id="container">
-            <span class="inline-block">
-                autor: <a class="nav-link" routerLink='/members/{{meme.username}}' style="color: greenyellow !important">{{meme.username}}</a>
+        <div class="text-center mb-2" id="container">
+            <span class="inline text-left">
+                autor: <a class="nav-link" routerLink='/uzytkownicy/{{meme.username}}' style="color: greenyellow !important" class="inline">{{meme.username}}</a>
             </span>
-        </span>
+        </div>
         <span class="btn btn-primary mr-2" style="min-width: 100px;">{{meme.numberOfLikes}}</span>
     </div>
 </div>
