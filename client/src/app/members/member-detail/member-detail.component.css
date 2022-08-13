@@ -76,6 +76,10 @@ tabset {
     background: #555;
   }
 
+  #likeButton {
+    margin-left: 10px !important;
+  }
+
   @media screen and (max-width: 700px) {
   
     .card-body {
@@ -107,5 +111,9 @@ tabset {
 
     #tabs {
       font-size: 12px !important;
+    }
+
+    #likeButton {
+      margin-left: 5px !important;
     }
 }

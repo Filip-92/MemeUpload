@@ -45,7 +45,7 @@
             </div>
             <div class="mb-3">
                 <i class="fa fa-plus mr-2"></i>Ilość plusów: <span style="color: greenyellow">{{ numberOfLikes }}</span>
-                <button id="likeButton" (click)="addLike(member)" class="btn btn-success mb-3 ml-2" [ngStyle]="!liked ? { 'color': 'white' } : { 'background-color': 'green !important', 'color': 'green' }"><i class="fa fa-plus"></i></button>
+                <button id="likeButton" (click)="addLike(member)" class="btn btn-success mb-3" [ngStyle]="!liked ? { 'color': 'white' } : { 'background-color': 'green !important', 'color': 'green' }"><i class="fa fa-plus"></i></button>
             </div>
             <div class="mb-3">
                 <i class="fa fa-comment mr-2"></i>Ilość komentarzy: <span style="color: greenyellow">{{ comments?.length + replies?.length || '0' }}</span>
