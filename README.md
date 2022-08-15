@@ -6,6 +6,7 @@ The app is built using .Net Core and Angular, converted to mobile app due to usa
 App features are:
 * register new user's account
 * login to user's account
+* forgot password
 * upload memes in the following formats:
   - images: .jpg, .png, .gif
   - videos: .mp4
