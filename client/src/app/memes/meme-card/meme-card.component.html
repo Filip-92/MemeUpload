@@ -76,7 +76,7 @@
                     [image]="'https://res.cloudinary.com/duj1ftjtp/image/upload/v1659265449/epctjzlewpy4ik1ez88i.jpg'"
                     url="https://ddmemes.herokuapp.com/meme/{{meme.id}}/{{ convertText(meme.title) }}"
                     description="Daily Dose Of Memes - Ty też możesz dać z siebie 30%"
-                    title="{{meme.title}}"
+                    title="{{convertText(meme?.title)}}"
                     class="pt-3">
                   </share-buttons>
                 </div>

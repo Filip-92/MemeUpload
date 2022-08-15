@@ -340,4 +340,9 @@ export class MemeDetailComponent implements OnInit {
     modalRef.componentInstance.meme = meme;
     modalRef.componentInstance.modalRef = modalRef;
   }
+
+  convertText(title: string) {
+    var result = title?.toLowerCase().split(' ').join('-').normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+    return result;
+  }
 }
