@@ -1,4 +1,5 @@
 ![DDMemes](https://user-images.githubusercontent.com/75435412/184633094-60af15ec-6fd2-4dfb-985c-7a18a63bfa99.PNG)
+
 Welcome to DDMemes, an app designed to upload and share memes with other users. 
 The app is built using .Net Core and Angular, converted to mobile app due to usage of PWA technology.
 
