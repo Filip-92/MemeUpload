@@ -15,7 +15,7 @@
                     [showText]="true"
                     [autoSetMeta]="false"
                     image="https://res.cloudinary.com/duj1ftjtp/image/upload/v1659265449/epctjzlewpy4ik1ez88i.jpg"
-                    url="{{router?.url}}"
+                    url="{{convertedUrl.replace('%c5%82', 'l').replace('%C5%82', 'l')}}"
                     title="{{convertText(meme?.title)}}"
                     description="Daily Dose Of Memes - Ty też możesz dać z siebie 30%">
                   </share-buttons>
@@ -51,8 +51,8 @@
         <div class="mb-2">
             <span *appHasRole='["Admin", "Moderator"]' class="mr-2">
                 <span id="division" *ngIf="division !== null && meme?.division !== 0" [ngStyle]="division?.isCloseDivision ? { 'color': 'red' } : { 'color': 'yellow' }" (click)="openDivisionModal(meme)" style="cursor: pointer;">{{division?.name}}</span>
-                <span id="division" *ngIf="!meme.isMain && division === null || !meme.isMain && meme.division === 0" (click)="openDivisionModal(meme)" style="cursor: pointer; font-size: 12px;">Poczekalnia</span>
-                <span id="division" *ngIf="division === null && meme.isMain || meme.division === 0 && meme.isMain" (click)="openDivisionModal(meme)" style="cursor: pointer; font-size: 12px;">Główna</span>
+                <span id="division" *ngIf="!meme?.isMain && division === null || !meme?.isMain && meme?.division === 0" (click)="openDivisionModal(meme)" style="cursor: pointer; font-size: 12px;">Poczekalnia</span>
+                <span id="division" *ngIf="division === null && meme?.isMain || meme?.division === 0 && meme?.isMain" (click)="openDivisionModal(meme)" style="cursor: pointer; font-size: 12px;">Główna</span>
             </span>
             <button class="btn btn-info mr-2" *ngIf="meme?.isMain"><i class="fa fa-share mr-2"></i>Share</button>
             <button *appHasRole='["Admin", "Moderator"]' class="btn btn-danger" (click)='rejectMeme(meme?.id)'><i class="fa fa-trash"></i> Usuń</button>

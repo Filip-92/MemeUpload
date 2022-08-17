@@ -60,6 +60,7 @@ export class MemeDetailComponent implements OnInit {
   division: any;
   favouriteMemes: Meme[];
   mainMemes: number;
+  convertedUrl: string;
 
   constructor(private memeService: MemeService,
     private route: ActivatedRoute, private toastr: ToastrService, private helper: HelperService, 
@@ -82,6 +83,7 @@ export class MemeDetailComponent implements OnInit {
     this.getMeme(this.id);
     this.getComments(this.id);
     this.getNumberOfComments(this.id);
+    this.convertedUrl = this.convertUrl(this.router?.url);
   }
 
   getMeme(memeId: number) {
@@ -341,8 +343,13 @@ export class MemeDetailComponent implements OnInit {
     modalRef.componentInstance.modalRef = modalRef;
   }
 
+  convertUrl(title: string) {
+    var result = title.replace("%c5%82", "l").replace("%C5%82", "l").replace("ł", "l");
+    return result;
+  }
+
   convertText(title: string) {
-    var result = title?.toLowerCase().split(' ').join('-').normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+    var result = title?.toLowerCase().split(' ').join('-').normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace("%c5%82", "l").replace("%C5%82", "l").replace("ł", "l");
     return result;
   }
 }

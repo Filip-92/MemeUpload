@@ -179,7 +179,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   }
 
   convertText(title: string) {
-    var result = title?.toLowerCase().split(' ').join('-').normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+    var result = title?.toLowerCase().split(' ').join('-').normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace("%c5%82", "l").replace("%C5%82", "l").replace("ł", "l");
     return result;
   }
 
