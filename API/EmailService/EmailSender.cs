@@ -38,7 +38,7 @@ namespace EmailService
             emailMessage.To.AddRange(message.To);
             emailMessage.Subject = message.Subject;
 
-            var bodyBuilder = new BodyBuilder { HtmlBody = string.Format("<div class='text-center'><h2 style='color: green; font-size: 24px; font-family:'Times New Roman''><strong>Link do zmiany hasła</strong></h2><br /><img src='https://res.cloudinary.com/duj1ftjtp/image/upload/v1653746824/logo_gimp_-_new_ucilaf.png' style='margin-bottom: 20px;' alt='logo><br /><p style='font-size: 20px; margin-top: 10px;'>{0}</p></div>", message.Content) };
+            var bodyBuilder = new BodyBuilder { HtmlBody = string.Format("<div class='text-center'><h2 style='color: green; font-size: 24px; font-family:'Times New Roman''><strong>Link do zmiany hasła</strong></h2><br /><img src='https://res.cloudinary.com/duj1ftjtp/image/upload/v1661117427/logo_gimp_-_watermark.png' style='margin-bottom: 20px;' alt='logo><br /><p style='font-size: 20px; margin-top: 10px;'>{0}</p></div>", message.Content) };
 
             if (message.Attachments != null && message.Attachments.Any())
             {
