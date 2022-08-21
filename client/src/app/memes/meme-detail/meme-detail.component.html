@@ -31,7 +31,7 @@
             <div *ngIf="meme?.url?.includes('youtube') || meme?.url?.includes('you.tube') && meme?.url?.length < 1000">
                 <iframe width="600" height="400" [src]="trustedUrl | safe" allowfullscreen></iframe>
             </div>
-                <img src="{{addImageWatermark(meme?.url) ? addImageWatermark(meme?.url) : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme?.url) && !meme?.url?.includes('youtube-nocookie') && meme?.url?.length < 1000"/>
+                <img src="{{meme?.url ? meme?.url : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme?.url) && !meme?.url?.includes('youtube-nocookie') && meme?.url?.length < 1000"/>
                 <img src="{{meme?.url}}" class="card-img-top col-sm-6" *ngIf="meme?.url?.length > 1000 && !meme?.url?.includes('youtube-nocookie')"/>
             <video src="{{meme?.url}}" class="card-img-top" *ngIf="!checkURL(meme?.url) && !meme?.url?.includes('youtube-nocookie') && meme?.url?.length < 1000" controls></video>
         </div>
