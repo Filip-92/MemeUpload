@@ -26,7 +26,7 @@
                             <iframe width="600" height="400" [src]="trustedUrl | safe" allowfullscreen></iframe>
                         </div>
                         <a routerLink="/meme/{{meme.id}}/{{ convertText(meme?.title) || convertText('Jakieś gówno')}}">
-                            <img src="{{meme.url ? meme.url : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme.url) && !meme?.url?.includes('youtube-nocookie') && meme?.url?.length < 1000"/>
+                            <img src="{{meme?.url ? meme?.url : onErrorFunction()}}" class="card-img-top col-sm-6" onError="this.src='https://memegenerator.net/img/images/14687350.jpg'" *ngIf="checkURL(meme.url) && !meme?.url?.includes('youtube-nocookie') && meme?.url?.length < 1000"/>
                         </a>
                         <!-- <a routerLink="/meme/{{meme.id}}/{{ convertText(meme?.title) || convertText('Jakieś gówno')}}" *ngIf="meme?.url?.length > 1000" class="example">
                             <img [src]="transformImage()" class="card-img-top col-sm-6" *ngIf="meme?.url?.length > 1000 && !meme?.url?.includes('youtube-nocookie')"/>

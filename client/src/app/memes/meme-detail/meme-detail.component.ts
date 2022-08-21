@@ -92,11 +92,11 @@ export class MemeDetailComponent implements OnInit {
       if(this.meme?.division !== 0) {
         this.getDivisionNameById(this.meme?.division);
       }
-      if(this.checkURL(this.meme.url)) {
+      if(this.checkURL(this?.meme?.url)) {
         var img = new Image();
-        img.src = this.meme.url;
-        var logoWidth = 0.25 * img.width;
-        this.meme.url = this.addImageWatermark(this.meme.url, logoWidth);
+        img.src = this?.meme?.url;
+        var logoWidth = 0.25 * img?.width;
+        this.meme.url = this.addImageWatermark(this.meme?.url, logoWidth);
       }
       this.id = meme.id;
       if (this.meme?.url?.includes("youtube") || this.meme?.url?.includes("youtu.be")) {

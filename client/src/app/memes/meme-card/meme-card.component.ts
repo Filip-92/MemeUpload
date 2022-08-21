@@ -67,11 +67,11 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   ngOnInit(): void {
     // temporary solution for incorrect timezone
     this.getNumberOfComments(this.meme.id);
-    if(this.checkURL(this.meme.url)) {
+    if(this.checkURL(this?.meme?.url)) {
       var img = new Image();
-      img.src = this.meme.url;
-      var logoWidth = 0.25 * img.width;
-      this.meme.url = this.addImageWatermark(this.meme.url, logoWidth);
+      img.src = this?.meme?.url;
+      var logoWidth = 0.25 * img?.width;
+      this.meme.url = this.addImageWatermark(this.meme?.url, logoWidth);
     }
     if(this.meme?.url?.includes("youtube") || this.meme?.url?.includes("youtu.be")) {
       this.trustedUrl = this.meme?.url;
@@ -199,9 +199,9 @@ export class MemeCardComponent implements OnInit, PipeTransform {
   }
 
   addImageWatermark(imageUrl: string, logoWidth: any) {
-    var watermarkedUrl = imageUrl.replace("/upload/", "/upload/l_Watermark_image,o_50,w_200,c_scale,g_south_east/");
+    var watermarkedUrl = imageUrl?.replace("/upload/", "/upload/l_Watermark_image,o_50,w_200,c_scale,g_south_east/");
     if (logoWidth !== 0) {
-      watermarkedUrl = imageUrl.replace("/upload/", "/upload/l_Watermark_image,o_50,w_" + logoWidth + ",c_scale,g_south_east/");
+      watermarkedUrl = imageUrl?.replace("/upload/", "/upload/l_Watermark_image,o_50,w_" + logoWidth + ",c_scale,g_south_east/");
       return watermarkedUrl;
     } else if (logoWidth === 0) {
       return watermarkedUrl;
