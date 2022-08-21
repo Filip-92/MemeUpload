@@ -17,17 +17,13 @@ export class AppComponent implements OnInit {
   users: any;
 
   constructor(private accountService: AccountService, private presence: PresenceService,
-    private http: HttpClient, private intl: TimeagoIntl, private spinner: NgxSpinnerService) {
+    private http: HttpClient, private intl: TimeagoIntl) {
       intl.strings = stringsPL;
       intl.changes.next();
     }
 
   ngOnInit() {
     this.setCurrentUser();
-    this.spinner.show();
-    setTimeout(() => {
-      this.spinner.hide();
-    }, 2000);
   }
 
   setCurrentUser() {
@@ -37,12 +33,5 @@ export class AppComponent implements OnInit {
       this.presence.createHubConnection(user);
     }
 
-  }
-
-  showSpinner() {
-    this.spinner.show();
-    setTimeout(() => {
-      this.spinner.hide();
-    }, 3000);
   }
 }
