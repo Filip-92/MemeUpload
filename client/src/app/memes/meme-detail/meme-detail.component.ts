@@ -214,8 +214,9 @@ export class MemeDetailComponent implements OnInit {
     if (logoWidth !== 0) {
       watermarkedUrl = imageUrl.replace("/upload/", "/upload/l_Watermark_image,o_50,w_" + logoWidth + ",c_scale,g_south_east/");
       return watermarkedUrl;
+    } else if (logoWidth === 0) {
+      return watermarkedUrl;
     }
-    return watermarkedUrl;
   }
 
   getNumberOfComments(memeId: number) {
