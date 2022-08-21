@@ -71,7 +71,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
       var img = new Image();
       img.src = this?.meme?.url;
       var logoWidth = 0.25 * img?.width;
-      this.meme.url = this.addImageWatermark(this.meme?.url, logoWidth);
+      this.meme.url = this.addImageWatermark(this.meme?.url);
     }
     if(this.meme?.url?.includes("youtube") || this.meme?.url?.includes("youtu.be")) {
       this.trustedUrl = this.meme?.url;
@@ -198,14 +198,9 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     return uploadedDate;
   }
 
-  addImageWatermark(imageUrl: string, logoWidth: any) {
+  addImageWatermark(imageUrl: string) {
     var watermarkedUrl = imageUrl?.replace("/upload/", "/upload/l_Watermark_image,o_50,w_200,c_scale,g_south_east/");
-    if (logoWidth !== 0) {
-      watermarkedUrl = imageUrl?.replace("/upload/", "/upload/l_Watermark_image,o_50,w_" + logoWidth + ",c_scale,g_south_east/");
       return watermarkedUrl;
-    } else if (logoWidth === 0) {
-      return watermarkedUrl;
-    }
   }
 
   getNumberOfComments(memeId: number) {
