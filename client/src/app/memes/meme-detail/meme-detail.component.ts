@@ -210,7 +210,7 @@ export class MemeDetailComponent implements OnInit {
     var img = new Image();
     img.src = this.meme.url;
     var logoWidth = 0.25 * img.width;
-    var watermarkedUrl = imageUrl.replace("/upload/", "/upload/l_Watermark_image,o_50,w_" + logoWidth + ",c_scale,g_south_east/");
+    var watermarkedUrl = imageUrl.replace("/upload/", "/upload/l_Watermark_image,o_50,w_0.3,c_scale,g_south_east/");
     return watermarkedUrl;
   }
 
