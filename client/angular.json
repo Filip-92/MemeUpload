@@ -31,6 +31,7 @@
               "./node_modules/ngx-toastr/toastr.css",
               "./node_modules/ngx-sharebuttons/themes/circles.scss",
               "./node_modules/ngx-sharebuttons/themes/modern.scss",
+              "./node_modules/@nebular/theme/styles/prebuilt/default.css",
               "src/styles.css"
             ],
             "scripts": ["./node_modules/jquery/dist/jquery.js"],

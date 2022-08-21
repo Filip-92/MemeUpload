@@ -87,6 +87,11 @@ import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 import { MemeUploadBase64Component } from './memes/meme-upload-base64/meme-upload-base64.component';
 import { PhotoEditorBase64Component } from './members/photo-editor-base64/photo-editor-base64.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import {
+  NbThemeModule,
+  NbLayoutModule,
+  NbButtonModule
+} from '@nebular/theme';
 
 @NgModule({
   declarations: [
@@ -169,6 +174,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     RecaptchaFormsModule,
     ShareButtonsModule,
     ShareIconsModule,
+    NbThemeModule.forRoot(),
+    NbLayoutModule,
+    NbButtonModule,
     TimeagoModule.forRoot({formatter: { provide: 
       TimeagoFormatter, useClass: TimeagoCustomFormatter },}),
     RouterModule.forRoot([

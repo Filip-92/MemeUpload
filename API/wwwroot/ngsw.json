@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1660824484109,
+  "timestamp": 1661085638833,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -11,15 +11,15 @@
         "ignoreVary": true
       },
       "urls": [
-        "/82.e1ee5d1d57099e32.js",
+        "/82.113521804b623689.js",
         "/favicon.ico",
         "/index.html",
-        "/main.1d8ef9faec643f8b.js",
+        "/main.3b5476aff6b634d5.js",
         "/manifest.webmanifest",
         "/polyfills.a3ccbb1e57e1f285.js",
-        "/runtime.199bc7cce91c8fbf.js",
+        "/runtime.630a33d7d7c203da.js",
         "/scripts.8f8a7b64d99526ea.js",
-        "/styles.1b92cef41af81334.css"
+        "/styles.a7e2e2cf573738c8.css"
       ],
       "patterns": []
     },
@@ -65,7 +65,7 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/82.e1ee5d1d57099e32.js": "7588d3bbe8e396409cb665f7189353d64d30abe7",
+    "/82.113521804b623689.js": "42ccc53a1b435c476ec1384052c463bb8f5d6fd5",
     "/assets/2048px-2-Dice-Icon.svg.png": "b78c261b4e5eb1c6069b585ec4ddd51fdfc1761a",
     "/assets/Farewell.png": "f8784ceb794e7cff21d803730960550db8a60ba2",
     "/assets/LogoImage.png": "256c6fe004d86fccd11410ae8175878ad7dbb89e",
@@ -95,13 +95,13 @@
     "/fontawesome-webfont.cf011583fb81df9f.woff": "28b782240b3e76db824e12c02754a9731a167527",
     "/fontawesome-webfont.da909aa098b0ee2d.svg": "98a8aa5cf7d62c2eff5f07ede8d844b874ef06ed",
     "/fontawesome-webfont.e9955780856cf8aa.woff2": "d6f48cba7d076fb6f2fd6ba993a75b9dc1ecbf0c",
-    "/index.html": "89faf8469254833ef98b54bbc7f0c602dc1a1edd",
-    "/main.1d8ef9faec643f8b.js": "8a17467ef51e4e41cb1c658d2d04c986b3b9d3b3",
+    "/index.html": "f5cf0cd9c41d9918aa02648622133345f891b08c",
+    "/main.3b5476aff6b634d5.js": "dab9b69f1664d532541641cb10c34a470b98acc2",
     "/manifest.webmanifest": "862bdf68fbd3a4b94530ca07b235c3e54840cca6",
     "/polyfills.a3ccbb1e57e1f285.js": "3e2762832e394331b746172eab8d4f0219431b68",
-    "/runtime.199bc7cce91c8fbf.js": "c80e83e0837e86016ca4a46f66ad5ccf01dac71a",
+    "/runtime.630a33d7d7c203da.js": "302794bcb6ffbc59baaeb01389f9b57871b911cf",
     "/scripts.8f8a7b64d99526ea.js": "f026b2ca689560dc9ec1b89ce935d7714247c7da",
-    "/styles.1b92cef41af81334.css": "bb351bbbce71b9eb13d1492e81f4597e277996d8"
+    "/styles.a7e2e2cf573738c8.css": "f5ba56df209614af8c66330e40d6c60262c8931a"
   },
   "navigationUrls": [
     {
