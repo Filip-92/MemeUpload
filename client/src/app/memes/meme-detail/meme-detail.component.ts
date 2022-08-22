@@ -95,8 +95,7 @@ export class MemeDetailComponent implements OnInit {
       if(this.checkURL(this?.meme?.url)) {
         var img = new Image();
         img.src = this?.meme?.url;
-        var logoWidth = 0.25 * img?.width;
-        this.meme.url = this.addImageWatermark(this.meme?.url, logoWidth);
+        this.meme.url = this.addImageWatermark(this.meme?.url);
       }
       this.id = meme.id;
       if (this.meme?.url?.includes("youtube") || this.meme?.url?.includes("youtu.be")) {
@@ -212,14 +211,12 @@ export class MemeDetailComponent implements OnInit {
     });
   }
 
-  addImageWatermark(imageUrl: string, imageWidth: any) {
-    // if (imageWidth === 0) {
-    //   var watermarkedUrl = imageUrl?.replace("/image/", ",w_800/image/");
-    //   watermarkedUrl = imageUrl?.replace("/upload/", "/upload/l_Watermark_image,o_50,w_200,c_scale,g_south_east/");
-    // } else {
-    //   var watermarkedUrl = imageUrl?.replace("/image/", ",w_800/image/");
-    var watermarkedUrl = imageUrl?.replace("/upload/", "/upload/l_Watermark_image,o_50,w_0.3,c_scale,g_south_east/");
-    // }
+  addImageWatermark(imageUrl: string) {
+    if (!imageUrl?.includes(".gif")) {
+      var watermarkedUrl = imageUrl?.replace("/upload/", "/upload/w_800/w_0.3,l_Watermark_image,o_50,c_scale,g_south_east/");
+    } else {
+      var watermarkedUrl = imageUrl?.replace("/upload/", "/upload/l_Watermark_image,w_0.3,o_50,c_scale,g_south_east/");
+    }
     return watermarkedUrl;
   }
 

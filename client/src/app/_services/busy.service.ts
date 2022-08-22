@@ -13,6 +13,7 @@ export class BusyService {
     this.busyRequestCount++;
     this.spinnerService.show(undefined, {
       type: 'ball-atom',
+      // type: 'pacman',
       bdColor: 'rgba(255, 255, 255, 0)',
       color: '#ffffff'
     });
