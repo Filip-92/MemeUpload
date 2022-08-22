@@ -70,8 +70,10 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     if(this.checkURL(this?.meme?.url)) {
       var img = new Image();
       img.src = this?.meme?.url;
-      var logoWidth = 0.25 * img?.width;
-      this.meme.url = this.addImageWatermark(this.meme?.url);
+      if (img?.width !== 0) {
+        console.log(img?.width);
+      }
+      this.meme.url = this.addImageWatermark(this.meme?.url, img?.width);
     }
     if(this.meme?.url?.includes("youtube") || this.meme?.url?.includes("youtu.be")) {
       this.trustedUrl = this.meme?.url;
@@ -198,9 +200,16 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     return uploadedDate;
   }
 
-  addImageWatermark(imageUrl: string) {
-    var watermarkedUrl = imageUrl?.replace("/upload/", "/upload/l_Watermark_image,o_50,w_200,c_scale,g_south_east/");
-      return watermarkedUrl;
+  addImageWatermark(imageUrl: string, imageWidth: any) {
+    console.log(imageUrl);
+    if (imageWidth === 0) {
+      var watermarkedUrl = imageUrl?.replace("/image/", ",w_800/image/");
+      watermarkedUrl = imageUrl?.replace("/upload/", "/upload/l_Watermark_image,o_50,w_200,c_scale,g_south_east/");
+    } else {
+      var watermarkedUrl = imageUrl?.replace("/image/", ",w_800/image/");
+      watermarkedUrl = imageUrl?.replace("/upload/", "/upload/l_Watermark_image,o_50,w_" + 0.25 * imageWidth + ",c_scale,g_south_east/");
+    }
+    return watermarkedUrl;
   }
 
   getNumberOfComments(memeId: number) {
