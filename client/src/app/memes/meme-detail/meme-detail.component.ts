@@ -213,14 +213,13 @@ export class MemeDetailComponent implements OnInit {
   }
 
   addImageWatermark(imageUrl: string, imageWidth: any) {
-    console.log(imageUrl);
-    if (imageWidth === 0) {
-      var watermarkedUrl = imageUrl?.replace("/image/", ",w_800/image/");
-      watermarkedUrl = imageUrl?.replace("/upload/", "/upload/l_Watermark_image,o_50,w_200,c_scale,g_south_east/");
-    } else {
-      var watermarkedUrl = imageUrl?.replace("/image/", ",w_800/image/");
-      watermarkedUrl = imageUrl?.replace("/upload/", "/upload/l_Watermark_image,o_50,w_" + 0.25 * imageWidth + ",c_scale,g_south_east/");
-    }
+    // if (imageWidth === 0) {
+    //   var watermarkedUrl = imageUrl?.replace("/image/", ",w_800/image/");
+    //   watermarkedUrl = imageUrl?.replace("/upload/", "/upload/l_Watermark_image,o_50,w_200,c_scale,g_south_east/");
+    // } else {
+    //   var watermarkedUrl = imageUrl?.replace("/image/", ",w_800/image/");
+    var watermarkedUrl = imageUrl?.replace("/upload/", "/upload/l_Watermark_image,o_50,w_0.4,c_scale,g_south_east/");
+    // }
     return watermarkedUrl;
   }
 
