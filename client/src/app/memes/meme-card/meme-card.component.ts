@@ -207,7 +207,7 @@ export class MemeCardComponent implements OnInit, PipeTransform {
     //   watermarkedUrl = imageUrl?.replace("/upload/", "/upload/l_Watermark_image,o_50,w_200,c_scale,g_south_east/");
     // } else {
     //   var watermarkedUrl = imageUrl?.replace("/image/", ",w_800/image/");
-    var watermarkedUrl = imageUrl?.replace("/upload/", "/upload/l_Watermark_image,o_50,w_" + 0.25 * imageWidth + ",c_scale,g_south_east/");
+    var watermarkedUrl = imageUrl?.replace("/upload/", "/upload/l_Watermark_image,o_50,w_0.3,c_scale,g_south_east/");
     // }
     return watermarkedUrl;
   }
