@@ -48,6 +48,10 @@ button {
     #show {
       display: inline !important;
     }
+
+    .card {
+      margin-top: -20px !important;
+    }
   }
 
   @media screen and (max-width: 800px) {
