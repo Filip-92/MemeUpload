@@ -1,4 +1,4 @@
-<div *ngIf="!hidden">
+<div *ngIf="!hidden && accountService.currentUser$ | async">
     <div class="card" *ngFor="let announ of announcement">
         <div style="border: 1px solid white; padding: 5px;" class="text-right mb-2">
             <i class="fa fa-times text-right" (click)="hideAnnouncement(announ.id)"></i>

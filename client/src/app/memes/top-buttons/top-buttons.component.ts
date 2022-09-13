@@ -42,7 +42,9 @@ export class TopButtonsComponent implements OnInit {
   ngOnInit(): void {
     this.getRandomMeme();
     this.checkForDivision();
-    this.getAnnouncement();
+    if ("user" in localStorage) {
+      this.getAnnouncement();
+    }
   }
 
   getRandomMeme() {
