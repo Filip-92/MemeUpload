@@ -6,6 +6,13 @@ input[type=text] {
     margin-right: auto;
 }
 
+textarea {
+    border-radius: 8px;
+    background-color: gray;
+    margin-bottom: -15px !important;
+    color: whitesmoke !important;
+}
+
 ::placeholder {
     color: whitesmoke;
 }
@@ -47,6 +54,20 @@ input {
 
     .row {
         font-size: 12px !important;
+    }
+}
+
+#addAnnoun {
+    font-size: 13px !important;
+}
+
+@media screen and (max-width: 1000px) {
+    .btn {
+        font-size: 10px !important;
+    }
+
+    #addAnnoun {
+        font-size: 10px !important;
     }
 }
 

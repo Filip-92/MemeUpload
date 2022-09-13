@@ -386,6 +386,55 @@ namespace API.Controllers
         }
 
         [Authorize(Policy = "RequireAdminRole")]
+        [HttpGet("announcement")]
+        public async Task<ActionResult> GetAnnouncement()
+        {
+            var announcement = await _unitOfWork.UserRepository.GetAnnouncement();
+
+            return Ok(announcement);
+        }
+
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpPost("add-announcement")]
+        public async Task<ActionResult<AnnouncementDto>> AddAnnouncement(AnnouncementDto announcementDto)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+
+            var announcement = new Announcement
+            {
+                Id = announcementDto.Id,
+                Content = announcementDto.Content
+            };
+
+            user.Announcement.Add(announcement);
+
+            if (await _unitOfWork.Complete()) 
+            {
+                return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<AnnouncementDto>(announcement));
+            }
+
+            return BadRequest("Problem z dodawaniem ogłoszenia");
+        }
+
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpPost("remove-announcement/{announcementId}")]
+        public async Task<ActionResult<Announcement>> RemoveAnnouncement(int announcementId)
+        {
+            var announcement = await _unitOfWork.MemeRepository.GetAnnouncementById(announcementId);
+
+            if (announcement == null) return NotFound("Nie znaleziono ogłoszenia");
+
+            _unitOfWork.MemeRepository.RemoveAnnouncement(announcement);
+
+            if (await _unitOfWork.Complete()) 
+            {
+                return Ok();
+            }
+
+            return BadRequest("Problem z usunięciem działu");
+        }
+
+        [Authorize(Policy = "RequireAdminRole")]
         [HttpPost("add-division")]
         public async Task<ActionResult<DivisionDto>> AddDivision(DivisionDto divisionDto)
         {

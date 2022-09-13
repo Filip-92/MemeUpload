@@ -576,5 +576,17 @@ namespace API.Data
         {
             _context.Divisions.Remove(division);
         }
+
+        public async Task<Announcement> GetAnnouncementById(int announcementId)
+        {
+            return await _context.Announcement
+                .IgnoreQueryFilters()
+                .SingleOrDefaultAsync(x => x.Id == announcementId);
+        }
+
+        public void RemoveAnnouncement(Announcement announcement)
+        {
+            _context.Announcement.Remove(announcement);
+        }
     }
 }

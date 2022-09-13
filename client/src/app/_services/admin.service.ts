@@ -108,4 +108,12 @@ export class AdminService {
   switchDivisions(model: any, memeId: number) {
     return this.http.put(this.baseUrl + 'admin/switch-divisions/' + memeId, model);
   }
+
+  addAnnouncement(model: any) {
+    return this.http.post(this.baseUrl + 'admin/add-announcement/', model);
+  }
+
+  removeAnnouncement(announcementId: number) {
+    return this.http.post(this.baseUrl + 'admin/remove-announcement/' + announcementId, {});
+  }
 }

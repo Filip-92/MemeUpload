@@ -244,5 +244,12 @@ namespace API.Data
                 .IgnoreQueryFilters()
                 .SingleOrDefaultAsync(x => x.Id == id);
         }
+
+        public async Task<IEnumerable<Announcement>> GetAnnouncement()
+        {
+            return await _context.Announcement
+                        .IgnoreQueryFilters()
+                        .ToListAsync();
+        }
     }
 }

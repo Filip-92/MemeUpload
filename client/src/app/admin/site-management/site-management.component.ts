@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Announcement } from 'src/app/_models/announcement';
 import { ContactFormMessages } from 'src/app/_models/contactFormMessages';
 import { Division } from 'src/app/_models/division';
 import { AdminService } from 'src/app/_services/admin.service';
@@ -14,7 +15,9 @@ import { MemeService } from 'src/app/_services/meme.service';
 export class SiteManagementComponent implements OnInit {
   messages: ContactFormMessages[];
   divisions: Division[];
+  announcement: any;
   divisionForm: UntypedFormGroup;
+  announcementForm: UntypedFormGroup;
   validationErrors: string[] = [];
   scrolltop: number=null;
 
@@ -25,6 +28,7 @@ export class SiteManagementComponent implements OnInit {
     this.getContactFormMessages();
     this.getDivisions();
     this.initializeForm();
+    this.getAnnouncement();
   }
 
   getSubject(id: number) {
@@ -52,6 +56,9 @@ export class SiteManagementComponent implements OnInit {
       name: ['', [Validators.required, Validators.maxLength(20)]],
       isCloseDivision: ['0', [Validators.required]]
     })
+    this.announcementForm = this.fb.group({
+      content: ['', [Validators.required, Validators.maxLength(200)]]
+    })
   }
 
   getDivisions() {
@@ -75,6 +82,22 @@ export class SiteManagementComponent implements OnInit {
     })
   }
 
+  getAnnouncement() {
+    this.memeService.getAnnouncement().subscribe(announcement => {
+      this.announcement = announcement;
+    })
+  }
+
+  addAnnouncement() {
+    this.adminService.addAnnouncement(this.announcementForm.value).subscribe(response => {
+      this.toastr.success('Pomyślnie dodano ogłoszenie');
+      this.announcementForm.reset();
+      this.getAnnouncement();
+    }, error => {
+      this.validationErrors = error;
+    })
+  }
+
   removeMessage(messageId: number) {
     this.adminService.removeMessage(messageId).subscribe(() => {
       this.messages.splice(this.messages.findIndex(p => p.id === messageId), 1);
@@ -86,6 +109,12 @@ export class SiteManagementComponent implements OnInit {
       this.divisions.splice(this.divisions.findIndex(p => p.id === divisionId), 1);
     })
     this.getDivisions();
+  }
+
+  removeAnnouncement(announcementId: number) {
+    this.adminService.removeAnnouncement(announcementId).subscribe(() => {
+      this.announcement.splice(this.announcement.findIndex(p => p.id === announcementId), 1);
+    })
   }
 
 }

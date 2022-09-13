@@ -1,3 +1,12 @@
+<div *ngIf="!hidden">
+    <div class="card" *ngFor="let announ of announcement">
+        <div style="border: 1px solid white; padding: 5px;" class="text-right mb-2">
+            <i class="fa fa-times text-right" (click)="hideAnnouncement(announ.id)"></i>
+            <div class="text-center mb-2">{{announ.content}}</div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
     <button id="addMeme" (click)="addMeme()" class="btn col-12 col-lg-3">
         <i class="fa fa-plus mr-1"></i><i class="fa fa-picture-o mr-2"></i>Dodaj memesa <span style="font-weight: bold;">( ͡° ͜ʖ ͡°)</span>

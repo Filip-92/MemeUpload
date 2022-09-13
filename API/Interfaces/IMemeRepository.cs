@@ -41,5 +41,7 @@ namespace API.Interfaces
          Task<DivisionDto> GetDivisionIdByName(string name);
          Task<Division> GetDivisionById(int id);
          void RemoveDivision(Division division);
+        Task<Announcement> GetAnnouncementById(int announcementId);
+        void RemoveAnnouncement(Announcement announcement);
     }
 }

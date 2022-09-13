@@ -14,6 +14,7 @@ import { PaginatedResult, Pagination } from '../_models/pagination';
 import { Photo } from '../_models/photo';
 import { Division } from '../_models/division';
 import { Reply } from '../_models/reply';
+import { Announcement } from '../_models/announcement';
 
 @Injectable({
   providedIn: 'root'
@@ -440,5 +441,9 @@ getMainMemes(page?: number, itemsPerPage?: number) {
         this.replies[index] = reply;
       })
     )
+  }
+
+  getAnnouncement() {
+    return this.http.get<Announcement>(this.baseUrl + 'users/get-announcement');
   }
 }

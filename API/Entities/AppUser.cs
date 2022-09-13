@@ -24,6 +24,7 @@ namespace API.Entities
             LikedComments = new List<CommentLike>();
             LikedReplies = new List<ReplyLike>();
             Favourites = new List<Favourite>();
+            Announcement = new List<Announcement>();
         }
         public DateTime DateOfBirth { get; set; }
         public DateTime Created { get; set; } = DateTime.Now;
@@ -42,6 +43,7 @@ namespace API.Entities
         public ICollection<ReplyLike> LikedReplies { get; set; }
         public ICollection<Favourite> Favourites { get; set; }
         public ICollection<Notifications> Notifications { get; set; }
+        public ICollection<Announcement> Announcement { get; set; }
         public int NumberOfLikes { get; set; } = 0;
         public ICollection<Message> MessagesSent { get; set; }
         public ICollection<Message> MessagesReceived { get; set; }

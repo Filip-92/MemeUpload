@@ -60,4 +60,27 @@ style="overflow-y: auto; overflow-x: hidden; border-bottom: 1px solid white; max
     </div>
 </div>
 
+<div class="row"></div>
+<br>
+<div class="row mb-3" style="border-top: 1px solid white;">
+    <div class="col-12 col-lg-6 mb-3">
+        <h3 class="mb-3 mt-3">Dodaj ogłoszenie</h3>
+        <form [formGroup]='announcementForm' (ngSubmit)="announcementForm.valid && addAnnouncement()" class="text-center column">
+            <div>
+                <textarea type="text" [formControl]='announcementForm.controls["content"]' placeholder="Wpisz treść ogłoszenia" class="col-7"></textarea>
+                <button class="btn btn-success ml-2 col-3" id="addAnnoun" type="submit" [disabled]="!announcementForm.valid">Dodaj ogłoszenie</button>
+            </div>
+            <div *ngIf="announcementForm.controls['content'].errors?.maxlength" class="text-danger">
+                Ogłoszenie zbyt długie
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card" *ngFor="let announ of announcement">
+    <div style="border: 1px solid white; padding: 5px;" class="text-right mt-2">
+        <i class="fa fa-times text-right" (click)="removeAnnouncement(announ.id)"></i>
+        <div class="text-center mb-2">{{announ.content}}</div>
+    </div>
+</div>
 

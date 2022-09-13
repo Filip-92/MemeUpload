@@ -31,6 +31,7 @@ namespace API.Data
         public DbSet<ReplyLike> ReplyLikes { get; set; }
         public DbSet<Favourite> Favourites { get; set; }
         public DbSet<Group> Groups { get; set; }
+        public DbSet<Announcement> Announcement { get; set; }
         public DbSet<Connection> Connections { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -122,6 +123,8 @@ namespace API.Data
                 .HasOne(s => s.SourceUser)
                 .WithMany(l => l.Favourites)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Announcement>();
 
             builder.ApplyUtcDateTimeConverter();
         }

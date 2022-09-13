@@ -30,5 +30,6 @@ namespace API.Interfaces
         Task<ContactForm> GetMessageById(int id);
         void RemoveMessage(ContactForm message);
         Task<AppUser> CheckIfBanned(int id);
+        Task<IEnumerable<Announcement>> GetAnnouncement();
     }
 }

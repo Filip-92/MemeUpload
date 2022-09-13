@@ -263,5 +263,14 @@ namespace API.Controllers
 
             return Ok(user);
         }
+
+        [HttpGet("get-announcement")]
+        [Authorize]
+        public async Task<ActionResult> GetAnnouncement()
+        {
+            var announcement = await _unitOfWork.UserRepository.GetAnnouncement();
+
+            return Ok(announcement);
+        }
     }
 }

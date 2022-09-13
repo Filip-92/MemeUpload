@@ -5,6 +5,7 @@ import { AccountService } from 'src/app/_services/account.service';
 import { MemeService } from 'src/app/_services/meme.service';
 import { take } from 'rxjs/operators';
 import { User } from 'src/app/_models/user';
+import { Announcement } from 'src/app/_models/announcement';
 
 @Component({
   selector: 'app-top-buttons',
@@ -35,10 +36,13 @@ export class TopButtonsComponent implements OnInit {
   };
   addMemeToggle: boolean;
   user: User;
+  announcement: any;
+  hidden: boolean = false;
 
   ngOnInit(): void {
     this.getRandomMeme();
     this.checkForDivision();
+    this.getAnnouncement();
   }
 
   getRandomMeme() {
@@ -66,6 +70,16 @@ export class TopButtonsComponent implements OnInit {
         this.link48H = "/" + url[1] + "/ostatnie48H";
       }
   }
+}
+
+getAnnouncement() {
+  this.memeService.getAnnouncement().subscribe(announcement => {
+    this.announcement = announcement;
+  })
+}
+
+hideAnnouncement(id: number) {
+  this.hidden = true;
 }
 
 }
