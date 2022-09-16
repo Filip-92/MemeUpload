@@ -349,7 +349,12 @@ namespace API.Controllers
 
             user.IsBanned = true;
             user.BanExpiration = DateTime.Now;
-            user.BanExpiration = user.BanExpiration.AddDays(days);
+            if (days <= 30) {
+                user.BanExpiration = user.BanExpiration.AddDays(days);
+            }
+            else if (days > 30) {
+                user.BanExpiration = user.BanExpiration.AddYears(10);
+            }
             user.BanReason = memberDto.BanReason;
 
             var result = await _userManager.UpdateSecurityStampAsync(user);

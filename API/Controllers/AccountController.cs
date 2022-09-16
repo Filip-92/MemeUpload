@@ -12,10 +12,8 @@ using Microsoft.Extensions.Configuration;
 using System.Web;
 using EmailService;
 using Message = EmailService.Message;
-using API.Extensions;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
@@ -95,7 +93,9 @@ namespace API.Controllers
 
             if (user.BanExpiration < DateTime.Now) user.IsBanned = false;
 
-            if (result.Succeeded && user.IsBanned && DateTime.Now < user.BanExpiration) return BadRequest("Zostałeś zbanowany. Termin upływu bana to " + user.BanExpiration);
+            string msg = "Konto zostało zbanowane. " + "Termin upływu bana to " + user.BanExpiration.ToString("dd/MM/yyyy") + " Powód: " + user.BanReason;
+
+            if (result.Succeeded && user.IsBanned && DateTime.Now < user.BanExpiration) return BadRequest(msg);
 
             return new UserDto
             {
