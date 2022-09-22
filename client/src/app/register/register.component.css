@@ -45,6 +45,10 @@ input[type="checkbox"] {
     display: grid;
     place-content: center;
   }
+
+  input[type="checkbox"]:hover {
+    cursor: pointer;
+  }
   
   input[type="checkbox"]::before {
     content: "";
