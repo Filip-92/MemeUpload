@@ -62,3 +62,9 @@ pagination {
   cursor: pointer;
   color: red;
 }
+
+@media screen and (max-width: 800px) {
+  #previous, #next {
+    font-size: 14px !important;
+  }
+}
