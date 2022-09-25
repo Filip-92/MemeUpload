@@ -30,6 +30,8 @@ export class MemeListComponent implements OnInit {
   currentCategory: string;
   podstrona: string;
   user: User;
+  morePaginationSettings: boolean = false;
+  totalItems: number = 0;
 
   constructor(private memeService: MemeService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService,
     private adminService: AdminService, private accountService: AccountService, private modalService: NgbModal) { 
@@ -44,6 +46,7 @@ export class MemeListComponent implements OnInit {
     this.memeService.getMemes(this.pageNumber, this.pageSize).subscribe(response => {
       this.memes = response.result;
       this.pagination = response.pagination;
+      this.totalItems = response.pagination.totalItems;
     });
   }
 
@@ -253,5 +256,33 @@ export class MemeListComponent implements OnInit {
     const modalRef = this.modalService.open(AdminDeleteMemeComponent);
     modalRef.componentInstance.memeId = memeId;
     modalRef.componentInstance.modalRef = modalRef;
+  }
+
+  nextPage() {
+    if (this.pageNumber == 0) {
+      this.pageNumber = 2;
+    } else {
+      this.pageNumber = this.pageNumber + 1;
+    }
+    if (this.pageNumber === 1) {
+      this.pageNumber = this.pageNumber = 0;
+    }
+    window.scrollTo(0,0);
+    this.determineDivision();
+    console.log(this.totalItems / this.pageSize);
+  }
+
+  previousPage() {
+    if (this.pageNumber === 1 || this.pageNumber === 2) {
+      this.pageNumber = 0;
+    } else {
+      this.pageNumber = this.pageNumber - 1;
+    }
+    window.scrollTo(0,0);
+    this.determineDivision();
+  }
+
+  viewMore() {
+    this.morePaginationSettings = !this.morePaginationSettings;
   }
 }
