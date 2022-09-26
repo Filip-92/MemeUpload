@@ -76,6 +76,10 @@ pagination {
     margin-left: -50px !important;
   }
 
+  #buttons {
+    width: 100%;
+  }
+
   #mobile {
     display: none;
   }
