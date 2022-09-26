@@ -63,9 +63,17 @@ pagination {
   color: red;
 }
 
+#mobile {
+  display: inline;
+}
+
 @media screen and (max-width: 800px) {
   #previous, #next {
     font-size: 14px !important;
     max-width: 40%;
+  }
+
+  #mobile {
+    display: none;
   }
 }
