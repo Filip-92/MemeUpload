@@ -68,11 +68,11 @@ pagination {
 }
 
 #buttons {
-  margin-left: 20px;
+  margin-left: -10px;
 }
 
 #next {
-  margin-left: 20px;
+  margin-left: 10px;
 }
 
 @media screen and (max-width: 800px) {
@@ -82,7 +82,7 @@ pagination {
   }
 
   .fa-angle-down, .fa-angle-up {
-    margin-left: -20px !important;
+    margin-left: 0px !important;
   }
 
   #next {
