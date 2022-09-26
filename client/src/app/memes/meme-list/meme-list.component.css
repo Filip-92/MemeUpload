@@ -71,6 +71,11 @@ pagination {
   #previous, #next {
     font-size: 14px !important;
     max-width: 40%;
+    min-width: 250px;
+  }
+
+  .fa-angle-down, .fa-angle-up {
+    margin-left: -50px !important;
   }
 
   #mobile {
