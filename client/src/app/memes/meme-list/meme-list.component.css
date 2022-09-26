@@ -82,7 +82,7 @@ pagination {
   }
 
   .fa-angle-down, .fa-angle-up {
-    margin-left: 10px !important;
+    margin-left: 0px !important;
   }
 
   #next {
@@ -92,6 +92,7 @@ pagination {
   #buttons {
     width: 100%;
     margin-left: 0px !important;
+    margin-right: 10px !important;
   }
 
   #mobile {
