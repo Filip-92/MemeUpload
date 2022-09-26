@@ -70,10 +70,11 @@ pagination {
 @media screen and (max-width: 800px) {
   #previous, #next {
     font-size: 14px !important;
+    min-width: 300px;
   }
 
   .fa-angle-down, .fa-angle-up {
-    margin-left: -100px !important;
+    margin-left: -50px !important;
   }
 
   #buttons {
