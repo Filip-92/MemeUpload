@@ -11,6 +11,7 @@ import { MemeService } from 'src/app/_services/meme.service';
 import { take } from 'rxjs/operators';
 import { AdminDeleteMemeComponent } from 'src/app/modals/admin-delete-meme/admin-delete-meme.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SwitchDivisionComponent } from 'src/app/modals/switch-division/switch-division.component';
 
 @Component({
   selector: 'app-meme-list',
@@ -255,6 +256,12 @@ export class MemeListComponent implements OnInit {
   openDeleteModal(memeId: number) {
     const modalRef = this.modalService.open(AdminDeleteMemeComponent);
     modalRef.componentInstance.memeId = memeId;
+    modalRef.componentInstance.modalRef = modalRef;
+  }
+
+  openDivisionModal(meme: Meme) {
+    const modalRef = this.modalService.open(SwitchDivisionComponent);
+    modalRef.componentInstance.meme = meme;
     modalRef.componentInstance.modalRef = modalRef;
   }
 
