@@ -78,7 +78,7 @@ pagination {
   }
 
   .fa-angle-down, .fa-angle-up {
-    margin-left: 0px !important;
+    margin-left: -20px !important;
   }
 
   #buttons {
