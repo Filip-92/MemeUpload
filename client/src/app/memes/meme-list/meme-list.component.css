@@ -71,6 +71,10 @@ pagination {
   margin-left: 20px;
 }
 
+#next {
+  margin-left: 20px;
+}
+
 @media screen and (max-width: 800px) {
   #previous, #next {
     font-size: 14px !important;
@@ -79,6 +83,10 @@ pagination {
 
   .fa-angle-down, .fa-angle-up {
     margin-left: -20px !important;
+  }
+
+  #next {
+    margin-left: 0px !important;
   }
 
   #buttons {

@@ -30,10 +30,10 @@
             <button id="previous" [disabled]="pageNumber === 0 || pageNumber === 1" class="btn btn-danger mb-2"  *ngIf="pageNumber!==2" (click)="previousPage()" routerLink="/{{podstrona}}/strona/{{pageNumber - 1}}">
                 <i class="fa fa-angle-left mr-2"></i>Poprzednia strona
             </button>
-            <button id="next" [disabled]="pageNumber + 1 > totalItems / pageSize" class="btn btn-danger ml-2 mb-2" *ngIf="pageNumber===0" (click)="nextPage()" routerLink="/{{podstrona}}/strona/{{2}}">
+            <button id="next" [disabled]="pageNumber + 1 > totalItems / pageSize" class="btn btn-danger mb-2" *ngIf="pageNumber===0" (click)="nextPage()" routerLink="/{{podstrona}}/strona/{{2}}">
                 Następna strona<i class="fa fa-angle-right ml-2"></i>
             </button>
-            <button id="next" [disabled]="pageNumber + 1 > totalItems / pageSize" class="btn btn-danger ml-2 mb-2" *ngIf="pageNumber!==0" (click)="nextPage()" routerLink="/{{podstrona}}/strona/{{pageNumber + 1}}">
+            <button id="next" [disabled]="pageNumber + 1 > totalItems / pageSize" class="btn btn-danger mb-2" *ngIf="pageNumber!==0" (click)="nextPage()" routerLink="/{{podstrona}}/strona/{{pageNumber + 1}}">
                 Następna strona<i class="fa fa-angle-right ml-2"></i>
             </button>
         </div>
