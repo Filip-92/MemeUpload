@@ -24,16 +24,16 @@
     <div class="row">
         <div class="col col-md-2"></div>
         <div class="col-11 col-md-8 text-center" style="margin-left: 20px;">
-            <button id="previous" [disabled]="pageNumber === 0 || pageNumber === 1" class="btn btn-danger" *ngIf="pageNumber===2" (click)="previousPage()" routerLink="/{{podstrona}}/strona/{{1}}">
+            <button id="previous" [disabled]="pageNumber === 0 || pageNumber === 1" class="btn btn-danger ml-2 mb-3" *ngIf="pageNumber===2" (click)="previousPage()" routerLink="/{{podstrona}}/strona/{{1}}">
                 <i class="fa fa-angle-left mr-2"></i>Poprzednia <span id="mobile">strona</span>
             </button>
-            <button id="previous" [disabled]="pageNumber === 0 || pageNumber === 1" class="btn btn-danger"  *ngIf="pageNumber!==2" (click)="previousPage()" routerLink="/{{podstrona}}/strona/{{pageNumber - 1}}">
+            <button id="previous" [disabled]="pageNumber === 0 || pageNumber === 1" class="btn btn-danger ml-2 mb-3"  *ngIf="pageNumber!==2" (click)="previousPage()" routerLink="/{{podstrona}}/strona/{{pageNumber - 1}}">
                 <i class="fa fa-angle-left mr-2"></i>Poprzednia <span id="mobile">strona</span>
             </button>
-            <button id="next" [disabled]="pageNumber + 1 > totalItems / pageSize" class="btn btn-danger ml-2 mr-5" *ngIf="pageNumber===0" (click)="nextPage()" routerLink="/{{podstrona}}/strona/{{2}}">
+            <button id="next" [disabled]="pageNumber + 1 > totalItems / pageSize" class="btn btn-danger ml-2 mb-3" *ngIf="pageNumber===0" (click)="nextPage()" routerLink="/{{podstrona}}/strona/{{2}}">
                 Następna <span id="mobile">strona</span><i class="fa fa-angle-right ml-2"></i>
             </button>
-            <button id="next" [disabled]="pageNumber + 1 > totalItems / pageSize" class="btn btn-danger ml-2 mr-5" *ngIf="pageNumber!==0" (click)="nextPage()" routerLink="/{{podstrona}}/strona/{{pageNumber + 1}}">
+            <button id="next" [disabled]="pageNumber + 1 > totalItems / pageSize" class="btn btn-danger ml-2 mb-3" *ngIf="pageNumber!==0" (click)="nextPage()" routerLink="/{{podstrona}}/strona/{{pageNumber + 1}}">
                 Następna <span id="mobile">strona</span><i class="fa fa-angle-right ml-2"></i>
             </button>
         </div>
