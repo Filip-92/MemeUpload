@@ -130,7 +130,7 @@
                     </form>
                     <br><br>
                     <div class="card-footer mt-3">        
-                        <a routerLink='/zapomnialem-hasla' routerLinkActive='active' id="forgot" (click)="displayNavbar()" style="color: yellow;">Zapomniałem hasła</a>
+                        <a [routerLink]="display ? [''] : ['/zapomnialem-hasla']" routerLinkActive='active' id="forgot" (click)="displayNavbar()" [ngStyle]="!display ? { 'cursor': 'pointer' } : { 'cursor': 'default'}" style="color: yellow;">Zapomniałem hasła</a>
                     </div>
                     <br />
                     <button class="sidemenu-item col-8" [ngStyle]="!display ? { 'cursor': 'default' } : { 'cursor': 'default'}">
