@@ -33,6 +33,8 @@ export class MemeListComponent implements OnInit {
   user: User;
   morePaginationSettings: boolean = false;
   totalItems: number = 0;
+  clicked: boolean = false;
+  newPageNumber: number = 0;
 
   constructor(private memeService: MemeService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService,
     private adminService: AdminService, private accountService: AccountService, private modalService: NgbModal) { 
@@ -219,8 +221,10 @@ export class MemeListComponent implements OnInit {
     if (this.pageNumber === 1) {
       this.pageNumber = 0;
     }
-    window.scrollTo(0,0);
-    this.determineDivision();
+    if (this.newPageNumber === this.pageNumber) {
+      window.scrollTo(0,0);
+      this.determineDivision();
+    }
   }
 
   updatePageSize(pageSize: number) {
