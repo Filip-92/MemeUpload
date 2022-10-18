@@ -75,7 +75,6 @@ table {
 
 #addComment {
     min-height: 51px !important;
-    margin-left: -20px !important;
 }
 
 @media screen and (max-width: 1000px) {
@@ -87,7 +86,7 @@ table {
     #addComment {
         font-size: 12px;
         min-width: 80px !important;
-        margin-left: 0 !important;
+        margin-left: 0px !important;
     }
 
     textarea {
@@ -131,6 +130,10 @@ i {
     padding-top: 7px;
 }
 
+#comment {
+    margin-right: -60px;
+}
+
 .fa-paperclip {
     border: 1px solid white;
     background-color: orange;
@@ -139,8 +142,7 @@ i {
     min-width: 50px;
     min-height: 40px;
     cursor: pointer;
-    margin-left: -40px !important;
-    margin-right: -10px !important;
+    margin-right: -60px !important;
 }
 
 input[type="file"] {
@@ -195,6 +197,15 @@ share-buttons {
 
     #flag {
         max-height: 36px !important;
+    }
+
+    .fa-paperclip {
+        min-width: 40px !important;
+        margin-left: -45px !important;
+    }
+
+    #comment {
+        margin-right: 0px !important;
     }
 }
 

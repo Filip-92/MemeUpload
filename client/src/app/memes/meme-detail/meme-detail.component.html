@@ -67,7 +67,7 @@
     <form [formGroup]='commentForm' (ngSubmit)="commentForm.valid && addComment()" class="text-center mb-3">
         <div class="row">
             <div class="col-lg-2"></div>
-            <div class="col-9 col-lg-7 text-right">
+            <div class="col-9 col-lg-7 text-right" id="comment" [ngStyle]="!checkIfUserWorthy(mainMemes) ? { 'margin-right': '-20px' } : { 'margin-right': '-60px'}">
                 <textarea type="text" [formControl]='commentForm.controls["content"]' placeholder="Wpisz treść komentarza"></textarea>
             </div>
             <div class="col-1 mt-1" *ngIf="checkIfUserWorthy(mainMemes)">

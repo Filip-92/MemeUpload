@@ -495,10 +495,11 @@ namespace API.Controllers
 
             // _unitOfWork.MemeRepository.Update(comment);
             comment.Content = commentUpdateDto.Content;
+            comment.IsEdited = true;
 
             if (await _unitOfWork.Complete()) return NoContent();
 
-            return BadRequest("Failed to update comment");
+            return BadRequest("Nie udało się edytować komentarza");
         }
 
         [HttpGet("get-member-replies/{username}")]
@@ -522,10 +523,11 @@ namespace API.Controllers
 
             // _unitOfWork.MemeRepository.Update(comment);
             reply.Content = commentUpdateDto.Content;
+            reply.IsEdited = true;
 
             if (await _unitOfWork.Complete()) return NoContent();
 
-            return BadRequest("Failed to update comment");
+            return BadRequest("Nie udało się edytować komentarza");
         }
 
         [HttpPost("add-reply")]
@@ -558,7 +560,7 @@ namespace API.Controllers
                 return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<CommentResponseDto>(response));
             }
 
-            return BadRequest("Problem adding comment: " + commentResponseDto.Content + " " + user + " " + commentResponseDto.MemeId);
+            return BadRequest("Nie udało się dodać komentarza");
         }
 
         [HttpPost("add-reply-to-reply")]
@@ -593,7 +595,7 @@ namespace API.Controllers
                 return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<CommentResponseDto>(response));
             }
 
-            return BadRequest("Problem adding comment: " + commentResponseDto.Content + " " + user + " " + commentResponseDto.MemeId);
+            return BadRequest("Nie udało się dodać komentarza");
         }
 
         [HttpGet("get-replies/{commentId}")]
@@ -740,7 +742,7 @@ namespace API.Controllers
 
             if (await _unitOfWork.Complete()) return Ok();
 
-            return BadRequest("Failed to like meme");
+            return BadRequest("Nie udało się polubić mema");
         }
 
         [HttpPost("add-meme-dislike/{memeId}")]
@@ -776,7 +778,7 @@ namespace API.Controllers
 
             if (await _unitOfWork.Complete()) return Ok();
 
-            return BadRequest("Failed to like meme");
+            return BadRequest("Nie udało się zminusować mema");
         }
 
         [HttpGet("likes")]
@@ -868,7 +870,7 @@ namespace API.Controllers
 
             if (await _unitOfWork.Complete()) return Ok();
 
-            return BadRequest("Failed to like meme");
+            return BadRequest("Nie udało się polubić komentarza");
         }
 
         [HttpPost("add-comment-dislike/{commentId}")]
@@ -905,7 +907,7 @@ namespace API.Controllers
 
             if (await _unitOfWork.Complete()) return Ok();
 
-            return BadRequest("Failed to like meme");
+            return BadRequest("Nie udało sie zminusować komentarza");
         }
 
         [HttpGet("comment-likes")]

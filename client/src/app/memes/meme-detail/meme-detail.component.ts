@@ -334,8 +334,11 @@ export class MemeDetailComponent implements OnInit {
     })
   }
 
+  // checkIfUserWorthy(mainMemes: number) {
+  //   return this.helperService.checkIfUserWorthy(mainMemes);
+  // }
   checkIfUserWorthy(mainMemes: number) {
-    return this.helperService.checkIfUserWorthy(mainMemes);
+    return false;
   }
 
   rejectMeme(memeId: number) {

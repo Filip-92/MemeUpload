@@ -260,6 +260,7 @@ private formatBytes(bytes: number, decimals?: number) {
     this.memeService.updateReply(this.reply).subscribe(() => {
       this.editForm.reset(this.editForm.value);
       this.commentUpdate = !this.commentUpdate;
+      this.reply.isEdited = true;
     })
   }
 

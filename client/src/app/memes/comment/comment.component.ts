@@ -211,6 +211,7 @@ editComment() {
   this.memeService.updateComment(this.comment).subscribe(() => {
     this.editForm.reset(this.editForm.value);
     this.commentUpdate = !this.commentUpdate;
+    this.comment.isEdited = true;
   })
 }
 

@@ -13,6 +13,7 @@ namespace API.DTOs
         public string Quote { get; set; }
         public string Username { get; set; }
         public DateTime Uploaded { get; set; } = DateTime.Now;
+        public bool IsEdited { get; set; }
         public int NumberOfLikes { get; set; }
         public string ReplyingToUser { get; set; }
         public int ReplyingToReplyId { get; set; }

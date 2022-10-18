@@ -3,6 +3,7 @@ export interface Reply {
     url: string;
     content: string;
     uploaded: string;
+    isEdited: boolean;
     username?: string;
     numberOfLikes: number;
     memeId: number;

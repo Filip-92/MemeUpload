@@ -6,6 +6,9 @@
         </div>
         <div id="timeago" class="col-2">
             {{comment.uploaded | timeago}}
+            <div *ngIf="comment.isEdited" style="font-size: 8px; color: white;">
+                Zmodyfikowano
+            </div>
         </div>
         <div class="col col-lg-6"></div>
         <div class="col-4 col-lg-2">

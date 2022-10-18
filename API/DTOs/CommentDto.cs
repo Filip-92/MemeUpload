@@ -11,6 +11,7 @@ namespace API.DTOs
         public string Content { get; set; }
         public string Username { get; set; }
         public DateTime Uploaded { get; set; } = DateTime.Now;
+        public bool IsEdited { get; set; }
         public int NumberOfLikes { get; set; }
     }
 }

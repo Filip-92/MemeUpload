@@ -415,6 +415,7 @@ namespace API.Data
                     Url = u.Url,
                     Content = u.Content,
                     Uploaded = u.Uploaded,
+                    IsEdited = u.IsEdited,
                     MemeId = u.MemeId,
                     NumberOfLikes = u.NumberOfLikes
                 }).OrderByDescending(u => u.Id)
@@ -471,6 +472,7 @@ namespace API.Data
                     Content = u.Content,
                     Quote = u.Quote,
                     Uploaded = u.Uploaded,
+                    IsEdited = u.IsEdited,
                     NumberOfLikes = u.NumberOfLikes,
                     ReplyingToUser = u.ReplyingToUser
                 }).ToListAsync();

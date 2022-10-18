@@ -13,7 +13,8 @@ namespace API.Entities
         public int AppUserId { get; set; }
         public int MemeId { get; set; }
         public string PublicId { get; set; }
-        public DateTime Uploaded {get; set; } = DateTime.Now;
+        public DateTime Uploaded { get; set; } = DateTime.Now;
+        public bool IsEdited { get; set; }
         public int NumberOfLikes { get; set; } = 0;
     }
 }
