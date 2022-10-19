@@ -207,6 +207,29 @@ button {
   padding-bottom: 40px;
   max-width: 960px;
   margin: 0 auto;
+  color: red;
+  text-shadow:
+  -1px -1px 0 #fff,
+  1px -1px 0 #fff,
+  -1px 1px 0 #fff,
+  1px 1px 0 #fff;  
+}
+
+.message__title__code {
+  font-family: 'Bloody', arial;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+   font-size: 5.6rem;
+  padding-bottom: 40px;
+  max-width: 960px;
+  margin: 0 auto;
+  color: red;
+  text-shadow:
+  -1px -1px 0 #fff,
+  1px -1px 0 #fff,
+  -1px 1px 0 #fff,
+  1px 1px 0 #fff;  
 }
 
 .message__text {
@@ -287,7 +310,7 @@ button {
 }
 
 .e-nav__link:after {
-  content: "Home Page";
+  content: "Strona Główna";
 }
 
 .e-nav__link:hover:before {
