@@ -8,36 +8,6 @@
   "start_url": "./",
   "icons": [
     {
-      "src": "assets/LogoImage.svg",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/LogoImage.svg",
-      "sizes": "96x96",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/LogoImage_128x128.png",
-      "sizes": "128x128",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/LogoImage_144x144.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/LogoImage.svg",
-      "sizes": "152x152",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
       "src": "assets/LogoImage_192x192.png",
       "sizes": "192x192",
       "type": "image/png",
