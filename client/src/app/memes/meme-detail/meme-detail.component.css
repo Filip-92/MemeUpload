@@ -213,6 +213,10 @@ share-buttons {
     h4 {
         font-size: 16px !important;
     }
+
+    #commentCount {
+        font-size: 12px !important;
+    }
 }
 
 share-buttons {

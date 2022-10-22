@@ -58,7 +58,7 @@
             <button *appHasRole='["Admin", "Moderator"]' class="btn btn-danger" (click)='rejectMeme(meme?.id)'><i class="fa fa-trash"></i> Usuń</button>
         </div>
     </div>
-    <div class="text-left mt-3 mb-2 ml-3">
+    <div class="text-left mt-3 mb-2 ml-3" id="commentCount">
         <i class="fa fa-comment mr-2" aria-hidden="true"></i>Komentarze: {{ numberOfComments || '0' }}
     </div>
 </div>
