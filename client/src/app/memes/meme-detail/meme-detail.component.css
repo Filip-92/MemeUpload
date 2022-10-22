@@ -164,7 +164,7 @@ textarea {
     color: whitesmoke;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
 
     .card {
         width: 100%;
@@ -180,7 +180,7 @@ textarea {
     margin-right: auto;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
     #container {
         width: 100%;
     }
@@ -206,6 +206,12 @@ share-buttons {
 
     #comment {
         margin-right: 0px !important;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    h4 {
+        font-size: 16px !important;
     }
 }
 

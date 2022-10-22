@@ -92,7 +92,7 @@ export class MemeUploadComponent implements OnInit {
       title: ['', 
               [Validators.required, 
               Validators.minLength(8), 
-              Validators.maxLength(32),
+              Validators.maxLength(48),
               Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]],
       description: ['', [Validators.maxLength(2000)]]
     })

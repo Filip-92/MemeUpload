@@ -132,6 +132,12 @@ a:hover {
       }
   }
 
+  @media screen and (max-width: 1000px) {
+    h4 {
+        font-size: 16px !important;
+    }
+  }
+
   .mask1 {
     -webkit-mask-image: url(https://res.cloudinary.com/duj1ftjtp/image/upload/v1659042057/logo_gimp_-_new_ucilaf.png);
     mask-image: url(https://res.cloudinary.com/duj1ftjtp/image/upload/v1659042057/logo_gimp_-_new_ucilaf.png);
