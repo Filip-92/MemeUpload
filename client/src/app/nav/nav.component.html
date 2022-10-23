@@ -85,20 +85,22 @@
                             <i class="fa fa-sign-out mr-2"></i>Wyloguj
                         </a>
                     </button>
-                    <br />
-                    <br />
-                    <h2>Działy:</h2>
-                    <div class="mt-2 mb-2" style="color: rgb(49, 247, 49)" id="division">Otwarte</div>
-                    <div *ngFor="let division of divisions" class="text-center mt-1 division">
-                        <span *ngIf="division.isCloseDivision === false">
-                            <a routerLink="kategoria/{{replaceTitle(division.name)}}" (click)="reloadCurrentPage()" style="font-size: 14px !important;">{{division.name}}</a>
-                        </span>
-                    </div>
-                    <div class="mt-2 mb-2" style="color: rgb(255, 55, 55)" id="division">Zamknięte</div>
-                    <div *ngFor="let division of divisions" class="text-center mt-1 division">
-                        <span *ngIf="division.isCloseDivision === true">
-                            <a routerLink="kategoria/{{replaceTitle(division.name)}}" (click)="reloadCurrentPage()" style="font-size: 14px !important;">{{division.name}}</a>
-                        </span>
+                    <div *ngIf="divisions.length > 0">
+                        <br />
+                        <br />
+                        <h2>Działy:</h2>
+                        <div class="mt-2 mb-2" style="color: rgb(49, 247, 49)" id="division">Otwarte</div>
+                        <div *ngFor="let division of divisions" class="text-center mt-1 division">
+                            <span *ngIf="division.isCloseDivision === false">
+                                <a routerLink="kategoria/{{replaceTitle(division.name)}}" (click)="reloadCurrentPage()" style="font-size: 14px !important;">{{division.name}}</a>
+                            </span>
+                        </div>
+                        <div class="mt-2 mb-2" style="color: rgb(255, 55, 55); border-top: 1px solid white; padding-top: 10px;" id="division">Zamknięte</div>
+                        <div *ngFor="let division of divisions" class="text-center mt-1 division">
+                            <span *ngIf="division.isCloseDivision === true">
+                                <a routerLink="kategoria/{{replaceTitle(division.name)}}" (click)="reloadCurrentPage()" style="font-size: 14px !important;">{{division.name}}</a>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -143,14 +145,16 @@
                             <i class="fa fa-search mr-2"></i>Szukaj
                         </a>
                     </button>
-                    <br />
-                    <br />
-                    <h2>Działy:</h2>
-                    <span style="color: rgb(49, 247, 49)" id="division">Otwarte</span>
-                    <div *ngFor="let division of divisions" class="text-center mt-1 division">
-                        <span *ngIf="division.isCloseDivision === false">
-                            <a routerLink="kategoria/{{replaceTitle(division.name)}}" (click)="reloadCurrentPage()" style="font-size: 14px !important;">{{division.name}}</a>
-                        </span>
+                    <div *ngIf="divisions.length=== 0">
+                        <br />
+                        <br />
+                        <h2>Działy:</h2>
+                        <span style="color: rgb(49, 247, 49)" id="division">Otwarte</span>
+                        <div *ngFor="let division of divisions" class="text-center mt-1 division">
+                            <span *ngIf="division.isCloseDivision === false">
+                                <a routerLink="kategoria/{{replaceTitle(division.name)}}" (click)="reloadCurrentPage()" style="font-size: 14px !important;">{{division.name}}</a>
+                            </span>
+                        </div>
                     </div>
             </div>
 

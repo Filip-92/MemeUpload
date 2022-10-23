@@ -378,7 +378,12 @@ form {
       font-size: 20px;
     }
 
+    .sidemenu-item {
+      max-width: 300px !important;
+    }
+
     #division {
+      border-top: 1px solid white !important;
       font-size: 15px !important;
     }
 

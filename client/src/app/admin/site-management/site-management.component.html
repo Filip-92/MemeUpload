@@ -55,7 +55,7 @@ style="overflow-y: auto; overflow-x: hidden; border-bottom: 1px solid white; max
     <div class="col-12 col-lg-6 mb-3">
         <h3>Obecne działy</h3>
         <div *ngFor="let division of divisions">
-            {{division.name}} | <span *ngIf="division.isCloseDivision === true" style="color: red;">Zamknięty</span><span *ngIf="division.isCloseDivision !== true" style="color: rgb(28, 206, 28);">Otwarty</span><i class="fa fa-trash ml-3" (click)="removeDivision(division.id)"> Usuń</i>
+            {{division.name}} <span class="ml-2 mr-2">|</span> <span *ngIf="division.isCloseDivision === true" style="color: red;">Zamknięty</span><span *ngIf="division.isCloseDivision !== true" style="color: rgb(28, 206, 28);">Otwarty</span><i class="fa fa-trash ml-3" (click)="removeDivision(division.id)"> Usuń</i>
         </div>
     </div>
 </div>
