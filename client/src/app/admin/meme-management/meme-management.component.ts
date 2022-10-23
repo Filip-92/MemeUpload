@@ -8,6 +8,7 @@ import { Meme } from 'src/app/_models/meme';
 import { Pagination } from 'src/app/_models/pagination';
 import { Photo } from 'src/app/_models/photo';
 import { AdminService } from 'src/app/_services/admin.service';
+import { MemeService } from 'src/app/_services/meme.service';
 
 @Pipe({ name: 'safe' })
 export class SafePipe implements PipeTransform {
@@ -33,7 +34,7 @@ export class PhotoManagementComponent implements OnInit {
   memeId: number;
   division: any;
 
-  constructor(private adminService: AdminService, private modalService: NgbModal) { }
+  constructor(private adminService: AdminService, private modalService: NgbModal, private memeService: MemeService) { }
   transform(value: any, ...args: any[]) {
     throw new Error('Method not implemented.');
   }
@@ -46,6 +47,7 @@ export class PhotoManagementComponent implements OnInit {
   getMemesForApproval() {
   this.adminService.getMemesForApproval(this.pageNumber, this.pageSize).subscribe(response => {
         this.memes = response.result;
+        console.log(this.memes);
         this.pagination = response.pagination;
       });
   }
@@ -90,11 +92,5 @@ export class PhotoManagementComponent implements OnInit {
   this.adminService.getDivisionNameById(divisionId).subscribe(division => {
     this.division = division;
     });
-  }
-
-  openDivisionModal(meme: Meme) {
-    const modalRef = this.modalService.open(SwitchDivisionComponent);
-    modalRef.componentInstance.meme = meme;
-    modalRef.componentInstance.modalRef = modalRef;
   }
 }

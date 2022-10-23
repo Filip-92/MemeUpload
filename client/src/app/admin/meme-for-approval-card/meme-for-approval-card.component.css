@@ -6,3 +6,8 @@ a {
 a:hover {
     color: red !important;
 }
+
+#division {
+    padding: 10px;
+    border: 1px solid white;
+}

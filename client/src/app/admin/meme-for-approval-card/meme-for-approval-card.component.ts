@@ -6,6 +6,7 @@ import { SwitchDivisionComponent } from 'src/app/modals/switch-division/switch-d
 import { Division } from 'src/app/_models/division';
 import { Meme } from 'src/app/_models/meme';
 import { AdminService } from 'src/app/_services/admin.service';
+import { MemeService } from 'src/app/_services/meme.service';
 
 @Component({
   selector: 'app-meme-for-approval-card',
@@ -17,9 +18,10 @@ export class MemeForApprovalCardComponent implements OnInit {
   memes: Meme[];
   division: Division;
 
-  constructor(private adminService: AdminService, private modalService: NgbModal) { }
+  constructor(private memeService: MemeService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
+    this.getDivisionNameById(this.meme?.division)
   }
 
   convertText(title: string) {
@@ -29,5 +31,17 @@ export class MemeForApprovalCardComponent implements OnInit {
 
   checkURL(url) {
     return(url?.match(/\.(jpeg|jpg|gif|png)$/) != null);
+  }
+
+  getDivisionNameById(divisionId: number) {
+    this.memeService.getDivisionNameById(divisionId).subscribe(division => {
+      this.division = division;
+    })
+  }
+
+  openDivisionModal(meme: Meme) {
+    const modalRef = this.modalService.open(SwitchDivisionComponent);
+    modalRef.componentInstance.meme = meme;
+    modalRef.componentInstance.modalRef = modalRef;
   }
 }

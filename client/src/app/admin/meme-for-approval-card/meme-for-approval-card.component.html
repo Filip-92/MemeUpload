@@ -10,3 +10,8 @@
 <img src="{{meme.url}}" class="card-img-top col-sm-6" *ngIf="meme?.url?.length > 1000" style="max-width: 400px;"/>
 <video src="{{meme.url}}" class="card-img-top" *ngIf="!checkURL(meme?.url) && !meme?.url?.includes('youtube-nocookie') && meme?.url?.length < 1000" style="max-width: 400px;" controls></video>
 <a style="color: greenyellow !important;" routerLink="/uzytkownicy/{{meme.username}}">{{meme.username}}</a>
+<div class="mt-3 mb-3">
+    <span id="division" *ngIf="division !== null && meme.division !== 0" [ngStyle]="division?.isCloseDivision ? { 'color': 'red' } : { 'color': 'green' }" (click)="openDivisionModal(meme)" style="cursor: pointer;">{{division?.name}}</span>
+    <span id="division" *ngIf="!meme.isMain && division === null || !meme.isMain && meme.division === 0" (click)="openDivisionModal(meme)" style="cursor: pointer; font-size: 12px;">Poczekalnia</span>
+    <span id="division" *ngIf="division === null && meme.isMain || meme.division === 0 && meme.isMain" (click)="openDivisionModal(meme)" style="cursor: pointer; font-size: 12px;">Główna</span>
+</div>

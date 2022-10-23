@@ -1,10 +1,6 @@
 <div class="row">
     <div class='col-10 col-lg-4 text-center' id="memeCard" *ngFor='let meme of memes'>
         <app-meme-for-approval-card [meme]="meme"></app-meme-for-approval-card>
-        <div class="mt-3 mb-3">
-            <span *ngIf="division !== null && meme.division !== 0" id="division" [ngStyle]="division?.isCloseDivision ? { 'color': 'red' } : { 'color': 'yellow' }" (click)="openDivisionModal(meme)" style="cursor: pointer;">{{division?.name}}</span>
-            <span *ngIf="division === null || meme.division === 0" id="division" (click)="openDivisionModal(meme)" style="cursor: pointer;">Poczekalnia</span>
-        </div>
         <div class="mb-2">
             <span class="btn btn-primary mr-2"><i class="fa fa-plus" aria-hidden="true"></i> {{meme?.numberOfLikes}}</span>
             <span class="btn btn-danger mr-2"><i class="fa fa-flag" aria-hidden="true"></i> {{meme?.numberOfFlags}}</span>
