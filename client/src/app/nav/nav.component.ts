@@ -12,6 +12,7 @@ import { take } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationsModalComponent } from '../modals/notifications-modal/notifications-modal.component';
 import { ToastrService } from 'ngx-toastr';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Component({
   selector: 'app-nav',
@@ -40,6 +41,7 @@ export class NavComponent implements OnInit {
   messages: Message[];
   url: string;
   isBanned: boolean;
+  filterargs = {title: 'hello'};
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -64,6 +66,13 @@ export class NavComponent implements OnInit {
     this.getDivisions();
   }
 
+  get filterByOpenDivision() {
+    return this.divisions.filter( x => x.isCloseDivision === false);
+  }
+
+  get filterByCloseDivision() {
+    return this.divisions.filter( x => x.isCloseDivision === true);
+  }
 
   interval = setInterval(function() {
     if ("user" in localStorage) {
