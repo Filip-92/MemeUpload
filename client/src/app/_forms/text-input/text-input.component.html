@@ -16,7 +16,10 @@
             <li>1 znak specjalny ($@$!%*?&_/)</li>
         </ul>
     </div>
-    <div *ngIf="ngControl.control.errors?.pattern && type!=='password'" class="invalid-feedback">Podaj właściwy adres email</div>
+    <div *ngIf="ngControl.control.errors?.pattern && type==='text'" class="invalid-feedback">
+        Nie używaj polskich znaków ani znaków specjalnych
+    </div>
+    <div *ngIf="ngControl.control.errors?.pattern && type!=='password' && type!=='text'" class="invalid-feedback">Podaj właściwy adres email</div>
     <div *ngIf="ngControl.control.errors?.minlength" class="invalid-feedback">
         {{label}} musi zawierać co najmniej {{ngControl.control.errors.minlength['requiredLength']}} znaków
     </div>

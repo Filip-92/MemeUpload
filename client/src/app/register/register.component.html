@@ -17,7 +17,7 @@
         </div>
         <div class="col-11 col-md-11">
             <app-text-input [formControl]='registerForm.controls["email"]' 
-            [label]='"Email użytkownika"' autocomplete="off"></app-text-input>
+            [label]='"Email użytkownika"' type='"email"' autocomplete="off"></app-text-input>
         </div>
     </div>
     <div class="row">
@@ -26,7 +26,7 @@
         </div>
         <div class="col-11 col-md-11">
             <app-text-input [formControl]='registerForm.controls["username"]' 
-            [label]='"Nazwa użytkownika"' autocomplete="off"></app-text-input>
+            [label]='"Nazwa użytkownika"' [type]='"text"' autocomplete="off"></app-text-input>
         </div>
     </div>
     <div class="row">
