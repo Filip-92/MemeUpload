@@ -132,9 +132,19 @@ a:hover {
       }
   }
 
+  h4 {
+    font-weight: 500;
+    letter-spacing: 1px;
+  }
+
   @media screen and (max-width: 1000px) {
     h4 {
-        font-size: 16px !important;
+        font-size: 18px !important;
+        font-weight: 600;
+    }
+
+    #commentNumber {
+        font-size: 12px !important;
     }
   }
 
