@@ -21,10 +21,10 @@
     </div>
     <div *ngIf="ngControl.control.errors?.pattern && type!=='password' && type!=='text'" class="invalid-feedback">Podaj właściwy adres email</div>
     <div *ngIf="ngControl.control.errors?.minlength" class="invalid-feedback">
-        {{label}} musi zawierać co najmniej {{ngControl.control.errors.minlength['requiredLength']}} znaków
+        {{label}} musi zawierać co najmniej {{ngControl.control.errors.minlength['requiredLength']}} <span *ngIf="ngControl.control.errors.minlength['requiredLength'] === 4">znaki</span><span *ngIf="ngControl.control.errors.minlength['requiredLength'] !== 4">znaków</span>
     </div>
     <div *ngIf="ngControl.control.errors?.maxlength" class="invalid-feedback">
-        {{label}} musi zawierać co najwyżej {{ngControl.control.errors.maxlength['requiredLength']}} znaków
+        {{label}} musi zawierać co najwyżej {{ngControl.control.errors.maxlength['requiredLength']}} <span *ngIf="ngControl.control.errors.maxlength['requiredLength'] === 32">znaki</span><span *ngIf="ngControl.control.errors.maxlength['requiredLength'] !== 32">znaków</span>
     </div>
     <div *ngIf="ngControl.control.errors?.isMatching" class="invalid-feedback">
         Hasła nie pasują
