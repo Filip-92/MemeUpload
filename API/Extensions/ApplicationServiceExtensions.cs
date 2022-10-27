@@ -27,6 +27,7 @@ namespace API.Extensions
             {
                 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
+                // Data Source=SQL8003.site4now.net;Initial Catalog=db_a8ec0d_ddmemes;User Id=db_a8ec0d_ddmemes_admin;Password=Wiq6ME63bNh@
                 string connStr;
 
                 // Depending on if in development or production, use either Heroku-provided

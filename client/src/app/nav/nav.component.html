@@ -38,7 +38,7 @@
 
         <div class="sidebar sidebar-mini text-center" [ngStyle]="!display ? {'animation': 'slideMe 0.7s ease-in', 'visibility': 'visible', 'opacity': '0.8','cursor': 'pointer'} : {'animation': 'slideOut 0.7s ease-out', 'opacity': '0', 'cursor': 'default'}">
             <div id="toggleClose">
-                <i class="navbar-toggler-icon text-center mb-3" (click)="closeNavbar()"></i>
+                <i class="navbar-toggler-icon text-center mb-3 mr-3" (click)="closeNavbar()"></i>
             </div>
             <section>
               <header>
@@ -107,12 +107,11 @@
 
             <div id="profile-brand" *ngIf="(accountService.currentUser$ | async) === null">
                     <p>Załóż konto</p>
-                    <button class="dropdown-item" (click)="registerToggle()" id="register" class="btn btn-primary btn-lg mr-2 mb-3" style="align-items: center;">Rejestracja</button>
+                    <button class="dropdown-item" (click)="registerToggle()" id="register" class="btn btn-primary btn-lg mb-3" style="align-items: center;">Rejestracja</button>
                     <div class="dropdown-divider"></div>
-                    <br>
-                        <p>Lub</p>
+                    <p class="mt-3 mb-3">Lub</p>
                     <div class="dropdown-divider"></div>
-                    <p>Zaloguj się, jeśli posiadasz już konto</p>
+                    <p class="mt-3">Zaloguj się, jeśli posiadasz już konto</p>
                     <form *ngIf="(accountService.currentUser$ | async) === null" #loginForm="ngForm" class="mt-2 mt-md-0 align-center" (ngSubmit)="login() && 
                     cancelRegisterMode($event)"
                     autocomplete="off">
